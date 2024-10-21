@@ -2,7 +2,7 @@ let prestataires = [
     {
         id: "1",
         nom: "prest1",
-        description: "$2a$10$BnPODInoJJJxLcjLDOBL3uHFUQQD9KiM5jfRVoEa0QmTHYSTzL/te",
+        description: "Description",
         categorie: "Jeux",
         id_emplacement: "1",
         id_evenement: "1",
@@ -10,7 +10,7 @@ let prestataires = [
     {
         id: "2",
         nom: "prest1",
-        description: "$2a$10$BnPODInoJJJxLcjLDOBL3uHFUQQD9KiM5jfRVoEa0QmTHYSTzL/te",
+        description: "Description",
         categorie: "Restaurant",
         id_emplacement: "1",
         id_evenement: "1",
@@ -18,7 +18,7 @@ let prestataires = [
     {
         id: "3",
         nom: "prest3",
-        description: "$2a$10$BnPODInoJJJxLcjLDOBL3uHFUQQD9KiM5jfRVoEa0QmTHYSTzL/te",
+        description: "Description",
         categorie: "Mascotte",
         id_emplacement: "2",
         id_evenement: "1",
