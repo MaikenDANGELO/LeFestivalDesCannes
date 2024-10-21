@@ -1,14 +1,20 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/"
-        ><img alt="Festival logo" src="../public/logoFestivalDeCannes.png"
-      /></router-link>
-      <router-link to="/">Home</router-link> |
+      <div class="topnav">
+        <a class="active" href="/"
+          ><img alt="Festival logo" src="../public/logoFestivalDeCannes.png" />
+        </a>
+        <div id="navItems" class="nav-items">
+          <a href="#news">Prestataire</a>
+          <a href="#contact">Carte</a>
+          <a href="/about">About</a>
+        </div>
+      </div>
+      <router-link to="/">Home</router-link>
       <router-link to="/about">About</router-link>
     </nav>
     <router-view />
-    <PagePrincipale></PagePrincipale>
   </div>
 </template>
 
@@ -21,8 +27,40 @@
   color: #2c3e50;
 }
 img {
-  max-width: 3cm;
+  max-width: 2cm;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+  display: flex;
+  align-items: center;
+  background-color: #333;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav div.nav-items {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+body {
+  margin: 0;
 }
 </style>
 <script setup lang="ts"></script>
-import PagePrincipale from "@/components/PagePrincipale.vue"
