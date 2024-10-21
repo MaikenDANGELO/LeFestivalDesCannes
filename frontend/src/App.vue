@@ -3,12 +3,17 @@
     <nav>
       <div class="topnav">
         <a class="active" href="/"
-          ><img alt="Festival logo" src="/frontend/src/assets/logoFestivalDesCannes.png" />
+          ><img alt="Festival logo" src="src/assets/logoFestivalDesCannes.png">
         </a>
         <div id="navItems" class="nav-items">
           <a href="#news">Prestataire</a>
           <a href="#contact">Carte</a>
+          <a href="/billeterie">Billetterie</a>
           <a href="/about">About</a>
+        </div>
+        <div id="navItems" class="login-items">
+          <a href="#news">Connexion</a>
+          <a href="#contact">Inscription</a>
         </div>
       </div>
     </nav>
@@ -57,8 +62,15 @@ img {
   align-items: center;
   gap: 20px;
 }
+.topnav div.login-items {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-left: auto;
+}
 body {
   margin: 0;
 }
 </style>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>

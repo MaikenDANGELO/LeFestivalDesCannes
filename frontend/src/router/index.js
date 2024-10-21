@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import PagePrincipale from '../views/PagePrincipale.vue'
+import Billetterie from "@/views/PageBilletterie.vue";
 
 Vue.use(VueRouter)
 
@@ -9,6 +10,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: PagePrincipale
+  },
+  {
+    path: '/billeterie',
+    name: 'billeterie',
+    component: Billetterie
   },
   /*{
     path: '/about',
