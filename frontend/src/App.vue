@@ -3,7 +3,7 @@
     <nav>
       <div class="topnav">
         <a class="active" href="/"
-          ><img alt="Festival logo" src="../public/logoFestivalDeCannes.png" />
+          ><img alt="Festival logo" src="../public/logoFestivalDesCannes.png" />
         </a>
         <div id="navItems" class="nav-items">
           <a href="#news">Prestataire</a>
