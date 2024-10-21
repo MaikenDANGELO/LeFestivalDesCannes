@@ -8,7 +8,6 @@
       <router-link to="/about">About</router-link>
     </nav>
     <router-view />
-    <PagePrincipale></PagePrincipale>
   </div>
 </template>
 
@@ -25,4 +24,3 @@ img {
 }
 </style>
 <script setup lang="ts"></script>
-import PagePrincipale from "@/components/PagePrincipale.vue"
