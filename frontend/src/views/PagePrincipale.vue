@@ -1,7 +1,6 @@
 <template>
   <div class="hello">
-    <CarteInteractive></CarteInteractive>
-
+    <BanniereAccueil></BanniereAccueil> 
     <p>{{ prestataires() }}</p>
 
   </div>
@@ -10,19 +9,19 @@
 
 
 <script>
-import CarteInteractive from '@/components/CarteInteractive.vue';
 import {mapState} from "vuex";
 import {prestataires} from "@/datasource/data";
+import BanniereAccueil from "@/components/BanniereAccueil.vue"
 
 export default {
-  name: "HelloWorld",
+  name: "PagePrincipale",
   methods: {
     prestataires() {
       return prestataires
     }
   },
   components: {
-    CarteInteractive
+    BanniereAccueil
   },
   computed:{
     ...mapState([prestataires])

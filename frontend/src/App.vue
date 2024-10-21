@@ -6,8 +6,8 @@
           ><img alt="Festival logo" src="src/assets/logoFestivalDesCannes.png">
         </a>
         <div id="navItems" class="nav-items">
-          <a href="#news">Prestataire</a>
-          <a href="#contact">Carte</a>
+          <a href="#news">Prestataires</a>
+          <a href="/acces">Accès</a>
           <a href="/billeterie">Billetterie</a>
           <a href="/about">About</a>
         </div>

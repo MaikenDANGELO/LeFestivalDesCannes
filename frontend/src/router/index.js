@@ -2,6 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import PagePrincipale from '../views/PagePrincipale.vue'
 import Billetterie from "@/views/PageBilletterie.vue";
+import Acces from "@/views/PageAcces.vue";
+
 
 Vue.use(VueRouter)
 
@@ -16,6 +18,11 @@ const routes = [
     name: 'billeterie',
     component: Billetterie
   },
+  {
+    path: '/acces',
+    name: 'acces',
+    component: Acces
+  }
   /*{
     path: '/about',
     name: 'about',
