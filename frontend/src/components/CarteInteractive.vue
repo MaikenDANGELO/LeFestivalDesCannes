@@ -1,5 +1,6 @@
 <template>
 <div id="img-container">
+    <h1>Carte intéractive</h1>
     <img id="carte" alt="carte intéractive" src="../assets/map.svg">
 </div>
 </template>
@@ -16,6 +17,7 @@
 #img-container{
     margin-top: 1%;
     display: flex;
-    margin-left: 5%;
+    flex-direction: column;
+    margin-left: 2%;
 }
 </style>

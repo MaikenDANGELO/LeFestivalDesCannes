@@ -6,14 +6,18 @@ let prestataires = [
         categorie: "Jeux",
         id_emplacement: "1",
         id_evenement: "1",
+        page_route: '#',
+        image:"logo.png"
     },
     {
         id: "2",
-        nom: "prest1",
+        nom: "prest2",
         description: "Description",
         categorie: "Restaurant",
         id_emplacement: "1",
         id_evenement: "1",
+        page_route: '#',
+        image:"logo.png"
     },
     {
         id: "3",
@@ -22,6 +26,18 @@ let prestataires = [
         categorie: "Mascotte",
         id_emplacement: "2",
         id_evenement: "1",
+        page_route: '#',
+        image:"logo.png"
+    },
+    {
+        id: "4",
+        nom: "prest4",
+        description: "Description",
+        categorie: "Mascotte",
+        id_emplacement: "2",
+        id_evenement: "1",
+        page_route: '#',
+        image:"logo.png"
     },
 ];
 module.exports = {
