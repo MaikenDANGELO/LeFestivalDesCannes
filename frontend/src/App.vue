@@ -1,8 +1,9 @@
+
 <template>
   <div id="app">
     <nav>
       <router-link to="/"
-        ><img alt="Festival logo" src="../public/logoFestivalDeCannes.png"
+        ><img alt="Festival logo" src="../public/logoFestivalDesCannes.png"
       /></router-link>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -24,3 +25,4 @@ img {
 }
 </style>
 <script setup lang="ts"></script>
+
