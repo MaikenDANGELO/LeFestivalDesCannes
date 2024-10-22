@@ -164,7 +164,7 @@ export default {
         this.Message = "Donner le type et le nombre de tickets.";
         return;
       }
-      const response = await LocalSource.insertBillet(this, this.totalForm);
+      const response = await LocalSource.insertCommandeBillet(this, this.totalForm);
       if (response.error === 0){
         // Gérer la réponse en cas de succès
         this.Message = "Réservation réussie ! Merci de votre achat.";

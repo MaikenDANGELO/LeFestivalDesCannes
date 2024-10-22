@@ -3,7 +3,7 @@
         <div class="slide-container">
             <div class="custom-slider fade" style="display: block;">
                 <div class="slide-index">1 / 3</div>
-                <img class="slide-img" src="https://www.codeur.com/tuto/wp-content/uploads/2021/12/slide1.jpg">
+                <img class="slide-img" src="../assets/banniere1.jpg">
                 <div class="slide-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
             </div>
             <div class="custom-slider fade">

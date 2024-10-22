@@ -12,7 +12,7 @@
           <a href="/about">About</a>
         </div>
         <div id="navItems" class="login-items">
-          <a href="#news">Connexion</a>
+          <a href="/login">Connexion</a>
           <a href="#contact">Inscription</a>
         </div>
       </div>

@@ -88,10 +88,65 @@ let prestataires = [
       image: "parade_canards.jpg"
     }
   ];
-  
+
 
 let billetterie = []
+
+let utilisateurs = [
+  {
+    "id_utilisateur": 1,
+    "nom_utilisateur": "Alice Dupont",
+    "email_utilisateur": "alice.dupont@example.com",
+    "mot_de_passe": "$2b$10$oBECECHPwfW.6qVIZDObxe5XLn9KyDrIv0YKIJHcbeRgSfUo3Fudq",
+    "adresse_utilisateur": "123 rue de Paris, 75001 Paris, France",
+    "telephone": "0123456789",
+    "date_inscription": "2024-01-01T00:00:00.000Z",
+    "role": "utilisateur"
+  },
+  {
+    "id_utilisateur": 2,
+    "nom_utilisateur": "Bob Martin",
+    "email_utilisateur": "bob.martin@example.com",
+    "mot_de_passe": "$2b$10$sYoU/ZAwBMS7T.E88Q4sTeH3nw/.hC4SojRPdiWrpGE/qzWDm.SUq",
+    "adresse_utilisateur": "456 avenue de Lyon, 69001 Lyon, France",
+    "telephone": "0987654321",
+    "date_inscription": "2024-01-05T00:00:00.000Z",
+    "role": "prestataire"
+  },
+  {
+    "id_utilisateur": 3,
+    "nom_utilisateur": "Carole Durand",
+    "email_utilisateur": "carole.durand@example.com",
+    "mot_de_passe": "$2b$10$SBxiKpqdZ8cqF03m17X9XOp1tE8mMPDAGB/MXKCcDEY7vf1eQAxiy",
+    "adresse_utilisateur": "789 boulevard de Marseille, 13001 Marseille, France",
+    "telephone": "0147258390",
+    "date_inscription": "2024-02-10T00:00:00.000Z",
+    "role": "admin"
+  },
+  {
+    "id_utilisateur": 4,
+    "nom_utilisateur": "David Lefevre",
+    "email_utilisateur": "david.lefevre@example.com",
+    "mot_de_passe": "$2b$10$ccTRo40sVCNNgXGoJAALvuDJVx5z7uOPWz/Qc8ag95GBBSJS3W3L.",
+    "adresse_utilisateur": "321 rue de Lille, 59800 Lille, France",
+    "telephone": "0758392045",
+    "date_inscription": "2024-03-15T00:00:00.000Z",
+    "role": "utilisateur"
+  },
+  {
+    "id_utilisateur": 5,
+    "nom_utilisateur": "Emma Leroy",
+    "email_utilisateur": "emma.leroy@example.com",
+    "mot_de_passe": "$2b$10$SN.7HixVvKl16QyPxZtzNOtV3EA3897OerzoktomyxwvT9gM/XLEy",
+    "adresse_utilisateur": "654 avenue de Nice, 06000 Nice, France",
+    "telephone": "0612345678",
+    "date_inscription": "2024-04-20T00:00:00.000Z",
+    "role": "prestataire"
+  }
+];
+
 module.exports = {
-    prestataires,
-    billetterie,
+  prestataires,
+  billetterie,
+  utilisateurs,
 };

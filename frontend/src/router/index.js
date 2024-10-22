@@ -3,9 +3,8 @@ import VueRouter from 'vue-router'
 import PagePrincipale from '../views/PagePrincipale.vue'
 import Billetterie from "@/views/PageBilletterie.vue";
 import Acces from "@/views/PageAcces.vue";
-import Prestataire from "@/views/PagePrestataire.vue"; // Importe le composant Prestataire
-
-
+import PageLogin from "@/views/PageLogin.vue";
+import PagePrestataire from "@/views/PagePrestataire.vue";
 
 Vue.use(VueRouter)
 
@@ -26,9 +25,14 @@ const routes = [
     component: Acces
   },
   {
+    path: '/login',
+    name: 'login',
+    component: PageLogin
+  },
+  {
     path: '/prestataire/:id', // Route dynamique pour les prestataires
     name: 'Prestataire',
-    component: Prestataire
+    component: PagePrestataire
   }
   /*{
     path: '/about',
@@ -47,4 +51,3 @@ const router = new VueRouter({
 })
 
 export default router
-
