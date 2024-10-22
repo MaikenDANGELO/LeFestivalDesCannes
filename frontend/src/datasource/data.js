@@ -40,6 +40,9 @@ let prestataires = [
         image:"logo.png"
     },
 ];
+
+let billetterie = []
 module.exports = {
     prestataires,
+    billetterie,
 };
