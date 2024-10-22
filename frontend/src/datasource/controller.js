@@ -23,7 +23,6 @@ function insertBillet(vue, total){
 
     // Ajouter l'objet à billetterie
     billetterie.push(insert);
-        console.log(billetterie)
     return {error: 0, status: 200}
 
     } catch (error) {
