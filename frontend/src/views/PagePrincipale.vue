@@ -1,75 +1,82 @@
 <template>
   <div class="hello">
-    <BanniereAccueil></BanniereAccueil> 
+    <BanniereAccueil></BanniereAccueil>
     <div class="liste-prestataires">
       <h2>Prestataires</h2>
-      <div class="prestataires-row" v-for="row in getPrestaRows()" :key="row.id">
-        <CartePrestatairePerso v-for="(prestataire) in row" :key="prestataire.id" :nom="prestataire['nom']" :description="prestataire['description']" :image="prestataire['image']" :pers-page-route="prestataire['page_route']"></CartePrestatairePerso>
+      <div class="prestataires-row" v-for="row in getPrestaRows()" :key="row[0].id">
+        <div v-for="prestataire in row" :key="prestataire.id" class="prestataire-card">
+          <CartePrestatairePerso 
+            :nom="prestataire.nom" 
+            :descriptionAccueil="prestataire.description_accueil"
+            :image="prestataire.image"
+            :pers-page-route="`/prestataire/${prestataire.id}`"
+          ></CartePrestatairePerso>
+        </div>
       </div>
     </div>
-
   </div>
 </template>
 
 
 
 <script>
-import {mapState} from "vuex";
-import {prestataires} from "@/datasource/data";
-import BanniereAccueil from "@/components/BanniereAccueil.vue"
+import { prestataires } from "@/datasource/data";
+import BanniereAccueil from "@/components/BanniereAccueil.vue";
 import CartePrestatairePerso from "@/components/CartePrestatairePerso.vue";
 
 export default {
   name: "PagePrincipale",
-  date: () => ({
-    prestatairesRows: [],
-  }),
+  data() {
+    return {
+      prestatairesRows: [],
+    };
+  },
   methods: {
     prestataires() {
-      return prestataires
+      return prestataires;
     },
-    getPrestaRows(){
+    getPrestaRows() {
       let prestataires = this.prestataires();
-      var row = [];
       let rows = [];
-      for(let i = 0; i < prestataires.length; i++){
-        row.push(prestataires[i])
-        if(row.length === 3){
-          rows.push(row);
-          row = [];
-        }
-        if(i === prestataires.length-1){
-          rows.push(row)
-        }
+      for (let i = 0; i < prestataires.length; i += 4) { // Ajusté pour 4 blocs par ligne
+        rows.push(prestataires.slice(i, i + 4));
       }
       return rows;
-    }
+    },
   },
   components: {
     BanniereAccueil,
-    CartePrestatairePerso
+    CartePrestatairePerso,
   },
-  computed:{
-    ...mapState([prestataires])
-  }
-
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
-.liste-prestataires{
+.liste-prestataires {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin-left: auto;
   margin-right: auto;
+  padding: 20px;
 }
-.prestataires-row{
+
+.prestataires-row {
   display: flex;
-  flex-direction: row;
-  margin-bottom: 5%;
-  gap: 5%;
+  flex-wrap: wrap; 
+  gap: 20px; 
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.prestataire-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(25% - 20px); /* Ajusté pour quatre blocs par ligne avec espace */
+  box-sizing: border-box;
+  margin-bottom: 20px;
 }
 </style>

@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import PagePrincipale from '../views/PagePrincipale.vue'
 import Billetterie from "@/views/PageBilletterie.vue";
 import Acces from "@/views/PageAcces.vue";
+import Prestataire from "@/views/PagePrestataire.vue"; // Importe le composant Prestataire
+
 
 
 Vue.use(VueRouter)
@@ -22,6 +24,11 @@ const routes = [
     path: '/acces',
     name: 'acces',
     component: Acces
+  },
+  {
+    path: '/prestataire/:id', // Route dynamique pour les prestataires
+    name: 'Prestataire',
+    component: Prestataire
   }
   /*{
     path: '/about',
