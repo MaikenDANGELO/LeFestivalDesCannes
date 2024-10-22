@@ -4,7 +4,7 @@
 
     <div class="form-group">
       <label for="firstName">Prénom :</label>
-      <input v-model="form.firstName"   type="text" id="firstName" name="firstName" placeholder="Votre prénom" required>
+      <input v-model="form.firstName" type="text" id="firstName" name="firstName" placeholder="Votre prénom" required>
     </div>
 
     <div class="form-group">
@@ -14,23 +14,25 @@
 
     <div class="form-group">
       <label for="email">Email :</label>
-      <input v-model="form.email"  type="email" id="email" name="email" placeholder="Votre email" required>
+      <input v-model="form.email" type="email" id="email" name="email" placeholder="Votre email" required>
     </div>
 
-    <div class="form-group">
-      <label for="ticketType">Type de billet :</label>
-      <select v-model="form.ticketType"  id="ticketType" name="ticketType" required>
+    <div class="form-group" v-for="(ticket, index) in form.tickets" :key="index">
+      <label>Type de billet :</label>
+      <select v-model="ticket.type" required>
         <option value="">-- Sélectionnez le type de billet --</option>
         <option value="adulte">Adulte - 10€</option>
         <option value="enfant">Enfant - 5€</option>
         <option value="senior">Senior - 7€</option>
       </select>
+
+      <label for="ticketQuantity">Nombre de billets :</label>
+      <input v-model="ticket.quantity" type="number" placeholder="Nombre de billets" min="1" max="10" required>
+
+      <button type="button" @click="removeTicket(index)">Supprimer ce type de billet</button>
     </div>
 
-    <div class="form-group">
-      <label for="ticketQuantity">Nombre de billets :</label>
-      <input v-model="form.ticketQuantity"  type="number" id="ticketQuantity" name="ticketQuantity" placeholder="Nombre de billets" min="1" max="10" required>
-    </div>
+    <button type="button" @click="addTicket">Ajouter un type de billet</button>
 
     <div class="form-group">
       <p><strong>Total: {{ total }} €</strong></p>
@@ -53,8 +55,7 @@ export default {
         firstName: '',
         lastName: '',
         email: '',
-        ticketType: '',
-        ticketQuantity: '',
+        tickets: [],
       },
       Message: '',
       ticketPrices: {
@@ -66,12 +67,20 @@ export default {
   },
   computed: {
     total() {
-      const pricePerTicket = this.ticketPrices[this.form.ticketType] || 0;
-      return pricePerTicket * this.form.ticketQuantity;
+      if (typeof this.form.tickets === 'undefined') return 0
+      let total = 0
+      for (let i = 0; i < this.form.tickets.length; i++) {
+        total += (this.ticketPrices[this.form.tickets[i].type] || 0) * this.form.tickets[i].quantity;
+      }
+      return total;
     }
   },
   methods: {
     async submitForm() {
+      if (this.form.tickets.length === 0){
+        this.Message = "Une erreur est survenue lors de la réservation.";
+        return;
+      }
       const response = await LocalSource.insertBillet(this, this.total);
       if (response.error === 0){
         // Gérer la réponse en cas de succès
@@ -82,12 +91,17 @@ export default {
           firstName: '',
           lastName: '',
           email: '',
-          ticketType: '',
-          ticketQuantity: '',
+          tickets: [],
         }}
       else{
         this.Message = "Une erreur est survenue lors de la réservation.";
       }
+    },
+    addTicket() {
+      this.form.tickets.push({ type: '', quantity: 1 });
+    },
+    removeTicket(index) {
+      this.form.tickets.splice(index, 1);
     }
   }
 }
