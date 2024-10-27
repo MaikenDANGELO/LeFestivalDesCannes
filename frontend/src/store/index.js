@@ -8,12 +8,26 @@ import PrestatairesService from "../services/prestataires.service";
 export default new Vuex.Store({
   state: () => ({
     prestataires: [],
+    utilisateur: {
+      role: '',
+      nom: '',
+    },
   }),
   getters: {},
   mutations: {
     updatePrestataires: (state, prestataires) => {
       state.prestataires = prestataires;
     },
+    SET_USER(state, user) {
+      state.utilisateur.nom = user.nom_utilisateur;
+      state.utilisateur.role = user.role;
+    },
+    LOGOUT(state) {
+      state.utilisateur = {
+        role: '',
+        nom: ''
+      };
+    }
   },
   actions: {
     async getAllPrestataires({ commit }) {
@@ -25,6 +39,12 @@ export default new Vuex.Store({
         console.log(response.data);
       }
     },
+    logout({ commit }) {
+      commit('LOGOUT');
+    },
+     async logIn({ commit }, data){
+      commit('SET_USER', data)
+    }
   },
   modules: {},
 });

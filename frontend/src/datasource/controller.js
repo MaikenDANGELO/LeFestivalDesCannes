@@ -44,7 +44,7 @@ async function connexion(login, mdp){
     try {
         const correspond = await bcrypt.compare(mdp, Account.mot_de_passe);
         if (correspond) {
-            return {error: 0, status: 200, data: Account.role};
+            return {error: 0, status: 200, data: Account};
         } else {
             return {error: 1, status: 404, data: "Le mot de passe ne correspond pas"};
         }
@@ -52,7 +52,6 @@ async function connexion(login, mdp){
         console.error('Erreur lors de la vérification du mot de passe :', error);
     }
 }
-
 
 export default {
     getAllPrestataires,

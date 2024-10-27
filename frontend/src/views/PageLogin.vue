@@ -9,30 +9,49 @@
 
     <div class="form-group">
       <label for="mdp">Mot de passe :</label>
-      <input v-model="password" type="text" id="mdp" name="mdp" placeholder="Votre mot de passe" required>
+      <input v-model="password" :type="isPasswordVisible ? 'text' : 'password'" id="mdp" name="mdp" placeholder="Votre mot de passe" required>
+      <button class="password-icon" type="button" @click="togglePasswordVisibility">
+        <i :class="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+      </button>
     </div>
     <button type="submit">Connexion</button>
+    <p>{{message}}</p>
   </form>
 
 </template>
 
 <script>
 import LocalSource from "@/datasource/controller";
+import {mapActions} from "vuex";
 
 export default {
   name: 'LoginForm',
   data() {
     return {
       login:'',
-      password:''
+      password:'',
+      isPasswordVisible: false,
+      message:'',
     }
   },
   methods:{
+    ...mapActions([ 'logIn']),
     async connexion(){
-      const response = await LocalSource.connexion(this.login, this.password);
-      if (response.error === 0){
-        console.log(response)
+      try {
+        const response = await LocalSource.connexion(this.login, this.password);
+        if (response.error === 0) {
+          await this.logIn(response.data);
+          this.$router.push({ name: "home" });
+        } else {
+          this.message = response.data;
+        }
+      } catch (error) {
+        console.error("Erreur lors de la connexion:", error);
+        this.message = "Une erreur est survenue. Veuillez réessayer."; // Gestion d'erreur
       }
+    },
+    togglePasswordVisibility() {
+      this.isPasswordVisible = !this.isPasswordVisible;
     }
   }
 }
@@ -53,6 +72,7 @@ h2 {
 }
 .form-group {
   margin-bottom: 15px;
+  position: relative;
 }
 label {
   display: block;
@@ -73,5 +93,19 @@ button {
 }
 button:hover {
   background-color: #555;
+}
+.form-group .password-icon {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 70%;
+  right: 3%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 10px;
+  color: #000000;
+  background-color: white;
+  transition: all 0.2s;
+  border: 0;
 }
 </style>
