@@ -19,9 +19,9 @@
 
 
 <script>
-import { prestataires } from "@/datasource/data";
 import BanniereAccueil from "@/components/BanniereAccueil.vue";
 import CartePrestatairePerso from "@/components/CartePrestatairePerso.vue";
+import { mapState, mapActions } from "vuex";
 
 export default {
   name: "PagePrincipale",
@@ -30,12 +30,14 @@ export default {
       prestatairesRows: [],
     };
   },
+  computed: {
+    ...mapState(['prestataires']), // on récupère prestataires depuis le store
+  },
   methods: {
-    prestataires() {
-      return prestataires;
-    },
+    ...mapActions(['getAllPrestataires']), // on récupère la méthode de récupération des prestataires du store
     getPrestaRows() {
-      let prestataires = this.prestataires();
+      this.getAllPrestataires(); // charge les prestataires depuis les données
+      let prestataires = this.prestataires;
       let rows = [];
       for (let i = 0; i < prestataires.length; i += 4) { // Ajusté pour 4 blocs par ligne
         rows.push(prestataires.slice(i, i + 4));
