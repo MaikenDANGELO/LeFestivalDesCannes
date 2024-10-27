@@ -1,4 +1,4 @@
-import { prestataires, billetterie, utilisateurs } from "./data";
+import { prestataires, billetterie, utilisateurs, avis } from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllPrestataires() {
@@ -52,6 +52,18 @@ async function connexion(login, mdp){
         console.error('Erreur lors de la vérification du mot de passe :', error);
     }
 }
+
+async function getAvisOfPrestataire(prestataire_id) {
+    if(!prestataire_id) return {error: 1, status: 404, data: "L'identifiant donné n'est pas valide"};
+    let prest_commentaires = [];
+    avis.forEach( (a) => {
+        if(parseInt(a['id_prestataire']) === parseInt(prestataire_id)){
+            prest_commentaires.push(a);
+        }
+    })
+    return {error: 0, status: 200, data: prest_commentaires};
+}
+
 
 export default {
     getAllPrestataires,

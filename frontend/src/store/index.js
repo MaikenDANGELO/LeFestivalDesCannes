@@ -12,6 +12,7 @@ export default new Vuex.Store({
       role: '',
       nom: '',
     },
+    avis_prestataire: [],
   }),
   getters: {},
   mutations: {
@@ -28,6 +29,9 @@ export default new Vuex.Store({
         nom: ''
       };
     }
+    updateAvisPrestataire: (state, avis_prestataire) => {
+      state.avis_prestataire = avis_prestataire;
+    },
   },
   actions: {
     async getAllPrestataires({ commit }) {
@@ -36,6 +40,15 @@ export default new Vuex.Store({
       if (response.error === 0) {
         commit("updatePrestataires", response.data);
       } else {
+        console.log(response.data);
+      }
+    },
+    async getPrestataireAvis({commit}, id_prestataire) {
+      console.log("récupération des avis du prestataire "+id_prestataire);
+      let response = await PrestatairesService.getAvisOfPrestataire(id_prestataire);
+      if (response.error === 0){
+        commit("updateAvisPrestataire", response.data);
+      }else{
         console.log(response.data);
       }
     },

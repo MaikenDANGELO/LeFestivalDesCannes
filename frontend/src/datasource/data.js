@@ -145,8 +145,26 @@ let utilisateurs = [
   }
 ];
 
+let avis = [
+  {
+    id_commentaire: 1,
+    id_prestataire: 1,
+    id_utilisateur: 1,
+    texte: "Je me suis trop méga amusée omg omg wouhouuu !!",
+    note: 5,
+  },
+  {
+    id_commentaire: 2,
+    id_prestataire: 1,
+    id_utilisateur: 2,
+    texte: "C'était trop bien, mais j'ai marché sur un caca de chien. Où sont les nettoyeurs ?",
+    note: 4,
+  },
+];
+
 module.exports = {
   prestataires,
   billetterie,
   utilisateurs,
+  avis,
 };

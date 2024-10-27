@@ -17,6 +17,17 @@ async function getAllPrestataires() {
     return response
 }
 
+async function getAvisOfPrestataire(id_prestataire){
+    let response;
+    try{
+        response = await LocalSource.getAvisOfPrestataire(id_prestataire);
+    }catch(err){
+        response = {error: 1, status: 404, data: 'erreur réseau, impossible de récupérer la liste des commentaires'  }
+    }
+    return response;
+}
+
 export default {
     getAllPrestataires,
+    getAvisOfPrestataire,
 }
