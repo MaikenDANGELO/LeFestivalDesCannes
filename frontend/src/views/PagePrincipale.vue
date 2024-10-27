@@ -9,8 +9,7 @@
             :nom="prestataire.nom" 
             :descriptionAccueil="prestataire.description_accueil"
             :image="prestataire.image"
-            :pers-page-route="`/prestataire/${prestataire.id}`"
-          ></CartePrestatairePerso>
+            :pers-page-route="`/prestataire/${prestataire.id}`"></CartePrestatairePerso>
         </div>
       </div>
     </div>
@@ -42,6 +41,11 @@ export default {
         rows.push(prestataires.slice(i, i + 4));
       }
       return rows;
+    },
+    // Gère l'envoi de commentaire depuis une page prestataire
+    handleCommentSent(data) {
+      console.log(data);
+      return data;
     },
   },
   components: {
