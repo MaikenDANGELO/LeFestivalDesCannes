@@ -29,7 +29,7 @@ function insertCommandeBillet(vue, total){
 
     } catch (error) {
         console.error("Erreur lors de l'ajout de la billetterie :", error.message);
-        return {error: 1, status: 404}
+        return {error: 1, status: 404, data:"Erreur lors de l'ajout de la billetterie :" + error.message}
     }
 }
 
@@ -64,9 +64,29 @@ async function getAvisOfPrestataire(prestataire_id) {
     return {error: 0, status: 200, data: prest_commentaires};
 }
 
+async function sendAvisOfUser(data){
+    try {
+        let newId = avis.length + 1;
+        let insert = {
+            id_commentaire: newId,
+            id_prestataire: parseInt(data[0]),
+            id_utilisateur: data[3],
+            texte: data[2],
+            note: data[1],
+        };
+        avis.push(insert);
+        console.log(avis)
+        return {error: 0, status: 200}
+    }catch (error){
+        console.error("Erreur lors de l'ajout de la billetterie :", error.message);
+        return {error: 1, status: 404, data:"Erreur lors de l'ajout de l'avis :" + error.message}
+    }
+}
 
 export default {
     getAllPrestataires,
     insertCommandeBillet,
     connexion,
+    getAvisOfPrestataire,
+    sendAvisOfUser,
 };

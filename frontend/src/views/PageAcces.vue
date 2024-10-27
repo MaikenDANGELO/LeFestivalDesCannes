@@ -1,6 +1,7 @@
 <template>
     <div>
         <CarteInteractive></CarteInteractive>
+
     </div>
 </template>
 

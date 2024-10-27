@@ -2,19 +2,19 @@
   <div id="app">
     <nav>
       <div class="topnav">
-        <a class="active" href="/"
-          ><img alt="Festival logo" :src="require(`./assets/logoFestivalDesCannes.png`)">
-        </a>
+        <router-link to="/">
+          <img alt="Festival logo" :src="require(`./assets/logoFestivalDesCannes.png`)">
+        </router-link>
         <div id="navItems" class="nav-items">
-          <a href="#news">Prestataires</a>
-          <a href="/acces">Accès</a>
-          <a href="/billeterie">Billetterie</a>
-          <a href="/about">About</a>
+          <router-link to="/acces">Prestataires</router-link>
+          <router-link to="/acces">Accès</router-link>
+          <router-link to="/billeterie">Billetterie</router-link>
+          <router-link to="/about">About</router-link>
         </div>
         <div class="right-items">
-          <div v-if="this.utilisateur.role === '' " id="navItems" class="login-items">
-            <a href="/login">Connexion</a>
-            <a href="#contact">Inscription</a>
+          <div v-if="!this.utilisateur.estConnecte" id="navItems" class="login-items">
+            <router-link to="/login">Connexion</router-link>
+            <router-link to="/login">Inscription</router-link>
           </div>
           <div v-else class="dropdown">
             <button type="button" class="circle" @click="toggleDropdown">
@@ -41,7 +41,7 @@ export default {
     }
   },
   computed:{
-    ...mapState([ 'utilisateur']),
+    ...mapState([ 'utilisateur', "estConnecte"]),
     initiale() {
       return this.utilisateur['nom'].charAt(0).toUpperCase();
     }

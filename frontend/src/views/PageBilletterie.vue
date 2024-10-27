@@ -40,6 +40,7 @@
 
     <button type="submit">Passer au paiement</button>
     <p>{{Message}}</p>
+    <p>{{utilisateur.estConnecte}}</p>
 
     <div v-if="orderSummary">
       <h2>Récapitulatif de la commande</h2>
@@ -87,6 +88,7 @@
 
 <script>
 import LocalSource from "@/datasource/controller";
+import {mapState} from "vuex";
 
 export default {
   name: 'BilletterieForm',
@@ -120,6 +122,7 @@ export default {
     };
   },
   computed: {
+    ...mapState([ 'utilisateur']),
     totalForm() {
       if (typeof this.form.tickets === 'undefined') return 0
       let total = 0

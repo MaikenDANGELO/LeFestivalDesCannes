@@ -11,8 +11,11 @@ export default new Vuex.Store({
     utilisateur: {
       role: '',
       nom: '',
+      id: 0,
+      estConnecte:false,
     },
     avis_prestataire: [],
+
   }),
   getters: {},
   mutations: {
@@ -22,12 +25,17 @@ export default new Vuex.Store({
     SET_USER(state, user) {
       state.utilisateur.nom = user.nom_utilisateur;
       state.utilisateur.role = user.role;
+      state.utilisateur.id = user.id_utilisateur
+      state.utilisateur.estConnecte = true
     },
     LOGOUT(state) {
       state.utilisateur = {
         role: '',
-        nom: ''
+        nom: '',
+        id:0,
+        estConnecte: false,
       };
+
     },
     updateAvisPrestataire: (state, avis_prestataire) => {
       state.avis_prestataire = avis_prestataire;
@@ -53,6 +61,7 @@ export default new Vuex.Store({
       }
     },
     logout({ commit }) {
+      console.log("zebi")
       commit('LOGOUT');
     },
      async logIn({ commit }, data){

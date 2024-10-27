@@ -13,14 +13,15 @@
 
       <div class="avis">
         <h2>Avis et commentaires</h2>
-        <div class="avis-input">
+        <div v-if="utilisateur.estConnecte" class="avis-input">
           <h3>Envoyer un avis:</h3>
             <label for="note_input">Note: </label>
             <input id="note_input" type="number" max="5" min="0" v-model="user_note"><br>
             <label for="commentaire_input">Commentaire: </label>
             <input id="commentaire_input" type="text" v-model="user_comment">
             <button @click="sendCommentForm()">Envoyer</button>
-        </div><br>
+        </div>
+        <div v-else>Soyez connecté pour poster un avis</div><br>
         <h3>Avis des utilisateurs</h3>
         <div v-for="avis in this.avis_prestataire" :key="avis['id']">
           <h4>{{ getUtilisateur(avis['id_utilisateur'])['nom_utilisateur'] }} - {{ avis['note'] }}/5</h4>
@@ -35,8 +36,9 @@
 </template>
 
 <script>
-import { prestataires, utilisateurs } from '@/datasource/data';
-import { mapState, mapActions } from 'vuex';
+import {prestataires, utilisateurs} from '@/datasource/data';
+import {mapActions, mapState} from 'vuex';
+import controller from "@/datasource/controller";
 
 export default {
   name: "PrestataireDetail",
@@ -48,21 +50,22 @@ export default {
     };
   },
   methods:{
+
     ...mapActions(['getPrestataireAvis']),
     getUtilisateur(id){
-      let utilisateur = utilisateurs.find(u => u['id_utilisateur'] === id)
-      return utilisateur;
+      return utilisateurs.find(u => u['id_utilisateur'] === id);
     },
     // Envoie les données entrée dans le formulaire de commentaire sous forme d'événement
     sendCommentForm(){
       // Il faudra ajouter l'id de l'utilisateur courant lorsqu'il existera !
-      let data = [this.prestataire['id'],this.user_note, this.user_comment];
+      let data = [this.prestataire['id'],this.user_note, this.user_comment, this.utilisateur.id];
       console.log(data);
       // Appeler la méthode pour insérer un commentaire ici -- à faire lorsque la connexion des utilisateurs sera implémentée.
+      controller.sendAvisOfUser(data);
     }
   },
   computed: {
-    ...mapState(['avis_prestataire']),
+    ...mapState(['avis_prestataire', 'utilisateur']),
   },
   created() {
     const id = this.$route.params.id;
