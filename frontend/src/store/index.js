@@ -28,7 +28,7 @@ export default new Vuex.Store({
         role: '',
         nom: ''
       };
-    }
+    },
     updateAvisPrestataire: (state, avis_prestataire) => {
       state.avis_prestataire = avis_prestataire;
     },
