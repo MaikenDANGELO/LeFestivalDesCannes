@@ -162,9 +162,19 @@ let avis = [
   },
 ];
 
+let dons = [
+  {
+    id: 1,
+    id_utilisateur: 1,
+    montant: 500,
+    date:"2024-10-28"
+  }
+]
+
 module.exports = {
   prestataires,
   billetterie,
   utilisateurs,
   avis,
+  dons,
 };

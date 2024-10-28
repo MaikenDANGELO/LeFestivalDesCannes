@@ -5,14 +5,15 @@
       <h2>Prestataires</h2>
       <div class="prestataires-row" v-for="row in getPrestaRows()" :key="row[0].id">
         <div v-for="prestataire in row" :key="prestataire.id" class="prestataire-card">
-          <CartePrestatairePerso 
-            :nom="prestataire.nom" 
+          <CartePrestatairePerso
+            :nom="prestataire.nom"
             :descriptionAccueil="prestataire.description_accueil"
             :image="prestataire.image"
             :pers-page-route="`/prestataire/${prestataire.id}`"></CartePrestatairePerso>
         </div>
       </div>
     </div>
+    <TotalDons></TotalDons>
   </div>
 </template>
 
@@ -22,6 +23,7 @@
 import BanniereAccueil from "@/components/BanniereAccueil.vue";
 import CartePrestatairePerso from "@/components/CartePrestatairePerso.vue";
 import { mapState, mapActions } from "vuex";
+import TotalDons from "@/components/totalDons.vue";
 
 export default {
   name: "PagePrincipale",
@@ -51,6 +53,7 @@ export default {
     },
   },
   components: {
+    TotalDons,
     BanniereAccueil,
     CartePrestatairePerso,
   },
@@ -85,5 +88,6 @@ export default {
   box-sizing: border-box;
   margin-bottom: 20px;
 }
+
 </style>
 
