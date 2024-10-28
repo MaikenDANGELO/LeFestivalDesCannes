@@ -5,7 +5,7 @@ async function getAllPrestatairesFromLocalSource() {
 }
 
 async function getAllPrestataires() {
-    let response = null;
+    let response;
     try {
         // changer la mÃ©thode appelÃ©e quand cette fonctionnalitÃ© l'API est prÃªte
         response = await getAllPrestatairesFromLocalSource()
