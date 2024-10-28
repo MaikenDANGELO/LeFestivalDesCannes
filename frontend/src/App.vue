@@ -6,7 +6,12 @@
           <img alt="Festival logo" :src="require(`./assets/logoFestivalDesCannes.png`)">
         </router-link>
         <div id="navItems" class="nav-items">
-          <router-link to="/acces">Prestataires</router-link>
+          <div class="prest-dropdown">
+            <button class="prest-button" @click="this.toggleDropdown2">Prestataires</button>
+            <div class="prest-dropdown-content" v-if="isDropdownVisible2">
+              <router-link @click.native="handlePrestDropdownClick" v-for="prestataire in this.prestataires" :key="prestataire['id']" :to="`/prestataire/${prestataire['id']}`">{{prestataire['nom']}}</router-link>
+            </div>
+          </div>
           <router-link to="/acces">Accès</router-link>
           <router-link to="/billeterie">Billetterie</router-link>
           <router-link to="/about">About</router-link>
@@ -37,20 +42,31 @@ import {mapState, mapActions} from "vuex";
 export default {
   data() {
     return{
-      isDropdownVisible: false
+      isDropdownVisible: false,
+      isDropdownVisible2: false,
     }
   },
   computed:{
     ...mapState([ 'utilisateur']),
+    ...mapState(['prestataires']),
     initiale() {
       return this.utilisateur['nom'].charAt(0).toUpperCase();
     }
   },
   methods:{
     ...mapActions([ 'logout']),
+    ...mapActions(['getAllPrestataires']),
     toggleDropdown() {
       this.isDropdownVisible = !this.isDropdownVisible;
     },
+    toggleDropdown2() {
+      this.getAllPrestataires();
+      this.isDropdownVisible2 = !this.isDropdownVisible2;
+    },
+    handlePrestDropdownClick(){
+      this.isDropdownVisible2 = false;
+      this.$router.go(0);
+    }
   }
 }
 </script>
@@ -66,12 +82,47 @@ img {
   max-width: 2cm;
 }
 
+.nav-items{
+  display: flex;
+  flex-direction: row;
+}
+.prest-button{
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: #333;
+  border: none;
+}
+.prest-button:hover{
+  background-color: #ddd;
+  color: black;
+  cursor: grab;
+}
+.prest-dropdown{
+  position: relative;
+  display: inline-block;
+}
+.prest-dropdown-content {
+  display: block;
+  position: absolute;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+  background-color: #333;
+}
+
 /* Add a black background color to the top navigation */
 .topnav {
   display: flex;
   align-items: center;
   background-color: #333;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Style the links inside the navigation bar */
