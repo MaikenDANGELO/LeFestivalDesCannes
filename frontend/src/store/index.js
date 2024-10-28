@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import PrestatairesService from "../services/prestataires.service";
+import MoneyService from "../services/money.service";
 
 Vue.use(Vuex);
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
       estConnecte:false,
     },
     avis_prestataire: [],
+    totalDons:0
 
   }),
   getters: {},
@@ -39,6 +41,9 @@ export default new Vuex.Store({
     updateAvisPrestataire: (state, avis_prestataire) => {
       state.avis_prestataire = avis_prestataire;
     },
+    updateTotalDons:(state, total) => {
+      state.totalDons = total;
+    },
   },
   actions: {
     async getAllPrestataires({ commit }) {
@@ -60,11 +65,18 @@ export default new Vuex.Store({
       }
     },
     logout({ commit }) {
-      console.log("zebi")
       commit('LOGOUT');
     },
      async logIn({ commit }, data){
       commit('SET_USER', data)
+    },
+    async getTotalDons({ commit }){
+      let response = await MoneyService.getTotalDons();
+      if (response.error === 0){
+        commit("updateTotalDons", response.data);
+      }else{
+        console.log(response.data);
+      }
     },
   },
   modules: {},

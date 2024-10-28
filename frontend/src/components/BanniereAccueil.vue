@@ -66,14 +66,9 @@ export default {
 }
 
 .slide-container {
-    width: 96%;
-    height: 15%;
-    max-width: 96%;
-    max-height: 15%;
     position: relative;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 1%;
 }
 
 .prev,

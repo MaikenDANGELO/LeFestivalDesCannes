@@ -1,4 +1,4 @@
-import { prestataires, billetterie, utilisateurs, avis } from "./data";
+import { prestataires, billetterie, utilisateurs, avis, dons } from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllPrestataires() {
@@ -25,6 +25,7 @@ function insertCommandeBillet(vue, total){
 
     // Ajouter l'objet à billetterie
     billetterie.push(insert);
+        console.log(billetterie)
     return {error: 0, status: 200}
 
     } catch (error) {
@@ -77,15 +78,27 @@ async function sendAvisOfUser(data){
         avis.push(insert);
         return {error: 0, status: 200}
     }catch (error){
-        console.error("Erreur lors de l'ajout de la billetterie :", error.message);
         return {error: 1, status: 404, data:"Erreur lors de l'ajout de l'avis :" + error.message}
     }
 }
 
+async function totalDons(){
+    try {
+        let total = 0;
+        for (let i = 0; i < dons.length; i++) {
+            total += dons[i].montant;
+        }
+        return {error: 0, status: 200, data:total}
+    }catch (error) {
+        return {error: 1, status: 404, data: error.message}
+    }
+
+}
 export default {
     getAllPrestataires,
     insertCommandeBillet,
     connexion,
     getAvisOfPrestataire,
     sendAvisOfUser,
+    totalDons,
 };

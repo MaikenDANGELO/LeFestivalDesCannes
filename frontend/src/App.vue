@@ -25,7 +25,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </nav>
     <router-view />
@@ -55,12 +54,23 @@ export default {
 }
 </script>
 <style>
+template{
+  overflow: scroll; /* Permet le défilement */
+  -ms-overflow-style: none; /* Masque la barre de défilement dans IE et Edge */
+  scrollbar-width: none; /* Masque la barre dans Firefox */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Masque la barre de défilement dans WebKit */
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
   color: #2c3e50;
+
 }
 img {
   max-width: 2cm;
