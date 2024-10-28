@@ -27,7 +27,19 @@ async function getAvisOfPrestataire(id_prestataire){
     return response;
 }
 
+async function sendAvisOfUser(data){
+    let response;
+    try {
+        response = await LocalSource.sendAvisOfUser(data);
+    }catch (error){
+        response = {error: 1, status: 404, data: 'erreur réseau, impossible de de publier le commmentaire'  }
+    }
+    return response
+}
+
+
 export default {
     getAllPrestataires,
     getAvisOfPrestataire,
+    sendAvisOfUser,
 }

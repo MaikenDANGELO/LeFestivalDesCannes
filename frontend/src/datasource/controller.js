@@ -75,7 +75,6 @@ async function sendAvisOfUser(data){
             note: data[1],
         };
         avis.push(insert);
-        console.log(avis)
         return {error: 0, status: 200}
     }catch (error){
         console.error("Erreur lors de l'ajout de la billetterie :", error.message);

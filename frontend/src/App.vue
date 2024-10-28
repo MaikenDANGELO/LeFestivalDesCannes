@@ -41,7 +41,7 @@ export default {
     }
   },
   computed:{
-    ...mapState([ 'utilisateur', "estConnecte"]),
+    ...mapState([ 'utilisateur']),
     initiale() {
       return this.utilisateur['nom'].charAt(0).toUpperCase();
     }

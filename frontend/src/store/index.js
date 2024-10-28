@@ -1,9 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import PrestatairesService from "../services/prestataires.service";
 
 Vue.use(Vuex);
-
-import PrestatairesService from "../services/prestataires.service";
 
 export default new Vuex.Store({
   state: () => ({
@@ -66,7 +65,7 @@ export default new Vuex.Store({
     },
      async logIn({ commit }, data){
       commit('SET_USER', data)
-    }
+    },
   },
   modules: {},
 });
