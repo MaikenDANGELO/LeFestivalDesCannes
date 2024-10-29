@@ -62,7 +62,7 @@ export default {
   },
   methods:{
 
-    ...mapActions(['getPrestataireAvis']),
+    ...mapActions('prestataire', ['getPrestataireAvis']),
     getUtilisateur(id){
       return utilisateurs.find(u => u['id_utilisateur'] === id);
     },
@@ -77,7 +77,8 @@ export default {
     }
   },
   computed: {
-    ...mapState(['avis_prestataire', 'utilisateur']),
+    ...mapState('utilisateurs', ['utilisateur']),
+    ...mapState('prestataire', ["avis_prestataire"])
   },
   created() {
     const id = this.$route.params.id;

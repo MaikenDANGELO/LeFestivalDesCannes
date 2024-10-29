@@ -35,7 +35,7 @@ export default {
     }
   },
   methods:{
-    ...mapActions([ 'logIn']),
+    ...mapActions('utilisateurs', [ 'logIn']),
     async connexion(){
       try {
         const response = await LocalSource.connexion(this.login, this.password);

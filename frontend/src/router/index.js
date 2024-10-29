@@ -3,8 +3,8 @@ import VueRouter from 'vue-router'
 import PagePrincipale from '../views/PagePrincipale.vue'
 import Billetterie from "@/views/PageBilletterie.vue";
 import Acces from "@/views/PageAcces.vue";
-import PageLogin from "@/views/PageLogin.vue";
 import PagePrestataire from "@/views/PagePrestataire.vue";
+import PageSign from "@/views/PageSign.vue";
 
 Vue.use(VueRouter)
 
@@ -25,14 +25,14 @@ const routes = [
     component: Acces
   },
   {
-    path: '/login',
-    name: 'login',
-    component: PageLogin
-  },
-  {
     path: '/prestataire/:id', // Route dynamique pour les prestataires
     name: 'Prestataire',
     component: PagePrestataire
+  },
+  {
+    path: '/signup',
+    name: 'SignUp',
+    component: PageSign
   }
   /*{
     path: '/about',

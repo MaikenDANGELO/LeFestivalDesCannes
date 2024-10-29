@@ -33,10 +33,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(['prestataires']), // on récupère prestataires depuis le store
+    ...mapState('prestataire', ['prestataires']), // on récupère prestataires depuis le store
   },
   methods: {
-    ...mapActions(['getAllPrestataires']), // on récupère la méthode de récupération des prestataires du store
+    ...mapActions('prestataire', ['getAllPrestataires']), // on récupère la méthode de récupération des prestataires du store
     getPrestaRows() {
       this.getAllPrestataires(); // charge les prestataires depuis les données
       let prestataires = this.prestataires;

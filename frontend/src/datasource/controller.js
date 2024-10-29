@@ -94,6 +94,45 @@ async function totalDons(){
     }
 
 }
+
+async function signUp(login, mdp, numero, username, adresse){
+    try {
+
+        let newId = utilisateurs.length + 1;
+        console.log(newId, numero, username, adresse, getFormattedDate())
+
+        let insert = {
+            id_utilisateur: newId,
+            nom_utilisateur: username,
+            email_utilisateur: login,
+            mot_de_passe: await bcrypt.hash(mdp, 10),
+            adresse_utilisateur:adresse,
+            telephone: numero,
+            date_inscription: getFormattedDate(),
+            role: "utilisateur"
+        };
+
+        utilisateurs.push(insert);
+        return {error: 0, status: 200, data:insert}
+    }catch (error) {
+        return {error: 1, status: 404, data: error.message}
+    }
+}
+
+function getFormattedDate() {
+    const date = new Date();
+
+    const day = String(date.getDate()).padStart(2, '0');         // Jour (2 chiffres)
+    const month = String(date.getMonth() + 1).padStart(2, '0');  // Mois (2 chiffres, +1 car janvier est 0)
+    const year = date.getFullYear();                             // Année (4 chiffres)
+
+    const hours = String(date.getHours()).padStart(2, '0');      // Heures (2 chiffres)
+    const minutes = String(date.getMinutes()).padStart(2, '0');  // Minutes (2 chiffres)
+    const seconds = String(date.getSeconds()).padStart(2, '0');  // Secondes (2 chiffres)
+
+    return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
+}
+
 export default {
     getAllPrestataires,
     insertCommandeBillet,
@@ -101,4 +140,5 @@ export default {
     getAvisOfPrestataire,
     sendAvisOfUser,
     totalDons,
+    signUp,
 };
