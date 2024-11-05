@@ -8,8 +8,8 @@
         <div id="navItems" class="nav-items">
           <div class="prest-dropdown">
             <button class="prest-button" @click="this.toggleDropdown2">Prestataires</button>
-            <div class="prest-dropdown-content" v-if="isDropdownVisible2">
-              <router-link @click.native="handlePrestDropdownClick" v-for="prestataire in this.prestataires" :key="prestataire['id']" :to="`/prestataire/${prestataire['id']}`">{{prestataire['nom']}}</router-link>
+            <div @click="handlePrestDropdownClick" class="prest-dropdown-content" v-if="isDropdownVisible2">
+              <router-link v-for="prestataire in this.prestataires" :key="prestataire['id']" :to="`/prestataire/${prestataire['id']}`">{{prestataire['nom']}}</router-link>
             </div>
           </div>
           <router-link to="/acces">Accès</router-link>
@@ -70,11 +70,9 @@ export default {
     },
     handlePrestDropdownClick(){
       this.isDropdownVisible2 = false;
-      this.$router.go(0);
-
     },
     logOut() {
-      this.isDropdownVisible = false;
+      this.toggleDropdown()
       this.logout();
     }
   },

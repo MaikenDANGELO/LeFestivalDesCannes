@@ -95,12 +95,14 @@ async function totalDons(){
 
 }
 
-async function signUp(login, mdp, numero, username, adresse){
+async function signUp(login, mdp, numero, username, adresse, codePrest){
     try {
 
-        let newId = utilisateurs.length + 1;
-        console.log(newId, numero, username, adresse, getFormattedDate())
+        console.log(codePrest)
+        let Account = utilisateurs.find(u => u.email_utilisateur === login);
+        if (Account) return {error: 1, status: 404, data: "Cette email a déjà été utilisé "}
 
+        let newId = utilisateurs.length + 1;
         let insert = {
             id_utilisateur: newId,
             nom_utilisateur: username,

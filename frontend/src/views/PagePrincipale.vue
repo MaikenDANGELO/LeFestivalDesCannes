@@ -14,6 +14,7 @@
       </div>
     </div>
     <TotalDons></TotalDons>
+    <br>
   </div>
 </template>
 

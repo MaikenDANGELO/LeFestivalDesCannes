@@ -7,14 +7,24 @@
       <form @submit.prevent="signUp" method="post">
         <label class="title" for="chk" aria-hidden="true">Sign up</label>
 
+        <div class="button-container">
+          <button type="button" class="button-slide" id="slideButton" @click="toggleSlide()">
+            <span id="buttonText">{{signup}}</span>
+          </button>
+        </div>
+
         <input v-model="userName" type="text" name="txt" placeholder="User name" required="">
         <input v-model="adresse" type="text" name="txt" placeholder="Adresse" required="">
         <input v-model="login" type="email" name="email" placeholder="Email" required="">
-        <input v-model="tel" type="number" name="tel" placeholder="N° Télephone" required="">
+        <input v-model="tel" type="number" name="tel" placeholder="N° Télephone" required="" value="">
         <input v-model="password" :type="isPasswordVisible ? 'text' : 'password'" id="mdp" name="mdp" placeholder="Votre mot de passe" required>
+        <input v-if="signup === 'Prestataire'" v-model="codePrestataire" type="number" name="codePrestataire" placeholder="Code Prestataire" required="" value="">
+
+
         <button class="password-icon" type="button" @click="togglePasswordVisibility">
           <i :class="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
         </button>
+
         <button class="submit" type="submit">Sign up</button>
         <p>{{message}}</p>
       </form>
@@ -56,6 +66,8 @@ export default {
       adresse:'',
       isPasswordVisible: false,
       message:'',
+      signup:'Utilisateur',
+      codePrestataire:0,
     }
   },
   methods:{
@@ -79,19 +91,29 @@ export default {
     },
     async signUp(){
       try {
-        const response = await LocalSource.signUp(this.login, this.password, this.tel, this.userName, this.adresse);
+        const response = await LocalSource.signUp(this.login, this.password, this.tel, this.userName, this.adresse, this.codePrestataire);
+
         if (response.error === 0) {
           await this.logIn(response.data);
           this.$router.push({ name: "home" });
         } else {
-          console.log(this.login, this.password, this.tel, this.userName, this.adresse)
           this.message = response.data;
         }
       } catch (error) {
-        console.error("Erreur lors de la connexion:", error);
-        this.message = "Une erreur est survenue. Veuillez réessayer."; // Gestion d'erreur
+        this.message = "Une erreur est survenue. Veuillez réessayer.";
       }
     },
+    toggleSlide() {
+      const button = document.getElementById('slideButton');
+
+      button.classList.toggle('active');
+
+      if (this.signup === "Utilisateur") {
+        this.signup = "Prestataire";
+      } else {
+        this.signup = "Utilisateur";
+      }
+    }
   }
 }
 
@@ -110,7 +132,7 @@ body{
 }
 .main{
   width: 350px;
-  height: 600px;
+  height: 620px;
   background: red;
   overflow: hidden;
   background: url("https://doc-08-2c-docs.googleusercontent.com/docs/securesc/68c90smiglihng9534mvqmq1946dmis5/fo0picsp1nhiucmc0l25s29respgpr4j/1631524275000/03522360960922298374/03522360960922298374/1Sx0jhdpEpnNIydS4rnN4kHSJtU1EyWka?e=view&authuser=0&nonce=gcrocepgbb17m&user=03522360960922298374&hash=tfhgbs86ka6divo3llbvp93mg4csvb38") no-repeat center/ cover;
@@ -185,7 +207,7 @@ button{
 }
 
 #chk:checked ~ .login{
-  transform: translateY(-570px);
+  transform: translateY(-600px);
 }
 #chk:checked ~ .login label{
   transform: scale(1);
@@ -209,11 +231,54 @@ button{
 }
 
 .login .password-icon {
-  top: 34.5%;
+  top: 32%;
+  right: 10%;
 }
 
 .signup .password-icon{
-  top: 45.75%;
+  top: 51%;
+  right: 10%;
 }
+
+.button-container {
+  position: relative;
+  width: 85%;
+  margin-bottom: 20px;
+  margin-left: 7.5%;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+
+}
+
+.button-slide {
+  position: relative;
+  left: 0;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #3498db;
+  border: none;
+  cursor: pointer;
+  transition: left 0.5s ease, background-color 0.3s ease;
+  margin-left: 0;
+  width: 50%;
+}
+
+.button-slide.active {
+  left: calc(100% - 50%); /* Largeur du conteneur moins celle du bouton */
+  background-color: #2980b9;
+}
+
+/* Pour aligner les champs d'entrée */
+input {
+  width: 80%; /* Largeur égale à celle du bouton pour un alignement */
+  display: block;
+  margin: 10px auto;
+  padding: 12px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+
 
 </style>
