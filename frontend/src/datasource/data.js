@@ -11,7 +11,9 @@ let prestataires = [
       image: "jeu_divertissement.jpg",
       services: [
         {
+          id_service: "1",
           nom_service: "service1",
+          description_service: "description",
           lien_service: "lien_service1",
           statut_service: "actif",
         }
@@ -29,7 +31,9 @@ let prestataires = [
       image: "restaurant.jpg",
       services: [
         {
+          id_service: "1",
           nom_service: "service1",
+          description_service: "description",
           lien_service: "lien_service1",
           statut_service: "actif",
         }
@@ -47,7 +51,9 @@ let prestataires = [
       image: "mascotte.jpg",
       services: [
         {
+          id_service: "1",
           nom_service: "service1",
+          description_service: "description",
           lien_service: "lien_service1",
           statut_service: "actif",
         }
@@ -65,7 +71,9 @@ let prestataires = [
       image: "stand.jpg",
       services: [
         {
+          id_service: "1",
           nom_service: "service1",
+          description_service: "description",
           lien_service: "lien_service1",
           statut_service: "actif",
         }
@@ -83,7 +91,9 @@ let prestataires = [
       image: "degustation_canard.jpg",
       services: [
         {
+          id_service: "1",
           nom_service: "service1",
+          description_service: "description",
           lien_service: "lien_service1",
           statut_service: "actif",
         }
@@ -101,7 +111,9 @@ let prestataires = [
       image: "concours_cuisine_canard.jpg",
       services: [
         {
+          id_service: "1",
           nom_service: "service1",
+          description_service: "description",
           lien_service: "lien_service1",
           statut_service: "actif",
         }
@@ -119,7 +131,9 @@ let prestataires = [
       image: "atelier_peinture_canard.jpg",
       services: [
         {
+          id_service: "1",
           nom_service: "service1",
+          description_service: "description",
           lien_service: "lien_service1",
           statut_service: "actif",
         }
@@ -137,7 +151,9 @@ let prestataires = [
       image: "parade_canards.jpg",
       services: [
         {
+          id_service: "1",
           nom_service: "service1",
+          description_service: "description",
           lien_service: "lien_service1",
           statut_service: "actif",
         }
@@ -145,7 +161,44 @@ let prestataires = [
     }
   ];
 
-
+  let sponsors = [
+    {
+      id_sponsor: "1",
+      nom_sponsor: "BirdLife International",
+      description_accueil: "Soutenir la protection des cannes sauvages à travers le monde.",
+      description: "BirdLife International est un leader mondial en matière de protection des oiseaux et de conservation des habitats naturels. Ils soutiennent activement la préservation des espèces d'ansériformes grâce à des actions locales et internationales.",
+      image: "birdlife_logo.png",
+    },
+    {
+      id_sponsor: "2",
+      nom_sponsor: "Wild Ducks Conservation",
+      description_accueil: "Engagés pour un environnement sûr pour les canards sauvages.",
+      description: "Wild Ducks Conservation s'efforce de créer des zones de refuge pour les canards sauvages et d'éduquer le public sur l'importance des habitats naturels pour les ansériformes. Leur programme 'Canards en sécurité' est actif dans plusieurs pays.",
+      image: "wild_ducks_logo.png",
+    },
+    {
+      id_sponsor: "3",
+      nom_sponsor: "Natural Habitat Safaris",
+      description_accueil: "Offrir des expériences écoresponsables d'observation des cannes dans leur milieu naturel.",
+      description: "Natural Habitat Safaris propose des voyages d'éco-tourisme spécialement conçus pour observer les ansériformes dans leur habitat naturel. En s'associant au festival, ils encouragent une exploration durable des espaces naturels.",
+      image: "natural_habitat_logo.png",
+    },
+    {
+      id_sponsor: "4",
+      nom_sponsor: "Fondation des Marais Sauvages",
+      description_accueil: "Protège les habitats naturels des ansériformes.",
+      description: "La Fondation des Marais Sauvages est dédiée à la restauration et la conservation des marais et zones humides, habitats essentiels pour de nombreuses espèces de cannes. Leur travail contribue à la biodiversité locale et à la préservation des écosystèmes.",
+      image: "fondation_marais_logo.png",
+    },
+    {
+      id_sponsor: "5",
+      nom_sponsor: "Éco Nature Environnement",
+      description_accueil: "Un partenaire clé pour la sensibilisation et la préservation des ansériformes.",
+      description: "Éco Nature Environnement organise des campagnes de sensibilisation et des projets éducatifs pour promouvoir la protection des canards et des zones humides. Leurs actions visent à sensibiliser les communautés locales et à préserver la biodiversité.",
+      image: "eco_nature_logo.png",
+    }
+  ];
+  
 let billetterie = []
 
 let utilisateurs = [
@@ -233,4 +286,5 @@ module.exports = {
   utilisateurs,
   avis,
   dons,
+  sponsors,
 };
