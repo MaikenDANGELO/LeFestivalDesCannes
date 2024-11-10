@@ -113,7 +113,7 @@ async function signUp(login, mdp, numero, username, adresse, codePrest){
             date_inscription: getFormattedDate(),
             role: "utilisateur"
         };
-
+        console.log(bcrypt.hash(mdp,10));
         utilisateurs.push(insert);
         return {error: 0, status: 200, data:insert}
     }catch (error) {

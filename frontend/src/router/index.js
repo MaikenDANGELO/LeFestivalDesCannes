@@ -5,6 +5,7 @@ import Billetterie from "@/views/PageBilletterie.vue";
 import Acces from "@/views/PageAcces.vue";
 import PagePrestataire from "@/views/PagePrestataire.vue";
 import PageSign from "@/views/PageSign.vue";
+import PageAdministrateur from "@/views/PageAdministrateur.vue";
 
 Vue.use(VueRouter)
 
@@ -13,6 +14,11 @@ const routes = [
     path: '/',
     name: 'home',
     component: PagePrincipale
+  },
+  {
+    path: '/admin',
+    name: 'adminhome',
+    component: PageAdministrateur
   },
   {
     path: '/billeterie',

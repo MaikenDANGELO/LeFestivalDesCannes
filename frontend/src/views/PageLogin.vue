@@ -22,7 +22,7 @@
 
 <script>
 import LocalSource from "@/datasource/controller";
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: 'LoginForm',
@@ -34,6 +34,9 @@ export default {
       message:'',
     }
   },
+  computed: {
+    ...mapState('utilisateurs',['utilisateur']),
+  },
   methods:{
     ...mapActions('utilisateurs', [ 'logIn']),
     async connexion(){
@@ -41,7 +44,9 @@ export default {
         const response = await LocalSource.connexion(this.login, this.password);
         if (response.error === 0) {
           await this.logIn(response.data);
-          this.$router.push({ name: "home" });
+          if(this.utilisateur.role === "admin") this.$router.push({name: "adminhome"});
+          else if (this.utilisateur.role === "prestataire") this.$router.push(`/prestataire/${this.utilisateur.id}`);
+          else this.$router.push({ name: "home" });
         } else {
           this.message = response.data;
         }

@@ -53,7 +53,7 @@
 
 <script>
 import LocalSource from "@/datasource/controller";
-import {mapActions} from "vuex";
+import {mapActions, mapState} from "vuex";
 
 export default {
   name: 'LoginForm',
@@ -70,6 +70,9 @@ export default {
       codePrestataire:0,
     }
   },
+  computed : {
+    ...mapState('utilisateurs', ['utilisateur']),
+  },
   methods:{
     ...mapActions('utilisateurs', [ 'logIn']),
     async connexion(){
@@ -77,7 +80,11 @@ export default {
         const response = await LocalSource.connexion(this.login, this.password);
         if (response.error === 0) {
           await this.logIn(response.data);
-          this.$router.push({ name: "home" });
+
+          // redirection vers la page appropriée selon l'utilisateur
+          if(this.utilisateur.role === "admin") this.$router.push({name: "adminhome"});
+          else if (this.utilisateur.role === "prestataire") this.$router.push(`/prestataire/${this.utilisateur.id}`);
+          else this.$router.push({ name: "home" });
         } else {
           this.message = response.data;
         }
@@ -95,7 +102,10 @@ export default {
 
         if (response.error === 0) {
           await this.logIn(response.data);
-          this.$router.push({ name: "home" });
+          // redirection vers la page approprié selon l'utilisateur
+          if(this.utilisateur.role === "admin") this.$router.push({name: "adminhome"});
+          else if (this.utilisateur.role === "prestataire") this.$router.push(`/prestataire/${this.utilisateur.id}`);
+          else this.$router.push({ name: "home" });
         } else {
           this.message = response.data;
         }

@@ -8,7 +8,14 @@ let prestataires = [
       id_emplacement: "1",
       id_evenement: "1",
       page_route: '/prestataire/1',
-      image: "jeu_divertissement.jpg"
+      image: "jeu_divertissement.jpg",
+      services: [
+        {
+          nom_service: "service1",
+          lien_service: "lien_service1",
+          statut_service: "actif",
+        }
+      ]
     },
     {
       id: "2",
@@ -19,7 +26,14 @@ let prestataires = [
       id_emplacement: "1",
       id_evenement: "1",
       page_route: '/prestataire/2',
-      image: "restaurant.jpg"
+      image: "restaurant.jpg",
+      services: [
+        {
+          nom_service: "service1",
+          lien_service: "lien_service1",
+          statut_service: "actif",
+        }
+      ]
     },
     {
       id: "3",
@@ -30,7 +44,14 @@ let prestataires = [
       id_emplacement: "2",
       id_evenement: "1",
       page_route: '/prestataire/3',
-      image: "mascotte.jpg"
+      image: "mascotte.jpg",
+      services: [
+        {
+          nom_service: "service1",
+          lien_service: "lien_service1",
+          statut_service: "actif",
+        }
+      ]
     },
     {
       id: "4",
@@ -41,7 +62,14 @@ let prestataires = [
       id_emplacement: "3",
       id_evenement: "1",
       page_route: '/prestataire/4',
-      image: "stand.jpg"
+      image: "stand.jpg",
+      services: [
+        {
+          nom_service: "service1",
+          lien_service: "lien_service1",
+          statut_service: "actif",
+        }
+      ]
     },
     {
       id: "5",
@@ -52,7 +80,14 @@ let prestataires = [
       id_emplacement: "4",
       id_evenement: "1",
       page_route: '/prestataire/5',
-      image: "degustation_canard.jpg"
+      image: "degustation_canard.jpg",
+      services: [
+        {
+          nom_service: "service1",
+          lien_service: "lien_service1",
+          statut_service: "actif",
+        }
+      ]
     },
     {
       id: "6",
@@ -63,7 +98,14 @@ let prestataires = [
       id_emplacement: "5",
       id_evenement: "1",
       page_route: '/prestataire/6',
-      image: "concours_cuisine_canard.jpg"
+      image: "concours_cuisine_canard.jpg",
+      services: [
+        {
+          nom_service: "service1",
+          lien_service: "lien_service1",
+          statut_service: "actif",
+        }
+      ]
     },
     {
       id: "7",
@@ -74,7 +116,14 @@ let prestataires = [
       id_emplacement: "6",
       id_evenement: "1",
       page_route: '/prestataire/7',
-      image: "atelier_peinture_canard.jpg"
+      image: "atelier_peinture_canard.jpg",
+      services: [
+        {
+          nom_service: "service1",
+          lien_service: "lien_service1",
+          statut_service: "actif",
+        }
+      ]
     },
     {
       id: "8",
@@ -85,7 +134,14 @@ let prestataires = [
       id_emplacement: "7",
       id_evenement: "1",
       page_route: '/prestataire/8',
-      image: "parade_canards.jpg"
+      image: "parade_canards.jpg",
+      services: [
+        {
+          nom_service: "service1",
+          lien_service: "lien_service1",
+          statut_service: "actif",
+        }
+      ]
     }
   ];
 
@@ -117,7 +173,7 @@ let utilisateurs = [
     "id_utilisateur": 3,
     "nom_utilisateur": "Carole Durand",
     "email_utilisateur": "carole.durand@example.com",
-    "mot_de_passe": "$2b$10$SBxiKpqdZ8cqF03m17X9XOp1tE8mMPDAGB/MXKCcDEY7vf1eQAxiy",
+    "mot_de_passe": "$2a$10$T2rlLbnHLU6kEl1wgBF85uU0bN9WWbjdivAY5Ia1sKyN6lkdfvHou", // mdp = "maiken"
     "adresse_utilisateur": "789 boulevard de Marseille, 13001 Marseille, France",
     "telephone": "0147258390",
     "date_inscription": "2024-02-10T00:00:00.000Z",

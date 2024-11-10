@@ -3,18 +3,21 @@
     <nav>
       <div class="topnav">
         <router-link to="/">
-          <img alt="Festival logo" :src="require(`./assets/logoFestivalDesCannes.png`)">
+          <img @click="this.handlePrestDropdownClick" alt="Festival logo" :src="require(`./assets/logoFestivalDesCannes.png`)">
         </router-link>
         <div id="navItems" class="nav-items">
-          <div class="prest-dropdown">
+          <div class="prest-dropdown" style="position: relative; bottom: 2px;">
             <button class="prest-button" @click="this.toggleDropdown2">Prestataires</button>
-            <div @click="handlePrestDropdownClick" class="prest-dropdown-content" v-if="isDropdownVisible2">
+            <div @click="this.handlePrestDropdownClick" class="prest-dropdown-content" v-if="isDropdownVisible2">
               <router-link v-for="prestataire in this.prestataires" :key="prestataire['id']" :to="`/prestataire/${prestataire['id']}`">{{prestataire['nom']}}</router-link>
             </div>
           </div>
-          <router-link to="/acces">Accès</router-link>
-          <router-link to="/billeterie">Billetterie</router-link>
-          <router-link to="/about">About</router-link>
+          <div @click="this.handlePrestDropdownClick">
+            <router-link to="/acces">Accès</router-link>
+            <router-link to="/billeterie">Billetterie</router-link>
+            <router-link to="/about">About</router-link>
+            <router-link v-if="this.utilisateur.role === 'admin'" to="/admin">Page Administrateur</router-link>
+          </div>
         </div>
         <div class="right-items">
           <div v-if="!this.utilisateur.estConnecte" id="navItems" class="login-items">
