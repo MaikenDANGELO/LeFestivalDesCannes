@@ -1,7 +1,7 @@
 <template>
   <div class="don-container">
     <h1 class="title">Total des Dons:</h1>
-    <strong class="total" ref="donDisplay">{{ totalDons }}€</strong>
+    <strong class="total" ref="donDisplay">{{ totalDons }} €</strong>
   </div>
 </template>
 
@@ -11,10 +11,10 @@ import { mapActions, mapState } from "vuex";
 export default {
   name: "TotalDons",
   computed: {
-    ...mapState(['totalDons']),
+    ...mapState('don', ['totalDons']),
   },
   methods: {
-    ...mapActions(['getTotalDons']),
+    ...mapActions('don', ['getTotalDons']),
 
     animateNumber(from, to, duration) {
       let start = null;
@@ -47,7 +47,7 @@ export default {
 
 .don-container {
   text-align: center;
-  background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+  background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);

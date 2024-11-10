@@ -1,3 +1,4 @@
+/*
 import Vue from "vue";
 import Vuex from "vuex";
 import PrestatairesService from "../services/prestataires.service";
@@ -67,7 +68,7 @@ export default new Vuex.Store({
     logout({ commit }) {
       commit('LOGOUT');
     },
-     async logIn({ commit }, data){
+    async logIn({ commit }, data){
       commit('SET_USER', data)
     },
     async getTotalDons({ commit }){
@@ -81,4 +82,20 @@ export default new Vuex.Store({
   },
   modules: {},
 });
+*/
 
+import Vue from "vue";
+import Vuex from "vuex";
+import don from "./modules/don";
+import utilisateurs from "./modules/utilisateurs";
+import prestataire from "./modules/prestataire";
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  modules: {
+    don,
+    utilisateurs,
+    prestataire,
+  },
+});

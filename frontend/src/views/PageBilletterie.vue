@@ -40,7 +40,6 @@
 
     <button type="submit">Passer au paiement</button>
     <p>{{Message}}</p>
-    <p>{{utilisateur.estConnecte}}</p>
 
     <div v-if="orderSummary">
       <h2>Récapitulatif de la commande</h2>
@@ -122,7 +121,7 @@ export default {
     };
   },
   computed: {
-    ...mapState([ 'utilisateur']),
+    ...mapState('utilisateurs', [ 'utilisateur']),
     totalForm() {
       if (typeof this.form.tickets === 'undefined') return 0
       let total = 0
