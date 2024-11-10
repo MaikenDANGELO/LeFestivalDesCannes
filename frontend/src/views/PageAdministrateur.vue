@@ -1,11 +1,12 @@
 <template>
     <div>
         <h1 style="text-align: center;">Page d'administration</h1>
-        <div class="list-prestataires">
-            <div class="switch-admin">
-                <button><h2>Sponsors</h2></button>
-                <button><h2>Prestataires</h2></button>
-            </div>
+        <div class="switch-admin">
+            <button @click="handleShowPrestataires()"><h2>Prestataires</h2></button>
+            <button @click="handleShowSponsors()"><h2>Sponsors</h2></button>
+        </div>
+        <div v-if="showPrestataires" class="list-prestataires">
+            <h2>Prestataires</h2>
             <div class="prestataire" v-for="prestataire in prestataires" :key="prestataire.id">
                 <div class="presta-top"><h3>{{ prestataire.nom }}</h3></div>
                 <div class="presta-sbody">
@@ -40,6 +41,25 @@
                 </div>
             </div>
         </div>
+        <div v-if="showSponsors" class="list-prestataires">
+            <h2>Sponsors</h2>
+            <div class="prestataire" v-for="sponsor in sponsors" :key="sponsor.id_sponsor">
+                <div class="presta-top"><h3>{{ sponsor.nom_sponsor }}</h3></div>
+                <div class="presta-sbody">
+                    <div class="presta-body">
+                        <div class="presta-icon">
+                            <img class="prestataire-img" alt="prestimg" :src="require(`../assets/${sponsor.image}`)" />
+                        </div>
+                        <div class="presta-text">{{ sponsor.description_accueil }}</div>
+                        <div class="presta-actions">
+                            <button @click="handleSponsorGoToPage(sponsor.id_sponsor)">Accéder à la page</button>
+                            <button>Modifier sponsor</button>
+                            <button>Supprimer sponsor</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -50,14 +70,21 @@ export default {
     name: "PageAdministrateur",
     data() {
         return {
-            showServices: []
+            showServices: [],
+            showPrestataires: true,
+            showSponsors: false,
         };
     },
     computed: {
         ...mapState('prestataire', ['prestataires']),
+        ...mapState('sponsors', ['sponsors']),
+        ...mapState('utilisateurs', ['utilisateur']),
     },
     created() {
+        if(this.utilisateur.role !== "admin") this.$router.push("/"); // renvoie un utilisateur non administrateur vers la page d'accueil lors du chargement
         this.getAllPrestataires();
+        this.getAllSponsors();
+        console.log(this.sponsors);
     },
     watch: {
         prestataires(newPrestataires) {
@@ -66,12 +93,24 @@ export default {
     },
     methods: {
         ...mapActions('prestataire', ['getAllPrestataires']),
+        ...mapActions('sponsors', ['getAllSponsors']),
         handlePrestaGoToPage(id) {
             this.$router.push("/prestataire/" + id);
+        },
+        handleSponsorGoToPage(id){
+            this.$router.push("/sponsor/" + id);
         },
         handleShowServices(index) {
             this.$set(this.showServices, index, !this.showServices[index]);
         },
+        handleShowPrestataires(){
+            this.showPrestataires = true;
+            this.showSponsors = false;
+        },
+        handleShowSponsors(){
+            this.showPrestataires = false;
+            this.showSponsors = true;
+        }
     }
 };
 </script>
@@ -136,5 +175,18 @@ export default {
     }
     .service-actions button{
         width: 200px;
+    }
+    .switch-admin{
+        justify-content: center;
+        margin-left: auto;
+        margin-right: auto;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        gap: 4%;
+    }
+
+    .switch-admin button{
+        width: 300px;
     }
 </style>

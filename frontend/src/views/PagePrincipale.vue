@@ -11,7 +11,7 @@
             :image="prestataire.image"
             :pers-page-route="`/prestataire/${prestataire.id}`"></CartePrestatairePerso>
         </div>
-      </div>
+    </div>
     </div>
     <TotalDons></TotalDons>
     <br>

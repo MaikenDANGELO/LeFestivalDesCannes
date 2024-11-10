@@ -1,8 +1,12 @@
-import { prestataires, billetterie, utilisateurs, avis, dons } from "./data";
+import { prestataires, billetterie, utilisateurs, avis, dons, sponsors } from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllPrestataires() {
     return { error: 0, data: prestataires };
+}
+
+function getAllSponsors(){
+    return {error: 0, data: sponsors};
 }
 
 function insertCommandeBillet(vue, total){
@@ -137,6 +141,7 @@ function getFormattedDate() {
 
 export default {
     getAllPrestataires,
+    getAllSponsors,
     insertCommandeBillet,
     connexion,
     getAvisOfPrestataire,
