@@ -35,7 +35,7 @@
             <input id="commentaire_input" type="text" v-model="user_comment">
             <button @click="sendCommentForm()">Envoyer</button>
         </div>
-        <div v-else>Soyez connecté pour poster un avis</div><br>
+        <div v-else>Soyez connecté(e) pour poster un avis</div><br>
         <h3>Avis des utilisateurs</h3>
         <div v-for="avis in this.avis_prestataire" :key="avis['id']">
           <h4>{{ getUtilisateur(avis['id_utilisateur'])['nom_utilisateur'] }} - {{ avis['note'] }}/5</h4>

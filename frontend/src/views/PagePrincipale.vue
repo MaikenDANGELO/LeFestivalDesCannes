@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <BanniereAccueil></BanniereAccueil>
-    <div class="liste-prestataires">
+    <div class="liste-prestataires" id="prestataires">
       <h2>Prestataires</h2>
       <div class="prestataires-row" v-for="row in getPrestaRows()" :key="row[0].id">
         <div v-for="prestataire in row" :key="prestataire.id" class="prestataire-card">
@@ -11,7 +11,19 @@
             :image="prestataire.image"
             :pers-page-route="`/prestataire/${prestataire.id}`"></CartePrestatairePerso>
         </div>
+      </div>
     </div>
+    <div class="liste-prestataires" id="sponsors">
+      <h2>Sponsors</h2>
+      <div class="prestataires-row" v-for="row in getSponsorsRows()" :key="row[0].id_sponsor">
+        <div v-for="sponsor in row" :key="sponsor.id_sponsor" class="prestataire-card">
+          <CartePrestatairePerso
+            :nom="sponsor.nom_sponsor"
+            :description-accueil="sponsor.description_accueil"
+            :image="sponsor.image"
+            :pers-page-route="`/sponsor/${sponsor.id_sponsor}`"></CartePrestatairePerso>
+        </div>
+      </div>
     </div>
     <TotalDons></TotalDons>
     <br>
@@ -35,15 +47,26 @@ export default {
   },
   computed: {
     ...mapState('prestataire', ['prestataires']), // on récupère prestataires depuis le store
+    ...mapState('sponsors', ['sponsors']),
   },
   methods: {
     ...mapActions('prestataire', ['getAllPrestataires']), // on récupère la méthode de récupération des prestataires du store
+    ...mapActions('sponsors', ['getAllSponsors']),
     getPrestaRows() {
       this.getAllPrestataires(); // charge les prestataires depuis les données
       let prestataires = this.prestataires;
       let rows = [];
       for (let i = 0; i < prestataires.length; i += 4) { // Ajusté pour 4 blocs par ligne
         rows.push(prestataires.slice(i, i + 4));
+      }
+      return rows;
+    },
+    getSponsorsRows(){
+      this.getAllSponsors(); // charge les prestataires depuis les données
+      let sponsors = this.sponsors;
+      let rows = [];
+      for (let i = 0; i < sponsors.length; i += 4) { // Ajusté pour 4 blocs par ligne
+        rows.push(sponsors.slice(i, i + 4));
       }
       return rows;
     },
