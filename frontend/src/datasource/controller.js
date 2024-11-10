@@ -139,6 +139,10 @@ function getFormattedDate() {
     return `${day}-${month}-${year} ${hours}:${minutes}:${seconds}`;
 }
 
+function getAllUsers(){
+    return {error: 0 ,data: utilisateurs};
+}
+
 export default {
     getAllPrestataires,
     getAllSponsors,
@@ -148,4 +152,5 @@ export default {
     sendAvisOfUser,
     totalDons,
     signUp,
+    getAllUsers,
 };

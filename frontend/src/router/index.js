@@ -6,6 +6,7 @@ import Acces from "@/views/PageAcces.vue";
 import PagePrestataire from "@/views/PagePrestataire.vue";
 import PageSign from "@/views/PageSign.vue";
 import PageAdministrateur from "@/views/PageAdministrateur.vue";
+import PageSponsor from '@/views/PageSponsor.vue';
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,11 @@ const routes = [
     path: '/prestataire/:id', // Route dynamique pour les prestataires
     name: 'Prestataire',
     component: PagePrestataire
+  },
+  {
+    path: '/sponsor/:id',
+    name: 'Sponsor',
+    component: PageSponsor
   },
   {
     path: '/signup',

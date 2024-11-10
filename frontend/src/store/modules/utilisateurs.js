@@ -1,3 +1,4 @@
+import usersService from '@/services/users.service';
 
 export default {
     namespaced : true,
@@ -8,6 +9,7 @@ export default {
             id: 0,
             estConnecte:false,
         },
+        utilisateurs: [],
     }),
     mutations:{
         SET_USER(state, user) {
@@ -25,6 +27,9 @@ export default {
             };
 
         },
+        UPDATE_USERS(state, users){
+            state.utilisateurs = users;
+        }
     },
     actions:{
         logout({ commit }) {
@@ -33,5 +38,14 @@ export default {
         logIn({ commit }, data){
             commit('SET_USER', data)
         },
+        async getAllUsers({ commit }){
+            console.log("récupération des utilisateurs");
+            let response = await usersService.getAllUsers();
+            if (response.error === 0) {
+                commit('UPDATE_USERS', response.data);
+            } else {
+                console.log(response.data);
+            }
+        }
     }
 }
