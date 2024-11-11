@@ -36,8 +36,8 @@
     computed: {
       ...mapState('sponsors', ["sponsors"])
     },
-    created() {
-        this.getAllSponsors();
+    async created() {
+        await this.getAllSponsors();
         const id = this.$route.params.id;
         this.sponsor = this.sponsors.find(p => p.id_sponsor === id); // récupère le sponsor d'après l'id renseignée depuis la Page  principale
     },

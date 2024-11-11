@@ -24,6 +24,7 @@
           <input @click="handleCatFilter('Événement')" type="checkbox" id="evenement" checked>
           <label for="evenement"> Événement</label>
         </div>
+        <br><button @click="resetFilters()">Réinitialiser filtres</button>
       </div>
       <div class="listes">
         <div class="liste-prestataires" id="prestataires" v-if="filtreType === 'prestataires'">
@@ -119,6 +120,15 @@ export default {
     getFilteredSponsors(sponsors) {
       return sponsors.filter(s => s.nom_sponsor.toLowerCase().includes(this.filtreSearch.toLowerCase()));
     },
+    resetFilters(){
+      this.filtreCategory = ['Activité', 'Mascotte', 'Gastronomie', 'Événement'];
+      this.filtreType = 'prestataires';
+      this.filtreSearch = '';
+      document.getElementById("activite").checked = true;
+      document.getElementById("mascotte").checked = true;
+      document.getElementById("gastronomie").checked = true;
+      document.getElementById("evenement").checked = true;
+    }
   },
   components: {
     TotalDons,
