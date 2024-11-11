@@ -206,7 +206,7 @@ let utilisateurs = [
     "id_utilisateur": 1,
     "nom_utilisateur": "Alice Dupont",
     "email_utilisateur": "alice.dupont@example.com",
-    "mot_de_passe": "$2b$10$oBECECHPwfW.6qVIZDObxe5XLn9KyDrIv0YKIJHcbeRgSfUo3Fudq",
+    "mot_de_passe": "$2a$10$WEc3O0B4VyI/k7fmE3dWTeq28gwfed5Tl/ilbfHs/PwWQbxW95cWm", // mdp = "user1"
     "adresse_utilisateur": "123 rue de Paris, 75001 Paris, France",
     "telephone": "0123456789",
     "date_inscription": "2024-01-01T00:00:00.000Z",
@@ -226,7 +226,7 @@ let utilisateurs = [
     "id_utilisateur": 3,
     "nom_utilisateur": "Carole Durand",
     "email_utilisateur": "carole.durand@example.com",
-    "mot_de_passe": "$2a$10$T2rlLbnHLU6kEl1wgBF85uU0bN9WWbjdivAY5Ia1sKyN6lkdfvHou", // mdp = "maiken"
+    "mot_de_passe": "$2a$10$7n8smCSe7IomBz2iPKp/4u4Ld3wJBDpUWIhw3c5KX7zg18IXLlBMe", // mdp = "admin"
     "adresse_utilisateur": "789 boulevard de Marseille, 13001 Marseille, France",
     "telephone": "0147258390",
     "date_inscription": "2024-02-10T00:00:00.000Z",
@@ -275,6 +275,7 @@ let dons = [
   {
     id: 1,
     id_utilisateur: 1,
+    id_prestataire: 1,
     montant: 500,
     date:"2024-10-28"
   }

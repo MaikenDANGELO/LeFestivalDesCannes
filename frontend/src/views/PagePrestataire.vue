@@ -10,7 +10,10 @@
         <li><strong>Catégorie:</strong> {{ prestataire.categorie }}</li>
         <li><strong>Emplacement:</strong> {{ prestataire.id_emplacement }}</li>
       </ul>
-
+      <div class="dons">
+        <p class="total-dons-presta">total</p>
+        <button @click="makeDonation()" class="make-donation">Faire un don</button>
+      </div>
       <div class="avis">
         <h2>Avis et commentaires</h2>
         <div v-if="utilisateur.estConnecte" class="avis-input">
@@ -45,12 +48,11 @@
     </div>
   </div>
   <div v-else>
-    <p>Chargement des données...</p>
+    <p @load="refreshPage()">Chargement des données...</p>
   </div>
 </template>
 
 <script>
-import {prestataires, utilisateurs} from '@/datasource/data';
 import {mapActions, mapState} from 'vuex';
 import prestatairesService from "@/services/prestataires.service";
 
@@ -63,32 +65,43 @@ export default {
       user_note: 0,
       user_comment: "",
     };
+  },  
+  computed: {
+    ...mapState('utilisateurs', ['utilisateur', 'utilisateurs']),
+    ...mapState('prestataire', ["avis_prestataire", "prestataires"])
   },
   methods:{
-
-    ...mapActions('prestataire', ['getPrestataireAvis']),
+    ...mapActions('prestataire', ['getPrestataireAvis', 'getAllPrestataires']),
+    ...mapActions('utilisateurs', ['getAllUsers']),
     getUtilisateur(id){
-      return utilisateurs.find(u => u['id_utilisateur'] === id);
+      return this.utilisateurs.find(u => u['id_utilisateur'] === id);
     },
     // Envoie les données entrée dans le formulaire de commentaire sous forme d'événement
     sendCommentForm(){
-      // Il faudra ajouter l'id de l'utilisateur courant lorsqu'il existera !
       let data = [this.prestataire['id'],this.user_note, this.user_comment, this.utilisateur.id];
       console.log(data);
       // Appeler la méthode pour insérer un commentaire ici -- à faire lorsque la connexion des utilisateurs sera implémentée.
       prestatairesService.sendAvisOfUser(data);
       this.getPrestataireAvis(this.prestataire['id']);
+    },
+    makeDonation(){
+      const id = this.$route.params.id;
+      this.$router.push('/dons/'+id)
+    },
+    refreshPage(){
+      window.location.reload();
     }
   },
-  computed: {
-    ...mapState('utilisateurs', ['utilisateur']),
-    ...mapState('prestataire', ["avis_prestataire"])
-  },
-  created() {
+  async created() {
+    await this.getAllPrestataires();
+    await this.getAllUsers();
     const id = this.$route.params.id;
-    this.prestataire = prestataires.find(p => p.id === id); // récupère le prestataire d'après l'id renseignée depuis la Page  principale
+    this.prestataire = this.prestataires.find(p => p.id === id); // récupère le prestataire d'après l'id renseignée depuis la Page  principale
     this.getPrestataireAvis(this.prestataire['id']) // récupère les avis du prestataire
   },
+  mounted: function () {
+    if(!this.prestataires) window.location.reload();
+  }
 };
 </script>
 
