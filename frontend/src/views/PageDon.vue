@@ -16,8 +16,36 @@
             </div>
             <div v-if="isDonValide">
                 <p>Montant choisi: {{ montantDon }} €</p><br>
-                <input type="text" style="overflow-y: scroll;" placeholder="Message optionnel" v-model="message">
-                <button @click="makeDonation()">Faire un don de {{ montantDon }} €</button>
+                <label for="message">Message personnalisé (optionnel): </label>
+                <input id="message" type="text" style="overflow-y: scroll;" placeholder="Message optionnel"
+                    v-model="message"><br><br>
+                <div>
+                    <form @submit.prevent="makeDonation">
+                        <h2>Paiement</h2>
+
+                        <div class="form-group">
+                            <label for="cardNumber">Numéro de carte :</label>
+                            <input v-model="payment.cardNumber" type="text" id="cardNumber" pattern="\d{16,}"
+                                placeholder="Numéro de carte" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="expirationDate">Date d'expiration :</label>
+                            <input v-model="payment.expirationDate" type="text" id="expirationDate"
+                                pattern="^(0[1-9]|1[0-2])\/\d{2}$" placeholder="MM/AA" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cvv">CVV :</label>
+                            <input v-model="payment.cvv" type="text" id="cvv" placeholder="CVV" required>
+                        </div>
+
+                        <div class="form-group">
+                            <p><strong>Total à payer : {{ montantDon }} €</strong></p>
+                        </div>
+                        <input type="submit" :value="'Faire un don de '+montantDon+'€'">
+                    </form>
+                </div>
             </div>
             <div v-else>
                 <p style="color: red;">Veuillez entrer un montant valide</p>
@@ -43,6 +71,11 @@ export default {
             montantDon: "5",
             isDonValide: true,
             message: "",
+            payment: {
+                cardNumber: "",
+                expirationDate: "",
+                cvv: "",
+            },
         };
     },
     methods: {
@@ -51,26 +84,26 @@ export default {
         getUtilisateur(id) {
             return this.utilisateurs.find(u => u['id_utilisateur'] === id);
         },
-        checkIsMontantValide(){
-            if(this.montantDon > 0) this.isDonValide = true;
+        checkIsMontantValide() {
+            if (this.montantDon > 0) this.isDonValide = true;
             else this.isDonValide = false;
         },
         updateMontantDon() {
             if (parseInt(this.userInput) && this.userInput > 0) {
                 this.montantDon = this.userInput;
                 this.isDonValide = true;
-            }else{
+            } else {
                 this.isDonValide = false;
             }
         },
-        async makeDonation(){
+        async makeDonation() {
             let response;
             console.log("Réalisation d'un don..")
-            try{
+            try {
                 console.log(this.utilisateur.id, this.prestataire.id, parseInt(this.montantDon), this.message)
                 response = await moneyService.makeDonation(parseInt(this.utilisateur.id), this.prestataire.id, parseInt(this.montantDon), this.message);
                 console.log(response)
-            }catch(e){
+            } catch (e) {
                 response = e;
             }
 
@@ -82,7 +115,7 @@ export default {
         ...mapState('prestataire', ["avis_prestataire", "prestataires"])
     },
     async created() {
-        if(!this.utilisateur || !this.utilisateur.estConnecte) this.$router.push('/');
+        if (!this.utilisateur || !this.utilisateur.estConnecte) this.$router.push('/');
         await this.getAllPrestataires();
         await this.getAllUsers();
         const id = this.$route.params.id;
