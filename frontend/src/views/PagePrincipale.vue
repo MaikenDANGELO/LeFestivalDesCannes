@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <BanniereAccueil></BanniereAccueil>
+    <h2>Listes des organismes présents</h2>
     <div class="listes-container">
       <div class="filtre">
         <label for="search">Rechercher : </label>
@@ -113,10 +114,10 @@ export default {
         }
       }
       console.log(catFilteredPrestataires);
-      return prestataires.filter((p) => p.nom.includes(this.filtreSearch) && catFilteredPrestataires.includes(p));
+      return prestataires.filter((p) => p.nom.toLowerCase().includes(this.filtreSearch.toLowerCase()) && catFilteredPrestataires.includes(p));
     },
     getFilteredSponsors(sponsors) {
-      return sponsors.filter(s => s.nom_sponsor.includes(this.filtreSearch));
+      return sponsors.filter(s => s.nom_sponsor.toLowerCase().includes(this.filtreSearch.toLowerCase()));
     },
   },
   components: {
@@ -132,10 +133,15 @@ export default {
 .listes-container{
   display: flex;
   flex-direction: row;
+  margin: 1%
 }
 .listes{
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 .liste-prestataires {
   display: flex;
