@@ -99,7 +99,6 @@ export default {
     },
     // Gère l'envoi de commentaire depuis une page prestataire
     handleCommentSent(data) {
-      console.log(data);
       return data;
     },
     handleCatFilter(cat) {
@@ -114,7 +113,6 @@ export default {
             catFilteredPrestataires.push(prest)
         }
       }
-      console.log(catFilteredPrestataires);
       return prestataires.filter((p) => p.nom.toLowerCase().includes(this.filtreSearch.toLowerCase()) && catFilteredPrestataires.includes(p));
     },
     getFilteredSponsors(sponsors) {

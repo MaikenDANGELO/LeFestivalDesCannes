@@ -276,6 +276,7 @@ let dons = [
     id: 1,
     id_utilisateur: 1,
     id_prestataire: 1,
+    message: "Pour vous soutenir les bébous!",
     montant: 500,
     date:"2024-10-28"
   }
