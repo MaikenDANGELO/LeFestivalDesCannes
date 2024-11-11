@@ -1,4 +1,4 @@
-import { prestataires, billetterie, utilisateurs, avis, dons, sponsors } from "./data";
+import { prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data } from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllPrestataires() {
@@ -7,6 +7,10 @@ function getAllPrestataires() {
 
 function getAllSponsors(){
     return {error: 0, data: sponsors};
+}
+
+function getAllMapData(){
+    return {error: 0, data: map_data};
 }
 
 function insertCommandeBillet(vue, total){
@@ -153,4 +157,5 @@ export default {
     totalDons,
     signUp,
     getAllUsers,
+    getAllMapData,
 };

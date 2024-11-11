@@ -5,7 +5,7 @@ let prestataires = [
       description: "Espace dédié aux jeux pour enfants et adultes avec diverses animations, telles que des ateliers créatifs, des jeux de société géants, et des parcours d'obstacles pour toute la famille. C'est l'endroit idéal pour se détendre et s'amuser, que vous soyez enfant ou adulte.",
       description_accueil: "Jeux et animations pour tous.",
       categorie: "Activité",
-      id_emplacement: "1",
+      id_emplacement: "8",
       id_evenement: "1",
       page_route: '/prestataire/1',
       image: "jeu_divertissement.jpg",
@@ -280,6 +280,122 @@ let dons = [
   }
 ]
 
+let map_data = [
+  {
+    id: "1",
+    name: "emplacement1",
+    points: [
+      ["550","680"],
+      ["580","660"],
+      ["615","730"],
+      ["580", "750"],
+    ],
+    fill_color: "cyan",
+    stroke_color: "red",
+    stroke_width: "2",
+    opacity: "0",
+  },
+  {
+    id: "2",
+    name: "emplacement2",
+    points: [
+      ["360","750"],
+      ["390","740"],
+      ["415","800"],
+      ["380", "810"],
+    ],
+    fill_color: "green",
+    stroke_color: "red",
+    stroke_width: "2",
+    opacity: "0",
+  },
+  {
+    id: "3",
+    name: "emplacemen3",
+    points: [
+      ["160","750"],
+      ["290","740"],
+      ["315","800"],
+      ["180", "810"],
+    ],
+    fill_color: "blue",
+    stroke_color: "red",
+    stroke_width: "2",
+    opacity: "0",
+  },
+  {
+    id: "4",
+    name: "emplacement4",
+    points: [
+      ["760","750"],
+      ["890","740"],
+      ["815","800"],
+      ["780", "810"],
+    ],
+    fill_color: "red",
+    stroke_color: "white",
+    stroke_width: "2",
+    opacity: "0",
+  },
+  {
+    id: "5",
+    name: "emplacement5",
+    points: [
+      ["360","450"],
+      ["390","340"],
+      ["415","300"],
+      ["380", "210"],
+    ],
+    fill_color: "yellow",
+    stroke_color: "red",
+    stroke_width: "2",
+    opacity: "0",
+  },
+  {
+    id: "6",
+    name: "emplacement6",
+    points: [
+      ["160","350"],
+      ["290","440"],
+      ["315","400"],
+      ["280", "310"],
+    ],
+    fill_color: "pink",
+    stroke_color: "red",
+    stroke_width: "2",
+    opacity: "0",
+  },
+  {
+    id: "7",
+    name: "emplacement7",
+    points: [
+      ["1060","750"],
+      ["1190","770"],
+      ["1310", "1010"],
+      ["1100","1200"],
+    ],
+    fill_color: "orange",
+    stroke_color: "yellow",
+    stroke_width: "2",
+    opacity: "0",
+  }
+  ,
+  {
+    id: "8",
+    name: "emplacement8",
+    points: [
+      ["654","345"],
+      ["690","360"],
+      ["759","569"],
+      ["654", "650"],
+    ],
+    fill_color: "white",
+    stroke_color: "red",
+    stroke_width: "2",
+    opacity: "0",
+  }
+]
+
 module.exports = {
   prestataires,
   billetterie,
@@ -287,4 +403,5 @@ module.exports = {
   avis,
   dons,
   sponsors,
+  map_data,
 };
