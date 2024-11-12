@@ -139,24 +139,41 @@ async function makeDonation(userId, prestaId, amount, message) {
     }
 }
 
-async function signUp(login, mdp, numero, username, adresse, codePrest){
+async function signUp(login, mdp, numero, username, adresse, codePrest, signUp){
     try {
 
         let Account = utilisateurs.find(u => u.email_utilisateur === login);
         if (Account) return { error: 1, status: 404, data: "Cette email a déjà été utilisé " }
 
         let newId = utilisateurs.length + 1;
-        let insert = {
-            id_utilisateur: newId,
-            nom_utilisateur: username,
-            email_utilisateur: login,
-            mot_de_passe: await bcrypt.hash(mdp, 10),
-            adresse_utilisateur:adresse,
-            telephone: numero,
-            date_inscription: getFormattedDate(),
-            role: "utilisateur"
-        };
-        console.log(bcrypt.hash(mdp,10));
+        let insert;
+        console.log(signUp)
+        if (signUp === 'Prestataire') {
+            if (Number(codePrest) === codePrestataire) {
+                insert = {
+                    id_utilisateur: newId,
+                    nom_utilisateur: username,
+                    email_utilisateur: login,
+                    mot_de_passe: await bcrypt.hash(mdp, 10),
+                    adresse_utilisateur: adresse,
+                    telephone: numero,
+                    date_inscription: getFormattedDate(),
+                    role: "prestataire"
+                };
+            }else return { error: 1, status: 500, data: "Le code prestataire n'est pas bon" }
+        }
+        else {
+            insert = {
+                id_utilisateur: newId,
+                nom_utilisateur: username,
+                email_utilisateur: login,
+                mot_de_passe: await bcrypt.hash(mdp, 10),
+                adresse_utilisateur: adresse,
+                telephone: numero,
+                date_inscription: getFormattedDate(),
+                role: "utilisateur"
+            };
+        }
         utilisateurs.push(insert);
         return { error: 0, status: 200, data: insert }
     } catch (error) {

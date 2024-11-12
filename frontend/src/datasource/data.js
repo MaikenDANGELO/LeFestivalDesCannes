@@ -1,3 +1,4 @@
+let codePrestataire = 1000;
 let prestataires = [
     {
       id: "1",
@@ -408,4 +409,7 @@ module.exports = {
   avis,
   dons,
   sponsors,
+  map_data,
+  associations,
+  codePrestataire
 };
