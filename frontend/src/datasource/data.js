@@ -398,6 +398,9 @@ let map_data = [
   }
 ]
 
+
+let associations = []
+
 module.exports = {
   prestataires,
   billetterie,
@@ -406,4 +409,5 @@ module.exports = {
   dons,
   sponsors,
   map_data,
+  associations,
 };
