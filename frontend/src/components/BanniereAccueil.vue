@@ -8,10 +8,10 @@
                     <h1>Le Festival Des Cannes</h1>
                     <h2>Célébrons les cannes sans se voler dans les plumes !</h2>
                     <p>Le Festival Des Cannes est un événement unique qui se déroule chaque année le 1er septembre 
-                    au lac du Malsaucy, site emblématique des Eurockéennes, pour célébrer la Fête du Canard. Des sorties en famille 
+                    au lac du Malsaucy, site du festival des Eurockéennes, pour célébrer la Fête du Canard. Des sorties en famille 
                     aux passionnés d'ornithologie, ce festival rend hommage aux cannes sous toutes leurs formes. Au programme : 
-                    des expositions, des ateliers pour petits et grands, et des rencontres avec des spécialistes pour découvrir l'univers
-                    fascinant des palmipèdes. Venez partager un moment convivial en pleine nature et plonger dans le monde captivant des 
+                    parade, ateliers pour petits et grands, et des rencontres avec des spécialistes pour découvrir l'univers
+                    des palmipèdes. Venez partager un moment convivial en pleine nature et plonger dans le monde des 
                     volatiles sauvages !</p>
                 </div>
             </div>
