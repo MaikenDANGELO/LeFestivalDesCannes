@@ -239,6 +239,7 @@ body {
   margin-left: -10%;
 }
 
+/* Conteneur pour le logo Twitch pour qu'il soit isolé des autres styles */
 .twitch-logo-container {
   display: inline-flex;
   align-items: center;
@@ -246,7 +247,7 @@ body {
 }
 
 .twitch-logo {
-  width: 2em; 
+  width: 2,05em; 
   height: auto;
   padding: 0; 
   cursor: pointer;
