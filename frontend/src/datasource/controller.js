@@ -1,4 +1,4 @@
-import { prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data} from "./data";
+import { prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, codePrestataire} from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllPrestataires() {

@@ -409,4 +409,7 @@ module.exports = {
   avis,
   dons,
   sponsors,
+  codePrestataire,
+  map_data,
+  associations
 };
