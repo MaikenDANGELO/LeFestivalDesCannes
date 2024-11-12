@@ -1,4 +1,4 @@
-import { prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, codePrestataire} from "./data";
+import { prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data} from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllPrestataires() {
@@ -141,7 +141,7 @@ async function makeDonation(userId, prestaId, amount, message) {
 
 async function signUp(login, mdp, numero, username, adresse, codePrest){
     try {
-
+        console.log(codePrest);
         let Account = utilisateurs.find(u => u.email_utilisateur === login);
         if (Account) return { error: 1, status: 404, data: "Cette email a déjà été utilisé " }
 
