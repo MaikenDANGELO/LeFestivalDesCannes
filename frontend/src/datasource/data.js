@@ -198,7 +198,7 @@ let prestataires = [
       image: "logo.png",
     }
   ];
-  
+
 let billetterie = []
 
 let utilisateurs = [
@@ -408,6 +408,4 @@ module.exports = {
   avis,
   dons,
   sponsors,
-  map_data,
-  associations,
 };

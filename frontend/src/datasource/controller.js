@@ -1,4 +1,4 @@
-import { prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data } from "./data";
+import { prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, codePrestataire} from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllPrestataires() {
@@ -139,10 +139,9 @@ async function makeDonation(userId, prestaId, amount, message) {
     }
 }
 
-async function signUp(login, mdp, numero, username, adresse, codePrest) {
+async function signUp(login, mdp, numero, username, adresse, codePrest){
     try {
 
-        console.log(codePrest)
         let Account = utilisateurs.find(u => u.email_utilisateur === login);
         if (Account) return { error: 1, status: 404, data: "Cette email a déjà été utilisé " }
 
@@ -152,12 +151,12 @@ async function signUp(login, mdp, numero, username, adresse, codePrest) {
             nom_utilisateur: username,
             email_utilisateur: login,
             mot_de_passe: await bcrypt.hash(mdp, 10),
-            adresse_utilisateur: adresse,
+            adresse_utilisateur:adresse,
             telephone: numero,
             date_inscription: getFormattedDate(),
             role: "utilisateur"
         };
-        //console.log(bcrypt.hash(mdp, 10));
+        console.log(bcrypt.hash(mdp,10));
         utilisateurs.push(insert);
         return { error: 0, status: 200, data: insert }
     } catch (error) {
