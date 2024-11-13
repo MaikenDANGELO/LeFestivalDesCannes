@@ -1,6 +1,7 @@
 import { prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, codePrestataire} from "./data";
 import bcrypt from 'bcryptjs';
 
+
 function getAllPrestataires() {
     return { error: 0, data: prestataires };
 }
@@ -199,6 +200,18 @@ function getAllUsers() {
     return { error: 0, data: utilisateurs };
 }
 
+function sendFormPrestataire(form) {
+    if (!form) return {error: 1, status: 500, data: "Le formulaire n'est pas valide"};
+
+    try {
+        prestataires.push(form)
+        return { error: 0, status:200, data: utilisateurs };
+    }catch (error){
+        return { error: 1, status:404, data: utilisateurs };
+    }
+
+}
+
 export default {
     getAllPrestataires,
     getAllSponsors,
@@ -212,4 +225,5 @@ export default {
     getAllMapData,
     getTotalDonsOf,
     makeDonation,
+    sendFormPrestataire,
 };

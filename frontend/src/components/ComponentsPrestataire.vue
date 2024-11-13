@@ -77,6 +77,7 @@
 </template>
 
 <script>
+import prestatairesService from "@/services/prestataires.service";
 export default {
   data() {
     return {
@@ -129,8 +130,10 @@ export default {
     removeService(index) {
       this.event.services.splice(index, 1);
     },
-    submitForm() {
+    async submitForm() {
       console.log("Données du formulaire :", this.event);
+      await prestatairesService.sendFormPrestataire(this.event)
+      this.$router.push({ name: "home" });
       alert("Formulaire soumis !");
     },
   },

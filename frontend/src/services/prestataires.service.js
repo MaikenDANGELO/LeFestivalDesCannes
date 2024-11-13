@@ -37,9 +37,20 @@ async function sendAvisOfUser(data){
     return response
 }
 
+async function sendFormPrestataire(data){
+    let response;
+    try{
+        response = await LocalSource.sendFormPrestataire(data);
+    }catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau, impossible d\'envoyer le formulaire'}
+    }
+    return response;
+}
+
 
 export default {
     getAllPrestataires,
     getAvisOfPrestataire,
     sendAvisOfUser,
+    sendFormPrestataire
 }
