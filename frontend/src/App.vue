@@ -16,6 +16,11 @@
             <router-link to="/acces">Accès</router-link>
             <router-link to="/billeterie">Billetterie</router-link>
             <router-link to="/about">About</router-link>
+            <div class="twitch-logo-container">
+              <router-link to="https://www.twitch.tv/ton_live_channel" target="_blank"> 
+                <img alt="Twitch logo" :src="require(`./assets/twitch.png`)" class="twitch-logo"> 
+              </router-link>
+            </div>
             <router-link v-if="this.utilisateur.role === 'admin'" to="/admin">Page Administrateur</router-link>
           </div>
         </div>
@@ -233,5 +238,24 @@ body {
 .user a{
   margin-left: -10%;
 }
+
+.twitch-logo-container {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 10px; 
+}
+
+.twitch-logo {
+  width: 2em; 
+  height: auto;
+  padding: 0; 
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  vertical-align: middle; 
+}
+.twitch-logo:hover {
+  transform: scale(1.1);
+}
+
 
 </style>
