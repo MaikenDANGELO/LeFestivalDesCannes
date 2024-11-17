@@ -86,6 +86,7 @@ export default {
       for (let i = 0; i < prestataires.length; i += 4) { // Ajusté pour 4 blocs par ligne
         rows.push(prestataires.slice(i, i + 4));
       }
+      console.log(rows);
       return rows;
     },
     getSponsorsRows() {

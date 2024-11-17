@@ -1,6 +1,6 @@
 <template>
     <div class="card" @commentForm="sendCommentForm()">
-      <img class="prestataire-img" alt="prestimg" :src="require(`../assets/${image}`)" />
+      <img class="prestataire-img" alt="prestimg" :src="require(`../assets/ImagesPrestataires/${image}`)" />
       <div class="prestataire-desc">
         <h4>{{ nom }}</h4>
         <p>{{ descriptionAccueil }}</p>
