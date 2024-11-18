@@ -1,12 +1,14 @@
 <template>
-    <div class="container">
-        <h1>Carte intéractive</h1>
+    <div class="carte-container">
+        <h1 style="margin-left: 5%;">Accéder au Festival des Cannes</h1>
+        <hr style="width: 40%; position: relative; right: 465px; border-radius: 50%;">
         <div id="img-container">
             <img id="carte" alt="carte intéractive" src="../assets/map.svg">
             <svg v-for="data in mapData" :key="data.id" class="carte-mask" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 1350 1350" version="1.2">
                 <polygon :id="data.id" :points="getSVGPoints(data.points)" :style="getSVGStyle(data.fill_color, data.stroke_color, data.stroke_width)"/>
             </svg>
-            <div class="legend">
+        </div>
+        <div class="legend">
                 <p>Les emplacements sont fortement sujets à changement!</p>
                 <h2>Légende : emplacements des prestataires</h2>
                 <div v-for="data in mapData" :key="data.id" class="legend-line">
@@ -16,7 +18,6 @@
                     <p>{{ getPrestataireOfEmplacement(data.id).nom }}</p>
                 </div>
             </div>
-        </div>
     </div>
     </template>
     
@@ -59,15 +60,19 @@
     
 
 <style scoped>
+.container{
+    display: flex;
+    flex-direction: column;
+}
 #carte {
     width: 100%;
-    max-width: 40%;
+    max-width: 750px;
     height: auto;
     position: absolute;
 }
 .carte-mask{
     width: 100%;
-    max-width: 40%;
+    max-width: 750px;
     height: auto;
     position: absolute;
 }
@@ -76,14 +81,15 @@
     margin-top: 1%;
     display: flex;
     flex-direction: column;
-    margin-left: 2%;
+    margin-left: 5%;
     height: 800px;
 }
 
 .legend{
-    margin-top: 830px;
+    margin-left: 5%;
     display: flex;
     flex-direction: column;
+    width: 100vw;
 }
 .legend-line{
     display: flex;
@@ -91,7 +97,7 @@
 }
 .legend-line p{
     position: relative;
-    right: 86vw;
+    right: 88vw;
     width: 30vw;
 }
 </style>
