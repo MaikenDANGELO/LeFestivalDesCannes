@@ -4,30 +4,26 @@
             <div class="custom-slider fade" style="display: block;">
                 <div class="slide-index">1 / 3</div>
                 <img class="slide-img" src="../assets/banniere1.jpg">
-                <div class="slide-text">
-                    <h1>Le Festival Des Cannes</h1>
-                    <h2>Célébrons les cannes sans se voler dans les plumes !</h2>
-                    <p>Le Festival Des Cannes est un événement unique qui se déroule chaque année le 1er septembre 
-                    au lac du Malsaucy, site du festival des Eurockéennes, pour célébrer la Fête du Canard. Des sorties en famille 
-                    aux passionnés d'ornithologie, ce festival rend hommage aux cannes sous toutes leurs formes. Au programme : 
-                    parade, ateliers pour petits et grands, et des rencontres avec des spécialistes pour découvrir l'univers
-                    des palmipèdes. Venez partager un moment convivial en pleine nature et plonger dans le monde des 
-                    volatiles sauvages !</p>
-                </div>
             </div>
             <div class="custom-slider fade">
                 <div class="slide-index">2 / 3</div>
-                <img class="slide-img" src="https://www.codeur.com/tuto/wp-content/uploads/2021/12/slide2.jpg">
-                <div class="slide-text">Nullam luctus aliquam ornare. </div>
+                <img class="slide-img" src="../assets/lacMalsaucy.jpg">
             </div>
             <div class="custom-slider fade">
                 <div class="slide-index">3 / 3</div>
-                <img class="slide-img" src="https://www.codeur.com/tuto/wp-content/uploads/2021/12/slide3.jpg">
-                <div class="slide-text">Praesent lobortis libero sed egestas suscipit.</div>
+                <img class="slide-img" src="../assets/canard.jpg">
             </div>
             <a class="prev" @click="plusSlides(-1)">❮</a>
             <a class="next" @click="plusSlides(1)">❯</a>
         </div>
+            <h1 style="text-align: center;">Le Festival Des Cannes</h1>
+            <h2 style="text-align: center;">Célébrons les cannes sans se voler dans les plumes !</h2>
+            <p style="text-align: justify;margin: 1%;">Le Festival Des Cannes est un événement unique qui se déroule chaque année le 1er septembre 
+            au lac du Malsaucy, site du festival des Eurockéennes, pour célébrer la Fête du Canard. Des sorties en famille 
+            aux passionnés d'ornithologie, ce festival rend hommage aux cannes sous toutes leurs formes. Au programme : 
+            parade, ateliers pour petits et grands, et des rencontres avec des spécialistes pour découvrir l'univers
+            des palmipèdes. Venez partager un moment convivial en pleine nature et plonger dans le monde des 
+            volatiles sauvages !</p>
         <br>
         <div class="slide-dot" @load="currentSlide(1)">
             <span class="dot active" @click="currentSlide(1)"></span>
