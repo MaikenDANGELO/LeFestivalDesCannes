@@ -17,7 +17,7 @@
             <router-link to="/billeterie">Billetterie</router-link>
             <router-link to="/about">About</router-link>
             <div class="twitch-logo-container">
-              <router-link to="https://www.twitch.tv/ton_live_channel" target="_blank"> 
+              <router-link to="https://www.twitch.tv/ton_live_channel">
                 <img alt="Twitch logo" :src="require(`./assets/twitch.png`)" class="twitch-logo"> 
               </router-link>
             </div>

@@ -1,69 +1,76 @@
 <template>
-  <div class="prestataire-detail" v-if="prestataire">
-    <div class="image-container">
-      <img class="animate-fade" :src="require(`@/assets/${prestataire.image}`)" alt="Logo du Prestataire">
-    </div>
-    <div class="info-container animate-slide">
-      <h1>{{ prestataire.nom }}</h1>
-      <p>{{ prestataire.description }}</p>
-      <ul>
-        <li><strong>Catégorie:</strong> {{ prestataire.categorie }}</li>
-        <li><strong>Emplacement:</strong> {{ prestataire.id_emplacement }}</li>
-      </ul>
-      <div class="dons">
-        <h2>Dons</h2>
-        <div>
-          <p class="total-dons-presta">Dons reçus: {{ montantDons }}€</p>
+  <body>
+    <div class="prestataire-detail" v-if="prestataire !== null">
+      <div class="image-container">
+        <img class="animate-fade" :src="require(`@/assets/ImagesPrestataires/${prestataire.image}`)" alt="Logo du Prestataire">
+      </div>
+      <div class="info-container animate-slide">
+        <h1>{{ prestataire.nom }}</h1>
+        <p>{{ prestataire.description }}</p>
+        <ul>
+          <li><strong>Catégorie:</strong> {{ prestataire.categorie }}</li>
+          <li><strong>Emplacement:</strong> {{ prestataire.id_emplacement }}</li>
+        </ul>
+        <div class="dons">
+          <h2>Dons</h2>
+          <div>
+            <p class="total-dons-presta">Dons reçus: {{ montantDons }}€</p>
+          </div>
+          <div v-if="utilisateur.estConnecte">
+            <button @click="makeDonation()" class="make-donation">Faire un don</button>
+          </div>
+          <div v-else>
+            <p>Vous devez être connecté(e) pour faire un don.</p>
+          </div>
         </div>
-        <div v-if="utilisateur.estConnecte">
-          <button @click="makeDonation()" class="make-donation">Faire un don</button>
-        </div>
-        <div v-else>
-          <p>Vous devez être connecté(e) pour faire un don.</p>
+        <div class="avis">
+          <h2>Avis et commentaires</h2>
+          <div v-if="utilisateur.estConnecte" class="avis-input">
+            <h3>Envoyer un avis:</h3>
+            <div class="rating" id="rating">
+              <input type="radio" name="rating" id="rating-5" v-model="user_note" value=5>
+              <label for="rating-5"></label>
+
+              <input type="radio" name="rating" id="rating-4" v-model="user_note" value=4>
+              <label for="rating-4"></label>
+
+              <input type="radio" name="rating" id="rating-3" v-model="user_note" value=3>
+              <label for="rating-3"></label>
+
+              <input type="radio" name="rating" id="rating-2" v-model="user_note" value=2>
+              <label for="rating-2"></label>
+
+              <input type="radio" name="rating" id="rating-1" v-model="user_note" value=1>
+              <label for="rating-1"></label>
+            </div><br>
+            <label for="commentaire_input">Commentaire: </label>
+            <input id="commentaire_input" type="text" v-model="user_comment">
+            <button @click="sendCommentForm()">Envoyer</button>
+          </div>
+          <div v-else>Soyez connecté(e) pour poster un avis</div><br>
+          <h3>Avis des utilisateurs</h3>
+          <div v-for="avis in this.avis_prestataire" :key="avis['id']">
+            <h4>{{ getUtilisateur(avis['id_utilisateur'])['nom_utilisateur'] }} - {{ avis['note'] }}/5</h4>
+            <p>{{ avis['texte'] }}</p>
+            <div class="avisButton">
+              <button v-if="avis['id_utilisateur'] === utilisateur.id" @click="deleteAvis(avis['id'])">Supprimer</button>
+              <button v-if="avis['id_utilisateur'] === utilisateur.id" @click="modifyAvis()">Modifier</button>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="avis">
-        <h2>Avis et commentaires</h2>
-        <div v-if="utilisateur.estConnecte" class="avis-input">
-          <h3>Envoyer un avis:</h3>
-          <div class="rating">
-            <input type="radio" name="rating" id="rating-5" v-model="user_note" value=5>
-            <label for="rating-5"></label>
-
-            <input type="radio" name="rating" id="rating-4" v-model="user_note" value=4>
-            <label for="rating-4"></label>
-
-            <input type="radio" name="rating" id="rating-3" v-model="user_note" value=3>
-            <label for="rating-3"></label>
-
-            <input type="radio" name="rating" id="rating-2" v-model="user_note" value=2>
-            <label for="rating-2"></label>
-
-            <input type="radio" name="rating" id="rating-1" v-model="user_note" value=1>
-            <label for="rating-1"></label>
-          </div><br>
-          <label for="commentaire_input">Commentaire: </label>
-          <input id="commentaire_input" type="text" v-model="user_comment">
-          <button @click="sendCommentForm()">Envoyer</button>
-        </div>
-        <div v-else>Soyez connecté(e) pour poster un avis</div><br>
-        <h3>Avis des utilisateurs</h3>
-        <div v-for="avis in this.avis_prestataire" :key="avis['id']">
-          <h4>{{ getUtilisateur(avis['id_utilisateur'])['nom_utilisateur'] }} - {{ avis['note'] }}/5</h4>
-          <p>{{ avis['texte'] }}</p>
-        </div>
-      </div>
     </div>
-  </div>
-  <div v-else>
-    <p>Chargement des données...</p>
-  </div>
+    <div v-else>
+      <p>Chargement des données...</p>
+    </div>
+  </body>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
 import prestatairesService from "@/services/prestataires.service";
 import moneyService from '@/services/money.service';
+import usersService from "@/services/users.service";
 
 
 export default {
@@ -74,6 +81,8 @@ export default {
       user_note: 0,
       user_comment: "",
       montantDons: 0,
+      avisMofication:false,
+      idAvisModification:null,
     };
   },
   computed: {
@@ -87,12 +96,17 @@ export default {
       return this.utilisateurs.find(u => u['id_utilisateur'] === id);
     },
     // Envoie les données entrée dans le formulaire de commentaire sous forme d'événement
-    sendCommentForm() {
+    async sendCommentForm() {
       let data = [this.prestataire['id'], this.user_note, this.user_comment, this.utilisateur.id];
-      console.log(data);
-      // Appeler la méthode pour insérer un commentaire ici -- à faire lorsque la connexion des utilisateurs sera implémentée.
-      prestatairesService.sendAvisOfUser(data);
-      this.getPrestataireAvis(this.prestataire['id']);
+      if (this.avisMofication){
+        await usersService.modifyAvis(data, this.idAvisModification)
+        this.avisMofication = false;
+        this.idAvisModification = null;
+      }else{
+        await prestatairesService.sendAvisOfUser(data);
+
+      }
+      await this.getPrestataireAvis(this.prestataire['id']);
     },
     makeDonation() {
       const id = this.$route.params.id;
@@ -101,6 +115,18 @@ export default {
     async getDonationAmount(){
       this.montantDons = await moneyService.getTotalDonsOf(this.prestataire.id);
       this.montantDons = this.montantDons['data']
+    },
+    async deleteAvis(id){
+      await usersService.deleteAvis(id)
+      this.getPrestataireAvis(this.prestataire['id']);
+    },
+    modifyAvis(id) {
+      const target = document.getElementById("rating"); // Trouver l'élément cible
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" }); // Défilement fluide
+        this.avisMofication = true;
+        this.idAvisModification = id;
+      }
     }
   },
   async created() {

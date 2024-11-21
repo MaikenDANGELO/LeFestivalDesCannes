@@ -76,7 +76,7 @@ async function getAvisOfPrestataire(prestataire_id) {
 
 async function sendAvisOfUser(data) {
     try {
-        let newId = avis.length + 1;
+        let newId = avis[avis.length-1].id + 1;
         let insert = {
             id_commentaire: newId,
             id_prestataire: parseInt(data[0]),
@@ -148,7 +148,6 @@ async function signUp(login, mdp, numero, username, adresse, codePrest, signUp){
 
         let newId = utilisateurs.length + 1;
         let insert;
-        console.log(signUp)
         if (signUp === 'Prestataire') {
             if (Number(codePrest) === codePrestataire) {
                 insert = {
@@ -202,14 +201,47 @@ function getAllUsers() {
 
 function sendFormPrestataire(form) {
     if (!form) return {error: 1, status: 500, data: "Le formulaire n'est pas valide"};
-
+    let newId = prestataires.length + 1;
+    let insert = {
+            id: newId,
+            nom: form.nom,
+            description:  form.description,
+            description_accueil: form.description_accueil,
+            categorie: form.categorie,
+            id_emplacement: form.id_emplacement,
+            id_evenement: "1",
+            page_route: '/prestataire/' + newId,
+            image: form.image,
+            services: form.services
+    }
+    console.log(form.services)
     try {
-        prestataires.push(form)
+        prestataires.push(insert)
         return { error: 0, status:200, data: utilisateurs };
     }catch (error){
         return { error: 1, status:404, data: utilisateurs };
     }
+}
 
+function deleteAvis(id){
+    avis[id-1] = null;
+    return { error: 0, status:200};
+}
+
+function modifyAvis(data, id){
+    let insert = {
+        id_commentaire: id,
+        id_prestataire: parseInt(data[0]),
+        id_utilisateur: data[3],
+        texte: data[2],
+        note: data[1],
+    };
+    try {
+        avis[id-1] = insert;
+        return { error: 0, status:200, data:"Avis mis à jour correctement"};
+    }catch (error) {
+        return { error: 1, status: 500, data: error.message }
+    }
 }
 
 export default {
@@ -226,4 +258,6 @@ export default {
     getTotalDonsOf,
     makeDonation,
     sendFormPrestataire,
+    deleteAvis,
+    modifyAvis,
 };
