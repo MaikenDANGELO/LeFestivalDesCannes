@@ -8,6 +8,7 @@ import PageSign from "@/views/PageSign.vue";
 import PageAdministrateur from "@/views/PageAdministrateur.vue";
 import PageSponsor from '@/views/PageSponsor.vue';
 import PageDon from '@/views/PageDon.vue';
+import PageInscriptionCanard from "@/views/PageInscriptionCanard.vue";
 
 Vue.use(VueRouter)
 
@@ -51,7 +52,13 @@ const routes = [
     path: '/signup',
     name: 'SignUp',
     component: PageSign
+  },
+  {
+    path: '/inscription-canard',
+    name: 'InscriptionCanard',
+    component: PageInscriptionCanard
   }
+  
   /*{
     path: '/about',
     name: 'about',

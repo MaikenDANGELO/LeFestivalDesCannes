@@ -47,6 +47,19 @@
         </div>
       </div>
     </div>
+    <div class="duck-section">
+      <img :src="require('@/assets/parade_canards.jpg')" alt="Défilé des Canards" class="duck-image">
+      <div class="duck-text">
+        <h3>Participez au Défilé des Canards !</h3>
+        <p>
+          Depuis les débuts du Festival des Canes, le Défilé des Canards a su se faire une place de choix 
+          parmi les moments les plus attendus. Chaque année, des passionnés inscrivent leurs canards, fièrement présentés avec leur nom, 
+          leur espèce et leur région d’origine. Donnez à votre canard l’occasion de défiler sous les projecteurs 
+          et de faire sensation. C’est l’occasion parfaite de mêler originalité, bonne humeur et un peu de compétition amicale.Alors, prêt à faire briller vos plumes ?
+          <router-link to="/inscription-canard" class="duck-link"> -> Inscrire un canard</router-link>
+        </p>
+      </div>
+   </div>
     <TotalDons></TotalDons>
     <br>
   </div>
@@ -179,4 +192,58 @@ export default {
   box-sizing: border-box;
   margin-bottom: 20px;
 }
+
+.duck-section {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin: 20px auto;
+  max-width: 900px;
+}
+
+.duck-image {
+  flex-shrink: 0;
+  width: 180px; /* Taille idéale pour plus d'impact */
+  height: auto; 
+  max-width: none;
+}
+
+.duck-text {
+  flex: 1;
+  max-width: 600px; /* Limite maximale pour équilibrer texte et image */
+}
+
+
+.duck-text h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.duck-text p {
+  margin: 10px 0;
+  font-size: 1rem;
+  line-height: 1.4; 
+  color: #4f4f4f;
+}
+
+
+.duck-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #27ae60;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.duck-link:hover {
+  background-color: #286d46;
+  color: #fff;
+}
+
+
 </style>

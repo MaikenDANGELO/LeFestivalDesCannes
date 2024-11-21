@@ -139,26 +139,6 @@ let prestataires = [
           statut_service: "actif",
         }
       ]
-    },
-    {
-      id: "8",
-      nom: "Parade des Canards",
-      description: "Assistez à une parade spectaculaire mettant en vedette des canards ornés de costumes colorés. Profitez de la musique, des danses, et des chars magnifiquement décorés pour célébrer la culture du canard.",
-      description_accueil: "Parade des canards colorée.",
-      categorie: "Événement",
-      id_emplacement: "7",
-      id_evenement: "1",
-      page_route: '/prestataire/8',
-      image: "parade_canards.jpg",
-      services: [
-        {
-          id_service: "1",
-          nom_service: "service1",
-          description_service: "description",
-          lien_service: "lien_service1",
-          statut_service: "actif",
-        }
-      ]
     }
   ];
 
