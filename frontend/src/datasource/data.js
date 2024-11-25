@@ -146,7 +146,7 @@ let prestataires = [
     {
       id_sponsor: "1",
       nom_sponsor: "BirdLife International",
-      description_accueil: "Soutenir la protection des cannes sauvages à travers le monde.",
+      description_accueil: "Soutenir la protection des canes sauvages à travers le monde.",
       description: "BirdLife International est un leader mondial en matière de protection des oiseaux et de conservation des habitats naturels. Ils soutiennent activement la préservation des espèces d'ansériformes grâce à des actions locales et internationales.",
       image: "logo.png",
     },
@@ -160,7 +160,7 @@ let prestataires = [
     {
       id_sponsor: "3",
       nom_sponsor: "Natural Habitat Safaris",
-      description_accueil: "Offrir des expériences écoresponsables d'observation des cannes dans leur milieu naturel.",
+      description_accueil: "Offrir des expériences écoresponsables d'observation des canes dans leur milieu naturel.",
       description: "Natural Habitat Safaris propose des voyages d'éco-tourisme spécialement conçus pour observer les ansériformes dans leur habitat naturel. En s'associant au festival, ils encouragent une exploration durable des espaces naturels.",
       image: "logo.png",
     },
@@ -168,7 +168,7 @@ let prestataires = [
       id_sponsor: "4",
       nom_sponsor: "Fondation des Marais Sauvages",
       description_accueil: "Protège les habitats naturels des ansériformes.",
-      description: "La Fondation des Marais Sauvages est dédiée à la restauration et la conservation des marais et zones humides, habitats essentiels pour de nombreuses espèces de cannes. Leur travail contribue à la biodiversité locale et à la préservation des écosystèmes.",
+      description: "La Fondation des Marais Sauvages est dédiée à la restauration et la conservation des marais et zones humides, habitats essentiels pour de nombreuses espèces de canes. Leur travail contribue à la biodiversité locale et à la préservation des écosystèmes.",
       image: "logo.png",
     },
     {

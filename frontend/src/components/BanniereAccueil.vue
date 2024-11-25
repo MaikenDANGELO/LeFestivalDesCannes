@@ -16,11 +16,11 @@
             <a class="prev" @click="plusSlides(-1)">❮</a>
             <a class="next" @click="plusSlides(1)">❯</a>
         </div>
-            <h1 style="text-align: center;">Le Festival Des Cannes</h1>
-            <h2 style="text-align: center;">Célébrons les cannes sans se voler dans les plumes !</h2>
-            <p style="text-align: justify;margin: 1%;">Le Festival Des Cannes est un événement unique qui se déroule chaque année le 1er septembre 
+            <h1 style="text-align: center;">Le Festival Des Canes</h1>
+            <h2 style="text-align: center;">Célébrons les canes sans se voler dans les plumes !</h2>
+            <p style="text-align: justify;margin: 1%;">Le Festival Des Canes est un événement unique qui se déroule chaque année le 1er septembre 
             au lac du Malsaucy, site du festival des Eurockéennes, pour célébrer la Fête du Canard. Des sorties en famille 
-            aux passionnés d'ornithologie, ce festival rend hommage aux cannes sous toutes leurs formes. Au programme : 
+            aux passionnés d'ornithologie, ce festival rend hommage aux canes sous toutes leurs formes. Au programme : 
             parade, ateliers pour petits et grands, et des rencontres avec des spécialistes pour découvrir l'univers
             des palmipèdes. Venez partager un moment convivial en pleine nature et plonger dans le monde des 
             volatiles sauvages !</p>

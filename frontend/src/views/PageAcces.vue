@@ -7,7 +7,7 @@
             <h2 class="title">Migrez jusqu'à nous !</h2>
             <p class="text">
                 Faites votre envol jusqu'à la presqu'île du Malsaucy, célèbre emplacement protégé des Eurockéennes à 7km au nord de Belfort !<br><br>
-                Ces étangs sauront autant rafaîchir les canards que votre journée lors de votre séjour au Festival des Cannes, accessibles grâce aux nombreuses infrastructures disponibles.<br><br>
+                Ces étangs sauront autant rafaîchir les canards que votre journée lors de votre séjour au Festival des Canes, accessibles grâce aux nombreuses infrastructures disponibles.<br><br>
                 Rangez vos ailes et prenez un train, un bus ou une navette gratuits mise à disposition les jours de l'événement pour un accès écologique.<br><br>
                 Mais si vous souhaitez venir en voiture, de nombreux parking sont à disposition à proximité, or nous vous recommandons d'utiliser des modes de transports alternatifs à la voiture, même à pieds c'est mieux !<br><br>
             </p>
