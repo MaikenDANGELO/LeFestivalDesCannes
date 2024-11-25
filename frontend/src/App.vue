@@ -15,7 +15,7 @@
           <div @click="this.handlePrestDropdownClick">
             <router-link to="/acces">Accès</router-link>
             <router-link to="/billeterie">Billetterie</router-link>
-            <router-link to="/about">About</router-link>
+            <router-link to="/about">À propos</router-link>
             <div class="twitch-logo-container">
               <router-link to="https://www.twitch.tv/ton_live_channel" target="_blank"> 
                 <img alt="Twitch logo" :src="require(`./assets/twitch.png`)" class="twitch-logo"> 
@@ -134,7 +134,7 @@ img {
 .prest-button:hover{
   background-color: #ddd;
   color: black;
-  cursor: grab;
+  cursor: pointer;
   transition: 1s;
 
 }
