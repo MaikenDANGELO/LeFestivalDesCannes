@@ -7,11 +7,11 @@
             </div>
             <div class="custom-slider fade">
                 <div class="slide-index">2 / 3</div>
-                <img class="slide-img" src="../assets/lacMalsaucy.jpg">
+                <img class="slide-img" src="../assets/banniere1.jpg">
             </div>
             <div class="custom-slider fade">
                 <div class="slide-index">3 / 3</div>
-                <img class="slide-img" src="../assets/canard.jpg">
+                <img class="slide-img" src="../assets/banniere1.jpg">
             </div>
             <a class="prev" @click="plusSlides(-1)">❮</a>
             <a class="next" @click="plusSlides(1)">❯</a>

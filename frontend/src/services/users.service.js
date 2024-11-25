@@ -14,6 +14,28 @@ async function getAllUsers() {
     return response;
 }
 
+async function deleteAvis(id){
+    let response;
+    try{
+        response = await LocalSource.deleteAvis(id);
+    }catch(err){
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des utilisateurs'  }
+    }
+    return response;
+}
+
+async function modifyAvis(data, id){
+    let response;
+    try{
+        response = await LocalSource.modifyAvis(data, id);
+    }catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau, impossible d\'envoyer le formulaire'}
+    }
+    return response;
+}
+
 export default{
     getAllUsers,
+    deleteAvis,
+    modifyAvis
 }
