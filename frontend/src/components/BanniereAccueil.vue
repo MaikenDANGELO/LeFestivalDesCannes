@@ -3,11 +3,15 @@
         <div class="slide-container">
             <div class="custom-slider fade" style="display: block;">
                 <div class="slide-index">1 / 3</div>
-                <img class="slide-img" src="../assets/canardCine.jpg">
+                <img class="slide-img" src="../assets/banniere.jpg">
             </div>
             <div class="custom-slider fade">
                 <div class="slide-index">2 / 3</div>
                 <img class="slide-img" src="../assets/canard.jpg">
+            </div>
+            <div class="custom-slider fade">
+                <div class="slide-index">2 / 3</div>
+                <img class="slide-img" src="../assets/canardCine.jpg">
             </div>
             <div class="custom-slider fade">
                 <div class="slide-index">3 / 3</div>
