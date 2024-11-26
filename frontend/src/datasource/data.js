@@ -424,6 +424,9 @@ let associations = [
   },
 ];
 
+let demandePrestataires = [
+]
+
 
 module.exports = {
   prestataires,
@@ -434,5 +437,6 @@ module.exports = {
   sponsors,
   codePrestataire,
   map_data,
-  associations
+  associations,
+  demandePrestataires,
 };

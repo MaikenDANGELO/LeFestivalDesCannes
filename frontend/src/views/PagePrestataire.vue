@@ -148,8 +148,9 @@ export default {
         this.idAvisModification = null;
       }else{
         await prestatairesService.sendAvisOfUser(data);
-
       }
+      this.user_comment = ''
+      this.user_note = 0;
       await this.getPrestataireAvis(this.prestataire['id']);
     },
     makeDonation() {

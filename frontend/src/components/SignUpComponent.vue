@@ -44,7 +44,6 @@
         </button>
 
         <button class="submit" type="submit">Login</button>
-        <p>{{message}}</p>
       </form>
     </div>
   </div>
@@ -87,11 +86,10 @@ export default {
           else if (this.utilisateur.role === "prestataire") this.$router.push(`/prestataire/${this.utilisateur.id}`);
           else this.$router.push({ name: "home" });
         } else {
-          this.message = response.data;
+          alert(response.data)
         }
       } catch (error) {
-        console.error("Erreur lors de la connexion:", error);
-        this.message = "Une erreur est survenue. Veuillez réessayer."; // Gestion d'erreur
+        alert("Une erreur est survenue. Veuillez réessayer.")
       }
     },
     togglePasswordVisibility() {
@@ -109,10 +107,10 @@ export default {
           else if (this.utilisateur.role === "prestataire") this.$emit("updateSignUp", !this.signUpPrestatire);
           else this.$router.push({ name: "home" });
         } else {
-          this.message = response.data;
+          alert(response.data)
         }
       } catch (error) {
-        this.message = "Une erreur est survenue. Veuillez réessayer.";
+        alert("Une erreur est survenue. Veuillez réessayer.")
       }
     },
     toggleSlide() {

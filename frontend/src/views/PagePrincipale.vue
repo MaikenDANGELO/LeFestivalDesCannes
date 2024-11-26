@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <BanniereAccueil></BanniereAccueil>
+    <TempsRestant></TempsRestant>
     <h2>Listes des organismes présents</h2>
     <div class="listes-container">
       <div class="filtre">
@@ -73,6 +74,7 @@ import CartePrestatairePerso from "@/components/CartePrestatairePerso.vue";
 import { mapState, mapActions } from "vuex";
 import TotalDons from "@/components/totalDons.vue";
 import { filter } from "core-js/internals/array-iteration";
+import TempsRestant from "@/components/TempsRestant.vue";
 
 export default {
   name: "PagePrincipale",
@@ -142,6 +144,7 @@ export default {
     }
   },
   components: {
+    TempsRestant,
     TotalDons,
     BanniereAccueil,
     CartePrestatairePerso,
