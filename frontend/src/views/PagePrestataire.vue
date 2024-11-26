@@ -97,7 +97,7 @@
             <h4>{{ getUtilisateur(avis['id_utilisateur'])['nom_utilisateur'] }} - {{ avis['note'] }}/5</h4>
             <p>{{ avis['texte'] }}</p>
             <div class="avisButton">
-              <button v-if="avis['id_utilisateur'] === utilisateur.id" @click="deleteAvis(avis['id_commentaire'])">Supprimer</button>
+              <button v-if="(avis['id_utilisateur'] === utilisateur.id || utilisateur.role == 'admin')" @click="deleteAvis(avis['id_commentaire'])">Supprimer</button>
               <button v-if="avis['id_utilisateur'] === utilisateur.id" @click="modifyAvis(avis['id_commentaire'],  avis['note'], avis['texte']  )">Modifier</button>
             </div>
           </div>
