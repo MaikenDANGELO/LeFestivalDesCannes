@@ -228,7 +228,7 @@ function sendFormPrestataire(form) {
 }
 
 function deleteAvis(id){
-    avis[id-1] = null;
+    avis.splice(id-1, 1);
     return { error: 0, status:200};
 }
 
