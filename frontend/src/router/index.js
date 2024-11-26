@@ -9,6 +9,7 @@ import PageAdministrateur from "@/views/PageAdministrateur.vue";
 import PageSponsor from '@/views/PageSponsor.vue';
 import PageDon from '@/views/PageDon.vue';
 import PageInscriptionCanard from "@/views/PageInscriptionCanard.vue";
+import PageAssociations from "@/views/PageAssociations.vue";
 
 Vue.use(VueRouter)
 
@@ -57,6 +58,11 @@ const routes = [
     path: '/inscription-canard',
     name: 'InscriptionCanard',
     component: PageInscriptionCanard
+  },
+  {
+    path: '/associations',
+    name:'Associations',
+    component : PageAssociations
   }
   
   /*{

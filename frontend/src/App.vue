@@ -16,6 +16,7 @@
             <router-link to="/acces">Accès</router-link>
             <router-link to="/billeterie">Billetterie</router-link>
             <router-link to="/about">À propos</router-link>
+            <router-link to="/associations">Associations</router-link>
             <div class="twitch-logo-container">
               <a href="https://www.twitch.tv/dashducks" target="_blank"> <!--Lien vers chaîne twitch, éventuellement à changer pour l'intégrer directement sur le site-->
                 <img alt="Twitch logo" :src="require(`./assets/twitch.png`)" class="twitch-logo"> 
