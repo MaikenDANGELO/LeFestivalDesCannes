@@ -47,10 +47,22 @@ async function sendFormPrestataire(data){
     return response;
 }
 
+async function modifyEmplacementPrestataire(prestId, emplacementId) {
+    let response;
+    try{
+        response = await LocalSource.modifyEmplacementPrestataire(prestId,emplacementId);
+    }
+    catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau, impossible de modifier l\'empalcement'}
+    }
+    return response;
+}
+
 
 export default {
     getAllPrestataires,
     getAvisOfPrestataire,
     sendAvisOfUser,
+    modifyEmplacementPrestataire,
     sendFormPrestataire,
 }

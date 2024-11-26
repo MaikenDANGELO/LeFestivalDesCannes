@@ -1,13 +1,15 @@
 <template>
     <div class="card" @commentForm="sendCommentForm()">
-      <img class="prestataire-img" alt="prestimg" :src="require(`../assets/ImagesPrestataires/${image}`)" />
+      <div class="card-img-container">
+        <img class="prestataire-img" alt="prestimg" :src="require(`../assets/ImagesPrestataires/${image}`)" />
+      </div>
       <div class="prestataire-desc">
         <h4>{{ nom }}</h4>
         <p>{{ descriptionAccueil }}</p>
-        <router-link :to="persPageRoute">
-          <button class="prestataire-btn">Accéder</button>
-        </router-link>
       </div>
+      <router-link :to="persPageRoute">
+          <button class="prestataire-btn">Accéder</button>
+      </router-link>
     </div>
   </template>
   
@@ -30,6 +32,8 @@
     align-items: center;
     background-color: #fff;
     border-radius: 8px;
+    height: 350px;
+    width: 250px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     overflow: hidden;
     transition: transform 0.2s ease-in-out;
@@ -39,6 +43,10 @@
     transform: translateY(-5px);
   }
   
+  .card-img-container{
+    height: 100px;
+  }
+
   .prestataire-img {
     width: 100%;
     height: auto;
@@ -47,11 +55,13 @@
   
   .prestataire-desc {
     padding: 16px;
+    height: 150px;
     text-align: center;
+    overflow-y: scroll;
   }
   
   button {
-    margin-top: 10px;
+    position: relative;
     padding: 12px 24px;
     background-color: #708871;
     color: white;

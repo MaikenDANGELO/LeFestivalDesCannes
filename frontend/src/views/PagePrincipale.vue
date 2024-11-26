@@ -16,7 +16,7 @@
         <div class="filtre-check" id="filtre-cat" v-if="filtreType === 'prestataires'">
           <h3>Filtre catégorie : </h3>
           <input @click="handleCatFilter('Activité')" type="checkbox" id="activite" checked>
-          <label for="activite"> Activite</label><br>
+          <label for="activite"> Activité</label><br>
           <input @click="handleCatFilter('Mascotte')" type="checkbox" id="mascotte" checked>
           <label for="mascotte"> Mascotte</label><br>
           <input @click="handleCatFilter('Gastronomie')" type="checkbox" id="gastronomie" checked>
@@ -99,7 +99,6 @@ export default {
       for (let i = 0; i < prestataires.length; i += 4) { // Ajusté pour 4 blocs par ligne
         rows.push(prestataires.slice(i, i + 4));
       }
-      console.log(rows);
       return rows;
     },
     getSponsorsRows() {

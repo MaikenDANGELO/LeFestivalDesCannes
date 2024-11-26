@@ -1,4 +1,4 @@
-import { prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, codePrestataire} from "./data";
+import { prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, codePrestataire, associations} from "./data";
 import bcrypt from 'bcryptjs';
 
 
@@ -8,6 +8,10 @@ function getAllPrestataires() {
 
 function getAllSponsors() {
     return { error: 0, data: sponsors };
+}
+
+function getAllAssociation() {
+    return {error: 0, data: associations};
 }
 
 function getAllMapData() {
@@ -244,6 +248,19 @@ function modifyAvis(data, id){
     }
 }
 
+async function modifyEmplacementPrestataire(prestId, emplacementId) {
+    let old = prestataires.find((a) => a.id_emplacement == emplacementId);
+    let current = prestataires.find((a) => a.id == prestId);
+    if(old){
+        let currentOldEmplacement = current.id_emplacement;
+        old.id_emplacement = currentOldEmplacement;
+        current.id_emplacement = emplacementId; // échange des emplacements
+    }else{
+        current.id_emplacement = emplacementId;
+    }
+    return {error: 0, status: 200, data:`Mise à jour de l'emplacement du prestataire ${prestId} à l'id:${emplacementId}`}
+}
+
 export default {
     getAllPrestataires,
     getAllSponsors,
@@ -260,4 +277,6 @@ export default {
     sendFormPrestataire,
     deleteAvis,
     modifyAvis,
+    modifyEmplacementPrestataire,
+    getAllAssociation,
 };

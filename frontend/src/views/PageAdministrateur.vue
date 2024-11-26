@@ -4,21 +4,32 @@
         <div class="switch-admin">
             <button @click="handleShowPrestataires()"><h2>Prestataires</h2></button>
             <button @click="handleShowSponsors()"><h2>Sponsors</h2></button>
+            <button @click="handleShowAssociations()"><h2>Associations</h2></button>
         </div>
         <div v-if="showPrestataires" class="list-prestataires">
-            <h2>Prestataires</h2>
+            <h2>Prestataires <button @click="getAllPrestataires()">Refresh</button></h2>
             <div class="prestataire" v-for="prestataire in prestataires" :key="prestataire.id">
                 <div class="presta-top"><h3>{{ prestataire.nom }}</h3></div>
                 <div class="presta-sbody">
                     <div class="presta-body">
                         <div class="presta-icon">
-                            <img class="prestataire-img" alt="prestimg" :src="require(`../assets/${prestataire.image}`)" />
+                            <img class="prestataire-img" alt="prestimg" :src="require(`../assets/ImagesPrestataires/${prestataire.image}`)" />
                         </div>
                         <div class="presta-text">{{ prestataire.description_accueil }}</div>
                         <div class="presta-actions">
-                            <button @click="handlePrestaGoToPage(prestataire.id)">Accéder à la page</button>
-                            <button>Modifier prestataire</button>
-                            <button>Supprimer prestataire</button>
+                            <div class="prest-actions-btn">
+                                <button @click="handlePrestaGoToPage(prestataire.id)">Accéder à la page</button>
+                                <button>Modifier prestataire</button>
+                                <button>Supprimer prestataire</button>
+                            </div>
+                            <div class="prest-actions-emplacement">
+                                <p>Emplacement actuel: {{ prestataire.id_emplacement }}</p>
+                                <label for="emplacement">Modifier </label><input id="emplacement" placeholder="Ex: 3" v-model="emplacementsPrestataire[prestataire.id-1]">
+                                <button @click="handleModifyEmplacementPrestataire((prestataire.id),emplacementsPrestataire[(prestataire.id)-1])">Valider</button>
+                            </div>
+                            <div class="prest-dons">
+                                <p>Total des dons: {{ montantDons[prestataire.id-1] }}€</p>
+                            </div>
                         </div>
                     </div>
                     <div class="presta-bottom">
@@ -60,11 +71,31 @@
                 </div>
             </div>
         </div>
+        <div v-if="showAssociations" class="list-prestataires">
+            <h2>Sponsors</h2>
+            <div class="prestataire" v-for="association in associations" :key="association.id_association">
+                <div class="presta-top"><h3>{{ association.nom_association }}</h3></div>
+                <div class="presta-sbody">
+                    <div class="presta-body">
+                        <div class="presta-icon">
+                            <img class="prestataire-img" alt="prestimg" :src="require(`../assets/${association.image}`)" />
+                        </div>
+                        <div class="presta-text">{{ association.description_accueil }}</div>
+                        <div class="presta-actions">
+                            <button @click="handleSponsorGoToPage(association.id_association)">Accéder à la page</button>
+                            <button>Modifier association</button>
+                            <button>Supprimer association</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import moneyService from '@/services/money.service';
 
 export default {
     name: "PageAdministrateur",
@@ -73,27 +104,39 @@ export default {
             showServices: [],
             showPrestataires: true,
             showSponsors: false,
+            showAssociations: false,
+            emplacementsPrestataire: [],
+            montantDons: [],
         };
     },
     computed: {
         ...mapState('prestataire', ['prestataires']),
         ...mapState('sponsors', ['sponsors']),
         ...mapState('utilisateurs', ['utilisateur']),
+        ...mapState('associations', ['associations']),
     },
     created() {
         if(this.utilisateur.role !== "admin") this.$router.push("/"); // renvoie un utilisateur non administrateur vers la page d'accueil lors du chargement
         this.getAllPrestataires();
         this.getAllSponsors();
-        console.log(this.sponsors);
+        this.getAllAssociations();
+        this.maintainEmplacementPrest(this.prestataires);
+        this.maintainDonsPrest();
     },
     watch: {
         prestataires(newPrestataires) {
             this.showServices = Array.from({ length: newPrestataires.length }, () => false);
+            this.maintainEmplacementPrest();
+            this.maintainDonsPrest();
         }
     },
     methods: {
-        ...mapActions('prestataire', ['getAllPrestataires']),
+        ...mapActions('prestataire', ['getAllPrestataires','modifyEmplacementPrestataire']),
         ...mapActions('sponsors', ['getAllSponsors']),
+        ...mapActions('associations', ['getAllAssociations']),
+        async getDonationAmount(id){
+            return await moneyService.getTotalDonsOf(id);
+        },
         handlePrestaGoToPage(id) {
             this.$router.push("/prestataire/" + id);
         },
@@ -106,10 +149,34 @@ export default {
         handleShowPrestataires(){
             this.showPrestataires = true;
             this.showSponsors = false;
+            this.showAssociations = false;
         },
         handleShowSponsors(){
             this.showPrestataires = false;
             this.showSponsors = true;
+            this.showAssociations = false;
+        },handleShowAssociations(){
+            this.showPrestataires = false;
+            this.showSponsors = false;
+            this.showAssociations = true;
+        },
+        maintainEmplacementPrest(){
+            this.getAllPrestataires();
+            let prests = this.prestataires;
+            this.emplacementsPrestataire = [];
+            for(let prest of prests){
+                this.emplacementsPrestataire.push(prest.id_emplacement);
+            }
+        },
+        async maintainDonsPrest(){
+            this.montantDons = [];
+            for(let prest of this.prestataires){
+                this.montantDons.push((await this.getDonationAmount(prest.id)).data);
+            }
+        },
+        handleModifyEmplacementPrestataire(prestId, value){
+            this.modifyEmplacementPrestataire([prestId, value]);
+            this.maintainEmplacementPrest();
         }
     }
 };
@@ -148,12 +215,18 @@ export default {
         border: none;
     }
     .presta-actions{
-        margin-left: auto;
+        margin-left: 5%;
         display: flex;
         flex-direction: row;
         align-items: center;
+        gap: 1%;
+    }
+    .prest-actions-btn{
+        display: flex;
+        flex-direction: row;
         gap: 4%;
     }
+
     .presta-actions button{
         width: 200px;
     }

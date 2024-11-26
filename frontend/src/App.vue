@@ -17,9 +17,12 @@
             <router-link to="/billeterie">Billetterie</router-link>
             <router-link to="/about">À propos</router-link>
             <div class="twitch-logo-container">
-              <router-link to="https://www.twitch.tv/ton_live_channel">
+              <a href="https://www.twitch.tv/dashducks" target="_blank"> <!--Lien vers chaîne twitch, éventuellement à changer pour l'intégrer directement sur le site-->
                 <img alt="Twitch logo" :src="require(`./assets/twitch.png`)" class="twitch-logo"> 
-              </router-link>
+              </a>
+              <!--<router-link to="https://www.twitch.tv/dashducks">
+                <img alt="Twitch logo" :src="require(`./assets/twitch.png`)" class="twitch-logo"> 
+              </router-link>-->
             </div>
             <router-link v-if="this.utilisateur.role === 'admin'" to="/admin">Page Administrateur</router-link>
           </div>

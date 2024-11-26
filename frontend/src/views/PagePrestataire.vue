@@ -3,6 +3,13 @@
     <div class="prestataire-detail" v-if="prestataire !== null">
       <div class="image-container">
         <img class="animate-fade" :src="require(`@/assets/ImagesPrestataires/${prestataire.image}`)" alt="Logo du Prestataire">
+        <div class="images-balade" v-if="prestataire.id == '8'">
+          <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img1.jpg`)" alt="image balade1">
+          <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img2.jpg`)" alt="image balade1">
+          <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img3.jpg`)" alt="image balade1">
+          <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img4.jpg`)" alt="image balade1">
+          <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img5.jpg`)" alt="image balade1">
+      </div>
       </div>
       <div class="info-container animate-slide">
         <h1>{{ prestataire.nom }}</h1>
@@ -11,6 +18,43 @@
           <li><strong>Catégorie:</strong> {{ prestataire.categorie }}</li>
           <li><strong>Emplacement:</strong> {{ prestataire.id_emplacement }}</li>
         </ul>
+        <div class="restaurant-menu" v-if="prestataire.id == '2'">
+          <h2>Horaires</h2>
+          <ul>
+            <li>Lundi : Fermé</li>
+            <li>Mardi à Vendredi : 12h - 14h30 / 19h - 22h</li>
+            <li>Samedi : 12h - 15h / 19h - 23h</li>
+            <li>Dimanche : 12h - 16h</li>
+          </ul>
+          <h2>Menu</h2>
+          <ul>
+            <li>
+              <span class="dish">Salade de Canard Fumé</span>
+              <span class="price">12€</span>
+              <p>Délicieux morceaux de canard fumé, servis sur un lit de roquette et de noix.</p>
+            </li>
+            <li>
+              <span class="dish">Confit de Canard</span>
+              <span class="price">18€</span>
+              <p>Un classique savoureux, accompagné de pommes de terre sautées et de légumes de saison.</p>
+            </li>
+            <li>
+              <span class="dish">Magret de Canard Sauce Orange</span>
+              <span class="price">22€</span>
+              <p>Magret de canard tendre, nappé d'une sauce à l'orange maison.</p>
+            </li>
+            <li>
+              <span class="dish">Burger du Canard</span>
+              <span class="price">15€</span>
+              <p>Pain artisanal, effiloché de canard, et une touche de foie gras.</p>
+            </li>
+            <li>
+              <span class="dish">Tarte Tatin aux Pommes et Canard</span>
+              <span class="price">8€</span>
+              <p>Un dessert audacieux combinant pommes caramélisées et effiloché de canard.</p>
+            </li>
+          </ul>
+        </div>
         <div class="dons">
           <h2>Dons</h2>
           <div>
@@ -158,6 +202,15 @@ export default {
 .image-container {
   flex: 1;
   padding: 10px;
+}
+
+.images-balade{
+  display: flex;
+  flex-direction: row;
+  height: 50vh;
+  overflow-x: scroll;
+  gap: 2%;
+  box-shadow: 0px 0px 20px black;
 }
 
 .image-container img {

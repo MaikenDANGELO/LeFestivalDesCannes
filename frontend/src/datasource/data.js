@@ -139,6 +139,26 @@ let prestataires = [
           statut_service: "actif",
         }
       ]
+    },
+    {
+      id: "8",
+      nom: "Ped'ailo!",
+      description: "Avec Ped'ailo, prenez vos ailes et flottez comme un canard sur les étangs du Malsaucy en famille, entre amis ou en canard solitaire !",
+      description_accueil: "Stand de pédalo sur les étangs",
+      categorie: "Activité",
+      id_emplacement: "7",
+      id_evenement: "1",
+      page_route: '/prestataire/8',
+      image: "pedalo_canard.jpg",
+      services: [
+        {
+          id_service: "1",
+          nom_service: "service1",
+          description_service: "description",
+          lien_service: "lien_service1",
+          statut_service: "actif",
+        }
+      ]
     }
   ];
 
@@ -380,7 +400,30 @@ let map_data = [
 ]
 
 
-let associations = []
+let associations = [
+  {
+    id_association: "1",
+    nom_association: "Les Canards Ailés",
+    description_accueil: "Bienvenue à notre club passionné par l'aventure et la découverte.",
+    description: "Nous organisons des activités en plein air pour amateurs de nature et d'aventure, telles que des randonnées, des excursions en canoë et bien plus.",
+    image: "logo.png",
+  },
+  {
+    id_association: "2",
+    nom_association: "La Plume Solidaire",
+    description_accueil: "Rejoignez-nous pour écrire un monde meilleur.",
+    description: "Association dédiée à l'aide humanitaire à travers des ateliers d'écriture et de sensibilisation dans les écoles et les quartiers.",
+    image: "logo.png",
+  },
+  {
+    id_association: "3",
+    nom_association: "L'Étang des Canards",
+    description_accueil: "Un havre de paix pour les amoureux des canards.",
+    description: "Cette association se consacre à la préservation des canards et de leurs habitats naturels à travers des actions locales et des ateliers pédagogiques.",
+    image: "logo.png",
+  },
+];
+
 
 module.exports = {
   prestataires,
