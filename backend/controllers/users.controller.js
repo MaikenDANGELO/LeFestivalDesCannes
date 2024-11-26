@@ -10,6 +10,17 @@ exports.getUsers = async(req,res) => {
     })
 }
 
+
+exports.login =(req, res) =>{
+    let session = req.session;
+
+    if (session.username){
+        res.redirect("") //Renvoyer vers la page adéquate
+    }else{
+        res.status(200).json({ message: 'Redirection ', redirectUrl: '/dashboard' });
+    }
+}
+
 exports.connexion = async(req, res) => {
     let {login,mdp} = req.body
     await userService.connexion(login, mdp,(error,data)=>{

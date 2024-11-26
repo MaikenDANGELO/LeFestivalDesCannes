@@ -97,8 +97,8 @@
             <h4>{{ getUtilisateur(avis['id_utilisateur'])['nom_utilisateur'] }} - {{ avis['note'] }}/5</h4>
             <p>{{ avis['texte'] }}</p>
             <div class="avisButton">
-              <button v-if="avis['id_utilisateur'] === utilisateur.id" @click="deleteAvis(avis['id'])">Supprimer</button>
-              <button v-if="avis['id_utilisateur'] === utilisateur.id" @click="modifyAvis()">Modifier</button>
+              <button v-if="avis['id_utilisateur'] === utilisateur.id" @click="deleteAvis(avis['id_commentaire'])">Supprimer</button>
+              <button v-if="avis['id_utilisateur'] === utilisateur.id" @click="modifyAvis(avis['id_commentaire'],  avis['note'], avis['texte']  )">Modifier</button>
             </div>
           </div>
         </div>
@@ -162,10 +162,12 @@ export default {
     },
     async deleteAvis(id){
       await usersService.deleteAvis(id)
-      this.getPrestataireAvis(this.prestataire['id']);
+      await this.getPrestataireAvis(this.prestataire['id']);
     },
-    modifyAvis(id) {
+    modifyAvis(id, note, texte) {
       const target = document.getElementById("rating"); // Trouver l'élément cible
+      this.user_comment = texte;
+      this.user_note = note;
       if (target) {
         target.scrollIntoView({ behavior: "smooth" }); // Défilement fluide
         this.avisMofication = true;
