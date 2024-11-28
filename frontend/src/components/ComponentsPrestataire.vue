@@ -78,7 +78,7 @@
 
 <script>
 import prestatairesService from "@/services/prestataires.service";
-import {mapActions, mapState} from "vuex";
+import {mapState} from "vuex";
 export default {
   data() {
     return {
@@ -104,10 +104,9 @@ export default {
     };
   },
   computed:{
-    ...mapState('prestataire', ['prestataires'])
+    ...mapState('utilisateurs', ['utilisateur']),
   },
   methods: {
-    ...mapActions('prestataire', ['getAllPrestataires']),
     handleFileUpload(event) {
       const file = event.target.files[0];
       if (file && (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg')) {
@@ -137,9 +136,7 @@ export default {
     },
     async submitForm() {
       console.log("Données du formulaire :", this.event);
-      await prestatairesService.sendFormPrestataire(this.event)
-      await this.getAllPrestataires()
-      console.log(this.prestataires)
+      await prestatairesService.sendFormPrestataire(this.event, this.utilisateur.id)
       this.$router.push({ name: "home" });
       alert("Formulaire soumis !");
     },

@@ -1,4 +1,4 @@
-import { prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, codePrestataire, associations, demandePrestataires} from "./data";
+import { prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires} from "./data";
 import bcrypt from 'bcryptjs';
 
 
@@ -144,39 +144,24 @@ async function makeDonation(userId, prestaId, amount, message) {
     }
 }
 
-async function signUp(login, mdp, numero, username, adresse, codePrest, signUp){
+async function signUp(login, mdp, numero, username, adresse){
     try {
         let Account = utilisateurs.find(u => u.email_utilisateur === login);
         if (Account) return { error: 1, status: 404, data: "Cette email a déjà été utilisé " }
 
         let newId = utilisateurs.length + 1;
         let insert;
-        if (signUp === 'Prestataire') {
-            if (Number(codePrest) === codePrestataire) {
-                insert = {
-                    id_utilisateur: newId,
-                    nom_utilisateur: username,
-                    email_utilisateur: login,
-                    mot_de_passe: await bcrypt.hash(mdp, 10),
-                    adresse_utilisateur: adresse,
-                    telephone: numero,
-                    date_inscription: getFormattedDate(),
-                    role: "prestataire"
-                };
-            }else return { error: 1, status: 500, data: "Le code prestataire n'est pas bon" }
-        }
-        else {
-            insert = {
-                id_utilisateur: newId,
-                nom_utilisateur: username,
-                email_utilisateur: login,
-                mot_de_passe: await bcrypt.hash(mdp, 10),
-                adresse_utilisateur: adresse,
-                telephone: numero,
-                date_inscription: getFormattedDate(),
-                role: "utilisateur"
-            };
-        }
+        insert = {
+            id_utilisateur: newId,
+            nom_utilisateur: username,
+            email_utilisateur: login,
+            mot_de_passe: await bcrypt.hash(mdp, 10),
+            adresse_utilisateur: adresse,
+            telephone: numero,
+            date_inscription: getFormattedDate(),
+            role: "utilisateur"
+        };
+
         utilisateurs.push(insert);
         return { error: 0, status: 200, data: insert }
     } catch (error) {
@@ -202,24 +187,24 @@ function getAllUsers() {
     return { error: 0, data: utilisateurs };
 }
 
-function sendFormPrestataire(form) {
+function sendFormPrestataire(form, id_utilisateur) {
     if (!form) return {error: 1, status: 500, data: "Le formulaire n'est pas valide"};
-    let newId = prestataires.length + 1;
+
     let insert = {
-            id: newId,
-            nom: form.nom,
-            description:  form.description,
-            description_accueil: form.description_accueil,
-            categorie: form.categorie,
-            id_emplacement: form.id_emplacement,
-            id_evenement: "1",
-            page_route: '/prestataire/' + newId,
-            image: form.image,
-            services: form.services
+        id: null,
+        nom: form.nom,
+        description:  form.description,
+        description_accueil: form.description_accueil,
+        categorie: form.categorie,
+        id_emplacement: form.id_emplacement,
+        id_evenement: "1",
+        page_route: null,
+        image: form.image,
+        id_utilisateur: id_utilisateur,
+        services: form.services
     }
-    console.log(form.services)
     try {
-        prestataires.push(insert)
+        demandePrestataires.push(insert)
         return { error: 0, status:200, data: utilisateurs };
     }catch (error){
         return { error: 1, status:404, data: utilisateurs };
@@ -260,6 +245,10 @@ async function modifyEmplacementPrestataire(prestId, emplacementId) {
     return {error: 0, status: 200, data:`Mise à jour de l'emplacement du prestataire ${prestId} à l'id:${emplacementId}`}
 }
 
+async function getAllDemandePrestataire(){
+    return {error:0, status: 200, data: demandePrestataires};
+}
+
 export default {
     getAllPrestataires,
     getAllSponsors,
@@ -278,4 +267,5 @@ export default {
     modifyAvis,
     modifyEmplacementPrestataire,
     getAllAssociation,
+    getAllDemandePrestataire,
 };

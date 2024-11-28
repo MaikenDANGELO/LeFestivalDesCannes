@@ -5,6 +5,7 @@
             <button @click="handleShowPrestataires()"><h2>Prestataires</h2></button>
             <button @click="handleShowSponsors()"><h2>Sponsors</h2></button>
             <button @click="handleShowAssociations()"><h2>Associations</h2></button>
+            <button @click="handleShowDemandes()"><h2>Demande Prestaires</h2></button>
         </div>
         <div v-if="showPrestataires" class="list-prestataires">
             <h2>Prestataires <button @click="getAllPrestataires()">Refresh</button></h2>
@@ -90,12 +91,56 @@
                 </div>
             </div>
         </div>
-    </div>
+        <div v-if="showDemandes" class="list-prestataires">
+          <div v-if="demandePrestataires.length === 0">
+            <h1>Aucune demande n'a été envoyée</h1>
+          </div>
+          <div v-else>
+            <div class="prestataire" v-for="prestataire in demandePrestataires" :key="prestataire.id">
+              <div class="presta-top"><h3>{{ prestataire.nom }}</h3></div>
+              <div class="presta-sbody">
+                <div class="presta-body">
+                  <div class="presta-icon">
+                    <img v-if="typeof prestataire.image === String" class="prestataire-img" alt="prestimg" :src="require(`../assets/ImagesPrestataires/${prestataire.image}`)" />
+                    <img v-else class="prestataire-img" alt="prestimg" :src=prestataire.image />
+                  </div>
+                  <div class="presta-text">{{ prestataire.description_accueil }}</div>
+                  <div class="presta-actions">
+                    <div class="prest-actions-emplacement">
+                      <p>Emplacement demandées: {{ prestataire.id_emplacement }}</p>
+                      <label for="emplacement">Modifier </label><input id="emplacement" placeholder="Ex: 3" v-model="emplacementsPrestataire[prestataire.id-1]">
+                      <button @click="handleModifyEmplacementPrestataire((prestataire.id),emplacementsPrestataire[(prestataire.id)-1])">Valider</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="presta-bottom">
+                  <button class="show-services" @click="handleShowServices(prestataire.id - 1)">Afficher services</button>
+                  <div v-if="showServices[prestataire.id - 1]">
+                    <h3>Liste des services :</h3>
+                    <div v-for="service in prestataire.services" :key="service.id" class="service">
+                      <div class="service-top"><h4>{{ service.nom_service }}</h4></div>
+                      <div class="service-body">
+                        <p>{{ service.description_service }}</p>
+                        <div class="service-actions">
+                          <button>Accéder au service</button>
+                          <button>Activer/Désactiver service</button>
+                          <button>Supprimer service</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
 </template>
 
 <script>
 import { mapActions, mapState } from 'vuex';
 import moneyService from '@/services/money.service';
+import prestatairesService from "@/services/prestataires.service";
 
 export default {
     name: "PageAdministrateur",
@@ -105,8 +150,10 @@ export default {
             showPrestataires: true,
             showSponsors: false,
             showAssociations: false,
+            showDemandes: false,
             emplacementsPrestataire: [],
             montantDons: [],
+            demandePrestataires: [],
         };
     },
     computed: {
@@ -122,6 +169,7 @@ export default {
         this.getAllAssociations();
         this.maintainEmplacementPrest(this.prestataires);
         this.maintainDonsPrest();
+        this.getAllDemandePrestataire();
     },
     watch: {
         prestataires(newPrestataires) {
@@ -150,15 +198,25 @@ export default {
             this.showPrestataires = true;
             this.showSponsors = false;
             this.showAssociations = false;
+            this.showDemandes = false;
         },
         handleShowSponsors(){
             this.showPrestataires = false;
             this.showSponsors = true;
             this.showAssociations = false;
-        },handleShowAssociations(){
+            this.showDemandes = false;
+        },
+        handleShowAssociations(){
             this.showPrestataires = false;
             this.showSponsors = false;
             this.showAssociations = true;
+            this.showDemandes = false;
+        },
+        handleShowDemandes(){
+          this.showPrestataires = false;
+          this.showSponsors = false;
+          this.showAssociations = false;
+          this.showDemandes = true;
         },
         maintainEmplacementPrest(){
             this.getAllPrestataires();
@@ -177,7 +235,25 @@ export default {
         handleModifyEmplacementPrestataire(prestId, value){
             this.modifyEmplacementPrestataire([prestId, value]);
             this.maintainEmplacementPrest();
-        }
+        },
+        async getAllDemandePrestataire() {
+          const response = await prestatairesService.getAllDemandePrestataire();
+          this.demandePrestataires = response.data;
+
+          for (let i = 0; i < this.demandePrestataires.length; i++) {
+            const file = this.demandePrestataires[i].image  // Récupère le premier fichier sélectionné
+
+            if (file && typeof file === File) {  // Vérifie que le fichier est une image
+              const reader = new FileReader();
+
+              reader.onload = (e) => {
+                this.demandePrestataires[i].image = e.target.result;
+              };
+
+              reader.readAsDataURL(file);
+            }
+          }
+        },
     }
 };
 </script>

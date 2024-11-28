@@ -18,7 +18,6 @@
         <input v-model="login" type="email" name="email" placeholder="Email" required="">
         <input v-model="tel" type="number" name="tel" placeholder="N° Télephone" required="" value="">
         <input v-model="password" :type="isPasswordVisible ? 'text' : 'password'" id="mdp" name="mdp" placeholder="Votre mot de passe" required>
-        <input v-if="signup === 'Prestataire'" v-model="codePrestataire" type="number" name="codePrestataire" placeholder="Code Prestataire" required>
 
 
         <button class="password-icon" type="button" @click="togglePasswordVisibility">
@@ -67,7 +66,6 @@ export default {
       isPasswordVisible: false,
       message:'',
       signup:'Utilisateur',
-      codePrestataire:-1,
     }
   },
   computed : {
@@ -97,14 +95,12 @@ export default {
     },
     async signUp(){
       try {
-        const response = await LocalSource.signUp(this.login, this.password, this.tel, this.userName, this.adresse, this.codePrestataire, this.signup);
+        const response = await LocalSource.signUp(this.login, this.password, this.tel, this.userName, this.adresse, this.signup);
 
         if (response.error === 0) {
           await this.logIn(response.data);
-          console.log(this.utilisateur.role);
           // redirection vers la page approprié selon l'utilisateur
-          if(this.utilisateur.role === "admin") this.$router.push({name: "adminhome"});
-          else if (this.utilisateur.role === "prestataire") this.$emit("updateSignUp", !this.signUpPrestatire);
+          if (this.signup === "Prestataire") this.$emit("updateSignUp", !this.signUpPrestatire);
           else this.$router.push({ name: "home" });
         } else {
           alert(response.data)

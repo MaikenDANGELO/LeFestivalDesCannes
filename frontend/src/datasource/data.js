@@ -1,4 +1,3 @@
-let codePrestataire = 1000;
 let prestataires = [
     {
       id: "1",
@@ -10,6 +9,7 @@ let prestataires = [
       id_evenement: "1",
       page_route: '/prestataire/1',
       image: "jeu_divertissement.jpg",
+      id_utilisateur: "5",
       services: [
         {
           id_service: "1",
@@ -30,6 +30,7 @@ let prestataires = [
       id_evenement: "1",
       page_route: '/prestataire/2',
       image: "restaurant.jpg",
+      id_utilisateur: "5",
       services: [
         {
           id_service: "1",
@@ -50,6 +51,7 @@ let prestataires = [
       id_evenement: "1",
       page_route: '/prestataire/3',
       image: "mascotte.jpg",
+      id_utilisateur: "5",
       services: [
         {
           id_service: "1",
@@ -70,6 +72,7 @@ let prestataires = [
       id_evenement: "1",
       page_route: '/prestataire/4',
       image: "stand.jpg",
+      id_utilisateur: "5",
       services: [
         {
           id_service: "1",
@@ -90,6 +93,7 @@ let prestataires = [
       id_evenement: "1",
       page_route: '/prestataire/5',
       image: "degustation_canard.jpg",
+      id_utilisateur: "5",
       services: [
         {
           id_service: "1",
@@ -110,6 +114,7 @@ let prestataires = [
       id_evenement: "1",
       page_route: '/prestataire/6',
       image: "concours_cuisine_canard.jpg",
+      id_utilisateur: "5",
       services: [
         {
           id_service: "1",
@@ -130,6 +135,7 @@ let prestataires = [
       id_evenement: "1",
       page_route: '/prestataire/7',
       image: "atelier_peinture_canard.jpg",
+      id_utilisateur: "5",
       services: [
         {
           id_service: "1",
@@ -150,6 +156,7 @@ let prestataires = [
       id_evenement: "1",
       page_route: '/prestataire/8',
       image: "pedalo_canard.jpg",
+      id_utilisateur: "5",
       services: [
         {
           id_service: "1",
@@ -435,7 +442,6 @@ module.exports = {
   avis,
   dons,
   sponsors,
-  codePrestataire,
   map_data,
   associations,
   demandePrestataires,

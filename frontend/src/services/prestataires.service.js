@@ -37,10 +37,10 @@ async function sendAvisOfUser(data){
     return response
 }
 
-async function sendFormPrestataire(data){
+async function sendFormPrestataire(data, id_utilisateur){
     let response;
     try{
-        response = await LocalSource.sendFormPrestataire(data);
+        response = await LocalSource.sendFormPrestataire(data, id_utilisateur);
     }catch(error){
         response = {error: 1, status: 404, data:  'erreur réseau, impossible d\'envoyer le formulaire'}
     }
@@ -58,6 +58,23 @@ async function modifyEmplacementPrestataire(prestId, emplacementId) {
     return response;
 }
 
+async function getAllDemandePrestataire() {
+    let response;
+    try {
+        // Assurez-vous que LocalSource est correctement défini et fonctionne.
+        response = await LocalSource.getAllDemandePrestataire();
+        // Vérifiez que les données reçues sont valides
+        if (response && response.data) {
+            return { error: 0, status: 200, data: response.data };
+        } else {
+            throw new Error("Données invalides");
+        }
+    } catch (error) {
+        // Retour d'erreur détaillé
+        return { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer les données.' };
+    }
+}
+
 
 export default {
     getAllPrestataires,
@@ -65,4 +82,5 @@ export default {
     sendAvisOfUser,
     modifyEmplacementPrestataire,
     sendFormPrestataire,
+    getAllDemandePrestataire
 }
