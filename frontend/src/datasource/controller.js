@@ -1,6 +1,10 @@
-import { prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires} from "./data";
+import { ballades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires} from "./data";
 import bcrypt from 'bcryptjs';
 
+
+function getAllBalades(){
+    return{error : 0,data : ballades}
+}
 
 function getAllPrestataires() {
     return { error: 0, data: prestataires };
@@ -107,6 +111,20 @@ async function totalDons() {
     }
 
 }
+
+async function getBaladesfromUid(user_id){
+    try {
+        let balladesUtilisateur = [];
+        for (let i = 0; i< ballades.length;i++){
+            if(user_id === ballades.reserved_user_id) balladesUtilisateur.push(ballades[i])
+        }
+        return { error: 0, status: 200, data: balladesUtilisateur }
+    }
+    catch (error){
+        return {error:1,status:404,data : error.message}
+    }
+}
+
 
 async function getTotalDonsOf(prestId) {
     try {
@@ -268,4 +286,6 @@ export default {
     modifyEmplacementPrestataire,
     getAllAssociation,
     getAllDemandePrestataire,
+    getAllBalades,
+    getBaladesfromUid,
 };
