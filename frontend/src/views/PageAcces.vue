@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="carte">
-            <CarteInteractive></CarteInteractive>
+            <InteractiveMap></InteractiveMap>
         </div>
         <div class="texte-container">
             <h2 class="title">Migrez jusqu'à nous !</h2>
@@ -25,29 +25,27 @@
 </template>
 
 <script>
-import CarteInteractive from '@/components/CarteInteractive.vue';
+import InteractiveMap from "@/components/CarteInteractive2.vue";
 export default {
     name: "PageAcces",
     components: {
-        CarteInteractive
+      InteractiveMap,
     }
 }
 </script>
 
 <style scoped>
-.container{
-    display: flex;
-    flex-direction: row;
-}
+
 .texte-container{
     display: flex;
     flex-direction: column;
     position: absolute;
-    left: 950px;
+    left: 30%;
     width: 45vw;
     margin-top: 100px;
     text-align: justify;
 }
+
 @media screen and (max-width: 1000px) {
     .container{
         display: flex;
