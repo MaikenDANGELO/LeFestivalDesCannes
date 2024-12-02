@@ -1,22 +1,22 @@
 <template>
   <div class="hello">
     <BanniereAccueil></BanniereAccueil>
-    <h2>Listes des organismes présents</h2>
+    <h2>Toutes nos prestataires</h2>
     <div class="listes-container">
       <div class="filtre">
         <label for="search">Rechercher : </label>
         <input v-model="filtreSearch" type="search" id="search"><br>
         <div class="filtre-check" id="filtre-type">
-          <h3>Filtre type :</h3>
+          <h3>Type :</h3>
           <input type="radio" id="prestataires" value="prestataires" v-model="filtreType">
-          <label for="prestataires"> Prestataires</label><br>
+          <label for="prestataires"> Activités</label><br>
           <input type="radio" id="sponsors" value="sponsors" v-model="filtreType">
           <label for="sponsors"> Sponsors</label>
         </div>
         <div class="filtre-check" id="filtre-cat" v-if="filtreType === 'prestataires'">
-          <h3>Filtre catégorie : </h3>
+          <h3>Catégorie : </h3>
           <input @click="handleCatFilter('Activité')" type="checkbox" id="activite" checked>
-          <label for="activite"> Activité</label><br>
+          <label for="activite"> Attraction et atelier</label><br>
           <input @click="handleCatFilter('Mascotte')" type="checkbox" id="mascotte" checked>
           <label for="mascotte"> Mascotte</label><br>
           <input @click="handleCatFilter('Gastronomie')" type="checkbox" id="gastronomie" checked>
@@ -28,7 +28,7 @@
       </div>
       <div class="listes">
         <div class="liste-prestataires" id="prestataires" v-if="filtreType === 'prestataires'">
-          <h2>Prestataires</h2>
+          <h2>Activités</h2>
           <div class="prestataires-row" v-for="row in getPrestaRows()" :key="row[0].id">
             <div v-for="prestataire in row" :key="prestataire.id" class="prestataire-card">
               <CartePrestatairePerso :nom="prestataire.nom" :descriptionAccueil="prestataire.description_accueil"
