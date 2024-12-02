@@ -2,7 +2,8 @@
   <body>
     <div class="prestataire-detail" v-if="prestataire !== null">
       <div class="image-container">
-        <img class="animate-fade" :src="require(`@/assets/ImagesPrestataires/${prestataire.image}`)" alt="Logo du Prestataire">
+        <img v-if="typeof prestataire.image === String" class="animate-fade" :src="require(`@/assets/ImagesPrestataires/${prestataire.image}`)" alt="Logo du Prestataire">
+        <img v-else class="prestataire-img" alt="Logo du Prestataire" :src=prestataire.image />
         <div class="images-balade" v-if="prestataire.id == '8'">
           <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img1.jpg`)" alt="image balade1">
           <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img2.jpg`)" alt="image balade1">
@@ -181,6 +182,7 @@ export default {
     await this.getAllUsers();
     const id = this.$route.params.id;
     this.prestataire = this.prestataires.find(p => p.id === id); // récupère le prestataire d'après l'id renseignée depuis la Page  principale
+    console.log(this.prestataire)
     this.getPrestataireAvis(this.prestataire['id']) // récupère les avis du prestataire
     await this.getDonationAmount();
   },

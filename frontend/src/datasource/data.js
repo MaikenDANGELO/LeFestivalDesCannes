@@ -432,6 +432,27 @@ let associations = [
 ];
 
 let demandePrestataires = [
+  {
+    id: "0",
+    nom: "Jeux et Divertissements",
+    description: "Espace dédié aux jeux pour enfants et adultes avec diverses animations, telles que des ateliers créatifs, des jeux de société géants, et des parcours d'obstacles pour toute la famille. C'est l'endroit idéal pour se détendre et s'amuser, que vous soyez enfant ou adulte.",
+    description_accueil: "Jeux et animations pour tous.",
+    categorie: "Activité",
+    id_emplacement: "8",
+    id_evenement: "1",
+    page_route: '/prestataire/1',
+    image: "jeu_divertissement.jpg",
+    id_utilisateur: "5",
+    services: [
+      {
+        id_service: "1",
+        nom_service: "service1",
+        description_service: "description",
+        lien_service: "lien_service1",
+        statut_service: "actif",
+      }
+    ]
+  },
 ]
 
 

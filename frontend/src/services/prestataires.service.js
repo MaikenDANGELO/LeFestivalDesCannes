@@ -61,16 +61,41 @@ async function modifyEmplacementPrestataire(prestId, emplacementId) {
 async function getAllDemandePrestataire() {
     let response;
     try {
-        // Assurez-vous que LocalSource est correctement défini et fonctionne.
         response = await LocalSource.getAllDemandePrestataire();
-        // Vérifiez que les données reçues sont valides
         if (response && response.data) {
             return { error: 0, status: 200, data: response.data };
         } else {
             throw new Error("Données invalides");
         }
     } catch (error) {
-        // Retour d'erreur détaillé
+        return { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer les données.' };
+    }
+}
+
+async function declineDemandePrest(id){
+    let response;
+    try {
+        response = await LocalSource.declineDemandePrest(id);
+        if (response && response.data) {
+            return { error: 0, status: 200, data: response.data };
+        } else {
+            throw new Error("Données invalides");
+        }
+    } catch (error) {
+        return { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer les données.' };
+    }
+}
+
+async function acceptDemandePrest(prest){
+    let response;
+    try {
+        response = await LocalSource.acceptDemandePrest(prest);
+        if (response && response.data) {
+            return { error: 0, status: 200, data: response.data };
+        } else {
+            throw new Error("Données invalides");
+        }
+    } catch (error) {
         return { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer les données.' };
     }
 }
@@ -82,5 +107,7 @@ export default {
     sendAvisOfUser,
     modifyEmplacementPrestataire,
     sendFormPrestataire,
-    getAllDemandePrestataire
+    getAllDemandePrestataire,
+    declineDemandePrest,
+    acceptDemandePrest,
 }

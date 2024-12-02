@@ -96,7 +96,7 @@
             <h1>Aucune demande n'a été envoyée</h1>
           </div>
           <div v-else>
-            <div class="prestataire" v-for="prestataire in demandePrestataires" :key="prestataire.id">
+            <div class="prestataire" v-for="(prestataire, index) in demandePrestataires" :key="prestataire.id">
               <div class="presta-top"><h3>{{ prestataire.nom }}</h3></div>
               <div class="presta-sbody">
                 <div class="presta-body">
@@ -111,6 +111,10 @@
                       <label for="emplacement">Modifier </label><input id="emplacement" placeholder="Ex: 3" v-model="emplacementsPrestataire[prestataire.id-1]">
                       <button @click="handleModifyEmplacementPrestataire((prestataire.id),emplacementsPrestataire[(prestataire.id)-1])">Valider</button>
                     </div>
+                  </div>
+                  <div class="service-actions">
+                    <button @click="acceptDemandePrest(prestataire, index)">Accepter</button>
+                    <button @click="declineDemandePrest(index)">Refuser</button>
                   </div>
                 </div>
                 <div class="presta-bottom">
@@ -243,7 +247,7 @@ export default {
           for (let i = 0; i < this.demandePrestataires.length; i++) {
             const file = this.demandePrestataires[i].image  // Récupère le premier fichier sélectionné
 
-            if (file && typeof file === File) {  // Vérifie que le fichier est une image
+            if (file && typeof file === Blob) {// Vérifie que le fichier est une image
               const reader = new FileReader();
 
               reader.onload = (e) => {
@@ -254,6 +258,13 @@ export default {
             }
           }
         },
+        async declineDemandePrest(id) {
+          await prestatairesService.declineDemandePrest(id)
+        },
+        async acceptDemandePrest(prest, index){
+          await prestatairesService.acceptDemandePrest(prest)
+          await this.declineDemandePrest(index)
+        }
     }
 };
 </script>

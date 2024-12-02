@@ -1,8 +1,8 @@
 <template>
   <div class="don-container">
     <h1 class="title">Total des Dons:</h1>
-    <strong class="total" ref="donDisplay">{{ totalDons }} €</strong>
-  </div>
+    <p class="total" ref="donDisplay">{{ totalDons }}</p>
+    </div>
 </template>
 
 <script>
@@ -17,18 +17,26 @@ export default {
     ...mapActions('don', ['getTotalDons']),
 
     animateNumber(from, to, duration) {
+      const donDisplayElement = this.$refs.donDisplay;
+
+      if (!donDisplayElement) {
+        console.error('Element with ref "donDisplay" not found');
+        return;
+      }
+
       let start = null;
 
       const animate = (timestamp) => {
         start = start || timestamp;
         let progress = Math.min((timestamp - start) / duration, 1);
 
-        this.$refs.donDisplay.textContent = Math.floor(progress * (to - from) + from);
+        donDisplayElement.textContent = Math.floor(progress * (to - from) + from) + ' €';
 
         if (progress < 1) {
           window.requestAnimationFrame(animate);
         }
       };
+
       window.requestAnimationFrame(animate);
     }
   },

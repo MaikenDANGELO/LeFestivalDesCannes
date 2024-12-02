@@ -85,6 +85,7 @@ export default {
     },
     logOut() {
       this.toggleDropdown()
+      if (this.utilisateur.role === "admin") this.$router.push({ name: "home" });
       this.logout();
     }
   },

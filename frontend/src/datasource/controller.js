@@ -1,7 +1,6 @@
 import { ballades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires} from "./data";
 import bcrypt from 'bcryptjs';
 
-
 function getAllBalades(){
     return{error : 0,data : ballades}
 }
@@ -229,7 +228,7 @@ function sendFormPrestataire(form, id_utilisateur) {
     }
 }
 
-function deleteAvis(id){
+function deleteAvis(id) {
     avis.splice(id-1, 1);
     return { error: 0, status:200};
 }
@@ -263,8 +262,24 @@ async function modifyEmplacementPrestataire(prestId, emplacementId) {
     return {error: 0, status: 200, data:`Mise à jour de l'emplacement du prestataire ${prestId} à l'id:${emplacementId}`}
 }
 
-async function getAllDemandePrestataire(){
+function getAllDemandePrestataire(){
     return {error:0, status: 200, data: demandePrestataires};
+}
+
+function declineDemandePrest(id){
+    demandePrestataires.splice(id, 1);
+    return { error: 0, status:200};
+}
+
+function acceptDemandePrest(prest){
+    let newId = prestataires.length + 1;
+    console.log("id " + newId)
+
+    prest.id = newId;
+    prest.page_route = '/prestataire/'+newId;
+
+    prestataires.push(prest);
+
 }
 
 export default {
@@ -288,4 +303,6 @@ export default {
     getAllDemandePrestataire,
     getAllBalades,
     getBaladesfromUid,
+    declineDemandePrest,
+    acceptDemandePrest
 };
