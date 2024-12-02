@@ -43,7 +43,7 @@ export default {
 <style scoped>
 #chrono {
   font-family: 'Arial', sans-serif;
-  font-size: 48px;
+  font-size: 2rem;
   text-align: center;
   margin-top: 5%;
   margin-bottom: 5%;

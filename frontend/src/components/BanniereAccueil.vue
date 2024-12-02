@@ -33,16 +33,17 @@
                     des palmipèdes. Venez partager un moment convivial en pleine nature et plonger dans le monde des 
                     volatiles sauvages !</p>
                 </div>
-                <div style="width: 250rem; padding: 3%;">
+                <div style="width: 250rem; padding-left: 3%;">
+                    <TempsRestant></TempsRestant>
                 </div>
             </div>
-            
         </div>
         <br>
     </div>
 </template>
 
 <script>
+import TempsRestant from "@/components/TempsRestant.vue";
 export default {
     name: "BanniereAccueil",
     data: () => ({
@@ -70,7 +71,10 @@ export default {
             slides[this.slideIndex - 1].style.display = "block";
             dots[this.slideIndex - 1].className += " active";
         }
-    }
+    },
+  components: {
+    TempsRestant,
+  },
 }
 </script>
 
