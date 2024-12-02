@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <BanniereAccueil></BanniereAccueil>
-    <h2>Toutes nos prestataires</h2>
+    <h2>Tous nos prestataires</h2>
     <div class="listes-container">
       <div class="filtre">
         <label for="search">Rechercher : </label>
