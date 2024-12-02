@@ -24,12 +24,19 @@
         <div style="margin: 1% 10% 1% 10%;">
             <h1 style="text-align: center;">Le Festival Des Canes</h1>
             <h2 style="text-align: center;">Célébrons les canes sans se voler dans les plumes !</h2>
-            <p style="text-align: justify;">Le Festival Des Canes est un événement unique qui se déroule chaque année le 1er septembre 
-            au lac du Malsaucy, site du festival des Eurockéennes, pour célébrer la Fête du Canard. Des sorties en famille 
-            aux passionnés d'ornithologie, ce festival rend hommage aux canes sous toutes leurs formes. Au programme : 
-            parade, ateliers pour petits et grands, et des rencontres avec des spécialistes pour découvrir l'univers
-            des palmipèdes. Venez partager un moment convivial en pleine nature et plonger dans le monde des 
-            volatiles sauvages !</p>
+            <div style="display: flex; flex-direction: row;">
+                <div>
+                    <p style="text-align: justify;">Le Festival Des Canes est un événement unique qui se déroule chaque année le 1er septembre 
+                    au lac du Malsaucy, site du festival des Eurockéennes, pour célébrer la Fête du Canard. Des sorties en famille 
+                    aux passionnés d'ornithologie, ce festival rend hommage aux canes sous toutes leurs formes. Au programme : 
+                    parade, ateliers pour petits et grands, et des rencontres avec des spécialistes pour découvrir l'univers
+                    des palmipèdes. Venez partager un moment convivial en pleine nature et plonger dans le monde des 
+                    volatiles sauvages !</p>
+                </div>
+                <div style="width: 250rem; padding: 3%;">
+                </div>
+            </div>
+            
         </div>
         <br>
     </div>
