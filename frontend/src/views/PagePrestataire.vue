@@ -181,6 +181,7 @@ export default {
     await this.getAllUsers();
     const id = this.$route.params.id;
     this.prestataire = this.prestataires.find(p => p.id === id); // récupère le prestataire d'après l'id renseignée depuis la Page  principale
+    console.log(this.prestataire)
     this.getPrestataireAvis(this.prestataire['id']) // récupère les avis du prestataire
     await this.getDonationAmount();
   },
