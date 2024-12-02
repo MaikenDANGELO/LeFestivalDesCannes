@@ -2,8 +2,7 @@
   <body>
     <div class="prestataire-detail" v-if="prestataire !== null">
       <div class="image-container">
-        <img v-if="typeof prestataire.image === String" class="animate-fade" :src="require(`@/assets/ImagesPrestataires/${prestataire.image}`)" alt="Logo du Prestataire">
-        <img v-else class="prestataire-img" alt="Logo du Prestataire" :src=prestataire.image />
+        <img class="animate-fade" :src="require(`@/assets/ImagesPrestataires/${prestataire.image}`)" alt="Logo du Prestataire">
         <div class="images-balade" v-if="prestataire.id == '8'">
           <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img1.jpg`)" alt="image balade1">
           <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img2.jpg`)" alt="image balade1">
