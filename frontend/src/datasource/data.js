@@ -491,37 +491,37 @@ let balades = [
     id_balade: "6",
     date_balade: "2025-09-01",
     heure_balade: "10:30",
-    reserved_user_id:6
+    reserved_user_id:null
   },
   {
     id_balade: "7",
     date_balade: "2025-09-01",
     heure_balade: "11:00",
-    reserved_user_id: 6
+    reserved_user_id: null
   },
   {
     id_balade: "8",
     date_balade: "2025-09-01",
     heure_balade: "12:00",
-    reserved_user_id:6
+    reserved_user_id:null
   },
   {
     id_balade: "9",
     date_balade: "2025-09-01",
     heure_balade: "13:00",
-    reserved_user_id: 7
+    reserved_user_id: null
   },
   {
     id_balade: "10",
     date_balade: "2025-09-01",
     heure_balade: "14:00",
-    reserved_user_id: 8
+    reserved_user_id: null
   },
   {
     id_balade: "11",
     date_balade: "2025-09-01",
     heure_balade: "14:30",
-    reserved_user_id: 9
+    reserved_user_id: null
   },
   {
     id_balade: "12",

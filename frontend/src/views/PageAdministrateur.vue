@@ -33,6 +33,35 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div v-if="showPrestataires" class="list-prestataires">
+            <h2>Prestataires <button @click="getAllPrestataires()">Refresh</button></h2>
+            <div class="prestataire" v-for="prestataire in prestataires" :key="prestataire.id">
+                <div class="presta-top"><h3>{{ prestataire.nom }}</h3></div>
+                <div class="presta-sbody">
+                    <div class="presta-body">
+                        <div class="presta-icon">
+                            <img class="prestataire-img" alt="prestimg" :src="require(`../assets/ImagesPrestataires/${prestataire.image}`)" />
+                        </div>
+                        <div class="presta-text">{{ prestataire.description_accueil }}</div>
+                        <div class="presta-actions">
+                            <div class="prest-actions-btn">
+                                <button @click="handlePrestaGoToPage(prestataire.id)">Accéder à la page</button>
+                                <button>Modifier prestataire</button>
+                                <button>Supprimer prestataire</button>
+                            </div>
+                            <div class="prest-actions-emplacement">
+                                <p>Emplacement actuel: {{ prestataire.id_emplacement }}</p>
+                                <label for="emplacement">Modifier </label><input id="emplacement" placeholder="Ex: 3" v-model="emplacementsPrestataire[prestataire.id-1]">
+                                <button @click="handleModifyEmplacementPrestataire((prestataire.id),emplacementsPrestataire[(prestataire.id)-1])">Valider</button>
+                            </div>
+                            <div class="prest-dons">
+                                <p>Total des dons: {{ montantDons[prestataire.id-1] }}€</p>
+                            </div>
+                        </div>
+                    </div>
                     <div class="presta-bottom">
                         <button class="show-services" @click="handleShowServices(prestataire.id - 1)">Afficher services</button>
                         <div v-if="showServices[prestataire.id - 1]">
@@ -101,8 +130,7 @@
               <div class="presta-sbody">
                 <div class="presta-body">
                   <div class="presta-icon">
-                    <img v-if="typeof prestataire.image === String" class="prestataire-img" alt="prestimg" :src="require(`../assets/ImagesPrestataires/${prestataire.image}`)" />
-                    <img v-else class="prestataire-img" alt="prestimg" :src=prestataire.image />
+                    <img  class="prestataire-img" alt="prestimg" :src="require(`../assets/ImagesPrestataires/${prestataire.image}`)" />
                   </div>
                   <div class="presta-text">{{ prestataire.description_accueil }}</div>
                   <div class="presta-actions">
@@ -137,8 +165,8 @@
               </div>
             </div>
           </div>
-          </div>
         </div>
+    </div>
 </template>
 
 <script>
@@ -174,6 +202,7 @@ export default {
         this.maintainEmplacementPrest(this.prestataires);
         this.maintainDonsPrest();
         this.getAllDemandePrestataire();
+
     },
     watch: {
         prestataires(newPrestataires) {
@@ -264,7 +293,7 @@ export default {
         async acceptDemandePrest(prest, index){
           await prestatairesService.acceptDemandePrest(prest)
           await this.declineDemandePrest(index)
-        }
+        },
     }
 };
 </script>

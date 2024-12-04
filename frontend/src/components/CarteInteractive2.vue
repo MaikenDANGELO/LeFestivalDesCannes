@@ -103,10 +103,11 @@ export default {
 <style scoped>
 .map-container {
   width: 100%;
-  height: 600px; /* Définit la hauteur du conteneur parent */
+  height: 600px;
 }
 #map {
   width: 100%;
-  height: 100%; /* Utilise toute la hauteur du conteneur parent */
+  height: 100%;
+  z-index: 0;
 }
 </style>

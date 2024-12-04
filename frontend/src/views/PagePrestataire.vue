@@ -3,7 +3,7 @@
     <div class="prestataire-detail" v-if="prestataire !== null">
       <div class="image-container">
         <img class="animate-fade" :src="require(`@/assets/ImagesPrestataires/${prestataire.image}`)" alt="Logo du Prestataire">
-        <div class="images-balade" v-if="prestataire.id == '8'">
+        <div class="images-balade" v-if="prestataire.id === '8'">
           <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img1.jpg`)" alt="image balade1">
           <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img2.jpg`)" alt="image balade1">
           <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img3.jpg`)" alt="image balade1">
@@ -18,7 +18,7 @@
           <li><strong>Catégorie:</strong> {{ prestataire.categorie }}</li>
           <li><strong>Emplacement:</strong> {{ prestataire.id_emplacement }}</li>
         </ul>
-        <div class="restaurant-menu" v-if="prestataire.id == '2'">
+        <div class="restaurant-menu" v-if="prestataire.id === '2'">
           <h2>Horaires</h2>
           <ul>
             <li>Lundi : Fermé</li>
@@ -60,7 +60,7 @@
           <div>
             <p class="total-dons-presta">Dons reçus: {{ montantDons }}€</p>
           </div>
-          <div v-if="utilisateur.estConnecte">
+          <div v-if="utilisateur.role === 'utilisateur'">
             <button @click="makeDonation()" class="make-donation">Faire un don</button>
           </div>
           <div v-else>
@@ -69,7 +69,7 @@
         </div>
         <div class="avis">
           <h2>Avis et commentaires</h2>
-          <div v-if="utilisateur.estConnecte" class="avis-input">
+          <div v-if="utilisateur.role === 'utilisateur'" class="avis-input">
             <h3>Envoyer un avis:</h3>
             <div class="rating" id="rating">
               <input type="radio" name="rating" id="rating-5" v-model="user_note" value=5>
@@ -110,16 +110,17 @@
               <div class="balade-details">
                 <p>Ballade le {{balade.date_balade}} à {{balade.heure_balade}}</p>
               </div>
-              <div v-if="utilisateur.estConnecte" class="balade-actions">
-                <p v-if="balade.reserved_user_id !== utilisateur.id && balade.reserved_user_id !== null" class="indisponible">indisponible</p>
-                <button v-if="balade.reserved_user_id === null" @click="reserverBalade(balade.id_balade, utilisateur.id)" class="btn reserver">Réserver</button>
-                <button v-if="balade.reserved_user_id === utilisateur.id" @click="cancelBalade(balade.id_balade)" class="btn annuler">Annuler</button>
+              <div v-if="utilisateur.role !== 'prestaire'" class="balade-actions">
+                <div v-if="utilisateur.role === 'utilisateur'">
+                  <p v-if="balade.reserved_user_id !== utilisateur.id && balade.reserved_user_id !== null" class="indisponible">indisponible</p>
+                  <button v-if="balade.reserved_user_id === null" @click="reserverBalade(balade.id_balade, utilisateur.id)" class="btn reserver">Réserver</button>
+                </div>
+                <p v-if="utilisateur.role === 'admin' && balade.reserved_user_id !== null">Réservée par {{ getUtilisateur(balade.reserved_user_id).nom_utilisateur }}</p>
+                <button v-if="balade.reserved_user_id === utilisateur.id || (utilisateur.role === 'admin' && balade.reserved_user_id !== null)" @click="cancelBalade(balade.id_balade)" class="btn annuler">Annuler</button>
+                <p v-else>Aucune réservation</p>
               </div>
             </li>
           </ul>
-
-
-
         </div>
       </div>
     </div>
@@ -221,21 +222,33 @@ export default {
         this.avisMofication = true;
         this.idAvisModification = id;
       }
-    }
+    },
+    async loadPrestataireData(id) {
+      this.prestataire = this.prestataires.find(p => p.id === id);
+      if (this.prestataire) {
+        await this.getPrestataireAvis(this.prestataire.id);
+        await this.getDonationAmount();
+        await this.fetchBalades();
+      }
+    },
   },
   async created() {
-    await this.fetchBalades();
-    await this.getAllPrestataires();
-    await this.getAllUsers();
-    const id = this.$route.params.id;
-    this.prestataire = this.prestataires.find(p => p.id === id); // récupère le prestataire d'après l'id renseignée depuis la Page  principale
-    console.log(this.prestataire)
-    this.getPrestataireAvis(this.prestataire['id']) // récupère les avis du prestataire
-    await this.getDonationAmount();
+    this.getAllPrestataires();
+    this.getAllUsers();
+    this.loadPrestataireData(this.$route.params.id);
+
   },
   mounted: function () {
     if (!this.prestataires) window.location.reload();
-  }
+  },
+  watch: {
+    '$route.params.id': {
+      immediate: true,
+      handler(newId) {
+        this.loadPrestataireData(newId);
+      }
+    }
+  },
 };
 </script>
 

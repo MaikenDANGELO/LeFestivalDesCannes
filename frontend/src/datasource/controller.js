@@ -293,7 +293,11 @@ function acceptDemandePrest(prest){
     prest.page_route = '/prestataire/'+newId;
 
     prestataires.push(prest);
+    userBecomesPrestataire(prest.id_utilisateur)
+}
 
+function userBecomesPrestataire(id){
+    utilisateurs[id].role = 'prestataire';
 }
 
 export default {
