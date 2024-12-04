@@ -97,10 +97,29 @@
             <h4>{{ getUtilisateur(avis['id_utilisateur'])['nom_utilisateur'] }} - {{ avis['note'] }}/5</h4>
             <p>{{ avis['texte'] }}</p>
             <div class="avisButton">
-              <button v-if="(avis['id_utilisateur'] === utilisateur.id || utilisateur.role == 'admin')" @click="deleteAvis(avis['id_commentaire'])">Supprimer</button>
+              <button v-if="(avis['id_utilisateur'] === utilisateur.id || utilisateur.role === 'admin')" @click="deleteAvis(avis['id_commentaire'])">Supprimer</button>
               <button v-if="avis['id_utilisateur'] === utilisateur.id" @click="modifyAvis(index + 1,  avis['note'], avis['texte']  )">Modifier</button>
             </div>
           </div>
+        </div>
+        <div v-if="prestataire.id === '8'">
+
+          <h2>Balades</h2>
+          <ul>
+            <li v-for="balade in balades" :key="balade.id_balade" class="balade-item">
+              <div class="balade-details">
+                <p>Ballade le {{balade.date_balade}} à {{balade.heure_balade}}</p>
+              </div>
+              <div v-if="utilisateur.estConnecte" class="balade-actions">
+                <p v-if="balade.reserved_user_id !== utilisateur.id && balade.reserved_user_id !== null" class="indisponible">indisponible</p>
+                <button v-if="balade.reserved_user_id === null" @click="reserverBalade(balade.id_balade, utilisateur.id)" class="btn reserver">Réserver</button>
+                <button v-if="balade.reserved_user_id === utilisateur.id" @click="cancelBalade(balade.id_balade)" class="btn annuler">Annuler</button>
+              </div>
+            </li>
+          </ul>
+
+
+
         </div>
       </div>
     </div>
@@ -115,12 +134,14 @@ import { mapActions, mapState } from 'vuex';
 import prestatairesService from "@/services/prestataires.service";
 import moneyService from '@/services/money.service';
 import usersService from "@/services/users.service";
+import baladesServices from "@/services/balades.services";
 
 
 export default {
   name: "PrestataireDetail",
   data() {
     return {
+      balades: [],
       prestataire: null,
       user_note: 0,
       user_comment: "",
@@ -131,11 +152,33 @@ export default {
   },
   computed: {
     ...mapState('utilisateurs', ['utilisateur', 'utilisateurs']),
-    ...mapState('prestataire', ["avis_prestataire", "prestataires"])
+    ...mapState('prestataire', ["avis_prestataire", "prestataires"]),
   },
   methods: {
     ...mapActions('prestataire', ['getPrestataireAvis', 'getAllPrestataires']),
     ...mapActions('utilisateurs', ['getAllUsers']),
+    async reserverBalade(id,uid){
+      console.log(id,uid)
+      await baladesServices.reservebalade(id, uid);
+      await this.fetchBalades();
+    },
+    async cancelBalade(id){
+      //console.log('Annulation de la balade '+id)
+      await baladesServices.cancelbalade(id);
+      await this.fetchBalades();
+    },
+    async fetchBalades() {
+      try {
+        const response = await baladesServices.getAllBalades();
+        if (response.error === 0) {
+          this.balades = response.data;
+        } else {
+          console.error("Erreur lors du chargement des balades :", response.data);
+        }
+      } catch (error) {
+        console.error("Impossible de récupérer les balades :", error.message);
+      }
+    },
     getUtilisateur(id) {
       return this.utilisateurs.find(u => u['id_utilisateur'] === id);
     },
@@ -181,6 +224,7 @@ export default {
     }
   },
   async created() {
+    await this.fetchBalades();
     await this.getAllPrestataires();
     await this.getAllUsers();
     const id = this.$route.params.id;
@@ -196,6 +240,59 @@ export default {
 </script>
 
 <style scoped>
+
+/* Ensures each balade item is displayed on the same line */
+.balade-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  margin-right: 50%;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Balade details (left-aligned) */
+.balade-details {
+  flex: 1;
+}
+
+/* Align actions (indisponible message and buttons) in one row */
+.balade-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Style for the unavailable message */
+.indisponible {
+  color: rgb(122, 122, 122);
+  margin-right: 10px;
+}
+
+/* Button styles */
+.btn {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.reserver {
+  background-color: rgba(0, 128, 0, 0.46);
+  color: white;
+  border: none;
+}
+
+.annuler {
+  background-color: rgba(255, 0, 0, 0.51);
+  color: white;
+  border: none;
+}
+
+.reserver:hover,
+.annuler:hover {
+  opacity: 0.8;
+}
+
 .prestataire-detail {
   display: flex;
   flex-direction: row;

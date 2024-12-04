@@ -1,8 +1,8 @@
-import { ballades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires} from "./data";
+import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires} from "./data";
 import bcrypt from 'bcryptjs';
 
-function getAllBalades(){
-    return{error : 0,data : ballades}
+function getAllbalades() {
+    return{error : 0,data : balades}
 }
 
 function getAllPrestataires() {
@@ -19,6 +19,32 @@ function getAllAssociation() {
 
 function getAllMapData() {
     return { error: 0, data: map_data };
+}
+
+function reservebalade(balade_id, user_id){
+    try {
+        let balade = balades.find(b => b.id_balade === balade_id);
+        if (!balade) return { error: 1, status: 404, data: "balade introuvable" };
+        if (balade.reserved_user_id !== null) return { error: 1, status: 404, data: "balade déjà réservée" };
+        balade.reserved_user_id = user_id;
+        console.log("reserve la balade" + balade)
+        return { error: 0, status: 200, data: balade }
+    }catch{
+        return { error: 1, status: 404, data: "Erreur lors de la réservation" };
+    }
+}
+
+
+function cancelBaladeReservation(balade_id){
+    try {
+        let balade = balades.find(b => b.id_balade === balade_id);
+        if (!balade) return { error: 1, status: 404, data: "balade introuvable" };
+        if (!balade.reserved_user_id) return { error: 1, status: 404, data: "balade non réservée" };
+        balade.reserved_user_id = null;
+        return { error: 0, status: 200, data: balade }
+    }catch{
+        return { error: 1, status: 404, data: "Erreur lors de l'annulation de la réservation" };
+    }
 }
 
 function insertCommandeBillet(vue, total) {
@@ -109,19 +135,6 @@ async function totalDons() {
         return { error: 1, status: 404, data: error.message }
     }
 
-}
-
-async function getBaladesfromUid(user_id){
-    try {
-        let balladesUtilisateur = [];
-        for (let i = 0; i< ballades.length;i++){
-            if(user_id === ballades.reserved_user_id) balladesUtilisateur.push(ballades[i])
-        }
-        return { error: 0, status: 200, data: balladesUtilisateur }
-    }
-    catch (error){
-        return {error:1,status:404,data : error.message}
-    }
 }
 
 
@@ -302,8 +315,9 @@ export default {
     modifyEmplacementPrestataire,
     getAllAssociation,
     getAllDemandePrestataire,
-    getAllBalades,
-    getBaladesfromUid,
+    getAllbalades,
     declineDemandePrest,
-    acceptDemandePrest
+    acceptDemandePrest,
+    reservebalade,
+    cancelBaladeReservation
 };
