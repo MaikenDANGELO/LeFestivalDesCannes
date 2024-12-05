@@ -10,6 +10,7 @@ import PageSponsor from '@/views/PageSponsor.vue';
 import PageDon from '@/views/PageDon.vue';
 import PageInscriptionCanard from "@/views/PageInscriptionCanard.vue";
 import PageAssociations from "@/views/PageAssociations.vue";
+import PageProfil from "@/views/PageProfil.vue";
 
 Vue.use(VueRouter)
 
@@ -63,6 +64,11 @@ const routes = [
     path: '/associations',
     name:'Associations',
     component : PageAssociations
+  },
+  {
+    path: '/pageProfil',
+    name:'pageProfil',
+    component : PageProfil
   }
   
   /*{
