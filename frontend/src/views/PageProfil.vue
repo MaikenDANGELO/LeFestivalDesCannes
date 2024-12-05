@@ -1,11 +1,368 @@
 <template>
-  <h1>Bienvenue sur Internet !!</h1>
+  <div id="app">
+    <nav class="vertical-navbar">
+      <div class="nav-links">
+        <button class="nav-link" @click="handleShowMyProfil()">Mon Profil</button>
+        <button class="nav-link" @click="handleShowMyReservations()">Mes réservations</button>
+      </div>
+    </nav>
+    <div class="main" v-if="myProfil === true">
+      <h1>Mon Profil</h1>
+      <div class="case" v-if="modifyPassword === false">
+        <div>
+          <h3>Données personnelles </h3>
+          <div>
+            <button v-if="modifyPersonnalData === false" @click="clickModifyPersonnalData()">Modifier</button>
+            <button v-if="modifyPersonnalData === true" @click="clickModifyPersonnalData()" class="second-button">Sauvegarder les modifications</button>
+          </div>
+        </div>
+        <div class="personnal-info">
+
+          <div class="form-group">
+            <label for="name">M./Mme</label>
+            <p v-if="modifyPersonnalData === false">{{this.utilisateur.nom}}</p>
+            <input v-else type="text" id="name" :value=this.utilisateur.nom placeholder="Votre nom et prénom">
+          </div>
+
+          <div class="form-group">
+            <label for="numero">Numéro de télephone</label>
+            <p v-if="modifyPersonnalData === false">{{this.utilisateur.numero}}</p>
+            <input v-else type="text" id="numero" :value=this.utilisateur.numero placeholder="Votre numéro de téléphone">
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email :</label>
+            <p v-if="modifyPersonnalData === false">{{this.utilisateur.email}}</p>
+            <input v-else type="text" id="email" name="email" placeholder="Votre email" :value="utilisateur.email">
+          </div>
+
+          <div class="form-group">
+            <label for="adresse">Adresse :</label>
+            <p v-if="modifyPersonnalData === false">{{this.utilisateur.adresse}}</p>
+            <input v-else type="text" id="adresse" name="adresse" placeholder="Votre adresse" :value="utilisateur.adresse">
+          </div>
+        </div>
+      </div>
+      <div class="case" v-if="modifyPersonnalData === false">
+        <h3>Mot de passe</h3>
+        <button v-if="modifyPersonnalData === false" @click="clickModifyPassword()" class="third-button">Changer de mot de passe</button>
+        <div v-if="modifyPassword === true">
+
+          <div class="password">
+            <div class="actuel-password">
+              <label for="mdp">Mot de passe actuel :</label>
+              <input v-model="actualPassword" :type="isPasswordVisible ? 'text' : 'password'" id="mdp" name="mdp" placeholder="Votre mot de passe" required >
+              <button class="password-icon" type="button" @click="togglePasswordVisibility">
+                <i :class="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+              </button>
+            </div>
+
+            <div class="newpassword">
+              <label for="nmdp">Nouveau mot de passe :</label>
+              <input @input="checkPasswordStrength" v-model="newPassword" :type="isPasswordVisible2 ? 'text' : 'password'" id="nmdp" name="nmdp" placeholder="Votre mot de passe" required >
+              <div class="progress-bar">
+                <div class="progress-fill" :style="{ width: strengthPercentage + '%', backgroundColor: strengthColor }"></div>
+              </div>
+              <button style="top: 33%" class="password-icon" type="button" @click="togglePasswordVisibility2">
+                <i :class="isPasswordVisible2 ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
+              </button>
+            </div>
+            <div class="verif">
+              <label for="nmdp2">Vérification mot de passe :</label>
+              <input @input="checkSamePassword($event)" id="nmdp2" name="nmdp2"  type="password" placeholder="Votre mot de passe" required  :class="inputClass">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <router-view />
+  </div>
 </template>
 
-<script setup>
+<script lang="ts">
+import {mapActions, mapState} from 'vuex';
 
+export default {
+  data(){
+    return{
+      myProfil:true,
+      myReservations: false,
+      modifyPersonnalData:false,
+      modifyPassword:false,
+      strengthPercentage: 0,
+      strengthColor: 'red',
+      actualPassword:'',
+      newPassword:'',
+      isPasswordVisible: false,
+      isPasswordVisible2: false,
+      samePassword: false,
+
+    }
+  },
+  computed: {
+    ...mapState('utilisateurs', ['utilisateur']),
+    inputClass() {
+      if (this.newPassword === '') {
+        console.log("rien")
+        return '';
+      } else if (this.samePassword) {
+        console.log("vert")
+        return 'input-success'; // Classe verte si les chaînes correspondent
+      } else {
+        console.log("rouge")
+        return 'input-error';   // Classe rouge si elles ne correspondent pas
+      }
+    }
+  },
+  methods:{
+    ...mapActions('utilisateurs', ['getAllUsers']),
+    handleShowMyProfil(){
+      this.myProfil = true;
+      this.myReservations = false;
+    },
+    handleShowMyReservations(){
+      this.myProfil = false;
+      this.myReservations = true;
+    },
+    clickModifyPersonnalData(){
+      this.modifyPersonnalData = !this.modifyPersonnalData;
+    },
+    clickModifyPassword(){
+      this.modifyPassword = !this.modifyPassword;
+    },
+    checkPasswordStrength() {
+      const password = this.newPassword;
+      let score = 0;
+
+      if (password.length >= 8) score++;
+      if (/[A-Z]/.test(password)) score++;
+      if (/[a-z]/.test(password)) score++;
+      if (/\d/.test(password)) score++;
+      if (/[\W_]/.test(password)) score++;
+
+      this.strengthPercentage = (score / 5) * 100;
+
+      if (score === 0) {
+        this.strengthColor = 'red';
+      } else if (score <= 2) {
+        this.strengthColor = 'orange';
+      } else if (score <= 4) {
+        this.strengthColor = 'yellow';
+      } else {
+        this.strengthColor = 'green';
+      }
+      this.inputClass()
+    },
+    checkSamePassword(event){
+      this.samePassword = (this.newPassword === event.target.value)
+      this.inputClass()
+    },
+    togglePasswordVisibility() {
+      this.isPasswordVisible = !this.isPasswordVisible;
+    },
+    togglePasswordVisibility2() {
+      this.isPasswordVisible2 = !this.isPasswordVisible2;
+    },
+  },
+};
 </script>
 
 <style scoped>
+#app {
+  display: flex;
+}
+
+.vertical-navbar {
+  position: initial;
+  margin-top: 5%;
+  margin-left: 10%;
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  z-index: 0;
+}
+
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.nav-link {
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background-color: transparent;
+  border: none; /* Retire la bordure du bouton */
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s; /* Animation fluide */
+  float: left;
+
+}
+
+.nav-link:hover {
+  background-color: #575757;
+}
+
+.main{
+  margin-top: 4%;
+  margin-left: 2%;
+  width: 100%;
+}
+
+.personnal-info {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  position: absolute;
+  width: 45%;
+  margin-top: 2%;
+}
+
+.form-group:nth-child(1) { /* Input dans le coin en haut à gauche */
+  top: 0;
+  left: 0;
+}
+
+.form-group:nth-child(2) { /* Input dans le coin en haut à droite */
+  top: 0;
+  right: 0;
+}
+
+.form-group:nth-child(3) { /* Input dans le coin en bas à gauche */
+  bottom: 0;
+  left: 0;
+}
+
+.form-group:nth-child(4) { /* Input dans le coin en bas à droite */
+  bottom: 0;
+  right: 0;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  width: 70%;
+  padding: 8px;
+  box-sizing: border-box;
+  font-size: large;
+}
+
+
+
+.main button {
+  position: absolute;
+  top: 5%;
+  left: 59%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #555;
+}
+
+.main .second-button{
+  margin-left: 7%;
+}
+
+.case {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin: 20px 0;
+  position: relative;
+}
+
+.case h3 {
+  margin-top: 0;
+}
+.case p{
+  font-size: large;
+}
+
+.actuel-password,
+.newpassword,
+.verif{
+  position: relative;
+  width: 25%;
+
+}
+.password input{
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  font-size: large;
+}
+.password label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.password .password-icon{
+  left: 90%;
+  top: 40%;
+}
+.case .third-button{
+  left: 64%;
+}
+
+.newpassword{
+  margin-top: 2%;
+}
+
+.newpassword label{
+  margin-top: 3%;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 5px;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0; /* La largeur est définie dynamiquement */
+  transition: width 0.3s, background-color 0.3s;
+}
+.input-success {
+  border-color: green;
+  background-color: #e0f8e0;
+}
+.input-error {
+  border-color: red;
+  background-color: #f8e0e0;
+}
 
 </style>
