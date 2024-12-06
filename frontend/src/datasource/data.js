@@ -765,6 +765,8 @@ let balades = [
   }
 ]
 
+let notifications = []
+
 module.exports = {
   balades,
   prestataires,
@@ -776,4 +778,5 @@ module.exports = {
   map_data,
   associations,
   demandePrestataires,
+  notifications,
 };

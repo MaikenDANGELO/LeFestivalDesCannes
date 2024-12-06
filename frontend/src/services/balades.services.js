@@ -40,10 +40,10 @@ async function reservebalade(balade_id, user_id){
     return response;
 }
 
-async function cancelbalade(balade_id, user_id){
+async function cancelbalade(balade_id, user_role){
     let response;
     try {
-        response = await LocalSource.cancelBaladeReservation(balade_id, user_id);
+        response = await LocalSource.cancelBaladeReservation(balade_id, user_role);
     }
     catch (error){
         return {error:1,status:404,data : error.message}

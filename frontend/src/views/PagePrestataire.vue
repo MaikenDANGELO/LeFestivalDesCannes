@@ -165,7 +165,7 @@ export default {
     },
     async cancelBalade(id){
       //console.log('Annulation de la balade '+id)
-      await baladesServices.cancelbalade(id);
+      await baladesServices.cancelbalade(id, this.utilisateur.role);
       await this.fetchBalades();
     },
     async fetchBalades() {

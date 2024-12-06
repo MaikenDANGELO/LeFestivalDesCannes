@@ -34,8 +34,19 @@ async function modifyAvis(data, id){
     return response;
 }
 
+async function getNotificationByUserID(id){
+    let response;
+    try{
+        response = await LocalSource.getNotificationByUserID(id);
+    }catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau'}
+    }
+    return response;
+}
+
 export default{
     getAllUsers,
     deleteAvis,
-    modifyAvis
+    modifyAvis,
+    getNotificationByUserID,
 }

@@ -4,6 +4,10 @@
       <div class="nav-links">
         <button class="nav-link" @click="handleShowMyProfil()">Mon Profil</button>
         <button class="nav-link" @click="handleShowMyReservations()">Mes réservations</button>
+        <button class="nav-link" @click="handleShowMyNotif()">Mes notifications</button>
+        <div class="cloche notification-cloche">
+          <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="50px" height="50px"><path d="M 25 1 A 4 4 0 0 0 25 9 A 4 4 0 0 0 25 1 z M 19.400391 7.0996094 C 14.800391 8.9996094 12 13.4 12 19 C 12 29.4 9.2 31.9 7.5 33.5 C 6.7 34.2 6 34.9 6 36 C 6 40 12.2 42 25 42 C 37.8 42 44 40 44 36 C 44 34.9 43.3 34.2 42.5 33.5 C 40.8 31.9 38 29.4 38 19 C 38 13.3 35.299609 8.9996094 30.599609 7.0996094 C 29.799609 9.3996094 27.6 11 25 11 C 22.4 11 20.200391 9.3996094 19.400391 7.0996094 z M 19.099609 43.800781 C 19.499609 46.800781 22 49 25 49 C 28 49 30.500391 46.800781 30.900391 43.800781 C 29.000391 44.000781 27 44 25 44 C 23 44 20.999609 44.000781 19.099609 43.800781 z"/></svg>
+        </div>
       </div>
     </nav>
     <div class="main" v-if="myProfil === true">
@@ -75,18 +79,35 @@
         </div>
       </div>
     </div>
+    <div class="main" v-if="myNotif === true">
+      <h1>Mes Notifications</h1>
+      <div v-if="notifications.length !== 0">
+        <div class="case" v-for="(notif) in notifications" :key="notif.id" >
+          <div class="notification">
+            {{notif.message}}
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <h2>Aucune notifications</h2>
+      </div>
+
+
+    </div>
     <router-view />
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import {mapActions, mapState} from 'vuex';
+import usersService from "@/services/users.service";
 
 export default {
   data(){
     return{
       myProfil:true,
       myReservations: false,
+      myNotif:false,
       modifyPersonnalData:false,
       modifyPassword:false,
       strengthPercentage: 0,
@@ -96,6 +117,7 @@ export default {
       isPasswordVisible: false,
       isPasswordVisible2: false,
       samePassword: false,
+      notifications: [],
 
     }
   },
@@ -119,10 +141,18 @@ export default {
     handleShowMyProfil(){
       this.myProfil = true;
       this.myReservations = false;
+      this.myNotif = false;
     },
     handleShowMyReservations(){
       this.myProfil = false;
       this.myReservations = true;
+      this.myNotif = false;
+
+    },
+    handleShowMyNotif(){
+      this.myProfil = false;
+      this.myReservations = false;
+      this.myNotif = true;
     },
     clickModifyPersonnalData(){
       this.modifyPersonnalData = !this.modifyPersonnalData;
@@ -163,7 +193,15 @@ export default {
     togglePasswordVisibility2() {
       this.isPasswordVisible2 = !this.isPasswordVisible2;
     },
+    async getNotificationByID(id){
+      let notif = await usersService.getNotificationByUserID(id);
+      this.notifications = notif.data;
+      console.log(this.notifications)
+    }
   },
+  created() {
+    this.getNotificationByID(this.utilisateur.id)
+  }
 };
 </script>
 
@@ -175,8 +213,8 @@ export default {
 .vertical-navbar {
   position: initial;
   margin-top: 5%;
-  margin-left: 10%;
-  width: 250px;
+  margin-left: 5%;
+  width: 300px;
   height: 100%;
   background-color: #333;
   display: flex;
@@ -191,6 +229,7 @@ export default {
   display: flex;
   flex-direction: column;
   width: 100%;
+  position: relative;
 }
 
 .nav-link {
@@ -203,15 +242,28 @@ export default {
   align-items: center;
   gap: 20px;
   background-color: transparent;
-  border: none; /* Retire la bordure du bouton */
+  border: none;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s; /* Animation fluide */
+  transition: background-color 0.3s, color 0.3s;
   float: left;
 
 }
 
 .nav-link:hover {
   background-color: #575757;
+}
+
+.notification-cloche {
+  position: absolute;
+  top: calc(14px * 3 + 18px * 3); /* Ajustez en fonction des marges et paddings des boutons */
+  right: 10px;
+  display: flex;
+  align-items: center;
+  width: 13%;
+}
+
+.notification-cloche svg path{
+  fill: white;
 }
 
 .main{
@@ -364,5 +416,6 @@ button:hover {
   border-color: red;
   background-color: #f8e0e0;
 }
+
 
 </style>

@@ -30,7 +30,7 @@
           <div v-else class="dropdown" @click="handleDropdownClick">
             <button @click="toggleDropdown" class="circle">{{ initiale }}</button>
             <div v-if="isDropdownVisible" class="dropdown-content">
-              <router-link to="/pageProfil">Profil</router-link>
+              <router-link v-if="utilisateur.role !== 'admin' " to="/pageProfil">Profil</router-link>
               <button @click="logOut">Déconnexion</button>
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires} from "./data";
+import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications} from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllbalades() {
@@ -35,12 +35,24 @@ function reservebalade(balade_id, user_id){
 }
 
 
-function cancelBaladeReservation(balade_id){
+function cancelBaladeReservation(balade_id, user_role){
     try {
         let balade = balades.find(b => b.id_balade === balade_id);
         if (!balade) return { error: 1, status: 404, data: "balade introuvable" };
         if (!balade.reserved_user_id) return { error: 1, status: 404, data: "balade non réservée" };
+
+        let message
+        if (user_role === 'admin')  message = 'Balade de ' + balade.heure_balade + ' annulée par l\'organisateur'
+        else  message = 'Balade de ' + balade.heure_balade + ' annulée'
+        let notif = {
+            id:notifications.length,
+            id_user:balade.reserved_user_id,
+            message:message
+        }
+        notifications.push(notif);
+
         balade.reserved_user_id = null;
+
         return { error: 0, status: 200, data: balade }
     }catch{
         return { error: 1, status: 404, data: "Erreur lors de l'annulation de la réservation" };
@@ -300,6 +312,9 @@ function userBecomesPrestataire(id){
     utilisateurs[id].role = 'prestataire';
 }
 
+function getNotificationByUserID(id){
+    return { error: 0, status:200 , data: notifications.filter(n => n.id_user === id)};
+}
 export default {
     getAllPrestataires,
     getAllSponsors,
@@ -323,5 +338,6 @@ export default {
     declineDemandePrest,
     acceptDemandePrest,
     reservebalade,
-    cancelBaladeReservation
+    cancelBaladeReservation,
+    getNotificationByUserID,
 };
