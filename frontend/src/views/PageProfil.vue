@@ -4,10 +4,18 @@
       <div class="nav-links">
         <button class="nav-link" @click="handleShowMyProfil()">Mon Profil</button>
         <button class="nav-link" @click="handleShowMyReservations()">Mes réservations</button>
-        <button class="nav-link" @click="handleShowMyNotif()">Mes notifications</button>
-        <div class="cloche notification-cloche">
-          <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="50px" height="50px"><path d="M 25 1 A 4 4 0 0 0 25 9 A 4 4 0 0 0 25 1 z M 19.400391 7.0996094 C 14.800391 8.9996094 12 13.4 12 19 C 12 29.4 9.2 31.9 7.5 33.5 C 6.7 34.2 6 34.9 6 36 C 6 40 12.2 42 25 42 C 37.8 42 44 40 44 36 C 44 34.9 43.3 34.2 42.5 33.5 C 40.8 31.9 38 29.4 38 19 C 38 13.3 35.299609 8.9996094 30.599609 7.0996094 C 29.799609 9.3996094 27.6 11 25 11 C 22.4 11 20.200391 9.3996094 19.400391 7.0996094 z M 19.099609 43.800781 C 19.499609 46.800781 22 49 25 49 C 28 49 30.500391 46.800781 30.900391 43.800781 C 29.000391 44.000781 27 44 25 44 C 23 44 20.999609 44.000781 19.099609 43.800781 z"/></svg>
-        </div>
+        <button class="nav-link" @click="handleShowMyNotif()">
+          Mes notifications
+          <div class="notification-wrapper">
+            <p v-if="notifications.length !== 0" class="circle">{{ notifications.length }}</p>
+            <div class="cloche notification-cloche">
+              <svg xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 50 50" width="50px" height="50px"><path d="M 25 1 A 4 4 0 0 0 25 9 A 4 4 0 0 0 25 1 z M 19.400391 7.0996094 C 14.800391 8.9996094 12 13.4 12 19 C 12 29.4 9.2 31.9 7.5 33.5 C 6.7 34.2 6 34.9 6 36 C 6 40 12.2 42 25 42 C 37.8 42 44 40 44 36 C 44 34.9 43.3 34.2 42.5 33.5 C 40.8 31.9 38 29.4 38 19 C 38 13.3 35.299609 8.9996094 30.599609 7.0996094 C 29.799609 9.3996094 27.6 11 25 11 C 22.4 11 20.200391 9.3996094 19.400391 7.0996094 z M 19.099609 43.800781 C 19.499609 46.800781 22 49 25 49 C 28 49 30.500391 46.800781 30.900391 43.800781 C 29.000391 44.000781 27 44 25 44 C 23 44 20.999609 44.000781 19.099609 43.800781 z"/></svg>
+            </div>
+          </div>
+        </button>
+
+
+
       </div>
     </nav>
     <div class="main" v-if="myProfil === true">
@@ -233,34 +241,42 @@ export default {
 }
 
 .nav-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 20px;
   color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
   background-color: transparent;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-  float: left;
-
+  transition: background-color 0.3s, color 0.3s, transform 0.3s ease;
 }
 
 .nav-link:hover {
   background-color: #575757;
+  transform: scale(1.1);
+}
+
+.notification-wrapper {
+  display: flex;
+  align-items: center;
+  position: relative; /* Pour positionner les éléments correctement */
 }
 
 .notification-cloche {
-  position: absolute;
-  top: calc(14px * 3 + 18px * 3); /* Ajustez en fonction des marges et paddings des boutons */
-  right: 10px;
   display: flex;
   align-items: center;
-  width: 13%;
+  justify-content: center;
+  position: relative;
+  margin-left: 8px;
+  width: 25px;
+  height: 25px;
 }
+
 
 .notification-cloche svg path{
   fill: white;
@@ -415,6 +431,15 @@ button:hover {
 .input-error {
   border-color: red;
   background-color: #f8e0e0;
+}
+
+.circle {
+  width: 25px;
+  height: 25px;
+  background-color: #ffffff;
+  color: black;
+  align-content: center;
+  align-items: center;
 }
 
 
