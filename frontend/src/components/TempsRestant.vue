@@ -44,13 +44,19 @@ export default {
 #chrono {
   font-family: 'Arial', sans-serif;
   text-align: center;
-  margin: 5% auto;
+  margin: 10% auto;
   background: linear-gradient(to bottom, #0b3d0b, #1e622e, #2a7d2a);
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   color: #ffffff;
-  padding: 20px;
+  padding: 30px;
   max-width: 400px;
+}
+
+#chrono p {
+  font-size: 1.8rem; /* Augmente la taille du texte descriptif */
+  font-weight: 600; /* Renforce le poids pour mieux contraster */
+  margin-bottom: 20px; /* Ajoute un espace sous le paragraphe */
 }
 
 .chrono {
@@ -63,28 +69,29 @@ export default {
 .chrono-box {
   background-color: #ffffff;
   color: #2c3e50;
-  font-size: 2rem;
+  font-size: 3rem; /* Augmente la taille des chiffres */
   font-weight: bold;
-  width: 70px;
-  height: 70px;
+  width: 90px; /* Boîte agrandie pour s'adapter aux chiffres */
+  height: 90px;
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 
 .chrono-labels {
   display: flex;
   justify-content: space-around;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 .chrono-label {
-  font-size: 1rem;
-  font-weight: 500;
+  font-size: 1.4rem; /* Augmente la taille des étiquettes */
+  font-weight: 600;
   color: #ffffff;
   text-transform: uppercase;
 }
+
 
 </style>
