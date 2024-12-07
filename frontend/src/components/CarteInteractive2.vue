@@ -10,9 +10,16 @@ import 'leaflet/dist/leaflet.css';
 
 export default {
   name: 'InteractiveMap',
+  props: {
+    selectedPrestataireId: {
+      type: Number,          // L'ID du prestataire sélectionné
+      required: false,       // Non obligatoire pour prendre en charge la carte générale
+      default: null,         // Par défaut, aucun prestataire n'est sélectionné
+    },
+  },
   data() {
     return {
-      map: null,
+      map: null,             // Instance de la carte Leaflet
     };
   },
   mounted() {
@@ -21,31 +28,77 @@ export default {
   methods: {
     initMap() {
       // Initialisation de la carte
-      this.map = L.map('map').setView([47.6866, 6.8233], 15).setMinZoom(14); // Zoom niveau 13
+      this.map = L.map('map').setView([47.6866, 6.8233], 15).setMinZoom(14);
 
-      // Ajouter une couche de tuiles (tiles layer)
+      // Ajouter une couche de tuiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
+        attribution: '&copy; OpenStreetMap contributors',
       }).addTo(this.map);
 
-      // Ajouter un marqueur avec une infobulle
-      const marker = L.marker([47.6866, 6.8233]).addTo(this.map);
-      marker.bindPopup('<b>Lac de Malsaucy</b><br>Près de Belfort').openPopup();
+      // Définir les icônes personnalisées
+      const icons = {
+        evenement: L.icon({
+          iconUrl: require('@/assets/MarqueursCarte/evenement.png'),
+          iconSize: [48, 48],
+          iconAnchor: [24, 48],
+          popupAnchor: [0, -48],
+        }),
+        pedalo: L.icon({
+          iconUrl: require('@/assets/MarqueursCarte/pedalo.png'),
+          iconSize: [48, 48],
+          iconAnchor: [24, 48],
+          popupAnchor: [0, -48],
+        }),
+        peinture: L.icon({
+          iconUrl: require('@/assets/MarqueursCarte/peinture.png'),
+          iconSize: [48, 48],
+          iconAnchor: [24, 48],
+          popupAnchor: [0, -48],
+        }),
+        restaurant: L.icon({
+          iconUrl: require('@/assets/MarqueursCarte/restaurant.png'),
+          iconSize: [48, 48],
+          iconAnchor: [24, 48],
+          popupAnchor: [0, -48],
+        }),
+        stand: L.icon({
+          iconUrl: require('@/assets/MarqueursCarte/stand.png'),
+          iconSize: [48, 48],
+          iconAnchor: [24, 48],
+          popupAnchor: [0, -48],
+        }),
+      };
 
-      // Ajouter plusieurs marqueurs
-      const locations = [
-        { coords: [47.6868, 6.8250], text: 'Scène Principale' },
-        { coords: [47.6880, 6.8245], text: 'Entrée Principale' },
-        { coords: [47.6872, 6.8228], text: 'Zone de Restauration' },
-        { coords: [47.6859, 6.8237], text: 'Scène Secondaire' },
-        { coords: [47.6875, 6.8260], text: 'Zone Camping' }
+      // Liste des prestataires avec leurs coordonnées et icônes
+      const prestataires = [
+        { id: 1, coords: [47.6868, 6.8250], text: 'Jeux et Divertissements', icon: icons.evenement },
+        { id: 2, coords: [47.6880, 6.8245], text: 'Restaurant Le Gourmet', icon: icons.restaurant },
+        { id: 3, coords: [47.6872, 6.8228], text: 'Mascotte Festival', icon: icons.evenement },
+        { id: 4, coords: [47.6859, 6.8237], text: 'Stand Artisanat Local', icon: icons.stand },
+        { id: 5, coords: [47.6875, 6.8260], text: 'Dégustation de Canard', icon: icons.restaurant },
+        { id: 6, coords: [47.6862, 6.8225], text: 'Concours de Cuisine', icon: icons.restaurant },
+        { id: 7, coords: [47.6855, 6.8230], text: 'Atelier Peinture', icon: icons.peinture },
+        { id: 8, coords: [47.6879, 6.8248], text: 'Ped\'ailo!', icon: icons.pedalo },
       ];
 
-      // Ajouter les marqueurs sur la carte
-      locations.forEach(location => {
-        const marker = L.marker(location.coords).addTo(this.map);
-        marker.bindPopup(`<b>${location.text}</b>`);
-      });
+      // Si un prestataire est sélectionné, afficher uniquement son marqueur
+      if (this.selectedPrestataireId) {
+        const selectedPrestataire = prestataires.find(
+          (p) => p.id === this.selectedPrestataireId
+        );
+        if (selectedPrestataire) {
+          const marker = L.marker(selectedPrestataire.coords, {
+            icon: selectedPrestataire.icon,
+          }).addTo(this.map);
+          marker.bindPopup(`<b>${selectedPrestataire.text}</b>`).openPopup();
+        }
+      } else {
+        // Si aucun prestataire sélectionné, afficher tous les marqueurs
+        prestataires.forEach((prestataire) => {
+          const marker = L.marker(prestataire.coords, { icon: prestataire.icon }).addTo(this.map);
+          marker.bindPopup(`<b>${prestataire.text}</b>`);
+        });
+      }
 
       // Coordonnées du polygone représentant la zone des Eurockéennes
       const polygonCoords = [
@@ -87,16 +140,15 @@ export default {
 
       // Ajouter le polygone à la carte
       const polygon = L.polygon(polygonCoords, {
-        color: 'blue',          // Couleur de la bordure
-        fillColor: '#3388ff',   // Couleur de remplissage
-        fillOpacity: 0.4        // Opacité du remplissage
+        color: 'blue', // Couleur de la bordure
+        fillColor: '#3388ff', // Couleur de remplissage
+        fillOpacity: 0.4, // Opacité du remplissage
       }).addTo(this.map);
 
       // Ajouter une popup pour le polygone
       polygon.bindPopup('Zone de baignades des canards').openPopup();
-
-    }
-  }
+    },
+  },
 };
 </script>
 

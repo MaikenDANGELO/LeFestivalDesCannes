@@ -43,17 +43,48 @@ export default {
 <style scoped>
 #chrono {
   font-family: 'Arial', sans-serif;
+  text-align: center;
+  margin: 5% auto;
+  background: linear-gradient(to bottom, #0b3d0b, #1e622e, #2a7d2a);
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  color: #ffffff;
+  padding: 20px;
+  max-width: 400px;
+}
+
+.chrono {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.chrono-box {
+  background-color: #ffffff;
+  color: #2c3e50;
   font-size: 2rem;
-  text-align: center;
-  margin-top: 5%;
-  margin-bottom: 5%;
+  font-weight: bold;
+  width: 70px;
+  height: 70px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-button {
-  font-size: 20px;
-  margin: 10px;
-  padding: 10px 20px;
+
+.chrono-labels {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
 }
-.buttons {
-  text-align: center;
+
+.chrono-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #ffffff;
+  text-transform: uppercase;
 }
+
 </style>
