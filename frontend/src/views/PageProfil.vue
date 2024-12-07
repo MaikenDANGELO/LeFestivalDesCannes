@@ -87,6 +87,22 @@
         </div>
       </div>
     </div>
+
+    <div class="main" v-if="myReservations === true">
+
+      <h1>Mes Réservations : </h1>
+      <h2>Ped'ailo : </h2>
+
+      <div v-if="balades.length !== 0">
+        <div class="case" v-for="(balade) in balades" :key="balade.id" >
+          <div class="balade-details">
+            <p>Balade réservée pour {{balade.heure_balade}} le {{balade.date_balade}}</p>
+            <button @click="cancelBalade(balade.id_balade)">Annuler</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="main" v-if="myNotif === true">
       <h1>Mes Notifications</h1>
       <div v-if="notifications.length !== 0">
@@ -104,11 +120,13 @@
     </div>
     <router-view />
   </div>
+
 </template>
 
-<script>
+<script lang="ts">
 import {mapActions, mapState} from 'vuex';
 import usersService from "@/services/users.service";
+import baladesServices from "@/services/balades.services";
 
 export default {
   data(){
@@ -126,7 +144,7 @@ export default {
       isPasswordVisible2: false,
       samePassword: false,
       notifications: [],
-
+      balades : [],
     }
   },
   computed: {
@@ -146,6 +164,23 @@ export default {
   },
   methods:{
     ...mapActions('utilisateurs', ['getAllUsers']),
+    async cancelBalade(id){
+      console.log('Annulation de la balade '+id)
+      await baladesServices.cancelbalade(id, this.utilisateur.role);
+      await this.fetchUserBalades();
+    },
+    async fetchUserBalades(){
+      try {
+        const response = await baladesServices.getbaladesfromUid(this.utilisateur.id);
+        if (response.error === 0) {
+          this.balades = response.data;
+        } else {
+          console.error("Erreur lors du chargement des balades :", response.data);
+        }
+      } catch (error) {
+        console.error("Impossible de récupérer les balades :", error.message);
+      }
+    },
     handleShowMyProfil(){
       this.myProfil = true;
       this.myReservations = false;
@@ -207,15 +242,19 @@ export default {
       console.log(this.notifications)
     }
   },
-  created() {
-    this.getNotificationByID(this.utilisateur.id)
-  }
+  async created(){
+    await this.fetchUserBalades();
+    await this.getNotificationByID(this.utilisateur.id)
+  },
 };
 </script>
 
 <style scoped>
 #app {
   display: flex;
+}
+.balade-details button{
+  left : 80%;
 }
 
 .vertical-navbar {

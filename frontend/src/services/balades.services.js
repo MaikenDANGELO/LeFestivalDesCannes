@@ -4,17 +4,27 @@ async function getAllbaladesFromLocalSource() {
     return LocalSource.getAllbalades();
 }
 
-async function getbaladesfromUid(user_id){
+async function getbaladesfromUid(user_id) {
     try {
-        let balades = await getAllbaladesFromLocalSource();
-        let baladesUtilisateur = balades.filter(balade => balade.reserved_user_id === user_id);
+        let response = await getAllbaladesFromLocalSource();
 
-        return { error: 0, status: 200, data: baladesUtilisateur }
-    }
-    catch (error){
-        return {error:1,status:404,data : error.message}
+        // Vérifiez si l'objet retourné a une clé 'data' et si elle contient un tableau
+        if (response.error !== 0 || !Array.isArray(response.data)) {
+            throw new Error("Les données récupérées ne sont pas valides");
+        }
+
+        // Filtrer les balades à partir de la clé 'data'
+        let baladesUtilisateur = response.data.filter(
+            balade => balade.reserved_user_id === user_id
+        );
+
+        return { error: 0, status: 200, data: baladesUtilisateur };
+    } catch (error) {
+        console.error("Erreur lors de la récupération des balades :", error.message);
+        return { error: 1, status: 404, data: error.message };
     }
 }
+
 
 async function getAllBalades() {
     let response;
