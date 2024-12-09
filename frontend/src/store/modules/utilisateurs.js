@@ -7,6 +7,9 @@ export default {
             role: '',
             nom: '',
             id: 0,
+            email:'',
+            adresse:'',
+            numero:'',
             estConnecte:false,
         },
         utilisateurs: [],
@@ -15,7 +18,10 @@ export default {
         SET_USER(state, user) {
             state.utilisateur.nom = user.nom_utilisateur;
             state.utilisateur.role = user.role;
-            state.utilisateur.id = user.id_utilisateur
+            state.utilisateur.id = user.id_utilisateur;
+            state.utilisateur.email = user.email_utilisateur
+            state.utilisateur.adresse = user.adresse_utilisateur
+            state.utilisateur.numero = user.telephone
             state.utilisateur.estConnecte = true
         },
         LOGOUT(state) {

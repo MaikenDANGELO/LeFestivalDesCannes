@@ -455,318 +455,336 @@ let demandePrestataires = [
   },
 ]
 
+let disponibilitesResto = {
+  "2024-12-10": ["12:00", "12:30", "13:00", "13:30", "19:00", "19:30", "20:00"],
+  "2024-12-11": ["12:00", "13:00", "14:00", "19:00", "19:30", "20:00", "20:30"],
+  "2024-12-12": ["12:30", "13:00", "14:30", "19:00", "19:30", "21:00"],
+  "2024-12-13": ["12:00", "12:30", "13:00", "13:30", "14:00"],
+  "2025-01-05": ["19:00", "19:30", "20:00", "20:30", "21:00", "21:30"],
+  "2025-01-06": ["12:00", "13:00", "14:00"],
+  "2025-01-07": ["12:00", "12:30", "13:00", "13:30", "19:00", "19:30"],
+  "2025-01-08": ["12:30", "13:00", "14:00", "14:30", "19:00", "19:30", "20:30"],
+  "2025-02-14": ["12:00", "12:30", "13:00", "13:30", "19:00", "19:30", "20:00"],
+  "2025-02-15": ["12:00", "12:30", "13:30", "14:30", "19:00", "20:00", "20:30", "21:00"],
+};
 
-let ballades = [
+
+let balades = [
   {
-    id_ballade: 1,
-    date_ballade: '2025-09-01',
-    heure_ballade: '08:00',
-    reserved_user_id: ''
+    id_balade: "1",
+    date_balade: "2025-09-01",
+    heure_balade: "08:00",
+    reserved_user_id: 1
   },
   {
-    id_ballade: 2,
-    date_ballade: '2025-09-01',
-    heure_ballade: '08:30',
-    reserved_user_id: ''
+    id_balade: "2",
+    date_balade: "2025-09-01",
+    heure_balade: "08:30",
+    reserved_user_id: 1
   },
   {
-    id_ballade: 3,
-    date_ballade: '2025-09-01',
-    heure_ballade: '09:00',
-    reserved_user_id: ''
+    id_balade: "3",
+    date_balade: "2025-09-01",
+    heure_balade: "09:00",
+    reserved_user_id: 2
   },
   {
-    id_ballade: 4,
-    date_ballade: '2025-09-01',
-    heure_ballade: '09:30',
-    reserved_user_id: ''
+    id_balade: "4",
+    date_balade: "2025-09-01",
+    heure_balade: "09:30",
+    reserved_user_id: 2
   },
   {
-    id_ballade: 5,
-    date_ballade: '2025-09-01',
-    heure_ballade: '10:00',
-    reserved_user_id: ''
+    id_balade: "5",
+    date_balade: "2025-09-01",
+    heure_balade: "10:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 6,
-    date_ballade: '2025-09-01',
-    heure_ballade: '10:30',
-    reserved_user_id: ''
+    id_balade: "6",
+    date_balade: "2025-09-01",
+    heure_balade: "10:30",
+    reserved_user_id:null
   },
   {
-    id_ballade: 7,
-    date_ballade: '2025-09-01',
-    heure_ballade: '11:00',
-    reserved_user_id: ''
+    id_balade: "7",
+    date_balade: "2025-09-01",
+    heure_balade: "11:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 8,
-    date_ballade: '2025-09-01',
-    heure_ballade: '12:00',
-    reserved_user_id: ''
+    id_balade: "8",
+    date_balade: "2025-09-01",
+    heure_balade: "12:00",
+    reserved_user_id:null
   },
   {
-    id_ballade: 9,
-    date_ballade: '2025-09-01',
-    heure_ballade: '13:00',
-    reserved_user_id: ''
+    id_balade: "9",
+    date_balade: "2025-09-01",
+    heure_balade: "13:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 10,
-    date_ballade: '2025-09-01',
-    heure_ballade: '14:00',
-    reserved_user_id: ''
+    id_balade: "10",
+    date_balade: "2025-09-01",
+    heure_balade: "14:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 11,
-    date_ballade: '2025-09-01',
-    heure_ballade: '14:30',
-    reserved_user_id: ''
+    id_balade: "11",
+    date_balade: "2025-09-01",
+    heure_balade: "14:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 12,
-    date_ballade: '2025-09-01',
-    heure_ballade: '15:00',
-    reserved_user_id: ''
+    id_balade: "12",
+    date_balade: "2025-09-01",
+    heure_balade: "15:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 13,
-    date_ballade: '2025-09-01',
-    heure_ballade: '15:30',
-    reserved_user_id: ''
+    id_balade: "13",
+    date_balade: "2025-09-01",
+    heure_balade: "15:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 14,
-    date_ballade: '2025-09-01',
-    heure_ballade: '16:00',
-    reserved_user_id: ''
+    id_balade: "14",
+    date_balade: "2025-09-01",
+    heure_balade: "16:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 15,
-    date_ballade: '2025-09-01',
-    heure_ballade: '16:30',
-    reserved_user_id: ''
+    id_balade: "15",
+    date_balade: "2025-09-01",
+    heure_balade: "16:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 16,
-    date_ballade: '2025-09-01',
-    heure_ballade: '17:00',
-    reserved_user_id: ''
+    id_balade: "16",
+    date_balade: "2025-09-01",
+    heure_balade: "17:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 17,
-    date_ballade: '2025-09-01',
-    heure_ballade: '17:30',
-    reserved_user_id: ''
+    id_balade: "17",
+    date_balade: "2025-09-01",
+    heure_balade: "17:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 18,
-    date_ballade: '2025-09-02',
-    heure_ballade: '08:00',
-    reserved_user_id: ''
+    id_balade: "18",
+    date_balade: "2025-09-02",
+    heure_balade: "08:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 19,
-    date_ballade: '2025-09-02',
-    heure_ballade: '08:30',
-    reserved_user_id: ''
+    id_balade: "19",
+    date_balade: "2025-09-02",
+    heure_balade: "08:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 20,
-    date_ballade: '2025-09-02',
-    heure_ballade: '09:00',
-    reserved_user_id: ''
+    id_balade: "20",
+    date_balade: "2025-09-02",
+    heure_balade: "09:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 21,
-    date_ballade: '2025-09-02',
-    heure_ballade: '09:30',
-    reserved_user_id: ''
+    id_balade: "21",
+    date_balade: "2025-09-02",
+    heure_balade: "09:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 22,
-    date_ballade: '2025-09-02',
-    heure_ballade: '10:00',
-    reserved_user_id: ''
+    id_balade: "22",
+    date_balade: "2025-09-02",
+    heure_balade: "10:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 23,
-    date_ballade: '2025-09-02',
-    heure_ballade: '10:30',
-    reserved_user_id: ''
+    id_balade: "23",
+    date_balade: "2025-09-02",
+    heure_balade: "10:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 24,
-    date_ballade: '2025-09-02',
-    heure_ballade: '11:00',
-    reserved_user_id: ''
+    id_balade: "24",
+    date_balade: "2025-09-02",
+    heure_balade: "11:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 25,
-    date_ballade: '2025-09-02',
-    heure_ballade: '12:00',
-    reserved_user_id: ''
+    id_balade: "25",
+    date_balade: "2025-09-02",
+    heure_balade: "12:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 26,
-    date_ballade: '2025-09-02',
-    heure_ballade: '13:00',
-    reserved_user_id: ''
+    id_balade: "26",
+    date_balade: "2025-09-02",
+    heure_balade: "13:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 27,
-    date_ballade: '2025-09-02',
-    heure_ballade: '14:00',
-    reserved_user_id: ''
+    id_balade: "27",
+    date_balade: "2025-09-02",
+    heure_balade: "14:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 28,
-    date_ballade: '2025-09-02',
-    heure_ballade: '14:30',
-    reserved_user_id: ''
+    id_balade: "28",
+    date_balade: "2025-09-02",
+    heure_balade: "14:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 29,
-    date_ballade: '2025-09-02',
-    heure_ballade: '15:00',
-    reserved_user_id: ''
+    id_balade: "29",
+    date_balade: "2025-09-02",
+    heure_balade: "15:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 30,
-    date_ballade: '2025-09-02',
-    heure_ballade: '15:30',
-    reserved_user_id: ''
+    id_balade: "30",
+    date_balade: "2025-09-02",
+    heure_balade: "15:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 31,
-    date_ballade: '2025-09-02',
-    heure_ballade: '16:00',
-    reserved_user_id: ''
+    id_balade: "31",
+    date_balade: "2025-09-02",
+    heure_balade: "16:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 32,
-    date_ballade: '2025-09-02',
-    heure_ballade: '16:30',
-    reserved_user_id: ''
+    id_balade: "32",
+    date_balade: "2025-09-02",
+    heure_balade: "16:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 33,
-    date_ballade: '2025-09-02',
-    heure_ballade: '17:00',
-    reserved_user_id: ''
+    id_balade: "33",
+    date_balade: "2025-09-02",
+    heure_balade: "17:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 34,
-    date_ballade: '2025-09-02',
-    heure_ballade: '17:30',
-    reserved_user_id: ''
+    id_balade: "34",
+    date_balade: "2025-09-02",
+    heure_balade: "17:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 35,
-    date_ballade: '2025-09-03',
-    heure_ballade: '08:00',
-    reserved_user_id: ''
+    id_balade: "35",
+    date_balade: "2025-09-03",
+    heure_balade: "08:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 36,
-    date_ballade: '2025-09-03',
-    heure_ballade: '08:30',
-    reserved_user_id: ''
+    id_balade: "36",
+    date_balade: "2025-09-03",
+    heure_balade: "08:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 37,
-    date_ballade: '2025-09-03',
-    heure_ballade: '09:00',
-    reserved_user_id: ''
+    id_balade: "37",
+    date_balade: "2025-09-03",
+    heure_balade: "09:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 38,
-    date_ballade: '2025-09-03',
-    heure_ballade: '09:30',
-    reserved_user_id: ''
+    id_balade: "38",
+    date_balade: "2025-09-03",
+    heure_balade: "09:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 39,
-    date_ballade: '2025-09-03',
-    heure_ballade: '10:00',
-    reserved_user_id: ''
+    id_balade: "39",
+    date_balade: "2025-09-03",
+    heure_balade: "10:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 40,
-    date_ballade: '2025-09-03',
-    heure_ballade: '10:30',
-    reserved_user_id: ''
+    id_balade: "40",
+    date_balade: "2025-09-03",
+    heure_balade: "10:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 41,
-    date_ballade: '2025-09-03',
-    heure_ballade: '11:00',
-    reserved_user_id: ''
+    id_balade: "41",
+    date_balade: "2025-09-03",
+    heure_balade: "11:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 42,
-    date_ballade: '2025-09-03',
-    heure_ballade: '12:00',
-    reserved_user_id: ''
+    id_balade: "42",
+    date_balade: "2025-09-03",
+    heure_balade: "12:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 43,
-    date_ballade: '2025-09-03',
-    heure_ballade: '13:00',
-    reserved_user_id: ''
+    id_balade: "43",
+    date_balade: "2025-09-03",
+    heure_balade: "13:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 44,
-    date_ballade: '2025-09-03',
-    heure_ballade: '14:00',
-    reserved_user_id: ''
+    id_balade: "44",
+    date_balade: "2025-09-03",
+    heure_balade: "14:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 45,
-    date_ballade: '2025-09-03',
-    heure_ballade: '14:30',
-    reserved_user_id: ''
+    id_balade: "45",
+    date_balade: "2025-09-03",
+    heure_balade: "14:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 46,
-    date_ballade: '2025-09-03',
-    heure_ballade: '15:00',
-    reserved_user_id: ''
+    id_balade: "46",
+    date_balade: "2025-09-03",
+    heure_balade: "15:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 47,
-    date_ballade: '2025-09-03',
-    heure_ballade: '15:30',
-    reserved_user_id: ''
+    id_balade: "47",
+    date_balade: "2025-09-03",
+    heure_balade: "15:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 48,
-    date_ballade: '2025-09-03',
-    heure_ballade: '16:00',
-    reserved_user_id: ''
+    id_balade: "48",
+    date_balade: "2025-09-03",
+    heure_balade: "16:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 49,
-    date_ballade: '2025-09-03',
-    heure_ballade: '16:30',
-    reserved_user_id: ''
+    id_balade: "49",
+    date_balade: "2025-09-03",
+    heure_balade: "16:30",
+    reserved_user_id: null
   },
   {
-    id_ballade: 50,
-    date_ballade: '2025-09-03',
-    heure_ballade: '17:00',
-    reserved_user_id: ''
+    id_balade: "50",
+    date_balade: "2025-09-03",
+    heure_balade: "17:00",
+    reserved_user_id: null
   },
   {
-    id_ballade: 51,
-    date_ballade: '2025-09-03',
-    heure_ballade: '17:30',
-    reserved_user_id: ''
+    id_balade: "51",
+    date_balade: "2025-09-03",
+    heure_balade: "17:30",
+    reserved_user_id: null
   }
 ]
 
+let notifications = []
+
+let MOTS_DE_PASSE_UTILISATEURS = []
+
 module.exports = {
-  ballades,
+  disponibilitesResto,
+  balades,
   prestataires,
   billetterie,
   utilisateurs,
@@ -776,4 +794,6 @@ module.exports = {
   map_data,
   associations,
   demandePrestataires,
+  notifications,
+  MOTS_DE_PASSE_UTILISATEURS
 };

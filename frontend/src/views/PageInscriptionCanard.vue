@@ -1,13 +1,21 @@
 <template>
+  <div>
+    <div class="header-image-container">
+      <div class="header-container">
+        <div>
+          <h1 class="header-title">Défilé des Canards</h1>
+          <p class="header-subtitle">Offrez à votre canard sa place dans le défilé légendaire !</p>
+        </div>
+      </div>
+    </div>
     <div class="form-container">
       <form @submit.prevent="submitForm">
         <div class="form-title">
+          <img src="@/assets/canard_ticket.svg" alt="Canard" class="duck-icon" />
           <h2>Inscription de votre Canard</h2>
           <img src="@/assets/canard_ticket.svg" alt="Canard" class="duck-icon" />
-
         </div>
   
-        <!-- Formulaire d'inscription -->
         <div class="form-group">
           <label for="proprietaire">Nom du propriétaire :</label>
           <input
@@ -74,19 +82,10 @@
   
         <button type="submit" class="submit-button">Enregistrer le canard</button>
       </form>
-  
-      <!-- Ticket affiché après inscription -->
-      <div v-if="showTicket" class="ticket">
-        <h3>Ticket d'Inscription</h3>
-        <p><strong>Propriétaire :</strong> {{ lastSubmission.proprietaire }}</p>
-        <p><strong>Nom du canard :</strong> {{ lastSubmission.nom }}</p>
-        <p><strong>Espèce :</strong> {{ lastSubmission.espece }}</p>
-        <p><strong>Région :</strong> {{ lastSubmission.region }}</p>
-        <p><strong>Numéro :</strong> {{ lastSubmission.numero }}</p>
-        <p><strong>Heure du défilé :</strong> {{ lastSubmission.heureDefile }}</p>
-      </div>
     </div>
-  </template>
+  </div>
+</template>
+
   
   <script>
   export default {
@@ -295,5 +294,63 @@
     line-height: 1.5;
     color: #4f4f4f;
   }
+
+  .header-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.header-container > * {
+  position: relative;
+  z-index: 2;
+}
+
+.header-container {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  background-image: url('@/assets/canard.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-title {
+  font-size: 6.5rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+  text-shadow: 0px 6px 15px rgba(0, 0, 0, 0.8);
+  letter-spacing: 2px;
+}
+
+.header-subtitle {
+  font-size: 2rem;
+  font-weight: 500;
+  color: white;
+  margin-top: 15px;
+  text-shadow: 0px 4px 12px rgba(0, 0, 0, 0.7);
+  font-style: italic;
+}
+
+/* Formulaire CSS (inchangé pour harmonie) */
+.form-container {
+  max-width: 500px;
+  margin: 30px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #f9f9f9, #eaeaea);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
   </style>
   

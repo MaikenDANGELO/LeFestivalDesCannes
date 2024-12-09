@@ -1,8 +1,8 @@
-import { ballades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires} from "./data";
+import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS} from "./data";
 import bcrypt from 'bcryptjs';
 
-function getAllBalades(){
-    return{error : 0,data : ballades}
+function getAllbalades() {
+    return{error : 0,data : balades}
 }
 
 function getAllPrestataires() {
@@ -19,6 +19,44 @@ function getAllAssociation() {
 
 function getAllMapData() {
     return { error: 0, data: map_data };
+}
+
+function reservebalade(balade_id, user_id){
+    try {
+        let balade = balades.find(b => b.id_balade === balade_id);
+        if (!balade) return { error: 1, status: 404, data: "balade introuvable" };
+        if (balade.reserved_user_id !== null) return { error: 1, status: 404, data: "balade déjà réservée" };
+        balade.reserved_user_id = user_id;
+        console.log("reserve la balade" + balade)
+        return { error: 0, status: 200, data: balade }
+    }catch{
+        return { error: 1, status: 404, data: "Erreur lors de la réservation" };
+    }
+}
+
+
+function cancelBaladeReservation(balade_id, user_role){
+    try {
+        let balade = balades.find(b => b.id_balade === balade_id);
+        if (!balade) return { error: 1, status: 404, data: "balade introuvable" };
+        if (!balade.reserved_user_id) return { error: 1, status: 404, data: "balade non réservée" };
+
+        let message
+        if (user_role === 'admin')  message = 'Balade de ' + balade.heure_balade + ' annulée par l\'organisateur'
+        else  message = 'Balade de ' + balade.heure_balade + ' annulée'
+        let notif = {
+            id:notifications.length,
+            id_user:balade.reserved_user_id,
+            message:message
+        }
+        notifications.push(notif);
+
+        balade.reserved_user_id = null;
+
+        return { error: 0, status: 200, data: balade }
+    }catch{
+        return { error: 1, status: 404, data: "Erreur lors de l'annulation de la réservation" };
+    }
 }
 
 function insertCommandeBillet(vue, total) {
@@ -109,19 +147,6 @@ async function totalDons() {
         return { error: 1, status: 404, data: error.message }
     }
 
-}
-
-async function getBaladesfromUid(user_id){
-    try {
-        let balladesUtilisateur = [];
-        for (let i = 0; i< ballades.length;i++){
-            if(user_id === ballades.reserved_user_id) balladesUtilisateur.push(ballades[i])
-        }
-        return { error: 0, status: 200, data: balladesUtilisateur }
-    }
-    catch (error){
-        return {error:1,status:404,data : error.message}
-    }
 }
 
 
@@ -280,9 +305,63 @@ function acceptDemandePrest(prest){
     prest.page_route = '/prestataire/'+newId;
 
     prestataires.push(prest);
-
+    userBecomesPrestataire(prest.id_utilisateur)
 }
 
+function userBecomesPrestataire(id){
+    utilisateurs[id].role = 'prestataire';
+}
+
+function getNotificationByUserID(id){
+    return { error: 0, status:200 , data: notifications.filter(n => n.id_user === id)};
+}
+
+function changePersonnalData(data, id){
+    try {
+        id = id - 1
+        utilisateurs[id].nom_utilisateur = data.nom;
+        utilisateurs[id].email_utilisateur = data.email;
+        utilisateurs[id].telephone = data.numero;
+        utilisateurs[id].adresse_utilisateur = data.adresse;
+        return  {error: 0, status:200 , data: utilisateurs[id]};
+    }catch (error){
+        return { error: 1, status: 500, data: error.message }
+    }
+}
+
+async function changePassword(id,actualPassword,newPassword){
+    try {
+        let Account = utilisateurs.find(u => u.id_utilisateur === id);
+        const correspond = await bcrypt.compare(actualPassword, Account.mot_de_passe);
+        for (const mdp of MOTS_DE_PASSE_UTILISATEURS) {
+            if (await bcrypt.compare(newPassword, mdp.password))return { error: 1, status: 404, data: "Le mot de passe à déjà été utilisé" };
+        }
+        if (correspond ) {
+            const lastpassword = {
+                id: MOTS_DE_PASSE_UTILISATEURS.length,
+                user_Id: id,
+                date_Created: getFormattedDate(),
+                password: Account.mot_de_passe
+            }
+            MOTS_DE_PASSE_UTILISATEURS.push(lastpassword)
+            utilisateurs[id - 1].mot_de_passe = await bcrypt.hash(newPassword, 10)
+            return {error: 0, status: 200, data: 'Mot de passe modifé avec succès'};
+        }
+        else {
+            return { error: 1, status: 404, data: "Le mot de passe ne correspond pas" };
+        }
+    }catch (error) {
+        return { error: 1, status: 500, data: error.message }
+    }
+}
+
+function markAllAsRead(id){
+    for (const notif of notifications) {
+        if (notif.id_user === id){
+            notifications.splice(notif.id, 1)
+        }
+    }
+}
 export default {
     getAllPrestataires,
     getAllSponsors,
@@ -302,8 +381,13 @@ export default {
     modifyEmplacementPrestataire,
     getAllAssociation,
     getAllDemandePrestataire,
-    getAllBalades,
-    getBaladesfromUid,
+    getAllbalades,
     declineDemandePrest,
-    acceptDemandePrest
+    acceptDemandePrest,
+    reservebalade,
+    cancelBaladeReservation,
+    getNotificationByUserID,
+    changePersonnalData,
+    changePassword,
+    markAllAsRead
 };

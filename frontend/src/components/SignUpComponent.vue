@@ -17,15 +17,14 @@
         <input v-model="adresse" type="text" name="txt" placeholder="Adresse" required="">
         <input v-model="login" type="email" name="email" placeholder="Email" required="">
         <input v-model="tel" type="number" name="tel" placeholder="N° Télephone" required="" value="">
-        <input v-model="password" :type="isPasswordVisible ? 'text' : 'password'" id="mdp" name="mdp" placeholder="Votre mot de passe" required>
-
-
+        <input @input="checkPasswordStrength" v-model="password" :type="isPasswordVisible ? 'text' : 'password'" id="mdp" name="mdp" placeholder="Votre mot de passe" required >
+        <div class="progress-bar">
+          <div class="progress-fill" :style="{ width: strengthPercentage + '%', backgroundColor: strengthColor }"></div>
+        </div>
         <button class="password-icon" type="button" @click="togglePasswordVisibility">
           <i :class="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
         </button>
-
         <button class="submit" type="submit">Sign up</button>
-        <p>{{message}}</p>
       </form>
     </div>
 
@@ -66,6 +65,8 @@ export default {
       isPasswordVisible: false,
       message:'',
       signup:'Utilisateur',
+      strengthPercentage: 0,
+      strengthColor: 'red'
     }
   },
   computed : {
@@ -119,6 +120,28 @@ export default {
       } else {
         this.signup = "Utilisateur";
       }
+    },
+    checkPasswordStrength() {
+      const password = this.password;
+      let score = 0;
+
+      if (password.length >= 8) score++;
+      if (/[A-Z]/.test(password)) score++;
+      if (/[a-z]/.test(password)) score++;
+      if (/\d/.test(password)) score++;
+      if (/[\W_]/.test(password)) score++;
+
+      this.strengthPercentage = (score / 5) * 100;
+
+      if (score === 0) {
+        this.strengthColor = 'red';
+      } else if (score <= 2) {
+        this.strengthColor = 'orange';
+      } else if (score <= 4) {
+        this.strengthColor = 'yellow';
+      } else {
+        this.strengthColor = 'green';
+      }
     }
   }
 }
@@ -132,7 +155,7 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  min-height: 87vh;
   font-family: 'Jost', sans-serif;
   background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
 }
@@ -275,9 +298,8 @@ button{
   background-color: #2980b9;
 }
 
-/* Pour aligner les champs d'entrée */
 input {
-  width: 80%; /* Largeur égale à celle du bouton pour un alignement */
+  width: 80%;
   display: block;
   margin: 10px auto;
   padding: 12px;
@@ -288,6 +310,22 @@ input {
 
 p{
   color: white;
+}
+
+.progress-bar {
+  width: 80%;
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 5px;
+  margin-left: 9%;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0; /* La largeur est définie dynamiquement */
+  transition: width 0.3s, background-color 0.3s;
 }
 
 

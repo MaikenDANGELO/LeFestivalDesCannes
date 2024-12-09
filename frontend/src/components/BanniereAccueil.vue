@@ -22,17 +22,18 @@
             <span class="dot" @click="currentSlide(3)"></span>
         </div>
         <div style="margin: 1% 10% 1% 10%;">
-            <h1 style="text-align: center;">Le Festival Des Canes</h1>
-            <h2 style="text-align: center;">Célébrons les canes sans se voler dans les plumes !</h2>
             <div style="display: flex; flex-direction: row;">
-                <div>
-                    <p style="text-align: justify;">Le Festival Des Canes est un événement unique qui se déroule chaque année le 1er septembre 
-                    au lac du Malsaucy, site du festival des Eurockéennes, pour célébrer la Fête du Canard. Des sorties en famille 
-                    aux passionnés d'ornithologie, ce festival rend hommage aux canes sous toutes leurs formes. Au programme : 
-                    parade, ateliers pour petits et grands, et des rencontres avec des spécialistes pour découvrir l'univers
-                    des palmipèdes. Venez partager un moment convivial en pleine nature et plonger dans le monde des 
-                    volatiles sauvages !</p>
+                <div class="welcome-text">
+                        <h1>Le Festival Des Canes</h1>
+                        <h2>Célébrons les canes sans se voler dans les plumes !</h2>
+                        <p>
+                        Le Festival Des Canes est un événement unique qui se déroule chaque année le 1er septembre 
+                        au lac du Malsaucy, site du festival des Eurockéennes, pour célébrer la Fête du Canard. 
+                        Des sorties en famille aux passionnés d'ornithologie, ce festival rend hommage aux canes sous toutes leurs formes. 
+                        Venez partager un moment convivial en pleine nature et plonger dans le monde des volatiles sauvages !
+                        </p>
                 </div>
+                <br>
                 <div style="width: 250rem; padding-left: 3%;">
                     <TempsRestant></TempsRestant>
                 </div>
@@ -79,6 +80,7 @@ export default {
 </script>
 
 <style scoped>
+
 .custom-slider {
     display: none;
 }
@@ -186,4 +188,47 @@ export default {
         opacity: 1
     }
 }
+
+.welcome-text {
+  margin: 40px auto;
+  max-width: 800px;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  animation: fadeIn 1.5s ease-in-out;
+}
+.welcome-text h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.welcome-text h2 {
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: #34495e;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.welcome-text p {
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: #555;
+}
+
+/* Animation pour l'apparition en fondu */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 </style>

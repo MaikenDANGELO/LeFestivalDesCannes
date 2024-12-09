@@ -34,8 +34,52 @@ async function modifyAvis(data, id){
     return response;
 }
 
+async function getNotificationByUserID(id){
+    let response;
+    try{
+        response = await LocalSource.getNotificationByUserID(id);
+    }catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau'}
+    }
+    return response;
+}
+async function markAllAsRead(id){
+    let response;
+    try{
+        response = await LocalSource.markAllAsRead(id);
+    }catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau'}
+    }
+    return response;
+}
+
+async function changePersonnalData(data, id){
+    let response;
+    try{
+        response = await LocalSource.changePersonnalData(data, id);
+    }catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau'}
+    }
+    return response;
+}
+
+async function changePassword(id,actualPassword,newPassword){
+    let response;
+    try{
+        response = await LocalSource.changePassword(id,actualPassword,newPassword);
+    }catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau'}
+    }
+    return response;
+}
+
+
 export default{
     getAllUsers,
     deleteAvis,
-    modifyAvis
+    modifyAvis,
+    getNotificationByUserID,
+    markAllAsRead,
+    changePersonnalData,
+    changePassword
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <BanniereAccueil></BanniereAccueil>
-    <h2>Toutes nos prestataires</h2>
+    <h2>Tous nos prestataires</h2>
     <div class="listes-container">
       <div class="filtre">
         <label for="search">Rechercher : </label>
@@ -60,6 +60,8 @@
         </p>
       </div>
    </div>
+    <ReservationTable></ReservationTable>
+    <AchatBillet> </AchatBillet>
     <TotalDons></TotalDons>
     <br>
   </div>
@@ -73,6 +75,9 @@ import CartePrestatairePerso from "@/components/CartePrestatairePerso.vue";
 import { mapState, mapActions } from "vuex";
 import TotalDons from "@/components/totalDons.vue";
 import { filter } from "core-js/internals/array-iteration";
+import ReservationTable from "@/components/ReservationTable.vue";
+import AchatBillet from "@/components/AchatBillet.vue";
+
 
 export default {
   name: "PagePrincipale",
@@ -145,103 +150,281 @@ export default {
     TotalDons,
     BanniereAccueil,
     CartePrestatairePerso,
+    ReservationTable,
+    AchatBillet,
   },
 };
 </script>
 
 
 <style scoped>
-.listes-container{
+/* Conteneur principal */
+.listes-container {
   display: flex;
-  flex-direction: row;
-  margin: 1%
-}
-.listes{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-.liste-prestataires {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-left: auto;
-  margin-right: auto;
+  justify-content: space-between;
+  gap: 20px;
+  width: 90%;
+  margin: 20px auto;
   padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Titre principal avec animation */
+h2 {
+  font-size: 2.5rem;
+  text-align: center;
+  color: #333;
+  font-weight: bold;
+  margin-bottom: 20px;
+  animation: fadeSlideIn 1s ease-in-out;
+}
+
+/* Animation pour le titre */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Zone du filtre */
+.filtre {
+  flex: 1;
+  max-width: 25%;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Titre des sections dans le filtre */
+.filtre h3 {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 5px;
+}
+
+/* Champs de recherche */
+.filtre label {
+  font-size: 1rem;
+  color: #555;
+}
+
+.filtre input[type="search"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Boutons radio et checkboxes */
+.filtre-check {
+  margin-top: 15px;
+}
+
+.filtre-check input {
+  margin-right: 10px;
+}
+
+.filtre-check label {
+  font-size: 1rem;
+  color: #444;
+}
+
+.filtre button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filtre button:hover {
+  background-color: #1e8449;
+}
+
+/* Zone des listes */
+.listes {
+  flex: 3; /* Plus grand pour équilibrer avec le filtre */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Rangées de prestataires */
 .prestataires-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 20px; /* Espacement entre les cartes */
   margin-bottom: 20px;
 }
 
+/* Cartes des prestataires */
 .prestataire-card {
+  flex: 1 1 calc(25% - 20px); /* 4 cartes par ligne */
+  max-width: calc(25% - 20px); /* Limite de largeur */
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: calc(25% - 20px);
-  /* Ajusté pour quatre blocs par ligne avec espace */
-  box-sizing: border-box;
-  margin-bottom: 20px;
+  text-align: center;
 }
 
+/* Effet au survol */
+.prestataire-card:hover {
+  transform: scale(1.05); /* Zoom léger */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Images des prestataires */
+.prestataire-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+/* Titre dans les cartes */
+.prestataire-card h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.prestataire-card p {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Responsivité */
+@media (max-width: 1024px) {
+  .prestataire-card {
+    flex: 1 1 calc(50% - 20px); /* Passe à 2 cartes par ligne */
+  }
+}
+
+@media (max-width: 768px) {
+  .listes-container {
+    flex-direction: column; /* Pile le filtre et les listes */
+    gap: 20px;
+  }
+
+  .filtre {
+    max-width: 100%;
+  }
+
+  .prestataire-card {
+    flex: 1 1 100%; /* Une carte par ligne sur mobile */
+    max-width: 100%;
+  }
+}
+
+/* Conteneur principal pour la section */
+/* Ajout d'un espace au-dessus de la section des canards */
 .duck-section {
   display: flex;
   align-items: center;
-  gap: 20px;
-  margin: 20px auto;
-  max-width: 900px;
+  justify-content: space-between;
+  gap: 30px;
+  margin: 60px auto 40px; /* Augmenter la marge supérieure pour espacement */
+  padding: 20px;
+  max-width: 1200px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  opacity: 0; /* Invisible au départ */
+  animation: fadeIn 2s ease-in-out forwards; /* Animation de fondu plus lente */
 }
 
+/* Image des canards */
 .duck-image {
-  flex-shrink: 0;
-  width: 180px; /* Taille idéale pour plus d'impact */
-  height: auto; 
-  max-width: none;
+  flex: 1; /* Laisse l'image prendre une proportion flexible */
+  max-width: 300px; /* Taille maximale de l'image */
+  height: auto; /* Garde les proportions */
+  border-radius: 10px; /* Coins arrondis */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Ombre subtile */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animation sur le hover */
 }
 
+.duck-image:hover {
+  transform: scale(1.05); /* Zoom léger au survol */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Ombre accentuée */
+}
+
+/* Texte associé */
 .duck-text {
-  flex: 1;
-  max-width: 600px; /* Limite maximale pour équilibrer texte et image */
+  flex: 2; /* Laisse le texte occuper plus de place que l'image */
+  color: #2c3e50; /* Couleur de texte élégante */
+  line-height: 1.6; /* Espacement pour une meilleure lisibilité */
+  padding: 10px;
 }
 
-
+/* Style du titre */
 .duck-text h3 {
-  margin: 0;
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #2c3e50;
+  font-size: 2rem; /* Augmenter légèrement la taille pour plus d'impact */
+  font-weight: 800; /* Plus imposant avec un poids de police élevé */
+  color: #2c3e50; /* Une couleur moderne, sombre et élégante */
+  text-transform: uppercase; /* Pour un effet plus imposant */
+  letter-spacing: 2px; /* Espacement des lettres pour un style raffiné */
 }
 
+
+/* Texte descriptif */
 .duck-text p {
-  margin: 10px 0;
   font-size: 1rem;
-  line-height: 1.4; 
-  color: #4f4f4f;
+  color: #4f4f4f; /* Couleur de texte contrastée */
+  margin-bottom: 15px;
+  line-height: 1.8; /* Espacement accru */
 }
 
-
+/* Lien d'inscription */
 .duck-link {
   display: inline-block;
   margin-top: 10px;
-  font-size: 1rem;
-  color: #27ae60;
+  font-size: 1.1rem; /* Taille légèrement agrandie */
+  color: #27ae60; /* Couleur vive pour le lien */
+  font-weight: bold; /* Texte en gras */
   text-decoration: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: #ecf9f0; /* Fond doux */
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+/* Effet au survol pour le lien */
 .duck-link:hover {
-  background-color: #286d46;
-  color: #fff;
+  background-color: #27ae60;
+  color: #fff; /* Contraste inversé */
+  transform: translateY(-3px); /* Légère élévation */
+}
+
+/* Animation de fondu */
+@keyframes fadeIn {
+  0% {
+    opacity: 0; /* Début invisible */
+  }
+  100% {
+    opacity: 1; /* Fin complètement visible */
+  }
 }
 
 

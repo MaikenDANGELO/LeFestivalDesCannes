@@ -55,18 +55,18 @@ export default {
 
 .don-container {
   text-align: center;
-  background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+  background: linear-gradient(to bottom, #0b3d0b, #1e622e, #2a7d2a);
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  max-width: 300px;
+  max-width: 350px;
   margin: 20px auto;
   color: #fff;
   font-family: 'Arial', sans-serif;
 }
 
 .title {
-  font-size: 24px;
+  font-size: 30px;
   margin: 0;
   color: #fff;
   font-weight: 700;
