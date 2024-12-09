@@ -60,6 +60,7 @@
         </p>
       </div>
    </div>
+    <ReservationTable></ReservationTable>
     <TotalDons></TotalDons>
     <br>
   </div>
@@ -73,6 +74,8 @@ import CartePrestatairePerso from "@/components/CartePrestatairePerso.vue";
 import { mapState, mapActions } from "vuex";
 import TotalDons from "@/components/totalDons.vue";
 import { filter } from "core-js/internals/array-iteration";
+import ReservationTable from "@/components/ReservationTable.vue";
+
 
 export default {
   name: "PagePrincipale",
@@ -145,6 +148,7 @@ export default {
     TotalDons,
     BanniereAccueil,
     CartePrestatairePerso,
+    ReservationTable,
   },
 };
 </script>
