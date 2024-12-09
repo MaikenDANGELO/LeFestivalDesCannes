@@ -6,10 +6,10 @@
         class="reservation-image"
       />
       <div class="reservation-text">
-        <h3>Rejoignez le Festival des Cannes !</h3>
+        <h3>Rejoignez le Festival des Canes !</h3>
         <p>
           Plongez dans l'ambiance festive de l'événement le plus attendu de l'année. 
-          Musique, animations, et moments inoubliables vous attendent. 
+          Musique, animations, moments inoubliables et surtout... des canards! vous attendent. 
           Assurez votre présence en achetant dès maintenant vos billets et partagez des instants magiques avec vos proches.
         </p>
         <p>
