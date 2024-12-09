@@ -780,6 +780,8 @@ let balades = [
 
 let notifications = []
 
+let MOTS_DE_PASSE_UTILISATEURS = []
+
 module.exports = {
   disponibilitesResto,
   balades,
@@ -793,4 +795,5 @@ module.exports = {
   associations,
   demandePrestataires,
   notifications,
+  MOTS_DE_PASSE_UTILISATEURS
 };

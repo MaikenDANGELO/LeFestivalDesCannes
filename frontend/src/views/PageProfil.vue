@@ -2,9 +2,9 @@
   <div id="app">
     <nav class="vertical-navbar">
       <div class="nav-links">
-        <button class="nav-link" @click="handleShowMyProfil()">Mon Profil</button>
-        <button class="nav-link" @click="handleShowMyReservations()">Mes réservations</button>
-        <button class="nav-link" @click="handleShowMyNotif()">
+        <button class="nav-link" @click="setCurrentView('myProfil')">Mon Profil</button>
+        <button class="nav-link" @click="setCurrentView('myReservations')">Mes réservations</button>
+        <button class="nav-link" @click="setCurrentView('myNotif')">
           Mes notifications
           <div class="notification-wrapper">
             <p v-if="notifications.length !== 0" class="circle">{{ notifications.length }}</p>
@@ -13,19 +13,18 @@
             </div>
           </div>
         </button>
-
-
-
       </div>
     </nav>
-    <div class="main" v-if="myProfil === true">
+
+
+    <div class="main" v-if="currentView === 'myProfil' && utilisateur">
       <h1>Mon Profil</h1>
       <div class="case" v-if="modifyPassword === false">
         <div>
           <h3>Données personnelles </h3>
           <div>
             <button v-if="modifyPersonnalData === false" @click="clickModifyPersonnalData()">Modifier</button>
-            <button v-if="modifyPersonnalData === true" @click="clickModifyPersonnalData()" class="second-button">Sauvegarder les modifications</button>
+            <button v-if="modifyPersonnalData === true" @click="changePersonnalData()" class="second-button">Sauvegarder les modifications</button>
           </div>
         </div>
         <div class="personnal-info">
@@ -33,31 +32,34 @@
           <div class="form-group">
             <label for="name">M./Mme</label>
             <p v-if="modifyPersonnalData === false">{{this.utilisateur.nom}}</p>
-            <input v-else type="text" id="name" :value=this.utilisateur.nom placeholder="Votre nom et prénom">
+            <input v-else type="text" id="name" placeholder="Votre nom et prénom"  v-model="nom_utilisateur">
           </div>
 
           <div class="form-group">
             <label for="numero">Numéro de télephone</label>
             <p v-if="modifyPersonnalData === false">{{this.utilisateur.numero}}</p>
-            <input v-else type="text" id="numero" :value=this.utilisateur.numero placeholder="Votre numéro de téléphone">
+            <input v-else type="text" id="numero" placeholder="Votre numéro de téléphone"  v-model="telephone">
           </div>
 
           <div class="form-group">
             <label for="email">Email :</label>
             <p v-if="modifyPersonnalData === false">{{this.utilisateur.email}}</p>
-            <input v-else type="text" id="email" name="email" placeholder="Votre email" :value="utilisateur.email">
+            <input v-else type="text" id="email" name="email" placeholder="Votre email" v-model="email_utilisateur">
           </div>
 
           <div class="form-group">
             <label for="adresse">Adresse :</label>
             <p v-if="modifyPersonnalData === false">{{this.utilisateur.adresse}}</p>
-            <input v-else type="text" id="adresse" name="adresse" placeholder="Votre adresse" :value="utilisateur.adresse">
+            <input v-else type="text" id="adresse" name="adresse" placeholder="Votre adresse" v-model="adresse_utilisateur">
           </div>
         </div>
       </div>
+
+
       <div class="case" v-if="modifyPersonnalData === false">
         <h3>Mot de passe</h3>
-        <button v-if="modifyPersonnalData === false" @click="clickModifyPassword()" class="third-button">Changer de mot de passe</button>
+        <button v-if="modifyPassword ===false" @click="clickModifyPassword()" class="third-button">Changer de mot de passe</button>
+        <button v-if="modifyPassword === true" @click="changePassword()" class="third-button">Accepter</button>
         <div v-if="modifyPassword === true">
 
           <div class="password">
@@ -71,7 +73,7 @@
 
             <div class="newpassword">
               <label for="nmdp">Nouveau mot de passe :</label>
-              <input @input="checkPasswordStrength" v-model="newPassword" :type="isPasswordVisible2 ? 'text' : 'password'" id="nmdp" name="nmdp" placeholder="Votre mot de passe" required >
+              <input @input="checkPasswordStrength" v-model="newPassword" :type="isPasswordVisible2 ? 'text' : 'password'" id="nmdp" name="nmdp" placeholder="Votre mot de passe" required>
               <div class="progress-bar">
                 <div class="progress-fill" :style="{ width: strengthPercentage + '%', backgroundColor: strengthColor }"></div>
               </div>
@@ -88,7 +90,8 @@
       </div>
     </div>
 
-    <div class="main" v-if="myReservations === true">
+
+    <div class="main" v-if="currentView === 'myReservations'">
 
       <h1>Mes Réservations : </h1>
       <h2>Ped'ailo : </h2>
@@ -103,7 +106,7 @@
       </div>
     </div>
 
-    <div class="main" v-if="myNotif === true">
+    <div class="main" v-if="currentView === 'myNotif'">
       <h1>Mes Notifications</h1>
       <div v-if="notifications.length !== 0">
         <div class="case" v-for="(notif) in notifications" :key="notif.id" >
@@ -123,7 +126,7 @@
 
 </template>
 
-<script lang="ts">
+<script>
 import {mapActions, mapState} from 'vuex';
 import usersService from "@/services/users.service";
 import baladesServices from "@/services/balades.services";
@@ -131,9 +134,7 @@ import baladesServices from "@/services/balades.services";
 export default {
   data(){
     return{
-      myProfil:true,
-      myReservations: false,
-      myNotif:false,
+      currentView: 'myProfil',
       modifyPersonnalData:false,
       modifyPassword:false,
       strengthPercentage: 0,
@@ -145,29 +146,31 @@ export default {
       samePassword: false,
       notifications: [],
       balades : [],
+      nom_utilisateur:'',
+      email_utilisateur:'',
+      adresse_utilisateur:'',
+      telephone:'',
     }
   },
   computed: {
     ...mapState('utilisateurs', ['utilisateur']),
     inputClass() {
       if (this.newPassword === '') {
-        console.log("rien")
         return '';
       } else if (this.samePassword) {
-        console.log("vert")
-        return 'input-success'; // Classe verte si les chaînes correspondent
+        return 'input-success';
       } else {
-        console.log("rouge")
-        return 'input-error';   // Classe rouge si elles ne correspondent pas
+        return 'input-error';
       }
     }
   },
   methods:{
-    ...mapActions('utilisateurs', ['getAllUsers']),
+    ...mapActions('utilisateurs', ['getAllUsers', 'logIn']),
     async cancelBalade(id){
       console.log('Annulation de la balade '+id)
       await baladesServices.cancelbalade(id, this.utilisateur.role);
       await this.fetchUserBalades();
+      await this.getNotificationByID(this.utilisateur.id)
     },
     async fetchUserBalades(){
       try {
@@ -181,21 +184,8 @@ export default {
         console.error("Impossible de récupérer les balades :", error.message);
       }
     },
-    handleShowMyProfil(){
-      this.myProfil = true;
-      this.myReservations = false;
-      this.myNotif = false;
-    },
-    handleShowMyReservations(){
-      this.myProfil = false;
-      this.myReservations = true;
-      this.myNotif = false;
-
-    },
-    handleShowMyNotif(){
-      this.myProfil = false;
-      this.myReservations = false;
-      this.myNotif = true;
+    setCurrentView(view) {
+      this.currentView = view;
     },
     clickModifyPersonnalData(){
       this.modifyPersonnalData = !this.modifyPersonnalData;
@@ -224,11 +214,11 @@ export default {
       } else {
         this.strengthColor = 'green';
       }
-      this.inputClass()
+      this.inputClass
     },
     checkSamePassword(event){
       this.samePassword = (this.newPassword === event.target.value)
-      this.inputClass()
+      this.inputClass
     },
     togglePasswordVisibility() {
       this.isPasswordVisible = !this.isPasswordVisible;
@@ -239,12 +229,72 @@ export default {
     async getNotificationByID(id){
       let notif = await usersService.getNotificationByUserID(id);
       this.notifications = notif.data;
-      console.log(this.notifications)
+    },
+    validatePhone(phone) {
+      const regex = /^\d{10}$/; // Exemple pour un numéro à 10 chiffres
+      return regex.test(phone);
+    },
+    async changePersonnalData() {
+      if (!this.validatePhone(this.telephone)) {
+        alert('Veuillez saisir un numéro de téléphone valide.');
+        return;
+      }
+      let response = await usersService.changePersonnalData(
+          { nom: this.nom_utilisateur,
+            email: this.email_utilisateur,
+            numero: this.telephone,
+            adresse:this.adresse_utilisateur,
+            },
+            this.utilisateur.id)
+      this.nom_utilisateur=''
+      this.email_utilisateur=''
+      this.adresse_utilisateur=''
+      this.telephone=''
+      this.logIn(response.data);
+      this.clickModifyPersonnalData()
+    },
+    async markNotificationsAsRead() {
+      try {
+        await usersService.markAllAsRead(this.utilisateur.id);
+        this.notifications = [];
+      } catch (error) {
+        console.error('Erreur lors de la mise à jour des notifications', error);
+      }
+    },
+    async changePassword(){
+      if (this.samePassword){
+        let response = await usersService.changePassword(this.utilisateur.id, this.actualPassword, this.newPassword)
+        alert(response.data)
+        if (response.error === 0){
+          this.clickModifyPassword()
+          this.actualPassword = ''
+          this.newPassword = ''
+          this.samePassword = false
+          this.strengthPercentage= 0
+          this.strengthColor= 'red'
+          this.actualPassword=''
+          this.newPassword=''
+          this.isPasswordVisible= false
+          this.isPasswordVisible2= false
+        }
+      }
+
     }
   },
   async created(){
     await this.fetchUserBalades();
     await this.getNotificationByID(this.utilisateur.id)
+    this.nom_utilisateur = this.utilisateur.nom
+    this.email_utilisateur = this.utilisateur.email
+    this.adresse_utilisateur = this.utilisateur.adresse
+    this.telephone = this.utilisateur.numero
+  },
+  watch: {
+    myNotif(newValue) {
+      if (newValue) {
+        this.markNotificationsAsRead();
+      }
+    },
   },
 };
 </script>

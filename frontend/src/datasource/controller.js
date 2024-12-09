@@ -1,4 +1,4 @@
-import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications} from "./data";
+import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS} from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllbalades() {
@@ -315,6 +315,53 @@ function userBecomesPrestataire(id){
 function getNotificationByUserID(id){
     return { error: 0, status:200 , data: notifications.filter(n => n.id_user === id)};
 }
+
+function changePersonnalData(data, id){
+    try {
+        id = id - 1
+        utilisateurs[id].nom_utilisateur = data.nom;
+        utilisateurs[id].email_utilisateur = data.email;
+        utilisateurs[id].telephone = data.numero;
+        utilisateurs[id].adresse_utilisateur = data.adresse;
+        return  {error: 0, status:200 , data: utilisateurs[id]};
+    }catch (error){
+        return { error: 1, status: 500, data: error.message }
+    }
+}
+
+async function changePassword(id,actualPassword,newPassword){
+    try {
+        let Account = utilisateurs.find(u => u.id_utilisateur === id);
+        const correspond = await bcrypt.compare(actualPassword, Account.mot_de_passe);
+        for (const mdp of MOTS_DE_PASSE_UTILISATEURS) {
+            if (await bcrypt.compare(newPassword, mdp.password))return { error: 1, status: 404, data: "Le mot de passe à déjà été utilisé" };
+        }
+        if (correspond ) {
+            const lastpassword = {
+                id: MOTS_DE_PASSE_UTILISATEURS.length,
+                user_Id: id,
+                date_Created: getFormattedDate(),
+                password: Account.mot_de_passe
+            }
+            MOTS_DE_PASSE_UTILISATEURS.push(lastpassword)
+            utilisateurs[id - 1].mot_de_passe = await bcrypt.hash(newPassword, 10)
+            return {error: 0, status: 200, data: 'Mot de passe modifé avec succès'};
+        }
+        else {
+            return { error: 1, status: 404, data: "Le mot de passe ne correspond pas" };
+        }
+    }catch (error) {
+        return { error: 1, status: 500, data: error.message }
+    }
+}
+
+function markAllAsRead(id){
+    for (const notif of notifications) {
+        if (notif.id_user === id){
+            notifications.splice(notif.id, 1)
+        }
+    }
+}
 export default {
     getAllPrestataires,
     getAllSponsors,
@@ -340,4 +387,7 @@ export default {
     reservebalade,
     cancelBaladeReservation,
     getNotificationByUserID,
+    changePersonnalData,
+    changePassword,
+    markAllAsRead
 };
