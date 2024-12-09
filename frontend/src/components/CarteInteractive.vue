@@ -1,7 +1,7 @@
 <template>
     <div class="carte-container">
         <h1 style="margin-left: 5%;">Accéder au Festival des Canes</h1>
-        <hr style="width: 40%; position: relative; right: 465px; border-radius: 50%;">
+        <hr style="width: 60vw; position: relative; right: 0px; border-radius: 50%;">
         <div id="img-container">
             <img id="carte" alt="carte intéractive" src="../assets/map.svg">
                 <div v-for="data in mapData" :key="data.id" class="carte-mask" :style="getCarteMaskStyle(data.points)">

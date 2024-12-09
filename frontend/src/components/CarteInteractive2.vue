@@ -7,6 +7,8 @@
 <script>
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import mapDataService from '@/services/map_data.service'
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'InteractiveMap',
@@ -20,20 +22,7 @@ export default {
   data() {
     return {
       map: null,
-    };
-  },
-  mounted() {
-    this.initMap();
-  },
-  methods: {
-    initMap() {
-      this.map = L.map('map').setView([47.6866, 6.8233], 15).setMinZoom(14);
-
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors',
-      }).addTo(this.map);
-
-      const icons = {
+      icons : {
         evenement: L.icon({
           iconUrl: require('@/assets/MarqueursCarte/evenement.png'),
           iconSize: [48, 48],
@@ -70,21 +59,55 @@ export default {
           iconAnchor: [24, 48],
           popupAnchor: [0, -48],
         }),
-      };
+        default: L.icon({
+          iconUrl: require('@/assets/ImagesPrestataires/logo.png'),
+          iconSize: [48,48],
+          iconAnchor: [24, 48],
+          popupAnchor: [0, -48],
+        }),
+      }
+    };
+  },
+  computed: {
+    ...mapState('prestataire', ['prestataires']),
+  },
+  async mounted() {
+    await this.initMap();
+  },
+  methods: {
+    ...mapActions('prestataire', ['getAllPrestataires']),
+    getPrestataireOfEmplacement(id){
+      return this.prestataires.find((p) => p.id_emplacement == id);
+    },
+    async constructPrestataireEmplacement() {
+      this.getAllPrestataires();
+      const prestEmpl = [];
+      const emplacements = await mapDataService.getAllEmplacements();
 
-      const prestataires = [
-        { id: 1, coords: [47.6868, 6.8250], text: 'Jeux et Divertissements', icon: icons.evenement },
-        { id: 2, coords: [47.6880, 6.8245], text: 'Restaurant Le Gourmet', icon: icons.restaurant },
-        { id: 3, coords: [47.6872, 6.8228], text: 'Mascotte Festival', icon: icons.evenement },
-        { id: 4, coords: [47.6859, 6.8237], text: 'Stand Artisanat Local', icon: icons.stand },
-        { id: 5, coords: [47.6875, 6.8260], text: 'Dégustation de Canard', icon: icons.restaurant },
-        { id: 6, coords: [47.6862, 6.8225], text: 'Concours de Cuisine', icon: icons.restaurant },
-        { id: 7, coords: [47.6855, 6.8230], text: 'Atelier Peinture', icon: icons.peinture },
-        { id: 8, coords: [47.6879, 6.8248], text: 'Ped\'ailo!', icon: icons.pedalo },
-      ];
+      for (const e of emplacements.data) {
+        const prest = this.getPrestataireOfEmplacement(e.id);
+        const tmp = {
+          id: prest?.id || null,
+          coords: e.coordinates,
+          text: prest?.nom || 'Unknown',
+          icon: this.icons[e.icon] || this.icons.default, // Fallback to default icon
+        };
+        prestEmpl.push(tmp);
+      }
+      return prestEmpl;
+    },
+    async initMap() {
+      this.map = L.map('map').setView([47.6866, 6.8233], 15).setMinZoom(14);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors',
+      }).addTo(this.map);
+
+      const prestEmplacement = await this.constructPrestataireEmplacement();
+      console.log(prestEmplacement);
 
       if (this.selectedPrestataireId) {
-        const selectedPrestataire = prestataires.find(
+        const selectedPrestataire = prestEmplacement.find(
           (p) => p.id === this.selectedPrestataireId
         );
         if (selectedPrestataire) {
@@ -94,7 +117,7 @@ export default {
           marker.bindPopup(`<b>${selectedPrestataire.text}</b>`).openPopup();
         }
       } else {
-        prestataires.forEach((prestataire) => {
+        prestEmplacement.forEach((prestataire) => {
           const marker = L.marker(prestataire.coords, { icon: prestataire.icon }).addTo(this.map);
           marker.bindPopup(`<b>${prestataire.text}</b>`);
         });
@@ -108,7 +131,7 @@ export default {
       ];
 
       parkingLocations.forEach((parking) => {
-        const marker = L.marker(parking.coords, { icon: icons.parking }).addTo(this.map);
+        const marker = L.marker(parking.coords, { icon: this.icons.parking }).addTo(this.map);
         marker.bindPopup(`<b>${parking.text}</b>`);
       });
 

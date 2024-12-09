@@ -290,6 +290,49 @@ let dons = [
   }
 ]
 
+let emplacements = [
+  {
+    id: "1",
+    coordinates : [47.6868, 6.8250],
+    icon : 'evenement',
+  },
+  {
+    id: "2",
+    coordinates : [47.6880, 6.8245],
+    icon : 'restaurant',
+  },
+  {
+    id: "3",
+    coordinates : [47.6872, 6.8228],
+    icon : 'evenement',
+  },
+  {
+    id: "4",
+    coordinates : [47.6859, 6.8237],
+    icon : 'stand',
+  },
+  {
+    id: "5",
+    coordinates : [47.6875, 6.8260],
+    icon : 'restaurant',
+  },
+  {
+    id: "6",
+    coordinates : [47.6862, 6.8225],
+    icon : 'restaurant',
+  },
+  {
+    id: "7",
+    coordinates : [47.6855, 6.8230],
+    icon : 'peinture',
+  },
+  {
+    id: "8",
+    coordinates : [47.6879, 6.8248],
+    icon : 'pedalo',
+  },
+]
+
 let map_data = [
   {
     id: "1",
@@ -791,9 +834,10 @@ module.exports = {
   avis,
   dons,
   sponsors,
+  emplacements,
   map_data,
   associations,
   demandePrestataires,
   notifications,
-  MOTS_DE_PASSE_UTILISATEURS
+  MOTS_DE_PASSE_UTILISATEURS,
 };

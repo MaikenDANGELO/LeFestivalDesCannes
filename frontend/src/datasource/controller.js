@@ -1,5 +1,9 @@
-import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS} from "./data";
+import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS, emplacements} from "./data";
 import bcrypt from 'bcryptjs';
+
+function getAllEmplacements() {
+    return {error: 0, data: emplacements};
+}
 
 function getAllbalades() {
     return{error : 0,data : balades}
@@ -362,6 +366,8 @@ function markAllAsRead(id){
         }
     }
 }
+
+
 export default {
     getAllPrestataires,
     getAllSponsors,
@@ -389,5 +395,6 @@ export default {
     getNotificationByUserID,
     changePersonnalData,
     changePassword,
-    markAllAsRead
+    markAllAsRead,
+    getAllEmplacements,
 };
