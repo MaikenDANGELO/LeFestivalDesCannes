@@ -14,9 +14,9 @@
             <h2 class="title">Informations d'accès</h2>
             <p>
                 <ul style="position: relative;bottom: 20px;">
-                <li>Adresse : Presqu'île du, Rue du Malsaucy, 90300 Sermamagny</li><br>
-                <li>Depuis la gare TGV Belfort-Montbéliard :<br> Arrivée à la gare de Belfort en bus ou navette en 25 minutes !</li><br>
-                <li>Depuis la gare de Belfort:<br> Arrivée au festival en 20min puis 10min de marche !<br> Sinon 10min en train jusqu'à la gare de Bas-Évette !</li><br>
+                <li><strong>Adresse </strong> : Presqu'île du Malsaucy, Rue du Malsaucy, 90300 Sermamagny</li><br>
+                <li><strong>Depuis la gare TGV Belfort-Montbéliard :</strong><br> Arrivée à la gare de Belfort en bus ou navette en 25 minutes !</li><br>
+                <li><strong>Depuis la gare de Belfort: </strong><br> Arrivée au festival en 20min puis 10min de marche !<br> Sinon 10min en train jusqu'à la gare de Bas-Évette !</li><br>
                 <li>Vous êtes arrivés !</li>
                 </ul>
             </p>
