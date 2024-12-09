@@ -12,14 +12,14 @@ export default {
   name: 'InteractiveMap',
   props: {
     selectedPrestataireId: {
-      type: Number,          // L'ID du prestataire sélectionné
-      required: false,       // Non obligatoire pour prendre en charge la carte générale
-      default: null,         // Par défaut, aucun prestataire n'est sélectionné
+      type: Number,
+      required: false,
+      default: null,
     },
   },
   data() {
     return {
-      map: null,             // Instance de la carte Leaflet
+      map: null,
     };
   },
   mounted() {
@@ -27,15 +27,12 @@ export default {
   },
   methods: {
     initMap() {
-      // Initialisation de la carte
       this.map = L.map('map').setView([47.6866, 6.8233], 15).setMinZoom(14);
 
-      // Ajouter une couche de tuiles
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
       }).addTo(this.map);
 
-      // Définir les icônes personnalisées
       const icons = {
         evenement: L.icon({
           iconUrl: require('@/assets/MarqueursCarte/evenement.png'),
@@ -67,9 +64,14 @@ export default {
           iconAnchor: [24, 48],
           popupAnchor: [0, -48],
         }),
+        parking: L.icon({
+          iconUrl: require('@/assets/MarqueursCarte/parking.png'), // Icône pour le parking
+          iconSize: [48, 48],
+          iconAnchor: [24, 48],
+          popupAnchor: [0, -48],
+        }),
       };
 
-      // Liste des prestataires avec leurs coordonnées et icônes
       const prestataires = [
         { id: 1, coords: [47.6868, 6.8250], text: 'Jeux et Divertissements', icon: icons.evenement },
         { id: 2, coords: [47.6880, 6.8245], text: 'Restaurant Le Gourmet', icon: icons.restaurant },
@@ -81,7 +83,6 @@ export default {
         { id: 8, coords: [47.6879, 6.8248], text: 'Ped\'ailo!', icon: icons.pedalo },
       ];
 
-      // Si un prestataire est sélectionné, afficher uniquement son marqueur
       if (this.selectedPrestataireId) {
         const selectedPrestataire = prestataires.find(
           (p) => p.id === this.selectedPrestataireId
@@ -93,14 +94,24 @@ export default {
           marker.bindPopup(`<b>${selectedPrestataire.text}</b>`).openPopup();
         }
       } else {
-        // Si aucun prestataire sélectionné, afficher tous les marqueurs
         prestataires.forEach((prestataire) => {
           const marker = L.marker(prestataire.coords, { icon: prestataire.icon }).addTo(this.map);
           marker.bindPopup(`<b>${prestataire.text}</b>`);
         });
       }
 
-      // Coordonnées du polygone représentant la zone des Eurockéennes
+      const parkingLocations = [
+        { coords: [47.6890, 6.8200], text: 'Parking Nord' },
+        { coords: [47.6855, 6.8280], text: 'Parking Sud' },
+        { coords: [47.6865, 6.8225], text: 'Parking Est' },
+        { coords: [47.6845, 6.8195], text: 'Parking Ouest' },
+      ];
+
+      parkingLocations.forEach((parking) => {
+        const marker = L.marker(parking.coords, { icon: icons.parking }).addTo(this.map);
+        marker.bindPopup(`<b>${parking.text}</b>`);
+      });
+
       const polygonCoords = [
         [47.694, 6.8088],
         [47.69385, 6.808636],
@@ -138,14 +149,12 @@ export default {
         [47.69418, 6.8091],
       ];
 
-      // Ajouter le polygone à la carte
       const polygon = L.polygon(polygonCoords, {
-        color: 'blue', // Couleur de la bordure
-        fillColor: '#3388ff', // Couleur de remplissage
-        fillOpacity: 0.4, // Opacité du remplissage
+        color: 'blue',
+        fillColor: '#3388ff',
+        fillOpacity: 0.4,
       }).addTo(this.map);
 
-      // Ajouter une popup pour le polygone
       polygon.bindPopup('Zone de baignades des canards').openPopup();
     },
   },
@@ -157,6 +166,7 @@ export default {
   width: 100%;
   height: 600px;
 }
+
 #map {
   width: 100%;
   height: 100%;
