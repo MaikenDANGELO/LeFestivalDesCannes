@@ -1,5 +1,17 @@
 <template>
-  <form v-if="currentStep === 1" @submit.prevent="goToPayment" method="POST">
+    <div class="page-container">
+    <!-- Header avec image -->
+    <div class="header-image-container">
+      <div class="header-container">
+        <div>
+          <h1 class="header-title">Billetterie</h1>
+          <p class="header-subtitle">Réservez vos places et vivez l'expérience unique du festival !</p>
+        </div>
+      </div>
+    </div>
+
+  <form v-if="currentStep === 1" @submit.prevent="goToPayment" class="form-container" method="POST">
+    <img src="@/assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
     <h2>Réservation de Billet</h2>
 
     <div class="form-group">
@@ -58,7 +70,7 @@
 
 
 
-  <form v-else-if="currentStep === 2" @submit.prevent="processPayment">
+  <form v-else-if="currentStep === 2" @submit.prevent="processPayment" class="form-container">
     <h2>Paiement</h2>
 
     <div class="form-group">
@@ -82,6 +94,7 @@
 
     <button type="submit">Payer</button>
   </form>
+    </div>
 
 </template>
 
@@ -203,38 +216,106 @@ export default {
 
 
 <style scoped>
-form {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  max-width: 500px;
-  margin: 0 auto;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+/* Header avec image de fond */
+.header-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Voile noir transparent */
+  z-index: 1;
 }
-h2 {
+
+.header-container > * {
+  position: relative;
+  z-index: 2;
+}
+
+.header-container {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  background-image: url('@/assets/ticket.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-title {
+  font-size: 6.5rem; /* Taille imposante pour le titre principal */
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+  text-shadow: 0px 6px 15px rgba(0, 0, 0, 0.8);
+  letter-spacing: 2px;
+}
+
+.header-subtitle {
+  font-size: 2rem; /* Taille légèrement plus grande pour le sous-titre */
+  font-weight: 500;
+  color: white;
+  margin-top: 15px;
+  text-shadow: 0px 4px 12px rgba(0, 0, 0, 0.7);
+  font-style: italic;
+}
+
+/* Formulaire */
+.form-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
+
 .form-group {
-  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
 }
-label {
-  display: block;
-  margin-bottom: 5px;
+
+.form-group label {
+  font-size: 1rem;
+  color: #34495e;
   font-weight: bold;
 }
-input, select, button {
+
+.form-group input,
+.form-group select,
+button {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
+  border-radius: 5px;
+  font-size: 1rem;
 }
+
 button {
-  background-color: #333;
-  color: white;
+  background-color: #27ae60;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
+
 button:hover {
-  background-color: #555;
+  background-color: #1e8449;
 }
+
+.ticket-icon {
+  width: 40px;
+  height: 40px;
+}
+
 </style>
