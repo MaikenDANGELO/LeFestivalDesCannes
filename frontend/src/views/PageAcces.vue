@@ -39,7 +39,7 @@ export default {
 .texte-container{
     display: flex;
     flex-direction: column;
-    position: absolute;
+    position: relative;
     left: 30%;
     width: 45vw;
     margin-top: 100px;

@@ -90,6 +90,7 @@ export default {
           id: prest?.id || null,
           coords: e.coordinates,
           text: prest?.nom || 'Unknown',
+          description_accueil: prest.description_accueil,
           icon: this.icons[e.icon] || this.icons.default, // Fallback to default icon
         };
         prestEmpl.push(tmp);
@@ -104,30 +105,56 @@ export default {
       }).addTo(this.map);
 
       const prestEmplacement = await this.constructPrestataireEmplacement();
-      console.log(prestEmplacement);
 
       if (this.selectedPrestataireId) {
         const selectedPrestataire = prestEmplacement.find(
-          (p) => p.id === this.selectedPrestataireId
+          (p) => p.id === this.prestataires.find((p) => p.id == this.selectedPrestataireId).id_emplacement
         );
         if (selectedPrestataire) {
           const marker = L.marker(selectedPrestataire.coords, {
             icon: selectedPrestataire.icon,
           }).addTo(this.map);
-          marker.bindPopup(`<b>${selectedPrestataire.text}</b>`).openPopup();
+          const popupContent = `
+            <b>${selectedPrestataire.text}</b>
+            <p>${selectedPrestataire.description_accueil}</p>
+          `;
+          const popup = marker.bindPopup(popupContent);
+
+          marker.on('mouseover', () => {
+            popup.openPopup();
+          });
+          marker.on('mouseout', () => {
+            popup.closePopup();
+          });
         }
       } else {
         prestEmplacement.forEach((prestataire) => {
           const marker = L.marker(prestataire.coords, { icon: prestataire.icon }).addTo(this.map);
-          marker.bindPopup(`<b>${prestataire.text}</b>`);
+
+          const popupContent = `
+            <b>${prestataire.text}</b>
+            <p>${prestataire.description_accueil}</p>
+            <p>Cliquez pour accéder</p>
+          `;
+          const popup = marker.bindPopup(popupContent);
+
+          marker.on('mouseover', () => {
+            popup.openPopup();
+          });
+          marker.on('mouseout', () => {
+            popup.closePopup();
+          });
+          marker.on('click', () => {
+            this.$router.push(`prestataire/${prestataire.id}`);
+          });
         });
       }
 
       const parkingLocations = [
-        { coords: [47.6890, 6.8200], text: 'Parking Nord' },
-        { coords: [47.6855, 6.8280], text: 'Parking Sud' },
-        { coords: [47.6865, 6.8225], text: 'Parking Est' },
-        { coords: [47.6845, 6.8195], text: 'Parking Ouest' },
+        { coords: [47.6841,6.8140], text: 'Parking Nord' },
+        { coords: [47.6827,6.8145], text: 'Parking Sud' },
+        { coords: [47.6848,6.8095], text: 'Parking Prestataire Sud' },
+        { coords: [47.6880,6.8072], text: 'Parking Prestataire Nord' },
       ];
 
       parkingLocations.forEach((parking) => {
@@ -135,7 +162,14 @@ export default {
         marker.bindPopup(`<b>${parking.text}</b>`);
       });
 
-      const polygonCoords = [
+      this.map.on('click', (e) => {
+        const { lat, lng } = e.latlng;
+        const formattedLat = lat.toFixed(4);
+        const formattedLng = lng.toFixed(4);
+        console.log(`[${formattedLat},${formattedLng}]`);
+      });
+
+      /*const polygonCoords = [
         [47.694, 6.8088],
         [47.69385, 6.808636],
         [47.6938, 6.80862],
@@ -178,7 +212,7 @@ export default {
         fillOpacity: 0.4,
       }).addTo(this.map);
 
-      polygon.bindPopup('Zone de baignades des canards').openPopup();
+      polygon.bindPopup('Zone de baignades des canards').openPopup();*/
     },
   },
 };
