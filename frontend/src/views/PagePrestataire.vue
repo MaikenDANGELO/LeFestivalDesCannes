@@ -105,6 +105,11 @@
           <div v-if="prestataire.id === '8'">
             <h2>Balades</h2>
             <p v-if="utilisateur.role === ''">Veuillez être enregistré pour réserver une balade</p>
+
+           <input type="date" id="date" v-model="day" @change="fetchBalades" min="2025-09-01" max="2025-09-03" >
+
+
+
             <ul>
               <li v-for="balade in balades" :key="balade.id_balade" class="balade-item">
                 <div class="balade-details">
@@ -147,6 +152,7 @@ export default {
   },
   data() {
     return {
+      day: "2025-09-01",
       balades: [],
       prestataire: null,
       user_note: 0,
@@ -175,7 +181,7 @@ export default {
     async fetchBalades() {
       const response = await baladesServices.getAllBalades();
       if (response.error === 0) {
-        this.balades = response.data;
+        this.balades = response.data.filter(balade => balade.date_balade === this.day);
       } else {
         console.error("Erreur lors du chargement des balades :", response.data);
       }
