@@ -116,7 +116,7 @@
                   </div>
                   <p v-if="utilisateur.role === 'admin' && balade.reserved_user_id !== null">Réservée par {{ getUtilisateur(balade.reserved_user_id).nom_utilisateur }}</p>
                   <button v-if="balade.reserved_user_id === utilisateur.id || (utilisateur.role === 'admin' && balade.reserved_user_id !== null)" @click="cancelBalade(balade.id_balade)" class="btn annuler">Annuler</button>
-                  <p v-else>Aucune réservation</p>
+                  <p v-if="balade.reserved_user_id === null">Aucune réservation</p>
                 </div>
               </li>
             </ul>

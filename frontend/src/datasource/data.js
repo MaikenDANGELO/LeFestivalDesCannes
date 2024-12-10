@@ -517,25 +517,25 @@ let balades = [
     id_balade: "1",
     date_balade: "2025-09-01",
     heure_balade: "08:00",
-    reserved_user_id: 1
+    reserved_user_id: null
   },
   {
     id_balade: "2",
     date_balade: "2025-09-01",
     heure_balade: "08:30",
-    reserved_user_id: 1
+    reserved_user_id: null
   },
   {
     id_balade: "3",
     date_balade: "2025-09-01",
     heure_balade: "09:00",
-    reserved_user_id: 2
+    reserved_user_id: null
   },
   {
     id_balade: "4",
     date_balade: "2025-09-01",
     heure_balade: "09:30",
-    reserved_user_id: 2
+    reserved_user_id: null
   },
   {
     id_balade: "5",
