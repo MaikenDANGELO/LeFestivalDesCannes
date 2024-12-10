@@ -104,6 +104,7 @@
           </div>
           <div v-if="prestataire.id === '8'">
             <h2>Balades</h2>
+            <p v-if="utilisateur.role === ''">Veuillez être enregistré pour réserver une balade</p>
             <ul>
               <li v-for="balade in balades" :key="balade.id_balade" class="balade-item">
                 <div class="balade-details">
