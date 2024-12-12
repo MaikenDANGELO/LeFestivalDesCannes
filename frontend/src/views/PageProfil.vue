@@ -185,7 +185,9 @@ export default {
       }
     },
     setCurrentView(view) {
+      console.log(view)
       this.currentView = view;
+      console.log(this.currentView)
     },
     clickModifyPersonnalData(){
       this.modifyPersonnalData = !this.modifyPersonnalData;
@@ -254,12 +256,8 @@ export default {
       this.clickModifyPersonnalData()
     },
     async markNotificationsAsRead() {
-      try {
-        await usersService.markAllAsRead(this.utilisateur.id);
-        this.notifications = [];
-      } catch (error) {
-        console.error('Erreur lors de la mise à jour des notifications', error);
-      }
+      await usersService.markAllAsRead(this.utilisateur.id);
+      this.notifications = [];
     },
     async changePassword(){
       if (this.samePassword){
@@ -288,13 +286,6 @@ export default {
     this.email_utilisateur = this.utilisateur.email
     this.adresse_utilisateur = this.utilisateur.adresse
     this.telephone = this.utilisateur.numero
-  },
-  watch: {
-    myNotif(newValue) {
-      if (newValue) {
-        this.markNotificationsAsRead();
-      }
-    },
   },
 };
 </script>

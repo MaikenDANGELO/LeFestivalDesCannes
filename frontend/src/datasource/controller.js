@@ -367,6 +367,18 @@ function markAllAsRead(id){
     }
 }
 
+function deletePretataire(id){
+    const utilisateur = prestataires[id - 1].id_utilisateur;
+    try {
+        prestataires.splice(id-1, 1);
+        utilisateurs.splice(utilisateur, 1);
+        return {error: 0, status: 200, data: 'Prestataire supprimé avec succès'};
+    }catch (e) {
+        return { error: 1, status: 404, data: "Le prestataire n'a pas été supprimé correctement" };
+    }
+
+}
+
 
 export default {
     getAllPrestataires,
@@ -397,4 +409,5 @@ export default {
     changePassword,
     markAllAsRead,
     getAllEmplacements,
+    deletePretataire
 };

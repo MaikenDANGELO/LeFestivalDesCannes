@@ -21,7 +21,7 @@
                             <div class="prest-actions-btn">
                                 <button @click="handlePrestaGoToPage(prestataire.id)">Accéder à la page</button>
                                 <button>Modifier prestataire</button>
-                                <button>Supprimer prestataire</button>
+                                <button @click="deletePrest(prestataire.id)">Supprimer prestataire</button>
                             </div>
                             <div class="prest-actions-emplacement">
                                 <p>Emplacement actuel: {{ prestataire.id_emplacement }}</p>
@@ -294,6 +294,11 @@ export default {
           await prestatairesService.acceptDemandePrest(prest)
           await this.declineDemandePrest(index)
         },
+      async deletePrest(id){
+        console.log(id)
+        const response = await prestatairesService.deletePretataire(id)
+        alert(response.data)
+      }
     }
 };
 </script>

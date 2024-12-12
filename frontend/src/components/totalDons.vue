@@ -1,7 +1,7 @@
 <template>
   <div class="don-container">
     <h1 class="title">Total des Dons:</h1>
-    <p class="total" ref="donDisplay">{{ totalDons }}</p>
+    <p class="total" ref="donDisplay">{{ this.totalDons }}</p>
     </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
         start = start || timestamp;
         let progress = Math.min((timestamp - start) / duration, 1);
 
-        donDisplayElement.textContent = Math.floor(progress * (to - from) + from) + ' €';
+        donDisplayElement.textContent = Math.floor(progress * (to - from) + from);
 
         if (progress < 1) {
           window.requestAnimationFrame(animate);
@@ -97,4 +97,7 @@ strong {
   font-feature-settings: 'tnum';
 }
 
+.total:after {
+  content: ' €';
+}
 </style>

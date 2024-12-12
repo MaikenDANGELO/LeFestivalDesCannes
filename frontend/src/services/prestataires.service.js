@@ -100,6 +100,16 @@ async function acceptDemandePrest(prest){
     }
 }
 
+async function deletePretataire(id){
+    let response;
+    try{
+        response = await LocalSource.deletePretataire(id);
+    }
+    catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau, impossible de modifier l\'empalcement'}
+    }
+    return response
+}
 
 export default {
     getAllPrestataires,
@@ -110,4 +120,5 @@ export default {
     getAllDemandePrestataire,
     declineDemandePrest,
     acceptDemandePrest,
+    deletePretataire
 }

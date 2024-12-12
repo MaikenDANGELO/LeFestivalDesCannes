@@ -1,9 +1,10 @@
 <template>
   <body>
     <div id="chrono">
+      <p>1er Septembre 2025</p>
       <p>Début de l'événement: </p>
       <div class="chrono">
-        {{chrono}}
+        <strong>{{chrono}}</strong>
       </div>
     </div>
     <div class="buttons">
@@ -17,11 +18,12 @@ export default {
   data(){
     return{
       chrono: '',
+      dateEvenement: new Date(2025, 10, 1)
     }
   },
   methods:{
     calculChrono(){
-      let differenceMs = new Date(2025, 6, 15) - new Date()
+      let differenceMs = this.dateEvenement - new Date()
       let jours = Math.floor(differenceMs / (1000 * 60 * 60 * 24));
       let heures = Math.floor((differenceMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       let minutes = Math.floor((differenceMs % (1000 * 60 * 60)) / (1000 * 60));

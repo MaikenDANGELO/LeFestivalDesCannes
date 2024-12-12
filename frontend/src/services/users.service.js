@@ -46,7 +46,7 @@ async function getNotificationByUserID(id){
 async function markAllAsRead(id){
     let response;
     try{
-        response = await LocalSource.markAllAsRead(id);
+        await LocalSource.markAllAsRead(id);
     }catch(error){
         response = {error: 1, status: 404, data:  'erreur réseau'}
     }
