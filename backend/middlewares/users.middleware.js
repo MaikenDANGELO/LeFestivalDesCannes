@@ -3,7 +3,7 @@ const pool = require("../database/db.js");
 
 
 exports.validateLogin = (req, res, next) =>{
-    let {login,mdp} = req.body
+    let { login,mdp } = req.body
     if (!login)  return res.status(400).send('Login pas valide !');
     if (!mdp) return res.status(400).send('Mot de passe pas valide !');
     next();
@@ -11,8 +11,6 @@ exports.validateLogin = (req, res, next) =>{
 
 exports.validateSignUp = async (req, res, next) => {
     const password = req.body.mdp;
-    const signUp = req.body.signUp;
-    const codePrest = req.body.codePrest;
 
     if (password.length < 8) {
         return res.status(400).send("Le mot de passe doit contenir au moins 8 caractères.");
@@ -32,13 +30,5 @@ exports.validateSignUp = async (req, res, next) => {
         return res.status(400).send("Le mot de passe doit contenir au moins un caractère spécial.");
     }
 
-    const client = await pool.connect();
-    let codeValide = await client.query('SELECT code FROM code_prestataire')
-    codeValide = codeValide.rows[0].code;
-    if (signUp === 'Prestataire') {
-        if (codePrest !== codeValide) {
-            return res.status(400).send("Le code prestataire n'est correct.");
-        }
-    }
     next();
 }
