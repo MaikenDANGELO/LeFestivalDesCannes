@@ -1,8 +1,7 @@
 const pool = require("../database/db.js");
 const bcrypt = require('bcrypt')
-const {callback} = require("pg/lib/native/query");
 
-const getUsers = async (callback) => {
+exports.getUsers = async (callback) => {
     const client = await pool.connect();
     try {
         const clients = await client.query('SELECT * FROM utilisateurs');
@@ -14,13 +13,11 @@ const getUsers = async (callback) => {
     }
 }
 
-const connexion = async (login, mdp, callback) =>{
+exports.connexion = async (login, mdp, callback) =>{
     const client = await pool.connect();
     try {
-
         const user = await client.query('SELECT * FROM utilisateurs WHERE email_utilisateur = $1', [login]);
         if (user.rows.length === 0) return callback("Aucun utilisateur ne correspond à ce login", null)
-
 
         const correspond = await bcrypt.compare(mdp, user.rows[0].mot_de_passe);
         if (correspond) return callback(null, user.rows[0]);
@@ -32,7 +29,7 @@ const connexion = async (login, mdp, callback) =>{
     }
 }
 
-const signup = async (login, mdp, numero, username, adresse, signUp, callback) =>{
+exports.signup = async (login, mdp, numero, username, adresse, signUp, callback) =>{
     const client = await pool.connect();
     try{
         const user = await client.query('SELECT * FROM utilisateurs WHERE email_utilisateur = $1', [login]);
@@ -55,7 +52,7 @@ const signup = async (login, mdp, numero, username, adresse, signUp, callback) =
     }
 }
 
-const getUser = async (id, callback) =>{
+exports.getUser = async (id, callback) =>{
     const client = await pool.connect();
     try {
         const SQL = `
@@ -72,7 +69,7 @@ const getUser = async (id, callback) =>{
     }
 }
 
-const deleteAvis = async (id, callback) =>{
+exports.deleteAvis = async (id, callback) =>{
     const client = await pool.connect();
     try {
         const SQL = `
@@ -88,7 +85,7 @@ const deleteAvis = async (id, callback) =>{
     }
 }
 
-const sendAvis = async (id_prestataire, id_utilisateur, texte, note, callback)=>{
+exports.sendAvis = async (id_prestataire, id_utilisateur, texte, note, callback)=>{
     const client = await pool.connect();
     try {
         const SQL = `
@@ -105,7 +102,7 @@ const sendAvis = async (id_prestataire, id_utilisateur, texte, note, callback)=>
     }
 }
 
-const modifyAvis = async (texte, note, id, callback)=>{
+exports.modifyAvis = async (texte, note, id, callback)=>{
     const client = await pool.connect();
     try {
         const SQL = `
@@ -123,14 +120,55 @@ const modifyAvis = async (texte, note, id, callback)=>{
     }
 }
 
+exports.getNotificationByUserID = async (id, callback)=> {
+    const client = await pool.connect();
+    try {
+        const SQL = `
+            SELECT * FROM notif
+            WHERE id_user = $1`
+        const res = await client.query(SQL, [id])
 
+        callback(null, res.rows)
 
-module.exports = {
-    getUsers,
-    connexion,
-    signup,
-    getUser,
-    deleteAvis,
-    sendAvis,
-    modifyAvis
+    } catch (error) {
+        callback(error, null)
+    } finally {
+        client.release();
+    }
+}
+
+exports.changePersonnalData = async (id, nom, email, numero, adresse, callback)=> {
+    const client = await pool.connect();
+    try {
+        const SQL = `
+            UPDATE utilisateurs
+            SET nom_utilisateur = $1, email_utilisateur = $2, telephone = $3, adresse_utilisateur = $4
+            WHERE id = $5`
+        await client.query(SQL, [nom, email, numero, adresse, id])
+
+        callback(null, 'Données mise à jour')
+
+    } catch (error) {
+        callback(error, null)
+    } finally {
+        client.release();
+    }
+}
+
+exports.changePassword = async (id, newPassword, callback)=> {
+    const client = await pool.connect();
+    try {
+        const SQL = `
+            UPDATE utilisateurs
+            SET mot_de_passe = $1
+            WHERE id = $2`
+        await client.query(SQL, [await bcrypt.hash(newPassword, 10), id])
+
+        callback(null, 'Mot de passe changée')
+
+    } catch (error) {
+        callback(error, null)
+    } finally {
+        client.release();
+    }
 }

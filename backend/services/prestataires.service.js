@@ -1,7 +1,7 @@
 const pool = require("../database/db");
 
 
-const getAvis = async (id, callback)=>{
+exports.getAvis = async (id, callback)=>{
     const client = await pool.connect();
     try {
         const SQL = `
@@ -19,6 +19,36 @@ const getAvis = async (id, callback)=>{
     }
 }
 
-module.exports = {
-    getAvis,
+exports.getAllPrestataire = async (callback)=>{
+    const client = await pool.connect();
+    try {
+        const SQL = `
+            SELECT *
+            FROM prestataires`
+        const res = await client.query(SQL)
+
+        callback(null, res.rows)
+
+    }catch (error){
+        callback(error, null)
+    }finally {
+        client.release();
+    }
+}
+
+exports.sendFormPrestataire = async (callback)=>{
+    const client = await pool.connect();
+    try {
+        const SQL = `
+            SELECT *
+            FROM prestataires`
+        const res = await client.query(SQL)
+
+        callback(null, res.rows)
+
+    }catch (error){
+        callback(error, null)
+    }finally {
+        client.release();
+    }
 }

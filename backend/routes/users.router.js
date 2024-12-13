@@ -72,6 +72,43 @@ router.get("/getAllUser",userController.getUsers);
  *         description: Internal server error
  */
 
+router .get('/getNotificationByUserID', userController.getNotificationByUserID)
+/**
+ * @swagger
+ * /api/users/getNotificationByUserID:
+ *   get:
+ *     description: Retrieve notifications for a specific user by their ID
+ *     tags:
+ *       - Users
+ *     responses:
+ *       '200':
+ *         description: A list of notifications for the specified user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The unique identifier for the notification
+ *                     example: 101
+ *                   message:
+ *                     type: string
+ *                     description: The content of the notification
+ *                     example: "You have a new message."
+ *                   created_at:
+ *                     type: string
+ *                     format: date-time
+ *                     description: The timestamp when the notification was created
+ *                     example: "2024-12-13T14:00:00Z"
+ *       '400':
+ *         description: Bad request - Invalid or missing user ID
+ *       '500':
+ *         description: Internal server error
+ */
+
 
 router.post("/connexion" ,userMiddleware.validateLogin, userController.connexion);
 /**
@@ -113,7 +150,7 @@ router.post("/connexion" ,userMiddleware.validateLogin, userController.connexion
  */
 
 
-router.post("/signup" ,userMiddleware.validateSignUp, userController.signup);
+router.post("/signup" ,userMiddleware.validatePassword, userController.signup);
 /**
  * @swagger
  * /api/users/signup:
@@ -170,7 +207,7 @@ router.post("/signup" ,userMiddleware.validateSignUp, userController.signup);
  *       '200':
  *         description: Successfully registered user
  *       '400':
- *         description: Bad request - password or codePrestataire invalid
+ *         description: Bad request - password invalid
  *       '500':
  *         description: Internal server error
  */
@@ -192,17 +229,12 @@ router.post('/sendAvis', userController.sendAvis)
  *             type: object
  *             required:
  *               - id_prestataire
- *               - id_utilisateur
  *               - texte
  *               - note
  *             properties:
  *               id_prestataire:
  *                 type: integer
  *                 description: The ID of the service provider (prestataire)
- *                 example: 1
- *               id_utilisateur:
- *                 type: integer
- *                 description: The ID of the user (utilisateur) submitting the review
  *                 example: 1
  *               texte:
  *                 type: string
@@ -223,8 +255,6 @@ router.post('/sendAvis', userController.sendAvis)
  *                 data:
  *                   type: string
  *                   example: "L'avis a été publié avec succès"
- *       '400':
- *         description: Bad request (e.g., missing or invalid fields)
  *       '500':
  *         description: Internal server error
  */
@@ -261,8 +291,6 @@ router.delete('/deleteAvis', userController.deleteAvis)
  *                 data:
  *                   type: string
  *                   example: "L'avis a été supprimé avec succès"
- *       '400':
- *         description: Bad request (e.g., missing or invalid ID)
  *       '500':
  *         description: Internal server error
  */
@@ -310,10 +338,112 @@ router.put('/modifyAvis', userController.modifyAvis)
  *                 data:
  *                   type: string
  *                   example: "L'avis a été modifié avec succès"
+ *       '500':
+ *         description: Internal server error
+ */
+
+router.put('/changePersonnalData',userController.changePersonnalData)
+/**
+ * @swagger
+ * /api/users/changePersonnalData:
+ *   put:
+ *     description: Update the personal data (name, email, phone number, address) for a specific user
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - nom
+ *               - email
+ *               - numero
+ *               - adresse
+ *             properties:
+ *               nom:
+ *                 type: string
+ *                 description: The updated name of the user
+ *                 example: "John Doe"
+ *               email:
+ *                 type: string
+ *                 description: The updated email address of the user
+ *                 example: "john.doe@example.com"
+ *               numero:
+ *                 type: string
+ *                 description: The updated phone number of the user
+ *                 example: "0123456789"
+ *               adresse:
+ *                 type: string
+ *                 description: The updated address of the user
+ *                 example: "1234 Elm Street"
+ *     responses:
+ *       '200':
+ *         description: Successfully updated user personal data
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: string
+ *                   example: "Données mise à jour"
+ *       '500':
+ *         description: Internal server error
+ */
+
+router.put('/changePassword',
+    userMiddleware.validatePassword,
+    userMiddleware.validateActualPassword,
+    userMiddleware.passwordAlreadyUsed,
+    userController.changePassword)
+/**
+ * @swagger
+ * /api/users/changePassword:
+ *   put:
+ *     description: Allows a user to change their password. Validates the current password and ensures the new password meets security criteria and has not been used before.
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - actualPassword
+ *               - newPassword
+ *             properties:
+ *               actualPassword:
+ *                 type: string
+ *                 description: The current password of the user
+ *                 example: "OldPassword123!"
+ *               newPassword:
+ *                 type: string
+ *                 description: The new password for the user
+ *                 example: "NewPassword456@"
+ *     responses:
+ *       '200':
+ *         description: Password successfully changed
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: string
+ *                   example: "Mot de passe changée"
  *       '400':
- *         description: Bad request (e.g., missing or invalid fields)
- *       '404':
- *         description: Review not found (e.g., the provided review ID does not exist)
+ *         description: Bad request - Password validation failed or new password already used
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Le mot de passe courant donné n'est pas le bon"
  *       '500':
  *         description: Internal server error
  */

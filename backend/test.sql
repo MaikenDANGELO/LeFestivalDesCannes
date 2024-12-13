@@ -232,6 +232,8 @@ INSERT INTO reservations (id_prestataire, date, heure, type_service) VALUES (8, 
 
 
 DELETE FROM avis
-WHERE id = 3
+WHERE id = 3;
 
-SELECT * FROM avis WHERE id_prestataire = 1
+SELECT * FROM avis WHERE id_prestataire = 1;
+
+
