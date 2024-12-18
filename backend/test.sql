@@ -27,7 +27,6 @@ CREATE TABLE prestataires (
 
 CREATE TABLE services (
     id SERIAL PRIMARY KEY,
-    id_service VARCHAR(255),
     nom_service VARCHAR(255),
     description_service TEXT,
     lien_service VARCHAR(255),
@@ -143,15 +142,15 @@ INSERT INTO prestataires (id, nom, description, description_accueil, categorie, 
 (8, 'Ped''ailo!', 'Avec Ped''ailo, prenez vos ailes et flottez comme un canard sur les étangs du Malsaucy en famille, entre amis ou en canard solitaire !', 'Stand de pédalo sur les étangs', 'Activité', 8, 1, '/prestataire/8', 'pedalo_canard.jpg', 11);
 
 -- Table services
-INSERT INTO services (id_service, nom_service, description_service, lien_service, statut_service, id_prestataire) VALUES
-('1', 'service1', 'description', 'lien_service1', 'actif', 1),
-('1', 'service1', 'description', 'lien_service1', 'actif', 2),
-('1', 'service1', 'description', 'lien_service1', 'actif', 3),
-('1', 'service1', 'description', 'lien_service1', 'actif', 4),
-('1', 'service1', 'description', 'lien_service1', 'actif', 5),
-('1', 'service1', 'description', 'lien_service1', 'actif', 6),
-('1', 'service1', 'description', 'lien_service1', 'actif', 7),
-('1', 'service1', 'description', 'lien_service1', 'actif', 8);
+INSERT INTO services (nom_service, description_service, lien_service, statut_service, id_prestataire) VALUES
+( 'service1', 'description', 'lien_service1', 'actif', 1),
+( 'service1', 'description', 'lien_service1', 'actif', 2),
+( 'service1', 'description', 'lien_service1', 'actif', 3),
+( 'service1', 'description', 'lien_service1', 'actif', 4),
+( 'service1', 'description', 'lien_service1', 'actif', 5),
+( 'service1', 'description', 'lien_service1', 'actif', 6),
+('service1', 'description', 'lien_service1', 'actif', 7),
+('service1', 'description', 'lien_service1', 'actif', 8);
 
 -- Table sponsors
 INSERT INTO sponsors (id_sponsor, nom_sponsor, description_accueil, description, image) VALUES

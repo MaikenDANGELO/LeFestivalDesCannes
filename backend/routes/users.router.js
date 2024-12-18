@@ -72,7 +72,7 @@ router.get("/getAllUser",userController.getUsers);
  *         description: Internal server error
  */
 
-router .get('/getNotificationByUserID', userController.getNotificationByUserID)
+router.get('/getNotificationByUserID', userController.getNotificationByUserID)
 /**
  * @swagger
  * /api/users/getNotificationByUserID:

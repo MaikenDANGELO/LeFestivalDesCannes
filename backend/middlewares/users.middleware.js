@@ -1,5 +1,6 @@
-const pool = require("../database/db.js");
 const bcrypt = require('bcrypt')
+const MotDePasseUtilisateur = require('../database/models/MotDePasseUtilisateur');
+const Utilisateur = require('../database/models/Utilisateur');
 
 
 exports.validateLogin = (req, res, next) =>{
@@ -34,50 +35,42 @@ exports.validatePassword = async (req, res, next) => {
 }
 
 exports.validateActualPassword = async (req, res, next) => {
-    const id = req.session.id_user
-    const actualPassword = req.body.actualPassword
+    const id = req.session.id_user;
+    const actualPassword = req.body.actualPassword;
 
-    const client = await pool.connect();
-    try{
+    try {
+        const user = await Utilisateur.findByPk(id);
 
-        const SQL = `SELECT * FROM utilisateurs WHERE id = $1`
-        const user = await client.query(SQL, [id]);
-
-        console.log(user.rows[0].mot_de_passe)
-        const correspond = await bcrypt.compare(actualPassword,  user.rows[0].mot_de_passe);
-        if (!correspond){
-            return res.status(400).send("Le mot de passe courant donné n'est pas le bon")
+        if (!user) {
+            return res.status(400).send("Utilisateur non trouvé");
         }
-        next()
 
-    }catch (e) {
-        return res.status(500).send(e.message)
-    }finally {
-        client.release()
+        const correspond = await bcrypt.compare(actualPassword, user.mot_de_passe);
+        if (!correspond) {
+            return res.status(400).send("Le mot de passe courant donné n'est pas le bon");
+        }
+        next();
+    } catch (e) {
+        return res.status(500).send(e.message);
     }
-}
+};
 
 exports.passwordAlreadyUsed = async (req, res, next) => {
-    const id = req.session.id_user
-    const newPassword = req.body.newPassword
-    const client = await pool.connect();
+    const id = req.session.id_user;
+    const newPassword = req.body.newPassword;
 
-    try{
-        const user = await client.query(`SELECT *
-                                         FROM MOTS_DE_PASSE_UTILISATEURS
-                                         WHERE user_Id = $1 `, [id]);
-        for (const userElement of user.rows) {
-            const correspond = await bcrypt.compare(newPassword,  userElement.mot_de_passe);
+    try {
+        const passwords = await MotDePasseUtilisateur.findAll({ where: { user_Id: id } });
 
-            if (correspond){
-                return res.status(400).send("Le nouveau mot de passe à déjà été utilisé")
+        for (const password of passwords) {
+            const correspond = await bcrypt.compare(newPassword, password.mot_de_passe);
+
+            if (correspond) {
+                return res.status(400).send("Le nouveau mot de passe à déjà été utilisé");
             }
         }
-        next()
-
-    }catch (e) {
-
-    }finally {
-        client.release()
+        next();
+    } catch (e) {
+        return res.status(500).send(e.message);
     }
-}
+};

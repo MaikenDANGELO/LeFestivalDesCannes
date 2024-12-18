@@ -3,6 +3,7 @@ const userRouter = require("./routes/users.router");
 const prestataireRouter = require("./routes/prestataires.router")
 const PORT = 3000;
 const app = express();
+const sync = require("./database/sync");
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
@@ -10,8 +11,7 @@ const expressSession = require("express-session"),
     cookieParser = require("cookie-parser")
 const serverRouter = express.Router();
 
-
-
+//sync()
 /** Swagger Initialization - START */
 const swaggerOption = {
     swaggerDefinition: (swaggerJsdoc.Options = {
