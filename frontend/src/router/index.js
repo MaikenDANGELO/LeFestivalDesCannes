@@ -12,6 +12,7 @@ import PageInscriptionCanard from "@/views/PageInscriptionCanard.vue";
 import PageAssociations from "@/views/PageAssociations.vue";
 import PageProfil from "@/views/PageProfil.vue";
 import PageReservationRestaurant from "@/views/PageReservationRestaurant.vue";
+import PageClassementActivites from "@/views/PageClassementActivites.vue";
 
 
 Vue.use(VueRouter)
@@ -76,6 +77,11 @@ const routes = [
     path: "/reservation-restaurant",
     name: "ReservationRestaurant",
     component: PageReservationRestaurant,
+  },
+  {
+    path : "/classementActivites",
+    name : "ClassementActivites",
+    component : PageClassementActivites,
   }
   
   /*{

@@ -17,7 +17,7 @@ export default {
     },
     actions: {
         async getAllPrestataires({ commit }) {
-            console.log("récupération des prestataires");
+            //console.log("récupération des prestataires");
             let response = await PrestatairesService.getAllPrestataires();
             if (response.error === 0) {
                 commit("updatePrestataires", response.data);
