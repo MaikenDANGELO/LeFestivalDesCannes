@@ -5,6 +5,7 @@ export default {
     state: () => ({
         prestataires: [],
         avis_prestataire: [],
+        avis_prestataire_global : []
     }),
     mutations: {
         updatePrestataires: (state, prestataires) => {
@@ -12,6 +13,9 @@ export default {
         },
         updateAvisPrestataire: (state, avis_prestataire) => {
             state.avis_prestataire = avis_prestataire;
+        },
+        updateTousAvis: (state, tous_avis) => {
+            state.avis_prestataire_global = tous_avis;
         },
         modifyEmplacement: () => {}
     },
@@ -30,6 +34,15 @@ export default {
             let response = await PrestatairesService.getAvisOfPrestataire(id_prestataire);
             if (response.error === 0){
                 commit("updateAvisPrestataire", response.data);
+            }else{
+                console.log(response.data);
+            }
+        },
+        async getAllAvis({commit}) {
+            console.log("récupération de tous les avis");
+            let response = await PrestatairesService.getAllRatings();
+            if (response.error === 0){
+                commit("updateTousAvis", response.data);
             }else{
                 console.log(response.data);
             }

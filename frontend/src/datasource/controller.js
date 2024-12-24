@@ -1,6 +1,10 @@
 import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS, emplacements} from "./data";
 import bcrypt from 'bcryptjs';
 
+function getAllRatings(){
+    return {error : 0, data : avis}
+}
+
 function getAllEmplacements() {
     return {error: 0, data: emplacements};
 }
@@ -381,6 +385,7 @@ function deletePretataire(id){
 
 
 export default {
+    getAllRatings,
     getAllPrestataires,
     getAllSponsors,
     insertCommandeBillet,

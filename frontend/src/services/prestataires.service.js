@@ -110,8 +110,19 @@ async function deletePretataire(id){
     }
     return response
 }
+async function getAllRatings(){
+    let response;
+    try{
+        response = await LocalSource.getAllRatings();
+    }
+    catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau, impossible de récupérer les avis'}
+    }
+    return response;
+}
 
 export default {
+    getAllRatings,
     getAllPrestataires,
     getAvisOfPrestataire,
     sendAvisOfUser,
