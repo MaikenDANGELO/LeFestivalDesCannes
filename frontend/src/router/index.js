@@ -13,7 +13,7 @@ import PageAssociations from "@/views/PageAssociations.vue";
 import PageProfil from "@/views/PageProfil.vue";
 import PageReservationRestaurant from "@/views/PageReservationRestaurant.vue";
 import PageClassementActivites from "@/views/PageClassementActivites.vue";
-
+import PageMenu from "@/views/PageMenu.vue";
 
 Vue.use(VueRouter)
 
@@ -82,8 +82,12 @@ const routes = [
     path : "/classementActivites",
     name : "ClassementActivites",
     component : PageClassementActivites,
+  },
+  {
+    path: '/menu',
+    name: 'Menu',
+    component: PageMenu,
   }
-  
   /*{
     path: '/about',
     name: 'about',

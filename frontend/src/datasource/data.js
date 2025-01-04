@@ -572,6 +572,128 @@ let disponibilitesResto = {
   "2025-02-15": ["12:00", "12:30", "13:30", "14:30", "19:00", "20:00", "20:30", "21:00"],
 };
 
+let menu = {
+  plats: [
+    {
+      id: 1,
+      nom: "Confit de canard",
+      description: "Confit de canard avec pommes de terre sautées.",
+      prix: 18,
+      image: "confit_canard.jpg",
+    },
+    {
+      id: 2,
+      nom: "Magret de canard",
+      description: "Magret de canard avec sauce au miel.",
+      prix: 22,
+      image: "magret_canard.jpg",
+    },
+    {
+      id: 3,
+      nom: "Cuisse de canard à l'orange",
+      description: "Une cuisse de canard tendre servie avec une sauce à l'orange.",
+      prix: 20,
+      image: "cuisse_canard_orange.jpg",
+    },
+    {
+      id: 4,
+      nom: "Poulet rôti",
+      description: "Poulet rôti aux herbes de Provence.",
+      prix: 15,
+      image: "poulet_roti.jpg",
+    },
+    {
+      id: 5,
+      nom: "Steak frites",
+      description: "Steak de bœuf grillé accompagné de frites maison.",
+      prix: 17,
+      image: "steak_frites.jpg",
+    },
+  ],
+  boissons: [
+    {
+      id: 6,
+      nom: "Eau plate",
+      description: "Bouteille de 50 cl.",
+      prix: 2,
+      image: "eau_plate.jpg",
+    },
+    {
+      id: 7,
+      nom: "Eau pétillante",
+      description: "Bouteille de 50 cl.",
+      prix: 2.5,
+      image: "eau_petillante.jpg",
+    },
+    {
+      id: 8,
+      nom: "Coca-Cola",
+      description: "Canette de 33 cl.",
+      prix: 3,
+      image: "coca_cola.jpg",
+    },
+  ],
+  desserts: [
+    {
+      id: 11,
+      nom: "Tarte aux pommes",
+      description: "Tarte maison avec des pommes caramélisées.",
+      prix: 6,
+      image: "tarte_pommes.jpg",
+    },
+    {
+      id: 12,
+      nom: "Mousse au chocolat",
+      description: "Délicieuse mousse au chocolat noir.",
+      prix: 5,
+      image: "mousse_chocolat.jpg",
+    },
+    {
+      id: 13,
+      nom: "Crème brûlée",
+      description: "Crème vanille avec une croûte caramélisée.",
+      prix: 6,
+      image: "creme_brulee.jpg",
+    },
+    {
+      id: 14,
+      nom: "Fondant au chocolat",
+      description: "Fondant avec un cœur coulant au chocolat.",
+      prix: 7,
+      image: "fondant_chocolat.jpg",
+    },
+    {
+      id: 15,
+      nom: "Coupe glacée ",
+      description: "Deux boules de glace avec des fruits frais.",
+      prix: 5,
+      image: "coupe_glacee.jpg",
+    },
+  ],
+  menusEnfants: [
+    {
+      id: 16,
+      nom: "Nuggets de poulet",
+      description: "5 nuggets avec frites et jus d'orange.",
+      prix: 8,
+      image: "nuggets_poulet.jpg",
+    },
+    {
+      id: 17,
+      nom: "Mini burger",
+      description: "Petit burger avec steak haché et frites.",
+      prix: 9,
+      image: "mini_burger.jpg",
+    },
+    {
+      id: 18,
+      nom: "Pâtes à la bolognaise",
+      description: "Assiette de pâtes avec sauce tomate et viande hachée.",
+      prix: 7,
+      image: "pates_bolognaise.jpg",
+    },
+  ],
+};
 
 let balades = [
   {
@@ -901,4 +1023,5 @@ module.exports = {
   demandePrestataires,
   notifications,
   MOTS_DE_PASSE_UTILISATEURS,
+  menu,
 };

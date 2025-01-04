@@ -6,6 +6,10 @@
           <div>
             <h1 class="header-title">Restaurant Le Gourmet</h1>
             <p class="header-subtitle">Réservez votre table et régalez vos papilles !</p>
+            <!-- Bouton Accédez au menu -->
+            <div class="menu-button-container">
+              <button class="menu-button" @click="$router.push('/menu')">Accédez au menu</button>
+            </div>
           </div>
         </div>
       </div>
@@ -234,6 +238,35 @@ export default {
   margin-top: 15px;
   text-shadow: 0px 4px 12px rgba(0, 0, 0, 0.7);
   font-style: italic;
+}
+
+.menu-button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.menu-button {
+  background-color: #35414e; /* Couleur bleue moderne */
+  color: white;
+  padding: 15px 30px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.menu-button:hover {
+  background-color: #357ab8; /* Couleur légèrement plus foncée au survol */
+  transform: scale(1.05);
+}
+
+.menu-button:active {
+  background-color: #2b6392; /* Couleur encore plus foncée au clic */
+  transform: scale(1);
 }
 
 
