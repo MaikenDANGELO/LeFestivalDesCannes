@@ -6,7 +6,9 @@
             <button @click="handleShowSponsors()"><h2>Sponsors</h2></button>
             <button @click="handleShowAssociations()"><h2>Associations</h2></button>
             <button @click="handleShowDemandes()"><h2>Demande Prestaires</h2></button>
-        </div>
+            <button @click="$router.push('/statistiques')"><h2>Statistiques</h2></button>
+            </div>
+
         <div v-if="showPrestataires" class="list-prestataires">
             <h2>Prestataires <button @click="getAllPrestataires()">Refresh</button></h2>
             <div class="prestataire" v-for="prestataire in prestataires" :key="prestataire.id">

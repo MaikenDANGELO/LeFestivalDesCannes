@@ -14,6 +14,7 @@ import PageProfil from "@/views/PageProfil.vue";
 import PageReservationRestaurant from "@/views/PageReservationRestaurant.vue";
 import PageClassementActivites from "@/views/PageClassementActivites.vue";
 import PageMenu from "@/views/PageMenu.vue";
+import PageStatistiques from '@/views/PageStatistiques.vue';
 
 Vue.use(VueRouter)
 
@@ -87,6 +88,11 @@ const routes = [
     path: '/menu',
     name: 'Menu',
     component: PageMenu,
+  },
+  {
+    path: '/statistiques',
+    name: 'Statistiques',
+    component: PageStatistiques, // Charge la nouvelle page statistiques
   }
   /*{
     path: '/about',
