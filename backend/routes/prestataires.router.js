@@ -61,7 +61,59 @@ router.get('/', prestatairesController.getAllPrestataire)
  *         description: Internal server error.
  */
 
-router.get("/getAvis/:id", prestatairesController.getAvis)
+router.get("/getTotalDonsOf/:id", prestatairesController.getTotalDonsOf)
+/**
+ * @swagger
+ * /api/prestataires/getTotalDonsOf/{id}:
+ *  get:
+ *       summary: Récupère le total des dons pour un prestataire donné
+ *       description: Cette route retourne le total des dons effectués pour un prestataire spécifié par son `id`.
+ *       tags:
+ *         - Prestataires
+ *       parameters:
+ *         - name: id
+ *           in: path
+ *           description: L'ID du prestataire pour lequel on souhaite obtenir le total des dons.
+ *           required: true
+ *           schema:
+ *             type: integer
+ *       responses:
+ *         '200':
+ *           description: Succès - Le total des dons est renvoyé dans la réponse.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   data:
+ *                     type: number
+ *                     description: Le total des dons effectués pour ce prestataire.
+ *                     example: 1500.50
+ *         '500':
+ *           description: Erreur interne du serveur. Cela peut se produire si une erreur se produit lors du calcul du total des dons.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   error:
+ *                     type: string
+ *                     description: Description de l'erreur.
+ *                     example: "Erreur lors du calcul du total des dons"
+ *         '400':
+ *           description: Mauvaise requête - L'ID du prestataire n'est pas valide.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   error:
+ *                     type: string
+ *                     description: Description de l'erreur.
+ *                     example: "ID invalide"
+ */
+
+router.get("/getAvis/:id", utilisateurMiddleware.isLogin, prestatairesController.getAvis)
 /**
  * @swagger
  * /api/prestataires/getAvis/{id}:
@@ -110,6 +162,7 @@ router.get("/getAvis/:id", prestatairesController.getAvis)
  *         description: Internal server error
  */
 
+
 router.post('/sendFormPrestataire', utilisateurMiddleware.isLogin, prestatairesMiddleware.alreadyExists, prestatairesController.sendFormPrestataire)
 /**
  * @swagger
@@ -118,7 +171,7 @@ router.post('/sendFormPrestataire', utilisateurMiddleware.isLogin, prestatairesM
  *       summary: Envoie un formulaire pour créer un prestataire avec ses services associés.
  *       description: Cette route permet de soumettre les détails d'un prestataire et ses services associés pour enregistrement dans la base de données.
  *       tags:
- *         - Prestataire
+ *         - Prestataires
  *       requestBody:
  *         required: true
  *         content:
@@ -229,6 +282,75 @@ router.post('/sendFormPrestataire', utilisateurMiddleware.isLogin, prestatairesM
  *                   error:
  *                     type: string
  *                     description: Message d'erreur.
+ */
+
+router.post("/makeDonation/:prestId", utilisateurMiddleware.isLogin, prestatairesController.makeDonation)
+/**
+ * @swagger
+ * /api/prestataires/makeDonation/{prestId}:
+ *  post:
+ *       summary: Enregistrer un don pour un prestataire donné
+ *       description: Cette route permet à un utilisateur de faire un don à un prestataire spécifique. L'utilisateur doit être connecté et fournir le montant et un message pour la donation.
+ *       tags:
+ *         - Prestataires
+ *       parameters:
+ *         - name: prestId
+ *           in: path
+ *           description: L'ID du prestataire à qui l'utilisateur souhaite faire un don.
+ *           required: true
+ *           schema:
+ *             type: integer
+ *       requestBody:
+ *         description: Les informations concernant le don, y compris le montant et le message de l'utilisateur.
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 amount:
+ *                   type: number
+ *                   format: float
+ *                   description: Le montant du don.
+ *                   example: 100.50
+ *                 message:
+ *                   type: string
+ *                   description: Un message optionnel associé au don.
+ *                   example: "Merci pour votre service !"
+ *       responses:
+ *         '200':
+ *           description: Succès - Le don a été enregistré avec succès.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   data:
+ *                     type: string
+ *                     description: Message de confirmation du don.
+ *                     example: "Donation enregistrée avec succès"
+ *         '400':
+ *           description: Mauvaise requête - Le montant du don est requis.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   message:
+ *                     type: string
+ *                     description: Message d'erreur concernant la requête.
+ *                     example: "Le montant du don est requis"
+ *         '500':
+ *           description: Erreur interne du serveur - Une erreur est survenue lors de l'enregistrement du don.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   error:
+ *                     type: string
+ *                     description: Description de l'erreur.
+ *                     example: "Erreur lors de l'enregistrement du don"
  */
 
 

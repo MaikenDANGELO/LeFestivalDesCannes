@@ -16,6 +16,14 @@ const Notif = require('./models/Notif');
 
 const syncDatabase = async () => {
     try {
+        Utilisateur.hasMany(Prestataire, { foreignKey: 'id_utilisateur', as: 'prestataires' , onDelete: 'CASCADE'});
+        Prestataire.belongsTo(Utilisateur, { foreignKey: 'id_utilisateur', as: 'utilisateur', onDelete: 'CASCADE' });
+        Prestataire.hasMany(Service, { foreignKey: 'id_prestataire', as: 'services', onDelete: 'CASCADE' });
+        Service.belongsTo(Prestataire, { foreignKey: 'id_prestataire', as: 'prestataire' });
+
+        Prestataire.hasMany(Avis, { foreignKey: 'id_prestataire', as: 'avis', onDelete: 'CASCADE' });
+        Avis.belongsTo(Prestataire, { foreignKey: 'id_prestataire', as: 'prestataire' });
+
         await sequelize.sync({ force: true });
 
         // Insertion des utilisateurs
@@ -56,11 +64,11 @@ const syncDatabase = async () => {
         ]);
 
         await Sponsor.bulkCreate([
-            { id: 1, nom: 'BirdLife International', description_courte: 'Soutenir la protection des cannes sauvages...', description_longue: 'BirdLife International est un leader mondial...', logo: 'logo.png' },
-            { id: 2, nom: 'Wild Ducks Conservation', description_courte: 'Engagés pour un environnement sûr...', description_longue: "Wild Ducks Conservation s'efforce de créer...", logo: 'logo.png' },
-            { id: 3, nom: 'Natural Habitat Safaris', description_courte: 'Offrir des expériences écoresponsables...', description_longue: 'Natural Habitat Safaris propose des voyages...', logo: 'logo.png' },
-            { id: 4, nom: 'Fondation des Marais Sauvages', description_courte: 'Protège les habitats naturels des ansériformes.', description_longue: 'La Fondation des Marais Sauvages est dédiée...', logo: 'logo.png' },
-            { id: 5, nom: 'Éco Nature Environnement', description_courte: 'Un partenaire clé pour la sensibilisation...', description_longue: 'Éco Nature Environnement organise des campagnes...', logo: 'logo.png' }
+            {nom_sponsor: 'BirdLife International', description_accueil: 'Soutenir la protection des cannes sauvages...', description: 'BirdLife International est un leader mondial...', image: 'logo.png' },
+            {nom_sponsor: 'Wild Ducks Conservation', description_accueil: 'Engagés pour un environnement sûr...', description: "Wild Ducks Conservation s'efforce de créer...", image: 'logo.png' },
+            {nom_sponsor: 'Natural Habitat Safaris', description_accueil: 'Offrir des expériences écoresponsables...', description: 'Natural Habitat Safaris propose des voyages...', image: 'logo.png' },
+            {nom_sponsor: 'Fondation des Marais Sauvages', description_accueil: 'Protège les habitats naturels des ansériformes.', description: 'La Fondation des Marais Sauvages est dédiée...', image: 'logo.png' },
+            {nom_sponsor: 'Éco Nature Environnement', description_accueil: 'Un partenaire clé pour la sensibilisation...', description: 'Éco Nature Environnement organise des campagnes...', image: 'logo.png' }
         ]);
         await Avis.bulkCreate([
             { id_prestataire: 1, id_utilisateur: 1, texte: 'Je me suis trop méga amusée omg omg wouhouuu !!', note: 5 },
@@ -125,6 +133,15 @@ const syncDatabase = async () => {
         ]);
 
         console.log('Database & tables created!');
+
+        const prestataire = await Prestataire.findOne({ where: { id: 1 }, include: 'utilisateur' });
+        console.log('Utilisateur du prestataire:', prestataire.dataValues.utilisateur);
+
+        const service = await Service.findOne({ where: { id: 1 }, include: 'prestataire' });
+        console.log('Prestataire du service:', service.dataValues);
+
+        const avis = await Avis.findOne({ where: { id: 1 }, include: 'prestataire' });
+        console.log('Prestataire de l\'avis:', avis.dataValues.prestataire);
     } catch (error) {
         console.error('Error creating database & tables:', error);
     }

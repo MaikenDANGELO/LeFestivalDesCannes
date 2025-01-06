@@ -1,8 +1,9 @@
 const express = require("express");
 const userRouter = require("./routes/users.router");
 const prestataireRouter = require("./routes/prestataires.router")
-adminRouter = require("./routes/admin.router");
-const PORT = 4001;
+const adminRouter = require("./routes/admin.router");
+const sponsorsRouter = require("./routes/sponsors.router");
+const PORT = 3000;
 const app = express();
 const sync = require("./database/sync");
 const swaggerJsdoc = require("swagger-jsdoc");
@@ -12,7 +13,7 @@ const expressSession = require("express-session"),
     cookieParser = require("cookie-parser")
 const serverRouter = express.Router();
 
-//sync()
+sync()
 /** Swagger Initialization - START */
 const swaggerOption = {
     swaggerDefinition: (swaggerJsdoc.Options = {
@@ -53,6 +54,7 @@ app.use("/", serverRouter)
 app.use("/api/users",userRouter);
 app.use("/api/prestataires",prestataireRouter);
 app.use("/api/administrateur",adminRouter);
+app.use("/api/sponsors",sponsorsRouter);
 
 // Middlewaires Gestion erreurs
 app.use("*",(req,res,next)=>{

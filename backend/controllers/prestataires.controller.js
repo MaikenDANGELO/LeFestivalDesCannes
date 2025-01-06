@@ -1,3 +1,5 @@
+// Description: Contient la logique de routing pour les prestataires.
+
 const prestataireService = require("../services/prestataires.service");
 
 
@@ -34,3 +36,33 @@ exports.sendFormPrestataire = async (req, res) =>{
         return res.status(200).json({data:data});
     })
 }
+
+exports.getTotalDonsOf = async (req, res) =>{
+    const { id } = req.params;
+    if (!id) {
+        return res.status(400).json({ message: "L'ID du prestataire est requis" });
+    }
+    await prestataireService.getTotalDonsOf(id,(error,data)=> {
+        if (error) {
+            return res.status(500).send(error);
+        }
+        return res.status(200).json({data: data});
+    })
+}
+
+exports.makeDonation = async (req, res) =>{
+    const userId = req.session.id_user;
+    const prestaId = req.params.prestId;
+    const { amount, message } = req.body;
+    if (!amount) {
+        return res.status(400).json({ message: "Le montant du don est requis" });
+    }
+    await prestataireService.makeDonation(userId, prestaId, amount, message,(error,data)=>{
+        if(error){
+            return res.status(500).send(error);
+        }
+        return res.status(200).json({data:data});
+    })
+}
+
+

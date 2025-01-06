@@ -1,7 +1,7 @@
 const Avis = require('../database/models/Avis');
 const Prestataire = require("../database/models/Prestataire");
-const Utilisateur = require("../database/models/Utilisateur");
 const Service = require("../database/models/Service");
+const Dons = require("../database/models/Don");
 
 exports.getAvis = async (id, callback) => {
     try {
@@ -58,6 +58,30 @@ exports.sendFormPrestataire = async (form, id_utilisateur, callback)=>{
         callback(null, prestataire);
     } catch (error) {
         console.log(error)
+        callback(error, null);
+    }
+}
+
+exports.getTotalDonsOf = async (id, callback) => {
+    try {
+        const total = await Dons.sum('montant', { where: { id_prestataire: id } });
+        callback(null, total);
+    } catch (error) {
+        callback(error, null);
+    }
+}
+
+exports.makeDonation = async (userId, prestaId, amount, message, callback) => {
+    try {
+        await Dons.create({
+            id_utilisateur: userId,
+            id_prestataire: prestaId,
+            montant: amount,
+            message: message,
+            date: new Date()
+        });
+        callback(null, "Donation enregistrer avec succès");
+    } catch (error) {
         callback(error, null);
     }
 }

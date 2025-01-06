@@ -3,7 +3,6 @@ const sequelize = require('../connection');
 
 const Sponsor = sequelize.define('Sponsor', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    id_sponsor: { type: DataTypes.STRING },
     nom_sponsor: { type: DataTypes.STRING },
     description_accueil: { type: DataTypes.TEXT },
     description: { type: DataTypes.TEXT },
