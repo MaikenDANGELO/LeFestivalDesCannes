@@ -25,7 +25,9 @@ exports.getAllPrestataire = async (req, res) =>{
 
 exports.sendFormPrestataire = async (req, res) =>{
     const id_utilisateur = req.session.id_user
-    await prestataireService.sendFormPrestataire((error,data)=>{
+    const form = req.body
+    console.log(form)
+    await prestataireService.sendFormPrestataire(form, id_utilisateur,(error,data)=>{
         if(error){
             return res.status(500).send(error);
         }

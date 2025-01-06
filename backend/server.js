@@ -1,7 +1,8 @@
 const express = require("express");
 const userRouter = require("./routes/users.router");
 const prestataireRouter = require("./routes/prestataires.router")
-const PORT = 3000;
+adminRouter = require("./routes/admin.router");
+const PORT = 4001;
 const app = express();
 const sync = require("./database/sync");
 const swaggerJsdoc = require("swagger-jsdoc");
@@ -51,6 +52,7 @@ app.use(express.json());
 app.use("/", serverRouter)
 app.use("/api/users",userRouter);
 app.use("/api/prestataires",prestataireRouter);
+app.use("/api/administrateur",adminRouter);
 
 // Middlewaires Gestion erreurs
 app.use("*",(req,res,next)=>{

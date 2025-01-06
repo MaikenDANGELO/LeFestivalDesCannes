@@ -12,6 +12,7 @@ const Prestataire = sequelize.define('Prestataire', {
     id_evenement: { type: DataTypes.INTEGER },
     page_route: { type: DataTypes.STRING },
     image: { type: DataTypes.STRING },
+    accepted: { type: DataTypes.BOOLEAN },
     id_utilisateur: { type: DataTypes.INTEGER, references: { model: Utilisateur, key: 'id' } }
 }, {
     tableName: 'prestataires',

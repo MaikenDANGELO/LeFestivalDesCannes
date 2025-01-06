@@ -1,6 +1,8 @@
 const express = require("express");
 const prestatairesController =
     require("../controllers/prestataires.controller");
+const prestatairesMiddleware = require("../middlewares/prestataires.middleware");
+const utilisateurMiddleware = require("../middlewares/users.middleware");
 
 var router = express.Router();
 
@@ -108,7 +110,126 @@ router.get("/getAvis/:id", prestatairesController.getAvis)
  *         description: Internal server error
  */
 
-router.post('/sendFormPrestataire', prestatairesController.sendFormPrestataire)
+router.post('/sendFormPrestataire', utilisateurMiddleware.isLogin, prestatairesMiddleware.alreadyExists, prestatairesController.sendFormPrestataire)
+/**
+ * @swagger
+ * /api/prestataires/sendFormPrestataire:
+ *  post:
+ *       summary: Envoie un formulaire pour créer un prestataire avec ses services associés.
+ *       description: Cette route permet de soumettre les détails d'un prestataire et ses services associés pour enregistrement dans la base de données.
+ *       tags:
+ *         - Prestataire
+ *       requestBody:
+ *         required: true
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 nom:
+ *                   type: string
+ *                   description: Nom du prestataire.
+ *                   example: "Pêche aux canards"
+ *                 description:
+ *                   type: string
+ *                   description: Description complète du prestataire.
+ *                   example: "Espace dédié aux jeux pour enfants et adultes avec diverses animations..."
+ *                 description_accueil:
+ *                   type: string
+ *                   description: Courte description pour l'accueil.
+ *                   example: "Jeux et animations pour tous."
+ *                 categorie:
+ *                   type: string
+ *                   description: Catégorie du prestataire.
+ *                   example: "Activité"
+ *                 id_emplacement:
+ *                   type: string
+ *                   description: Identifiant de l'emplacement associé au prestataire.
+ *                   example: "1"
+ *                 id_evenement:
+ *                   type: string
+ *                   description: Identifiant de l'événement associé au prestataire.
+ *                   example: "1"
+ *                 page_route:
+ *                   type: string
+ *                   description: Route de la page associée au prestataire.
+ *                   example: "/prestataire/1"
+ *                 image:
+ *                   type: string
+ *                   description: Nom du fichier image représentant le prestataire.
+ *                   example: "jeu_divertissement.jpg"
+ *                 id_utilisateur:
+ *                   type: string
+ *                   description: Identifiant de l'utilisateur soumis.
+ *                   example: "2"
+ *                 services:
+ *                   type: array
+ *                   description: Liste des services associés au prestataire.
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id_service:
+ *                         type: string
+ *                         description: Identifiant unique du service.
+ *                         example: "1"
+ *                       nom_service:
+ *                         type: string
+ *                         description: Nom du service.
+ *                         example: "service1"
+ *                       description_service:
+ *                         type: string
+ *                         description: Description du service.
+ *                         example: "description"
+ *                       lien_service:
+ *                         type: string
+ *                         description: Lien du service.
+ *                         example: "lien_service1"
+ *                       statut_service:
+ *                         type: string
+ *                         description: Statut du service.
+ *                         example: "actif"
+ *               required:
+ *                 - nom
+ *                 - description
+ *                 - categorie
+ *                 - id_emplacement
+ *                 - services
+ *       responses:
+ *         '200':
+ *           description: Prestataire et ses services ont été créés avec succès.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   data:
+ *                     type: object
+ *                     description: Données du prestataire créé.
+ *         '400':
+ *           description: Un prestataire avec le même nom existe déjà.
+ *           content:
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: "Un prestataire avec le même nom existe déjà."
+ *         '401':
+ *           description: L'utilisateur n'est pas connecté.
+ *           content:
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: "Vous n'êtes pas connecté"
+ *         '500':
+ *           description: Erreur lors de la création du prestataire ou des services associés.
+ *           content:
+ *             application/json:
+ *               schema:
+ *                 type: object
+ *                 properties:
+ *                   error:
+ *                     type: string
+ *                     description: Message d'erreur.
+ */
 
 
 module.exports = router;

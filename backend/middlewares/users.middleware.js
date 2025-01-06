@@ -74,3 +74,10 @@ exports.passwordAlreadyUsed = async (req, res, next) => {
         return res.status(500).send(e.message);
     }
 };
+
+exports.isLogin = async (req, res, next) => {
+    if (!req.session.id_user) {
+        return res.status(401).send("Vous n'êtes pas connecté");
+    }
+    next();
+}

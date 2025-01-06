@@ -1,6 +1,7 @@
 const Avis = require('../database/models/Avis');
 const Prestataire = require("../database/models/Prestataire");
 const Utilisateur = require("../database/models/Utilisateur");
+const Service = require("../database/models/Service");
 
 exports.getAvis = async (id, callback) => {
     try {
@@ -32,7 +33,11 @@ exports.sendFormPrestataire = async (form, id_utilisateur, callback)=>{
             description_accueil: form.description_accueil,
             categorie: form.categorie,
             id_emplacement: form.id_emplacement,
-            image: form.image
+            image: form.image,
+            accepted: false,
+            id_utilisateur: id_utilisateur,
+            page_route: '',
+            id_evenement: 1
         });
 
         const services = form.services.map(service => ({
@@ -42,16 +47,17 @@ exports.sendFormPrestataire = async (form, id_utilisateur, callback)=>{
             lien_service: service.lien_service,
             statut_service: service.statut_service,
             id_prestataire: prestataire.id
-
         }));
 
+        console.log("Prestataire: ", prestataire);
+        console.log("Services: ", services);
         await Service.bulkCreate(services);
-        await Utilisateur.update(
-            { id_prestataire: prestataire.id, role: 'Prestataire' },
-            { where: { id: id_utilisateur } });
+
+        console.log("Services créés");
 
         callback(null, prestataire);
     } catch (error) {
+        console.log(error)
         callback(error, null);
     }
 }
