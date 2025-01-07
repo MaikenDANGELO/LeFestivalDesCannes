@@ -72,7 +72,7 @@ router.get("/getAllUser",userController.getUsers);
  *         description: Internal server error
  */
 
-router.get('/getNotificationByUserID', userController.getNotificationByUserID)
+router.get('/getNotificationByUserID', userMiddleware.isLogin, userController.getNotificationByUserID)
 /**
  * @swagger
  * /api/users/getNotificationByUserID:
@@ -103,8 +103,13 @@ router.get('/getNotificationByUserID', userController.getNotificationByUserID)
  *                     format: date-time
  *                     description: The timestamp when the notification was created
  *                     example: "2024-12-13T14:00:00Z"
- *       '400':
- *         description: Bad request - Invalid or missing user ID
+ *         '401':
+ *           description: L'utilisateur n'est pas connecté.
+ *           content:
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: "Vous n'êtes pas connecté"
  *       '500':
  *         description: Internal server error
  */
@@ -147,6 +152,15 @@ router.post("/connexion" ,userMiddleware.validateLogin, userController.connexion
  *         description: User not found
  *       '500':
  *         description: Internal server error
+ *       security:
+ *         - sessionAuth: []
+ *
+ * components:
+ *   securitySchemes:
+ *     sessionAuth:
+ *       type: apiKey
+ *       in: cookie
+ *       name: session_id
  */
 
 
@@ -213,7 +227,7 @@ router.post("/signup" ,userMiddleware.validatePassword, userController.signup);
  */
 
 
-router.post('/sendAvis', userController.sendAvis)
+router.post('/sendAvis',userMiddleware.isLogin, userController.sendAvis)
 /**
  * @swagger
  * /api/users/sendAvis:
@@ -255,11 +269,27 @@ router.post('/sendAvis', userController.sendAvis)
  *                 data:
  *                   type: string
  *                   example: "L'avis a été publié avec succès"
+ *         '401':
+ *           description: L'utilisateur n'est pas connecté.
+ *           content:
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: "Vous n'êtes pas connecté"
  *       '500':
  *         description: Internal server error
+ *       security:
+ *         - sessionAuth: []
+ *
+ * components:
+ *   securitySchemes:
+ *     sessionAuth:
+ *       type: apiKey
+ *       in: cookie
+ *       name: session_id
  */
 
-router.delete('/deleteAvis', userController.deleteAvis)
+router.delete('/deleteAvis',userMiddleware.isLogin, userController.deleteAvis)
 /**
  * @swagger
  * /api/users/deleteAvis:
@@ -291,12 +321,28 @@ router.delete('/deleteAvis', userController.deleteAvis)
  *                 data:
  *                   type: string
  *                   example: "L'avis a été supprimé avec succès"
+ *         '401':
+ *           description: L'utilisateur n'est pas connecté.
+ *           content:
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: "Vous n'êtes pas connecté"
  *       '500':
  *         description: Internal server error
+ *       security:
+ *         - sessionAuth: []
+ *
+ * components:
+ *   securitySchemes:
+ *     sessionAuth:
+ *       type: apiKey
+ *       in: cookie
+ *       name: session_id
  */
 
 
-router.put('/modifyAvis', userController.modifyAvis)
+router.put('/modifyAvis',userMiddleware.isLogin, userController.modifyAvis)
 /**
  * @swagger
  * /api/users/modifyAvis:
@@ -338,11 +384,27 @@ router.put('/modifyAvis', userController.modifyAvis)
  *                 data:
  *                   type: string
  *                   example: "L'avis a été modifié avec succès"
+ *         '401':
+ *           description: L'utilisateur n'est pas connecté.
+ *           content:
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: "Vous n'êtes pas connecté"
  *       '500':
  *         description: Internal server error
+ *       security:
+ *         - sessionAuth: []
+ *
+ * components:
+ *   securitySchemes:
+ *     sessionAuth:
+ *       type: apiKey
+ *       in: cookie
+ *       name: session_id
  */
 
-router.put('/changePersonnalData',userController.changePersonnalData)
+router.put('/changePersonnalData',userMiddleware.isLogin, userController.changePersonnalData)
 /**
  * @swagger
  * /api/users/changePersonnalData:
@@ -389,11 +451,28 @@ router.put('/changePersonnalData',userController.changePersonnalData)
  *                 data:
  *                   type: string
  *                   example: "Données mise à jour"
+ *         '401':
+ *           description: L'utilisateur n'est pas connecté.
+ *           content:
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: "Vous n'êtes pas connecté"
  *       '500':
  *         description: Internal server error
+ *       security:
+ *         - sessionAuth: []
+ *
+ * components:
+ *   securitySchemes:
+ *     sessionAuth:
+ *       type: apiKey
+ *       in: cookie
+ *       name: session_id
  */
 
 router.put('/changePassword',
+    userMiddleware.isLogin,
     userMiddleware.validatePassword,
     userMiddleware.validateActualPassword,
     userMiddleware.passwordAlreadyUsed,
@@ -444,8 +523,24 @@ router.put('/changePassword',
  *                 error:
  *                   type: string
  *                   example: "Le mot de passe courant donné n'est pas le bon"
+ *         '401':
+ *           description: L'utilisateur n'est pas connecté.
+ *           content:
+ *             text/plain:
+ *               schema:
+ *                 type: string
+ *                 example: "Vous n'êtes pas connecté"
  *       '500':
  *         description: Internal server error
+ *       security:
+ *         - sessionAuth: []
+ *
+ * components:
+ *   securitySchemes:
+ *     sessionAuth:
+ *       type: apiKey
+ *       in: cookie
+ *       name: session_id
  */
 
 

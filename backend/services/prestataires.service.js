@@ -2,6 +2,7 @@ const Avis = require('../database/models/Avis');
 const Prestataire = require("../database/models/Prestataire");
 const Service = require("../database/models/Service");
 const Dons = require("../database/models/Don");
+const Reservation = require("../database/models/Reservation");
 
 exports.getAvis = async (id, callback) => {
     try {
@@ -81,6 +82,64 @@ exports.makeDonation = async (userId, prestaId, amount, message, callback) => {
             date: new Date()
         });
         callback(null, "Donation enregistrer avec succès");
+    } catch (error) {
+        callback(error, null);
+    }
+}
+
+exports.getAllBalades = async (callback) => {
+    try {
+        const balades = await Reservation.findAll({
+            where: {
+                type_service: 'balade'
+            }
+        });
+        callback(null, balades);
+    } catch (error) {
+        callback(error, null);
+    }
+}
+
+exports.getbaladesfromUid = async (user_id, callback) => {
+    try {
+        const balades = await Reservation.findAll({
+            where: {
+                type_service: 'balade',
+                reserved_user_id: user_id
+            }
+        });
+        callback(null, balades);
+    } catch (error) {
+        callback(error, null);
+    }
+}
+
+exports.reservebalade = async (balade_id, user_id, callback) => {
+    try {
+        const balade = await Reservation.findByPk(balade_id);
+        if (balade) {
+            balade.reserved_user_id = user_id;
+            await balade.save();
+            callback(null, "Balade réservée avec succès");
+        } else {
+            callback("Balade introuvable", null);
+        }
+    } catch (error) {
+        callback(error, null);
+    }
+}
+
+exports.cancelbalade = async (balade_id, user_id, callback) => {
+    try {
+        const balade = await Reservation.findByPk(balade_id);
+        if (balade) {balade.reserved_user_id = null;
+            await balade.save();
+            balade.reserved_user_id = null;
+            await balade.save();
+            callback(null, "Réservation annulée avec succès");
+        } else {
+            callback("Balade introuvable", null);
+        }
     } catch (error) {
         callback(error, null);
     }

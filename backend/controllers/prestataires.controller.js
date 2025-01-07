@@ -65,4 +65,46 @@ exports.makeDonation = async (req, res) =>{
     })
 }
 
+exports.getAllBalades = async (req, res) =>{
+    await prestataireService.getAllBalades((error,data)=>{
+        if(error){
+            return res.status(500).send(error);
+        }
+        return res.status(200).json({data:data});
+    })
+}
 
+exports.getbaladesfromUid = async (req, res) =>{
+    const user_id = req.session.id_user;
+    await prestataireService.getbaladesfromUid(user_id,(error,data)=> {
+        if (error) {
+            return res.status(500).send(error);
+        }
+        return res.status(200).json({data: data});
+    });
+}
+
+exports.reservebalade = async (req, res) =>{
+    const balade_id = req.params.balade_id;
+    const user_id = req.session.id_user;
+    await prestataireService.reservebalade(balade_id, user_id,(error,data)=>{
+        if (error === "Balade introuvable") { return res.status(404).send(error); }
+        if(error){
+            return res.status(500).send(error);
+        }
+        return res.status(200).json({data:data});
+    })
+}
+
+
+exports.cancelbalade = async (req, res) =>{
+    const balade_id = req.params.balade_id;
+    const user_id = req.session.id_user;
+    await prestataireService.cancelbalade(balade_id, user_id,(error,data)=>{
+        if (error === "Balade introuvable") { return res.status(404).send(error); }
+        if(error){
+            return res.status(500).send(error);
+        }
+        return res.status(200).json({data:data});
+    })
+}
