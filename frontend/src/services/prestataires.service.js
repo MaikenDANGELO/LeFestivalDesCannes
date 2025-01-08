@@ -121,6 +121,73 @@ async function getAllRatings(){
     return response;
 }
 
+async function getAllDisponibiliteResto(){
+    let response;
+    try{
+        response = await LocalSource.getAllDisponibiliteResto();
+    }
+    catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau, impossible de récupérer les disponibilités restos'}
+    }
+    return response;
+}
+
+async function makeReservation(user_id, date, hour, type, data){
+    console.log(user_id, date, hour, type, data)
+    let response;
+    try{
+        response = await LocalSource.makeReservation(user_id,date,hour,type,data);
+    }catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau, impossible de créer la réservation'}
+    }
+    return response;
+}
+
+async function getAllReservationsFromLocalSource(){
+    return LocalSource.getAllReservations();
+}
+
+async function getAllReservations(){
+    let response;
+    try{
+        response = await getAllPrestatairesFromLocalSource();
+    }catch(error){
+        response = {error: 1, status: 500, data: 'erreur réseau, impossible de récupérer les réservations'};
+    }
+    return response;
+}
+
+async function getReservationsfromUid(user_id) {
+    try {
+        let response = await getAllReservationsFromLocalSource();
+
+        // Vérifiez si l'objet retourné a une clé 'data' et si elle contient un tableau
+        if (response.error !== 0 || !Array.isArray(response.data)) {
+            throw new Error("Les données récupérées ne sont pas valides");
+        }
+
+        // Filtrer les balades à partir de la clé 'data'
+        let reservationsUtilisateur = response.data.filter(
+            reservation => reservation.reserved_user_id === user_id
+        );
+
+        return { error: 0, status: 200, data: reservationsUtilisateur };
+    } catch (error) {
+        console.error("Erreur lors de la récupération des réservations :", error.message);
+        return { error: 1, status: 404, data: error.message };
+    }
+}
+
+async function cancelReservation(id, user_role){
+    let response;
+    try{
+        response = await LocalSource.cancelReservation(id,user_role);
+    }catch(error){
+        response = {error: 1, status: 500, data: "impossible d'annuler la réservation, erreur réseau"};
+    }
+    return response;
+}
+
 export default {
     getAllRatings,
     getAllPrestataires,
@@ -131,5 +198,10 @@ export default {
     getAllDemandePrestataire,
     declineDemandePrest,
     acceptDemandePrest,
-    deletePretataire
+    deletePretataire,
+    getAllDisponibiliteResto,
+    getAllReservations,
+    makeReservation,
+    getReservationsfromUid,
+    cancelReservation,
 }

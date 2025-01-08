@@ -67,7 +67,8 @@
   
   
   <script>
-import { disponibilitesResto } from "@/datasource/data"; // Importer les disponibilités
+import prestataireService from "@/services/prestataires.service"; // Importer les disponibilités
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: "PageReservationRestaurant",
@@ -83,8 +84,23 @@ export default {
       availableTimes: [], // Heures disponibles basées sur la date sélectionnée
     };
   },
+  computed: {
+    ...mapState("utilisateurs", ['utilisateur']),
+  },
+  mounted() {
+    this.fillUserInformation();
+  },
   methods: {
-    updateAvailableTimes() {
+    ...mapActions('prestataire', ['makeReservation']),
+    fillUserInformation(){
+      if(this.utilisateur.estConnecte){
+        this.clientFullName = this.utilisateur.nom;
+        this.clientEmail = this.utilisateur.email;
+      }
+    },
+    async updateAvailableTimes() {
+      let disponibilitesResto = await prestataireService.getAllDisponibiliteResto();
+      disponibilitesResto = disponibilitesResto.data;
       // Met à jour les horaires disponibles en fonction de la date sélectionnée
       if (this.reservationDate in disponibilitesResto) {
         this.availableTimes = disponibilitesResto[this.reservationDate];
@@ -98,6 +114,7 @@ export default {
           "L'heure sélectionnée n'est pas disponible. Veuillez en choisir une autre.";
         return;
       }
+      this.makeReservation([this.utilisateur.id, this.reservationDate, this.reservationTime, "Restaurant", {nom_restaurant: "Restaurant Le Gourmet"}]);
       this.timeMessage = "";
       alert(
         `Réservation confirmée pour ${this.clientFullName}. Un ticket a été envoyé à ${this.clientEmail}.`

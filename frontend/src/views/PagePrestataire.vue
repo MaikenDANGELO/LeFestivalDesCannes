@@ -8,11 +8,11 @@
         <div class="image-container">
           <img class="animate-fade" :src="require(`@/assets/ImagesPrestataires/${prestataire.image}`)" alt="Logo du Prestataire">
           <div class="images-balade" v-if="prestataire.id === '8'">
-            <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img1.jpg`)" alt="image balade1">
-            <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img2.jpg`)" alt="image balade1">
-            <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img3.jpg`)" alt="image balade1">
-            <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img4.jpg`)" alt="image balade1">
-            <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img5.jpg`)" alt="image balade1">
+            <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img1.jpg`)" alt="balade1">
+            <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img2.jpg`)" alt="balade2">
+            <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img3.jpg`)" alt="balade3">
+            <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img4.jpg`)" alt="balade4">
+            <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img5.jpg`)" alt="balade5">
           </div>
         </div>
         <div class="info-container animate-slide">
@@ -168,7 +168,7 @@ export default {
     ...mapState('prestataire', ["avis_prestataire", "prestataires"]),
   },
   methods: {
-    ...mapActions('prestataire', ['getPrestataireAvis', 'getAllPrestataires']),
+    ...mapActions('prestataire', ['getPrestataireAvis', 'getAllPrestataires', 'makeReservation']),
     ...mapActions('utilisateurs', ['getAllUsers']),
     async reserverBalade(id, uid) {
       await baladesServices.reservebalade(id, uid);

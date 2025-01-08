@@ -17,7 +17,8 @@ export default {
         updateTousAvis: (state, tous_avis) => {
             state.avis_prestataire_global = tous_avis;
         },
-        modifyEmplacement: () => {}
+        modifyEmplacement: () => {},
+        makeReservation: () => {},
     },
     actions: {
         async getAllPrestataires({ commit }) {
@@ -53,10 +54,23 @@ export default {
             console.log("modification de l'emplacement du prestataire "+idPrest+" à "+emplacementId);
             let response = await PrestatairesService.modifyEmplacementPrestataire(idPrest,emplacementId)
             if(response.error === 0){
-                console.log(response.data);
                 commit("modifyEmplacement");
             }else{
                 console.log(response.data);
+            }
+        },
+        async makeReservation({commit}, data){
+            let user_id = data[0];
+            let date = data[1];
+            let hour = data[2];
+            let type = data[3];
+            let detes = data[4];
+            console.log("enregistrement d'une réservation");
+            let response = await PrestatairesService.makeReservation(user_id,date,hour,type,detes);
+            if(response.error === 0){
+                commit("makeReservation");
+            }else{
+                console.log(response.data)
             }
         }
     }

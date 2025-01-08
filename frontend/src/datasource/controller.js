@@ -1,4 +1,4 @@
-import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS, emplacements} from "./data";
+import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS, emplacements, disponibilitesResto, reservations} from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllRatings(){
@@ -29,6 +29,10 @@ function getAllMapData() {
     return { error: 0, data: map_data };
 }
 
+function getAllDisponibiliteResto(){
+    return { error: 0, data: disponibilitesResto };
+}
+
 function reservebalade(balade_id, user_id){
     try {
         let balade = balades.find(b => b.id_balade === balade_id);
@@ -36,6 +40,12 @@ function reservebalade(balade_id, user_id){
         if (balade.reserved_user_id !== null) return { error: 1, status: 404, data: "balade déjà réservée" };
         balade.reserved_user_id = user_id;
         console.log("reserve la balade" + balade)
+
+        let reservationData = {
+            id_balade: balade_id
+        }
+        makeReservation(user_id, balade.date_balade, balade.heure_balade, "Balade", reservationData)
+
         return { error: 0, status: 200, data: balade }
     }catch{
         return { error: 1, status: 404, data: "Erreur lors de la réservation" };
@@ -43,21 +53,11 @@ function reservebalade(balade_id, user_id){
 }
 
 
-function cancelBaladeReservation(balade_id, user_role){
+function cancelBaladeReservation(balade_id){
     try {
         let balade = balades.find(b => b.id_balade === balade_id);
         if (!balade) return { error: 1, status: 404, data: "balade introuvable" };
         if (!balade.reserved_user_id) return { error: 1, status: 404, data: "balade non réservée" };
-
-        let message
-        if (user_role === 'admin')  message = 'Balade de ' + balade.heure_balade + ' annulée par l\'organisateur'
-        else  message = 'Balade de ' + balade.heure_balade + ' annulée'
-        let notif = {
-            id:notifications.length,
-            id_user:balade.reserved_user_id,
-            message:message
-        }
-        notifications.push(notif);
 
         balade.reserved_user_id = null;
 
@@ -170,6 +170,54 @@ async function getTotalDonsOf(prestId) {
     }
 }
 
+async function getAllReservations(){
+    return {error: 0, status: 200, data: reservations};
+}
+
+async function makeReservation(user_id, date, hour, type, data){
+    let user = utilisateurs.find(e => e.id_utilisateur === user_id);
+    console.log(user_id, date, hour, type, data);
+    if(!user) return {error: 1, status: 404, data: "utilisateur introuvable"};
+    if(!date || !hour) return  {error: 1, status: 404, data: "date invalide"};
+    
+    let newId;
+    if(reservations.length > 0) newId = (parseInt(reservations[reservations.length-1].id_reservation)+1).toString()
+    else newId = 1;
+    let reservation = {
+        id_reservation: newId,
+        type_reservation: type,
+        reserved_user_id: user_id,
+        date_reservation: date,
+        heure_reservation: hour,
+        data: data,
+    }
+    reservations.push(reservation);
+    return {error: 0, status: 200, data: "réservation enregistrée"};
+}
+
+async function cancelReservation(reservation_id, user_role){
+    let reservation = reservations.find(e => e.id_reservation === reservation_id)
+    if(!reservation) return {error: 1, status: 404, data: "reservation introuvable"}
+
+    if(reservation.type_reservation === "Balade"){
+        cancelBaladeReservation(reservation.data.id_balade)
+    }
+
+    let message;
+    if (user_role === 'admin')  message = 'Réservation du ' + reservation.date_reservation + ' à '+ reservation.heure_reservation +'annulée par l\'organisateur'
+    else  message = 'Réservation du ' + reservation.date_reservation + ' à '+ reservation.heure_reservation +'annulée'
+    let notif = {
+        id:notifications.length,
+        id_user:reservation.reserved_user_id,
+        message:message
+    }
+    notifications.push(notif);
+
+    let index = reservations.indexOf(reservation);
+    reservations.splice(index, 1);
+    return {error: 0, status: 200, data: "reservation annulée"};
+}
+
 async function makeDonation(userId, prestaId, amount, message) {
     try {
         // if (amount <= 0) return { error: 1, status: 404, data: "Montant de don invalide" };
@@ -211,7 +259,7 @@ async function signUp(login, mdp, numero, username, adresse){
             date_inscription: getFormattedDate(),
             role: "utilisateur"
         };
-
+        console.log(insert.mot_de_passe)
         utilisateurs.push(insert);
         return { error: 0, status: 200, data: insert }
     } catch (error) {
@@ -414,5 +462,9 @@ export default {
     changePassword,
     markAllAsRead,
     getAllEmplacements,
-    deletePretataire
+    deletePretataire,
+    getAllDisponibiliteResto,
+    makeReservation,
+    getAllReservations,
+    cancelReservation,
 };

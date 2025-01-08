@@ -94,13 +94,14 @@
     <div class="main" v-if="currentView === 'myReservations'">
 
       <h1>Mes Réservations : </h1>
-      <h2>Ped'ailo : </h2>
 
-      <div v-if="balades.length !== 0">
-        <div class="case" v-for="(balade) in balades" :key="balade.id" >
-          <div class="balade-details">
-            <p>Balade réservée pour {{balade.heure_balade}} le {{balade.date_balade}}</p>
-            <button @click="cancelBalade(balade.id_balade)">Annuler</button>
+      <div v-if="reservations.length !== 0">
+        <div class="case" v-for="(reservation) in reservations" :key="reservation.id_reservation" >
+          <div class="reservation-details">
+            <h2>{{ reservation.type_reservation }}</h2>
+            <p>Réservation le {{reservation.date_reservation}} à {{reservation.heure_reservation}}</p>
+            <p v-if="reservation.data">{{ reservation.data }}</p>
+            <button @click="cancelReservation(reservation.id_reservation)">Annuler</button>
           </div>
         </div>
       </div>
@@ -129,7 +130,7 @@
 <script>
 import {mapActions, mapState} from 'vuex';
 import usersService from "@/services/users.service";
-import baladesServices from "@/services/balades.services";
+import prestatairesService from "@/services/prestataires.service"
 
 export default {
   data(){
@@ -145,7 +146,7 @@ export default {
       isPasswordVisible2: false,
       samePassword: false,
       notifications: [],
-      balades : [],
+      reservations : [],
       nom_utilisateur:'',
       email_utilisateur:'',
       adresse_utilisateur:'',
@@ -166,22 +167,23 @@ export default {
   },
   methods:{
     ...mapActions('utilisateurs', ['getAllUsers', 'logIn']),
-    async cancelBalade(id){
-      console.log('Annulation de la balade '+id)
-      await baladesServices.cancelbalade(id, this.utilisateur.role);
-      await this.fetchUserBalades();
+    async cancelReservation(id){
+      console.log('Annulation de la réservation '+id)
+      await prestatairesService.cancelReservation(id, this.utilisateur.role);
+      await this.fetchUserReservations()
       await this.getNotificationByID(this.utilisateur.id)
     },
-    async fetchUserBalades(){
+    async fetchUserReservations(){
       try {
-        const response = await baladesServices.getbaladesfromUid(this.utilisateur.id);
+        const response = await prestatairesService.getReservationsfromUid(this.utilisateur.id);
         if (response.error === 0) {
-          this.balades = response.data;
+          this.reservations = response.data;
+          console.log(this.reservations)
         } else {
-          console.error("Erreur lors du chargement des balades :", response.data);
+          console.error("Erreur lors du chargement des réservations :", response.data);
         }
       } catch (error) {
-        console.error("Impossible de récupérer les balades :", error.message);
+        console.error("Impossible de récupérer les réservations :", error.message);
       }
     },
     setCurrentView(view) {
@@ -280,7 +282,7 @@ export default {
     }
   },
   async created(){
-    await this.fetchUserBalades();
+    await this.fetchUserReservations();
     await this.getNotificationByID(this.utilisateur.id)
     this.nom_utilisateur = this.utilisateur.nom
     this.email_utilisateur = this.utilisateur.email
