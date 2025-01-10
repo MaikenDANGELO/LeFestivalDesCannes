@@ -88,6 +88,8 @@
 
   
   <script>
+import { mapState } from 'vuex';
+
   export default {
     name: "PageInscriptionCanard",
     data() {
@@ -114,6 +116,12 @@
     mounted() {
       this.fetchCurrentNumero();
       this.setHeureDefile();
+      if(this.utilisateur.estConnecte){
+        this.form.proprietaire = this.utilisateur.nom
+      }
+    },
+    computed:{
+      ...mapState("utilisateurs", ['utilisateur']),
     },
     methods: {
       fetchCurrentNumero() {
