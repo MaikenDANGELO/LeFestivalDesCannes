@@ -38,7 +38,7 @@
           <!-- Champ Image -->
           <div>
             <label for="image">Image :</label>
-            <input type="file" id="image" @change="handleFileUpload" accept=".png, .jpeg, .jpg" />
+            <input type="file" id="image" @change="handleFileUpload" accept=".png, .jpeg, .jpg"/>
           </div>
           <div v-if="previewImage">
             <img :src="previewImage" alt="Prévisualisation de l'image" style="max-width: 100%; margin-top: 10px;" />

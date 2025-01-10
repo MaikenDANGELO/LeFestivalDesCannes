@@ -91,7 +91,7 @@ export default {
     },
     logOut() {
       this.toggleDropdown();
-      this.$router.push({ name: "home" });
+      if(this.$route.name !== 'home' )this.$router.push({ name: "home" });
       this.logout();
     }
   },

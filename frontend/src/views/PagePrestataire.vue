@@ -102,6 +102,14 @@
               </div>
             </div>
           </div>
+          <div v-if="prestataire.id === '6'">
+            <h2>Classement du concours</h2>
+            <div class="classement">
+              <div class="classement-place" v-for="(pl) of classement" :key="pl.id_classement">
+                <p>{{ pl.place }} - {{ getUserFromClassement(pl.id_participant).nom_utilisateur }}</p>
+              </div>
+            </div>
+          </div>
           <div v-if="prestataire.id === '8'">
             <h2>Balades</h2>
             <p v-if="utilisateur.role === ''">Veuillez être enregistré pour réserver une balade</p>
@@ -154,6 +162,7 @@ export default {
     return {
       day: "2025-09-01",
       balades: [],
+      classement: [],
       prestataire: null,
       user_note: 0,
       user_comment: "",
@@ -170,6 +179,19 @@ export default {
   methods: {
     ...mapActions('prestataire', ['getPrestataireAvis', 'getAllPrestataires', 'makeReservation']),
     ...mapActions('utilisateurs', ['getAllUsers']),
+    compareClassement(a,b){
+      return a.place - b.place;
+    },
+    async getClassementConcours(){
+      let classement = await prestatairesService.getAllClassementConcours();
+      console.log(classement)
+      this.classement = classement.data.filter(e => e.concours === "cuisine");
+      this.classement.sort(this.compareClassement);
+      console.log(this.classement)
+    },
+    getUserFromClassement(id){
+      return this.utilisateurs.find(e => e.id_utilisateur === parseInt(id));
+    },
     async reserverBalade(id, uid) {
       await baladesServices.reservebalade(id, uid);
       await this.fetchBalades();
@@ -246,6 +268,7 @@ export default {
     await this.getAllPrestataires();
     await this.getAllUsers();
     await this.loadPrestataireData(this.$route.params.id);
+    await this.getClassementConcours();
   },
   watch: {
     '$route.params.id': {

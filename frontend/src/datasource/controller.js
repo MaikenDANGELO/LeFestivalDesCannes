@@ -1,4 +1,4 @@
-import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS, emplacements, disponibilitesResto, reservations} from "./data";
+import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS, emplacements, disponibilitesResto, reservations, classement_concours} from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllRatings(){
@@ -195,6 +195,10 @@ async function makeReservation(user_id, date, hour, type, data){
     return {error: 0, status: 200, data: "réservation enregistrée"};
 }
 
+async function getAllClassementConcours(){
+    return {error: 0, status: 200, data: classement_concours};
+}
+
 async function cancelReservation(reservation_id, user_role){
     let reservation = reservations.find(e => e.id_reservation === reservation_id)
     if(!reservation) return {error: 1, status: 404, data: "reservation introuvable"}
@@ -301,6 +305,7 @@ function sendFormPrestataire(form, id_utilisateur) {
         id_utilisateur: id_utilisateur,
         services: form.services
     }
+    if(insert.image === null) insert.image = "logo.png"
     try {
         demandePrestataires.push(insert)
         return { error: 0, status:200, data: utilisateurs };
@@ -467,4 +472,5 @@ export default {
     makeReservation,
     getAllReservations,
     cancelReservation,
+    getAllClassementConcours,
 };

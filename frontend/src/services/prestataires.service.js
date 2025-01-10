@@ -188,6 +188,20 @@ async function cancelReservation(id, user_role){
     return response;
 }
 
+async function getAllClassementConcoursFromLocalSource(){
+    return LocalSource.getAllClassementConcours();
+}
+
+async function getAllClassementConcours(){
+    let response;
+    try{
+        response = await getAllClassementConcoursFromLocalSource();
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la récupération du classement"};
+    }
+    return response;
+}
+
 export default {
     getAllRatings,
     getAllPrestataires,
@@ -204,4 +218,5 @@ export default {
     makeReservation,
     getReservationsfromUid,
     cancelReservation,
+    getAllClassementConcours,
 }

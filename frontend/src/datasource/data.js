@@ -698,6 +698,45 @@ let menu = {
 let reservations = [
 ]
 
+let classement_concours = [
+  {
+    id_classement: "1",
+    id_participant: "1",
+    place: 1,
+    concours: "cuisine",
+  },
+  {
+    id_classement: "2",
+    id_participant: "2",
+    place: 2,
+    concours: "cuisine",
+  },
+  {
+    id_classement: "3",
+    id_participant: "3",
+    place: 3,
+    concours: "cuisine",
+  },
+  {
+    id_classement: "4",
+    id_participant: "1",
+    place: 1,
+    concours: "defile",
+  },
+  {
+    id_classement: "5",
+    id_participant: "2",
+    place: 2,
+    concours: "defile",
+  },
+  {
+    id_classement: "6",
+    id_participant: "3",
+    place: 3,
+    concours: "defile",
+  },
+]
+
 let balades = [
   {
     id_balade: "1",
@@ -1028,4 +1067,5 @@ module.exports = {
   MOTS_DE_PASSE_UTILISATEURS,
   menu,
   reservations,
+  classement_concours,
 };

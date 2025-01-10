@@ -38,52 +38,6 @@
                 </div>
             </div>
         </div>
-        <div v-if="showPrestataires" class="list-prestataires">
-            <h2>Prestataires <button @click="getAllPrestataires()">Refresh</button></h2>
-            <div class="prestataire" v-for="prestataire in prestataires" :key="prestataire.id">
-                <div class="presta-top"><h3>{{ prestataire.nom }}</h3></div>
-                <div class="presta-sbody">
-                    <div class="presta-body">
-                        <div class="presta-icon">
-                            <img class="prestataire-img" alt="prestimg" :src="require(`../assets/ImagesPrestataires/${prestataire.image}`)" />
-                        </div>
-                        <div class="presta-text">{{ prestataire.description_accueil }}</div>
-                        <div class="presta-actions">
-                            <div class="prest-actions-btn">
-                                <button @click="handlePrestaGoToPage(prestataire.id)">Accéder à la page</button>
-                                <button>Modifier prestataire</button>
-                                <button>Supprimer prestataire</button>
-                            </div>
-                            <div class="prest-actions-emplacement">
-                                <p>Emplacement actuel: {{ prestataire.id_emplacement }}</p>
-                                <label for="emplacement">Modifier </label><input id="emplacement" placeholder="Ex: 3" v-model="emplacementsPrestataire[prestataire.id-1]">
-                                <button @click="handleModifyEmplacementPrestataire((prestataire.id),emplacementsPrestataire[(prestataire.id)-1])">Valider</button>
-                            </div>
-                            <div class="prest-dons">
-                                <p>Total des dons: {{ montantDons[prestataire.id-1] }}€</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="presta-bottom">
-                        <button class="show-services" @click="handleShowServices(prestataire.id - 1)">Afficher services</button>
-                        <div v-if="showServices[prestataire.id - 1]">
-                            <h3>Liste des services :</h3>
-                            <div v-for="service in prestataire.services" :key="service.id" class="service">
-                                <div class="service-top"><h4>{{ service.nom_service }}</h4></div>
-                                <div class="service-body">
-                                    <p>{{ service.description_service }}</p>
-                                    <div class="service-actions">
-                                        <button>Accéder au service</button>
-                                        <button>Activer/Désactiver service</button>
-                                        <button>Supprimer service</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div v-if="showSponsors" class="list-prestataires">
             <h2>Sponsors</h2>
             <div class="prestataire" v-for="sponsor in sponsors" :key="sponsor.id_sponsor">
@@ -132,7 +86,7 @@
               <div class="presta-sbody">
                 <div class="presta-body">
                   <div class="presta-icon">
-                    <img  class="prestataire-img" alt="prestimg" :src="require(`../assets/ImagesPrestataires/${prestataire.image}`)" />
+                    <!--<img  class="prestataire-img" alt="prestimg" :src="require(`../assets/ImagesPrestataires/${prestataire.image}`)" />-->
                   </div>
                   <div class="presta-text">{{ prestataire.description_accueil }}</div>
                   <div class="presta-actions">
