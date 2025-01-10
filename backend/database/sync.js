@@ -22,9 +22,6 @@ const syncDatabase = async () => {
         Utilisateur.hasMany(Prestataire, { foreignKey: 'id_utilisateur', as: 'prestataires', onDelete: 'CASCADE' });
         Prestataire.belongsTo(Utilisateur, { foreignKey: 'id_utilisateur', as: 'utilisateur', onDelete: 'CASCADE' });
 
-        Prestataire.belongsTo(Emplacement, { foreignKey: 'id_emplacement', as: 'emplacement', onDelete: 'CASCADE' });
-        Emplacement.hasMany(Prestataire, { foreignKey: 'id_emplacement', as: 'prestataires', onDelete: 'CASCADE' }); // Correctif: Emplacement peut avoir plusieurs prestataires
-
         Prestataire.hasMany(Service, { foreignKey: 'id_prestataire', as: 'services', onDelete: 'CASCADE' });
         Service.belongsTo(Prestataire, { foreignKey: 'id_prestataire', as: 'prestataire', onDelete: 'CASCADE' });
 
@@ -52,14 +49,14 @@ const syncDatabase = async () => {
             { nom_utilisateur: 'Claire Fontaine', email_utilisateur: 'claire.fontaine@example.com', mot_de_passe: '$2b$10$1i9mT/CEaK3RDpucKrCevuQquWuuwE.0ug3EOEPeXQg4QJXXW6iL6', adresse_utilisateur: '654 avenue Metz, 57000 Metz, France', telephone: '0600000006', date_inscription: '2024-06-03T00:00:00.000Z', role: 'prestataire' }
         ]);
         await Emplacement.bulkCreate([
-            { id: 1, latitude: 47.6862, longitude: 6.8071, icon: 'evenement' },
-            { id: 2, latitude: 47.6865, longitude: 6.8085, icon: 'restaurant' },
-            { id: 3, latitude: 47.6861, longitude: 6.8089, icon: 'evenement' },
-            { id: 4, latitude: 47.6854, longitude: 6.8079, icon: 'stand' },
-            { id: 5, latitude: 47.6867, longitude: 6.8077, icon: 'restaurant' },
-            { id: 6, latitude: 47.6863, longitude: 6.8079, icon: 'restaurant' },
-            { id: 7, latitude: 47.6867, longitude: 6.8080, icon: 'peinture' },
-            { id: 8, latitude: 47.6860, longitude: 6.8077, icon: 'pedalo' }
+            { id: 1, coordinates: [47.6862,6.8071], icon: 'evenement' },
+            { id: 2, coordinates: [47.6865, 6.8085], icon: 'restaurant' },
+            { id: 3, coordinates: [47.6861, 6.8089], icon: 'evenement' },
+            { id: 4, coordinates: [47.6854, 6.8079], icon: 'stand' },
+            { id: 5, coordinates: [47.6867, 6.8077], icon: 'restaurant' },
+            { id: 6, coordinates: [47.6863, 6.8079], icon: 'restaurant' },
+            { id: 7, coordinates: [47.6867, 6.8080], icon: 'peinture' },
+            { id: 8, coordinates: [47.6860, 6.8077], icon: 'pedalo' }
         ]);
         
         
@@ -77,28 +74,28 @@ const syncDatabase = async () => {
 
         await Menu.bulkCreate([
             // Plats
-            { nom: 'Confit de canard', description: 'Confit de canard avec pommes de terre sautées.', prix: 18, image: 'confit_canard.jpg', categorie: 'plats', id_prestataire: 2 },
-            { nom: 'Magret de canard', description: 'Magret de canard avec sauce au miel.', prix: 22, image: 'magret_canard.jpg', categorie: 'plats', id_prestataire: 2 },
-            { nom: 'Cuisse de canard à l\'orange', description: 'Une cuisse de canard tendre servie avec une sauce à l\'orange.', prix: 20, image: 'cuisse_canard_orange.jpg', categorie: 'plats', id_prestataire: 2 },
-            { nom: 'Poulet rôti', description: 'Poulet rôti aux herbes de Provence.', prix: 15, image: 'poulet_roti.jpg', categorie: 'plats', id_prestataire: 2 },
-            { nom: 'Steak frites', description: 'Steak de bœuf grillé accompagné de frites maison.', prix: 17, image: 'steak_frites.jpg', categorie: 'plats', id_prestataire: 2 },
+            { nom: 'Confit de canard', type:"Plats" , description: 'Confit de canard avec pommes de terre sautées.', prix: 18, image: 'confit_canard.jpg', categorie: 'plats', id_prestataire: 2 },
+            { nom: 'Magret de canard', type:"Plats" , description: 'Magret de canard avec sauce au miel.', prix: 22, image: 'magret_canard.jpg', categorie: 'plats', id_prestataire: 2 },
+            { nom: 'Cuisse de canard à l\'orange', type:"Plats" , description: 'Une cuisse de canard tendre servie avec une sauce à l\'orange.', prix: 20, image: 'cuisse_canard_orange.jpg', categorie: 'plats', id_prestataire: 2 },
+            { nom: 'Poulet rôti', type:"Plats" , description: 'Poulet rôti aux herbes de Provence.', prix: 15, image: 'poulet_roti.jpg', categorie: 'plats', id_prestataire: 2 },
+            { nom: 'Steak frites', type:"Plats" , description: 'Steak de bœuf grillé accompagné de frites maison.', prix: 17, image: 'steak_frites.jpg', categorie: 'plats', id_prestataire: 2 },
           
             // Boissons
-            { nom: 'Eau plate', description: 'Bouteille de 50 cl.', prix: 2, image: 'eau_plate.jpg', categorie: 'boissons', id_prestataire: 2 },
-            { nom: 'Eau pétillante', description: 'Bouteille de 50 cl.', prix: 2.5, image: 'eau_petillante.jpg', categorie: 'boissons', id_prestataire: 2 },
-            { nom: 'Coca-Cola', description: 'Canette de 33 cl.', prix: 3, image: 'coca_cola.jpg', categorie: 'boissons', id_prestataire: 2 },
+            { nom: 'Eau plate', type:"Boissons" , description: 'Bouteille de 50 cl.', prix: 2, image: 'eau_plate.jpg', categorie: 'boissons', id_prestataire: 2 },
+            { nom: 'Eau pétillante', type:"Boissons" , description: 'Bouteille de 50 cl.', prix: 2.5, image: 'eau_petillante.jpg', categorie: 'boissons', id_prestataire: 2 },
+            { nom: 'Coca-Cola', type:"Boissons" , description: 'Canette de 33 cl.', prix: 3, image: 'coca_cola.jpg', categorie: 'boissons', id_prestataire: 2 },
           
             // Desserts
-            { nom: 'Tarte aux pommes', description: 'Tarte maison avec des pommes caramélisées.', prix: 6, image: 'tarte_pommes.jpg', categorie: 'desserts', id_prestataire: 2 },
-            { nom: 'Mousse au chocolat', description: 'Délicieuse mousse au chocolat noir.', prix: 5, image: 'mousse_chocolat.jpg', categorie: 'desserts', id_prestataire: 2 },
-            { nom: 'Crème brûlée', description: 'Crème vanille avec une croûte caramélisée.', prix: 6, image: 'creme_brulee.jpg', categorie: 'desserts', id_prestataire: 2 },
-            { nom: 'Fondant au chocolat', description: 'Fondant avec un cœur coulant au chocolat.', prix: 7, image: 'fondant_chocolat.jpg', categorie: 'desserts', id_prestataire: 2 },
-            { nom: 'Coupe glacée', description: 'Deux boules de glace avec des fruits frais.', prix: 5, image: 'coupe_glacee.jpg', categorie: 'desserts', id_prestataire: 2 },
+            { nom: 'Tarte aux pommes', type:"Desserts" , description: 'Tarte maison avec des pommes caramélisées.', prix: 6, image: 'tarte_pommes.jpg', categorie: 'desserts', id_prestataire: 2 },
+            { nom: 'Mousse au chocolat', type:"Desserts" , description: 'Délicieuse mousse au chocolat noir.', prix: 5, image: 'mousse_chocolat.jpg', categorie: 'desserts', id_prestataire: 2 },
+            { nom: 'Crème brûlée', type:"Desserts" , description: 'Crème vanille avec une croûte caramélisée.', prix: 6, image: 'creme_brulee.jpg', categorie: 'desserts', id_prestataire: 2 },
+            { nom: 'Fondant au chocolat', type:"Desserts" , description: 'Fondant avec un cœur coulant au chocolat.', prix: 7, image: 'fondant_chocolat.jpg', categorie: 'desserts', id_prestataire: 2 },
+            { nom: 'Coupe glacée', type:"Desserts" , description: 'Deux boules de glace avec des fruits frais.', prix: 5, image: 'coupe_glacee.jpg', categorie: 'desserts', id_prestataire: 2 },
           
             // Menus Enfants
-            { nom: 'Nuggets de poulet', description: '5 nuggets avec frites et jus d\'orange.', prix: 8, image: 'nuggets_poulet.jpg', categorie: 'menusEnfants', id_prestataire: 2 },
-            { nom: 'Mini burger', description: 'Petit burger avec steak haché et frites.', prix: 9, image: 'mini_burger.jpg', categorie: 'menusEnfants', id_prestataire: 2 },
-            { nom: 'Pâtes à la bolognaise', description: 'Assiette de pâtes avec sauce tomate et viande hachée.', prix: 7, image: 'pates_bolognaise.jpg', categorie: 'menusEnfants', id_prestataire: 2 }
+            { nom: 'Nuggets de poulet', type:"Menus Enfants" ,description: '5 nuggets avec frites et jus d\'orange.', prix: 8, image: 'nuggets_poulet.jpg', categorie: 'menusEnfants', id_prestataire: 2 },
+            { nom: 'Mini burger', type:"Menus Enfants" , description: 'Petit burger avec steak haché et frites.', prix: 9, image: 'mini_burger.jpg', categorie: 'menusEnfants', id_prestataire: 2 },
+            { nom: 'Pâtes à la bolognaise', type:"Menus Enfants" , description: 'Assiette de pâtes avec sauce tomate et viande hachée.', prix: 7, image: 'pates_bolognaise.jpg', categorie: 'menusEnfants', id_prestataire: 2 }
           ]);
                  
 
@@ -196,8 +193,6 @@ const syncDatabase = async () => {
         const menus = await Menu.findAll({ where: { id_prestataire: 2 } });
         console.log('Menus pour le prestataire 2 :', menus.map(menu => menu.dataValues));
 
-        const emplacement = await Emplacement.findOne({ where: { id: 2 }, include: 'prestataire' });
-        console.log('Prestataire à l’emplacement 2 :', emplacement.dataValues.prestataire);
 
     } catch (error) {
         console.error('Error creating database & tables:', error);
