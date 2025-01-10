@@ -3,7 +3,7 @@ const userRouter = require("./routes/users.router");
 const prestataireRouter = require("./routes/prestataires.router")
 const adminRouter = require("./routes/admin.router");
 const sponsorsRouter = require("./routes/sponsors.router");
-const PORT = 3002;
+const PORT = 3000;
 const app = express();
 const sync = require("./database/sync");
 const swaggerJsdoc = require("swagger-jsdoc");
@@ -19,10 +19,10 @@ const swaggerOption = {
     swaggerDefinition: (swaggerJsdoc.Options = {
         openapi: '3.0.0',
         info: {
-            title: "my-users app",
+            title: "API SAE",
             description: "API documentation",
             contact: {
-                name: "JAZAR",
+                name: "Festival des Canes",
             },
             servers: ["http j://localhost:3000/"],
         },

@@ -137,12 +137,12 @@ router.post("/connexion" ,userMiddleware.validateLogin, userController.connexion
  *                 type: string
  *                 minLength: 1
  *                 maxLength: 45
- *                 example: alice.dupont@example.com
+ *                 example: carole.durand@example.com
  *               mdp:
  *                 type: string
  *                 minLength: 1
  *                 maxLength: 45
- *                 example: user1
+ *                 example: admin
  *     responses:
  *       '200':
  *         description: Successfully user found
