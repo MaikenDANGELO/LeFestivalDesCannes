@@ -210,6 +210,18 @@ export default {
       this.payment.expirationDate = '';
       this.payment.cvv = '';
     }
+  },
+  mounted(){
+    if(this.utilisateur.estConnecte){
+      let name = this.utilisateur.nom.split(' ');
+      if(name.length == 2){
+        this.form.firstName = name[0];
+        this.form.lastName = name[1];
+      }else{
+        this.form.firstName = this.utilisateur.nom
+      }
+      this.form.email = this.utilisateur.email
+    }
   }
 }
 </script>
