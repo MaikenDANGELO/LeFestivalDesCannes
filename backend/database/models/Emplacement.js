@@ -9,11 +9,11 @@ const Emplacement = sequelize.define('Emplacement', {
     },
     name: { 
         type: DataTypes.STRING, 
-        allowNull: false 
+        allowNull: true
     },
     type: { 
         type: DataTypes.STRING, 
-        allowNull: false 
+        allowNull: true
     },
     coordinates: { 
         type: DataTypes.JSON, 

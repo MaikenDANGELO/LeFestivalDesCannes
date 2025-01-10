@@ -13,7 +13,7 @@ const Menu = sequelize.define('Menu', {
     nom: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT },
     prix: { type: DataTypes.FLOAT, allowNull: false },
-    image: { type: DataTypes.STRING }
+    image: { type: DataTypes.STRING , allowNull: true}
 }, {
     tableName: 'menus',
     timestamps: false
