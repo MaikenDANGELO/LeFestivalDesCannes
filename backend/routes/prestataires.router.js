@@ -244,6 +244,50 @@ router.get("/getTotalDonsOf/:id", prestatairesController.getTotalDonsOf)
  *                     example: "ID invalide"
  */
 
+
+router.get("/getAllAvis",prestatairesController.getAllAvis)
+/**
+ * @swagger
+ * /api/prestataires/getAllAvis:
+ *   get:
+ *     description: Used to retrieve all reviews (avis) for all service providers (prestataires)
+ *     tags:
+ *       - Prestataires
+ *     responses:
+ *       '200':
+ *         description: Successfully retrieved all reviews for all service providers
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id_prestataire:
+ *                         type: integer
+ *                         description: The ID of the service provider
+ *                         example: 123
+ *                       id_utilisateur:
+ *                         type: integer
+ *                         description: The ID of the user who gave the review
+ *                         example: 456
+ *                       texte:
+ *                         type: string
+ *                         description: The review text
+ *                         example: "Excellent service, very satisfied!"
+ *                       note:
+ *                         type: integer
+ *                         description: The rating given by the user (1-5)
+ *                         example: 5
+ *       '404':
+ *         description: Reviews not found for any service provider
+ *       '500':
+ *         description: Internal server error
+ */
+
 router.get("/getAvis/:id", prestatairesController.getAvis)
 /**
  * @swagger

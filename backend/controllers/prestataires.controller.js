@@ -16,6 +16,18 @@ exports.getAvis = async (req, res) =>{
     })
 }
 
+exports.getAllAvis = async (req, res) =>{
+    await prestataireService.getAllAvis((error,data)=>{
+        if(error) {
+            return res.status(500).send(error);
+        }
+        if(data.length === 0){
+            return res.status(404).json({ message: "Aucun avis trouvé" });
+        }
+        return res.status(200).json({data:data})
+    })
+}
+
 exports.getAllPrestataire = async (req, res) =>{
     await prestataireService.getAllPrestataire((error,data)=>{
         if(error){

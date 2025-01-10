@@ -17,6 +17,16 @@ exports.getAvis = async (id, callback) => {
     }
 };
 
+exports.getAllAvis = async (callback) => {
+    try {
+        const avis = await Avis.findAll();
+        callback(null, avis);
+    } catch (error) {
+        callback(error, null);
+    }
+}
+
+
 exports.getAllPrestataire = async (callback)=>{
     try {
         const prestataires = await Prestataire.findAll();
