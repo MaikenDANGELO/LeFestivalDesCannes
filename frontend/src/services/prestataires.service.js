@@ -1,4 +1,5 @@
 import LocalSource from "@/datasource/controller";
+//import {getRequest, postRequest} from "@/services/axios.service";
 
 async function getAllPrestatairesFromLocalSource() {
     return LocalSource.getAllPrestataires();
@@ -114,6 +115,7 @@ async function getAllRatings(){
     let response;
     try{
         response = await LocalSource.getAllRatings();
+        //response = await getAllRatingFromAPI();
     }
     catch(error){
         response = {error: 1, status: 404, data:  'erreur réseau, impossible de récupérer les avis'}
@@ -201,6 +203,33 @@ async function getAllClassementConcours(){
     }
     return response;
 }
+/*
+
+async function getAllPrestatairesFromAPI(){
+    return getRequest('/api/prestataires/', 'getAllPrestataires');
+}
+
+async function getAvisOfPrestataireFromAPI(id_prestataire){
+    return getRequest('/api/prestataires/getAvis/' + id_prestataire, 'getAvisOfPrestataire');
+}
+
+async function sendAvisOfUserFromAPI(data){
+    return postRequest('/api/prestataires/sendAvis', data, 'sendAvisOfUser');
+}
+
+async function sendFormPrestataireFromAPI(data){
+    return postRequest('/api/prestataires/sendForm', data, 'sendFormPrestataire');
+}
+
+async function getAllRatingFromAPI(){
+    return getRequest('/api/prestataires/getAllAvis', 'getAllRatings');
+}
+
+async function getAllDisponibiliteRestoFromAPI(){
+    return getRequest('/api/prestataires/getAllDispo', 'getAllDisponibiliteResto');
+}
+
+ */
 
 export default {
     getAllRatings,

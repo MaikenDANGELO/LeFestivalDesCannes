@@ -87,8 +87,12 @@
                 <input type="radio" name="rating" id="rating-1" v-model="user_note" value=1>
                 <label for="rating-1"></label>
               </div><br>
-              <label for="commentaire_input">Commentaire: </label>
-              <input id="commentaire_input" type="text" v-model="user_comment">
+              <div class="group" :class="{ 'has-value': user_comment }">
+                <input class="input_comment" id="commentaire_input" type="text" v-model="user_comment">
+                <span class="highlight"></span>
+                <span class="bar"></span>
+                <label for="commentaire_input">Commentaire: </label>
+              </div>
               <button @click="sendCommentForm()">Envoyer</button>
             </div>
             <div v-else>Soyez connecté(e) pour poster un avis</div><br>
@@ -135,6 +139,19 @@
               </li>
             </ul>
           </div>
+
+          <div class="services" v-if="prestataire.services && prestataire.services.length">
+            <h2>Services proposés</h2>
+            <ul>
+              <li v-for="service in prestataire.services" :key="service.id_service">
+                <div v-if="service.statut_service === 'actif'">
+                  <strong>{{ service.nom_service }}</strong>
+                  <p>{{ service.description_service }}</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
         </div>
       </div>
       <div v-else>
@@ -150,7 +167,7 @@ import prestatairesService from "@/services/prestataires.service";
 import moneyService from "@/services/money.service";
 import usersService from "@/services/users.service";
 import baladesServices from "@/services/balades.services";
-import { map_data } from "@/datasource/data.js"; 
+import { map_data } from "@/datasource/data.js";
 import InteractiveMap from "@/components/CarteInteractive2.vue";
 
 export default {
@@ -165,11 +182,11 @@ export default {
       classement: [],
       prestataire: null,
       user_note: 0,
-      user_comment: "",
+      user_comment: null,
       montantDons: 0,
       avisMofication: false,
       idAvisModification: null,
-      currentEmplacement: null 
+      currentEmplacement: null
     };
   },
   computed: {
@@ -283,135 +300,86 @@ export default {
 
 <style scoped>
 
-/* Ensures each balade item is displayed on the same line */
-.balade-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  margin-right: 50%;
-  padding: 10px 0;
-  border-bottom: 1px solid #ccc;
-}
-
-/* Balade details (left-aligned) */
-.balade-details {
-  flex: 1;
-}
-
-/* Align actions (indisponible message and buttons) in one row */
-.balade-actions {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-/* Style for the unavailable message */
-.indisponible {
-  color: rgb(122, 122, 122);
-  margin-right: 10px;
-}
-
-/* Button styles */
-.btn {
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.reserver {
-  background-color: rgba(0, 128, 0, 0.46);
-  color: white;
-  border: none;
-}
-
-.annuler {
-  background-color: rgba(255, 0, 0, 0.51);
-  color: white;
-  border: none;
-}
-
-.reserver:hover,
-.annuler:hover {
-  opacity: 0.8;
-}
-
-.prestataire-detail {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  padding: 16px;
-}
-
-.image-container {
-  flex: 1;
-  padding: 10px;
-}
-
-.images-balade{
-  display: flex;
-  flex-direction: row;
-  height: 50vh;
-  overflow-x: scroll;
-  gap: 2%;
-  box-shadow: 0px 0px 20px black;
-}
-
-.image-container img {
-  max-width: 75%;
-  /* Réduire la taille de l'image */
-  height: auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: opacity 0.5s ease-in-out;
-  /* Animation */
-}
-
-.info-container {
-  flex: 2;
-  padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  animation: slideIn 0.5s forwards;
-  /* Animation */
-}
-
-h1 {
-  color: #333;
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-ul {
-  list-style: none;
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  background-color: #F5F5F5;
+  color: #333333;
+  margin: 0;
   padding: 0;
 }
 
-ul li {
-  margin-bottom: 5px;
-  color: #666;
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
 }
 
-ul li strong {
-  color: #333;
+.carte, .texte-container {
+  flex: 1 1 48%;
+  margin: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+}
+
+.image-container img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.restaurant-menu .dish {
+  font-weight: bold;
+  color: #0056D2;
+}
+
+.restaurant-menu .price {
+  font-weight: bold;
+  float: right;
+  color: #FFA726;
+}
+
+button {
+  background-color: #0056D2;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #003E99;
+}
+
+.avis, .dons, .classement, .services {
+  margin-top: 20px;
+  padding: 10px;
+  background: #FAFAFA;
+  border-radius: 8px;
+}
+
+
+
+.avis .avis-input {
+  padding-bottom: 20px;
+}
+
+.animate-fade {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.animate-slide {
+  animation: slideIn 1s ease-in-out;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
   }
-
   to {
     opacity: 1;
   }
-}
-
-.animate-fade {
-  animation: fadeIn 1s ease-in-out;
 }
 
 @keyframes slideIn {
@@ -419,17 +387,11 @@ ul li strong {
     transform: translateX(-20px);
     opacity: 0;
   }
-
   to {
     transform: translateX(0);
     opacity: 1;
   }
 }
-
-.animate-slide {
-  animation: slideIn 1s ease-in-out;
-}
-
 
 .rating {
   display: flex;
@@ -466,4 +428,99 @@ ul li strong {
 .rating>input:not(:checked)~label:hover~label {
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='126.729' height='126.73'%3e%3cpath fill='%23d8b11e' d='M121.215 44.212l-34.899-3.3c-2.2-.2-4.101-1.6-5-3.7l-12.5-30.3c-2-5-9.101-5-11.101 0l-12.4 30.3c-.8 2.1-2.8 3.5-5 3.7l-34.9 3.3c-5.2.5-7.3 7-3.4 10.5l26.3 23.1c1.7 1.5 2.4 3.7 1.9 5.9l-7.9 32.399c-1.2 5.101 4.3 9.3 8.9 6.601l29.1-17.101c1.9-1.1 4.2-1.1 6.1 0l29.101 17.101c4.6 2.699 10.1-1.4 8.899-6.601l-7.8-32.399c-.5-2.2.2-4.4 1.9-5.9l26.3-23.1c3.8-3.5 1.6-10-3.6-10.5z'/%3e%3c/svg%3e");
 }
+
+.group 			  {
+  position:relative;
+  margin-bottom:45px;
+}
+
+.input_comment 				{
+  font-size:18px;
+  padding:10px 10px 10px 5px;
+  display:block;
+  width:300px;
+  border:none;
+  border-bottom:1px solid #757575;
+}
+.input_comment:focus{ outline:none; }
+
+/* LABEL ======================================= */
+.group label 				 {
+  color:#999;
+  font-size:18px;
+  font-weight:normal;
+  position:absolute;
+  pointer-events:none;
+  left:5px;
+  top:10px;
+  transition:0.2s ease all;
+  -moz-transition:0.2s ease all;
+  -webkit-transition:0.2s ease all;
+}
+
+/* active state */
+.group.has-value label,
+.input_comment:focus ~ label 		{
+  top:-20px;
+  font-size:14px;
+  color:#5264AE;
+}
+
+/* BOTTOM BARS ================================= */
+.bar 	{ position:relative; display:block; width:300px; }
+.bar:before, .bar:after 	{
+  content:'';
+  height:2px;
+  width:0;
+  bottom:1px;
+  position:absolute;
+  background:#5264AE;
+  transition:0.2s ease all;
+  -moz-transition:0.2s ease all;
+  -webkit-transition:0.2s ease all;
+}
+.bar:before {
+  left:50%;
+}
+.bar:after {
+  right:50%;
+}
+
+/* active state */
+.input_comment:focus ~ .bar:before, .input_comment:focus ~ .bar:after {
+  width:50%;
+}
+
+/* HIGHLIGHTER ================================== */
+.highlight {
+  position:absolute;
+  height:60%;
+  width:100px;
+  top:25%;
+  left:0;
+  pointer-events:none;
+  opacity:0.5;
+}
+
+/* active state */
+.input_comment:focus ~ .highlight {
+  -webkit-animation:inputHighlighter 0.3s ease;
+  -moz-animation:inputHighlighter 0.3s ease;
+  animation:inputHighlighter 0.3s ease;
+}
+
+/* ANIMATIONS ================ */
+@-webkit-keyframes inputHighlighter {
+  from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@-moz-keyframes inputHighlighter {
+  from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+@keyframes inputHighlighter {
+  from { background:#5264AE; }
+  to 	{ width:0; background:transparent; }
+}
+
 </style>

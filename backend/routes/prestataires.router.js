@@ -250,12 +250,12 @@ router.get("/getAllAvis",prestatairesController.getAllAvis)
  * @swagger
  * /api/prestataires/getAllAvis:
  *   get:
- *     description: Used to retrieve all reviews (avis) for all service providers (prestataires)
+ *     description: Utiliser pour retrouver tous les avis
  *     tags:
  *       - Prestataires
  *     responses:
  *       '200':
- *         description: Successfully retrieved all reviews for all service providers
+ *         description: Réussite - Les avis ont été récupérés avec succès.
  *         content:
  *           application/json:
  *             schema:
@@ -268,24 +268,24 @@ router.get("/getAllAvis",prestatairesController.getAllAvis)
  *                     properties:
  *                       id_prestataire:
  *                         type: integer
- *                         description: The ID of the service provider
+ *                         description: L'ID du prestataire
  *                         example: 123
  *                       id_utilisateur:
  *                         type: integer
- *                         description: The ID of the user who gave the review
+ *                         description: L'ID de l'utilisateur qui a donné l'avis
  *                         example: 456
  *                       texte:
  *                         type: string
- *                         description: The review text
+ *                         description: Texte de l'avis
  *                         example: "Excellent service, very satisfied!"
  *                       note:
  *                         type: integer
- *                         description: The rating given by the user (1-5)
+ *                         description: La note de l'avis (1-5)
  *                         example: 5
  *       '404':
- *         description: Reviews not found for any service provider
+ *         description: Aucun avis trouvé
  *       '500':
- *         description: Internal server error
+ *         description: Erreur interne du serveur
  */
 
 router.get("/getAvis/:id", prestatairesController.getAvis)
@@ -556,11 +556,11 @@ router.post("/makeDonation/:prestId", utilisateurMiddleware.isLogin, prestataire
  */
 
 
-router.put("/reservebalade/:balade_id", utilisateurMiddleware.isLogin, prestatairesController.reservebalade)
+router.patch("/reservebalade/:balade_id", utilisateurMiddleware.isLogin, prestatairesController.reservebalade)
 /**
  * @swagger
  * /api/prestataires/reservebalade/{balade_id}:
- *  put:
+ *  patch:
  *       summary: Réserver une balade
  *       description: Réserve une balade pour l'utilisateur actuellement connecté.
  *       tags:
@@ -615,11 +615,11 @@ router.put("/reservebalade/:balade_id", utilisateurMiddleware.isLogin, prestatai
  *       name: session_id
  */
 
-router.put("/cancelbalade/:balade_id", utilisateurMiddleware.isLogin, prestatairesController.cancelbalade)
+router.patch("/cancelbalade/:balade_id", utilisateurMiddleware.isLogin, prestatairesController.cancelbalade)
 /**
  * @swagger
  * /api/prestataires/cancelbalade/{balade_id}:
- *  put:
+ *  patch:
  *       summary: Annuler une réservation de balade
  *       description: Permet à l'utilisateur connecté d'annuler la réservation d'une balade.
  *       tags:
