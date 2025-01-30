@@ -281,14 +281,34 @@ export default {
 
     }
   },
-  async created(){
-    await this.fetchUserReservations();
-    await this.getNotificationByID(this.utilisateur.id)
-    this.nom_utilisateur = this.utilisateur.nom
-    this.email_utilisateur = this.utilisateur.email
-    this.adresse_utilisateur = this.utilisateur.adresse
-    this.telephone = this.utilisateur.numero
+  async fetchNotifications() {
+    try {
+        const response = await usersService.getNotificationByUserID(this.utilisateur.id);
+        this.notifications = response.data;
+        console.log("Notifications reçues :", this.notifications); // Debug
+    } catch (error) {
+        console.error("Erreur lors du chargement des notifications :", error);
+    }
   },
+  async created() {
+    await this.fetchUserReservations();
+    await this.getNotificationByID(this.utilisateur.id); // Charger les notifications à l'affichage
+    await this.fetchNotifications();
+
+    this.nom_utilisateur = this.utilisateur.nom;
+    this.email_utilisateur = this.utilisateur.email;
+    this.adresse_utilisateur = this.utilisateur.adresse;
+    this.telephone = this.utilisateur.numero;
+  },
+  async getNotificationByID(id){
+    try {
+        let notif = await usersService.getNotificationByUserID(id);
+        this.notifications = notif.data; // Stocker les notifications dans la variable
+    } catch (error) {
+        console.error("Erreur lors du chargement des notifications :", error);
+    }
+  },
+
 };
 </script>
 

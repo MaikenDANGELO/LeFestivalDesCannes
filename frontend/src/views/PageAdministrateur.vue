@@ -27,7 +27,7 @@
                             </div>
                             <div class="prest-actions-emplacement">
                                 <p>Emplacement actuel: {{ prestataire.id_emplacement }}</p>
-                                <label for="emplacement">Modifier </label><input id="emplacement" placeholder="Ex: 3" v-model="emplacementsPrestataire[prestataire.id-1]">
+                                <label for="emplacement">Modifier </label><input id="emplacement" placeholder="Ex: 3" v-model="emplacementsPrestataire[index]">
                                 <button @click="handleModifyEmplacementPrestataire((prestataire.id),emplacementsPrestataire[(prestataire.id)-1])">Valider</button>
                             </div>
                             <div class="prest-dons">
@@ -243,12 +243,15 @@ export default {
             }
           }
         },
-        async declineDemandePrest(id) {
-          await prestatairesService.declineDemandePrest(id)
+        async declineDemandePrest(id, index) {
+          await prestatairesService.declineDemandePrest(id);
+          await prestatairesService.sendNotification(this.demandePrestataires[index].id_utilisateur, "Votre demande de prestataire a été refusée.");
+          this.demandePrestataires.splice(index, 1); // Retirer seulement du tableau local
         },
-        async acceptDemandePrest(prest, index){
-          await prestatairesService.acceptDemandePrest(prest)
-          await this.declineDemandePrest(index)
+        async acceptDemandePrest(prest, index) {
+          await prestatairesService.acceptDemandePrest(prest);
+          await prestatairesService.sendNotification(prest.id_utilisateur, "Votre demande de prestataire a été acceptée ! Veuillez vous reconnecter.");
+          this.demandePrestataires.splice(index, 1); // Retirer seulement du tableau local
         },
       async deletePrest(id){
         console.log(id)

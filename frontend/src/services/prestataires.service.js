@@ -111,6 +111,16 @@ async function deletePretataire(id){
     }
     return response
 }
+
+async function sendNotification(id_user, message) {
+    return await fetch('/api/notifications/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id_user, message })
+    }).then(res => res.json());
+}
+
+
 async function getAllRatings(){
     let response;
     try{
@@ -248,4 +258,5 @@ export default {
     getReservationsfromUid,
     cancelReservation,
     getAllClassementConcours,
+    sendNotification,
 }
