@@ -213,6 +213,17 @@ async function getAllClassementConcours(){
     }
     return response;
 }
+
+async function changeDataPrestService(data){
+    let response;
+    try{
+        console.log(data);
+        response = await LocalSource.changeDataPrest(data);
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la récupération du classement"};
+    }
+    return response;
+}
 /*
 
 async function getAllPrestatairesFromAPI(){
@@ -259,4 +270,5 @@ export default {
     cancelReservation,
     getAllClassementConcours,
     sendNotification,
+    changeDataPrestService
 }

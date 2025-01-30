@@ -436,6 +436,23 @@ function deletePretataire(id){
 
 }
 
+function changeDataPrest(data){
+    try {
+
+        let prest = prestataires.find(p => p.id === data.id);
+        prest.nom = data.nom;
+        prest.description = data.description;
+        prest.description_accueil = data.description_accueil;
+        prest.categorie = data.categorie;
+        prest.image = data.image
+        prest.services = data.services;
+        return {error: 0, status: 200, data: 'Prestataire modifié avec succès'};
+    }catch (error){
+        console.log(error)
+        return { error: 1, status: 404, data: "Le prestataire n'a pas été modifié correctement" };
+    }
+}
+
 
 export default {
     getAllRatings,
@@ -473,4 +490,5 @@ export default {
     getAllReservations,
     cancelReservation,
     getAllClassementConcours,
+    changeDataPrest
 };

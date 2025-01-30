@@ -17,9 +17,9 @@
       <!-- Formulaire -->
       <div class="reservation-container">
         <h1 class="reservation-title">
-          <img src="@/assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
+          <img src="../../assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
           Réserver une table
-          <img src="@/assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
+          <img src="../../assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
         </h1>
         <p class="reservation-description">
           Remplissez ce formulaire pour réserver votre table. Vous recevrez un mail de confirmation avec votre ticket.

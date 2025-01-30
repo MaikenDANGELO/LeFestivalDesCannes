@@ -20,6 +20,8 @@
             <a class="left-element nav-link-common" href="https://www.twitch.tv/dashducks" target="_blank">
               <img alt="Twitch logo" :src="require(`./assets/twitch.png`)" class="twitch-logo">
             </a>
+            <router-link class="left-element nav-link-common" v-if="this.utilisateur.role === 'prestataire'"  :to="`/prestataire/edit/${this.utilisateur.id}`">Page Prestataire</router-link>
+
           </div>
         </div>
         <div class="right-items">
@@ -38,7 +40,7 @@
         </div>
       </div>
     </nav>
-    <router-view />
+    <router-view/>
   </div>
 </template>
 

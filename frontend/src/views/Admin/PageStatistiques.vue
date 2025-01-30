@@ -6,7 +6,7 @@
       <section class="stat-section">
         <h2>Revenus générés</h2>
         <div class="stat-content">
-          <img src="@/assets/statistiques/revenus.png" alt="Revenus générés" class="stat-image" />
+          <img src="../../assets/statistiques/revenus.png" alt="Revenus générés" class="stat-image" />
           <div class="stat-value">
             <p><strong>Billetterie :</strong> {{ revenusBilletterie }} €</p>
             <p><strong>Ventes (menu) :</strong> {{ revenusVentes }} €</p>
@@ -19,7 +19,7 @@
       <section class="stat-section">
         <h2>Classement des Activités (Popularité)</h2>
         <div class="stat-content">
-          <img src="@/assets/statistiques/activites.png" alt="Activités populaires" class="stat-image" />
+          <img src="../../assets/statistiques/activites.png" alt="Activités populaires" class="stat-image" />
           <ol>
             <li v-for="activite in classementActivites" :key="activite.id">
               {{ activite.nom }} - {{ activite.visiteurs }} visiteurs
@@ -32,7 +32,7 @@
       <section class="stat-section">
         <h2>Nombre Total de Visiteurs</h2>
         <div class="stat-content">
-          <img src="@/assets/statistiques/visiteurs.png" alt="Nombre de visiteurs" class="stat-image" />
+          <img src="../../assets/statistiques/visiteurs.png" alt="Nombre de visiteurs" class="stat-image" />
           <div class="stat-value">
             <p><strong>{{ totalVisiteurs }}</strong> visiteurs</p>
           </div>

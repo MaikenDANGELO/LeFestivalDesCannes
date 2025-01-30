@@ -11,7 +11,7 @@
     </div>
 
   <form v-if="currentStep === 1" @submit.prevent="goToPayment" class="form-container" method="POST">
-    <img src="@/assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
+    <img src="../../assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
     <h2>Réservation de Billet</h2>
 
     <div class="form-group">

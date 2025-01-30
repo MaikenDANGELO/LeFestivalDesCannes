@@ -82,7 +82,6 @@ export default {
 
           // redirection vers la page appropriée selon l'utilisateur
           if(this.utilisateur.role === "admin") this.$router.push({name: "adminhome"});
-          else if (this.utilisateur.role === "prestataire") this.$router.push(`/prestataire/${this.utilisateur.id}`);
           else this.$router.push({ name: "home" });
         } else {
           alert(response.data)

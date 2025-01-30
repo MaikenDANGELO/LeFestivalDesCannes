@@ -1,20 +1,20 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import PagePrincipale from '../views/PagePrincipale.vue'
-import Billetterie from "@/views/PageBilletterie.vue";
-import Acces from "@/views/PageAcces.vue";
-import PagePrestataire from "@/views/PagePrestataire.vue";
-import PageSign from "@/views/PageSign.vue";
-import PageAdministrateur from "@/views/PageAdministrateur.vue";
+import PagePrincipale from '../views/Événement/PagePrincipale.vue'
+import Billetterie from "@/views/Événement/PageBilletterie.vue";
+import Acces from "@/views/Événement/PageAcces.vue";
+import PagePrestataire from "@/views/Prestataires/PagePrestataire.vue";
+import PageSign from "@/views/Événement/PageSign.vue";
+import PageAdministrateur from "@/views/Admin/PageAdministrateur.vue";
 import PageSponsor from '@/views/PageSponsor.vue';
-import PageDon from '@/views/PageDon.vue';
+import PageDon from '@/views/Prestataires/PageDon.vue';
 import PageInscriptionCanard from "@/views/PageInscriptionCanard.vue";
 import PageAssociations from "@/views/PageAssociations.vue";
-import PageProfil from "@/views/PageProfil.vue";
-import PageReservationRestaurant from "@/views/PageReservationRestaurant.vue";
+import PageProfil from "@/views/Événement/PageProfil.vue";
+import PageReservationRestaurant from "@/views/Prestataires/PageReservationRestaurant.vue";
 import PageClassementActivites from "@/views/PageClassementActivites.vue";
-import PageMenu from "@/views/PageMenu.vue";
-import PageStatistiques from '@/views/PageStatistiques.vue';
+import PageMenu from "@/views/Prestataires/PageMenu.vue";
+import PageStatistiques from '@/views/Admin/PageStatistiques.vue';
 
 Vue.use(VueRouter)
 
@@ -40,9 +40,14 @@ const routes = [
     component: Acces
   },
   {
-    path: '/prestataire/:id', // Route dynamique pour les prestataires
+    path: '/prestataire/:id',
     name: 'Prestataire',
     component: PagePrestataire
+  },
+  {
+    path: '/prestataire/edit/:id',
+    name: 'editPrest',
+    component: () => import('@/views/Prestataires/PageEditPrest.vue')
   },
   {
     path: '/dons/:id',

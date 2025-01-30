@@ -16,7 +16,7 @@
                 <div class="presta-sbody">
                     <div class="presta-body">
                         <div class="presta-icon">
-                            <img class="prestataire-img" alt="prestimg" :src="require(`../assets/ImagesPrestataires/${prestataire.image}`)" />
+                            <img class="prestataire-img" alt="prestimg" :src="require(`../../assets/ImagesPrestataires/${prestataire.image}`)" />
                         </div>
                         <div class="presta-text">{{ prestataire.description_accueil }}</div>
                         <div class="presta-actions">
@@ -45,7 +45,7 @@
                 <div class="presta-sbody">
                     <div class="presta-body">
                         <div class="presta-icon">
-                            <img class="prestataire-img" alt="prestimg" :src="require(`../assets/${sponsor.image}`)" />
+                            <img class="prestataire-img" alt="prestimg" :src="require(`../../assets/${sponsor.image}`)" />
                         </div>
                         <div class="presta-text">{{ sponsor.description_accueil }}</div>
                         <div class="presta-actions">
@@ -64,7 +64,7 @@
                 <div class="presta-sbody">
                     <div class="presta-body">
                         <div class="presta-icon">
-                            <img class="prestataire-img" alt="prestimg" :src="require(`../assets/${association.image}`)" />
+                            <img class="prestataire-img" alt="prestimg" :src="require(`../../assets/${association.image}`)" />
                         </div>
                         <div class="presta-text">{{ association.description_accueil }}</div>
                         <div class="presta-actions">
