@@ -50,13 +50,11 @@
 
       <!-- Image -->
       <div class="form-group">
-        <label for="image">Image</label>
-        <input
-            type="text"
-            id="image"
-            v-model="prestataire.image"
-            class="form-control"
-        />
+          <label for="image">Image :</label>
+          <input type="file" id="image" @change="handleFileUpload" accept=".png, .jpeg, .jpg"/>
+      </div>
+      <div v-if="previewImage">
+        <img :src="previewImage" alt="Prévisualisation de l'image" style="max-width: 100%; margin-top: 10px;" />
       </div>
 
       <!-- Services -->
@@ -133,7 +131,8 @@ import PrestatairesService from "@/services/prestataires.service";
 export default {
   data() {
     return {
-      prestataire: {}
+      prestataire: {},
+      previewImage: null
     };
   },
   computed:{
@@ -161,10 +160,26 @@ export default {
     },
     removeService(index) {
       this.prestataire.services.splice(index, 1);
-    }
+    },
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file && (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg')) {
+        this.event.image = file;
+
+        // Générer une prévisualisation de l'image
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          this.previewImage = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert('Veuillez sélectionner une image au format PNG, JPEG ou JPG.');
+      }
+    },
   },
   mounted() {
     this.prestataire = this.prestataires.find(prestataire => prestataire.id_utilisateur === this.$route.params.id);
+    this.previewImage = require("@/assets/ImagesPrestataires/" + this.prestataire.image);
   }
 };
 </script>
