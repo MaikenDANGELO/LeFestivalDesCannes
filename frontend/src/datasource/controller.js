@@ -33,13 +33,30 @@ function getAllDisponibiliteResto(){
     return { error: 0, data: disponibilitesResto };
 }
 
+
+function updateSingleEmplacement(emplacement_id,new_coordonnees){
+    try {
+        let emplacement = emplacements.find(e => String(e.id) === String(emplacement_id));
+        console.log("Coordonnées originales : " + emplacement.coordinates)
+
+        if (!emplacement) return { error: 1, status: 404, data: "emplacement introuvable" };
+        emplacement.coordinates = new_coordonnees;
+        return {error: 0, status: 200, data: emplacement}
+
+    }catch (error) {
+        return {error: 1, status: 404, data: "Erreur lors de la mise à jour de l'emplacement"};
+    }
+
+}
+
+
 function reservebalade(balade_id, user_id){
     try {
         let balade = balades.find(b => b.id_balade === balade_id);
         if (!balade) return { error: 1, status: 404, data: "balade introuvable" };
         if (balade.reserved_user_id !== null) return { error: 1, status: 404, data: "balade déjà réservée" };
         balade.reserved_user_id = user_id;
-        console.log("reserve la balade" + balade)
+        //console.log("reserve la balade" + balade)
 
         let reservationData = {
             id_balade: balade_id
@@ -490,5 +507,6 @@ export default {
     getAllReservations,
     cancelReservation,
     getAllClassementConcours,
-    changeDataPrest
+    changeDataPrest,
+    updateSingleEmplacement
 };

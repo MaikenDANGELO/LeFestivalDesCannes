@@ -22,6 +22,23 @@
             <li><strong>Catégorie:</strong> {{ prestataire.categorie }}</li>
             <li><strong>Emplacement:</strong> {{ prestataire.id_emplacement }}</li>
           </ul>
+          <div v-if="utilisateur.role === 'admin' ">
+
+
+
+
+
+
+            <button @click="editPrestataire(prestataire.id)">Modifier l'emplacement</button>
+
+
+
+
+
+
+
+
+          </div>
           <div class="restaurant-menu" v-if="prestataire.id === '2'">
             <h2>Horaires</h2>
             <ul>

@@ -7,7 +7,7 @@
 <script>
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import mapDataService from '@/services/map_data.service'
+import mapDataService from '@/services/map_data.service';
 import { mapState, mapActions } from 'vuex';
 
 export default {
@@ -22,7 +22,8 @@ export default {
   data() {
     return {
       map: null,
-      icons : {
+      userMarkers: [],
+      icons: {
         evenement: L.icon({
           iconUrl: require('@/assets/MarqueursCarte/evenement.png'),
           iconSize: [48, 48],
@@ -54,18 +55,18 @@ export default {
           popupAnchor: [0, -48],
         }),
         parking: L.icon({
-          iconUrl: require('@/assets/MarqueursCarte/parking.png'), // Icône pour le parking
+          iconUrl: require('@/assets/MarqueursCarte/parking.png'),
           iconSize: [48, 48],
           iconAnchor: [24, 48],
           popupAnchor: [0, -48],
         }),
         default: L.icon({
           iconUrl: require('@/assets/ImagesPrestataires/logo.png'),
-          iconSize: [48,48],
+          iconSize: [48, 48],
           iconAnchor: [24, 48],
           popupAnchor: [0, -48],
         }),
-      }
+      },
     };
   },
   computed: {
@@ -76,8 +77,42 @@ export default {
   },
   methods: {
     ...mapActions('prestataire', ['getAllPrestataires']),
-    getPrestataireOfEmplacement(id){
+    getPrestataireOfEmplacement(id) {
       return this.prestataires.find((p) => p.id_emplacement == id);
+    },
+    addMarker(lat, lng) {
+      if (this.userMarker) {
+        this.map.removeLayer(this.userMarker);
+      }
+
+      this.userMarker = L.marker([lat, lng], { icon: this.icons.default }).addTo(this.map);
+
+      // Create a container for the popup content
+      const container = document.createElement('div');
+
+      // Add the popup content to the container
+      container.innerHTML = `
+    <b>Nouvel Emplacement :</b><br>[${lat.toFixed(4)}, ${lng.toFixed(4)}]
+
+  `;
+
+      // Bind the popup content to the marker
+      this.userMarker.bindPopup(container).openPopup();
+
+      // Add an event listener to the button
+      this.userMarker.on('popupopen', () => {
+        const button = container.querySelector('#confirmLocationButton');
+        if (button) {
+          button.addEventListener('click', () => {
+            this.updtatePrestaEmplacement(lat, lng);
+            console.log('Button clicked');
+          });
+        }
+      });
+    },
+    async updtatePrestaEmplacement(lat, lng) {
+      await mapDataService.updateEmplacement(this.selectedPrestataireId, lat, lng);
+      await this.$router.push(`/prestataire/${this.selectedPrestataireId}`);
     },
     async constructPrestataireEmplacement() {
       this.getAllPrestataires();
@@ -91,7 +126,7 @@ export default {
           coords: e.coordinates,
           text: prest?.nom || 'Unknown',
           description_accueil: prest.description_accueil,
-          icon: this.icons[e.icon] || this.icons.default, // Fallback to default icon
+          icon: this.icons[e.icon] || this.icons.default,
         };
         prestEmpl.push(tmp);
       }
@@ -108,7 +143,7 @@ export default {
 
       if (this.selectedPrestataireId) {
         const selectedPrestataire = prestEmplacement.find(
-          (p) => p.id === this.prestataires.find((p) => p.id == this.selectedPrestataireId).id_emplacement
+            (p) => p.id === this.prestataires.find((p) => p.id == this.selectedPrestataireId).id_emplacement
         );
         if (selectedPrestataire) {
           const marker = L.marker(selectedPrestataire.coords, {
@@ -129,7 +164,7 @@ export default {
         }
       } else {
         prestEmplacement.forEach((prestataire) => {
-          const marker = L.marker(prestataire.coords, { icon: prestataire.icon }).addTo(this.map);
+          const marker = L.marker(prestataire.coords, {icon: prestataire.icon}).addTo(this.map);
 
           const popupContent = `
             <b>${prestataire.text}</b>
@@ -151,68 +186,24 @@ export default {
       }
 
       const parkingLocations = [
-        { coords: [47.6841,6.8140], text: 'Parking Nord' },
-        { coords: [47.6827,6.8145], text: 'Parking Sud' },
-        { coords: [47.6848,6.8095], text: 'Parking Prestataire Sud' },
-        { coords: [47.6880,6.8072], text: 'Parking Prestataire Nord' },
+        {coords: [47.6841, 6.8140], text: 'Parking Nord'},
+        {coords: [47.6827, 6.8145], text: 'Parking Sud'},
+        {coords: [47.6848, 6.8095], text: 'Parking Prestataire Sud'},
+        {coords: [47.6880, 6.8072], text: 'Parking Prestataire Nord'},
       ];
 
       parkingLocations.forEach((parking) => {
-        const marker = L.marker(parking.coords, { icon: this.icons.parking }).addTo(this.map);
+        const marker = L.marker(parking.coords, {icon: this.icons.parking}).addTo(this.map);
         marker.bindPopup(`<b>${parking.text}</b>`);
       });
 
       this.map.on('click', (e) => {
-        const { lat, lng } = e.latlng;
+        const {lat, lng} = e.latlng;
         const formattedLat = lat.toFixed(4);
         const formattedLng = lng.toFixed(4);
+        this.addMarker(lat, lng);
         console.log(`[${formattedLat},${formattedLng}]`);
       });
-
-      /*const polygonCoords = [
-        [47.694, 6.8088],
-        [47.69385, 6.808636],
-        [47.6938, 6.80862],
-        [47.69368, 6.8086],
-        [47.6936, 6.80861],
-        [47.6935, 6.80862],
-        [47.6933, 6.8087],
-        [47.69315, 6.80877],
-        [47.69295, 6.808887],
-        [47.6928, 6.8091],
-        [47.6927, 6.80933],
-        [47.69267, 6.8095],
-        [47.69274, 6.80959],
-        [47.6928, 6.80956],
-        [47.69288, 6.80951],
-        [47.69295, 6.80955],
-        [47.69306, 6.8097],
-        [47.69324, 6.8101],
-        [47.69328, 6.81025],
-        [47.6933, 6.81032],
-        [47.6934, 6.81035],
-        [47.6935, 6.81032],
-        [47.6937, 6.8102],
-        [47.6939, 6.81005],
-        [47.694, 6.81005],
-        [47.69406, 6.8101],
-        [47.69409, 6.81015],
-        [47.69415, 6.81025],
-        [47.69422, 6.81025],
-        [47.69427, 6.81018],
-        [47.6944, 6.8099],
-        [47.69431, 6.8095],
-        [47.69427, 6.8093],
-        [47.69418, 6.8091],
-      ];
-
-      const polygon = L.polygon(polygonCoords, {
-        color: 'blue',
-        fillColor: '#3388ff',
-        fillOpacity: 0.4,
-      }).addTo(this.map);
-
-      polygon.bindPopup('Zone de baignades des canards').openPopup();*/
     },
   },
 };

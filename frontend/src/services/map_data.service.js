@@ -28,7 +28,19 @@ async function getAllEmplacements() {
     return response;
 }
 
+async function updateEmplacement(emplacement_id,coords){
+    let response;
+    try{
+        response = await LocalSource.updateSingleEmplacement(emplacement_id,coords);
+    }catch(err){
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de mettre Ã  jour l\'emplacement'  }
+    }
+    return response;
+
+}
+
 export default{
     getAllMapData,
     getAllEmplacements,
+    updateEmplacement
 }
