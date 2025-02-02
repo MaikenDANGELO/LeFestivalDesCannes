@@ -37,8 +37,6 @@ function getAllDisponibiliteResto(){
 function updateSingleEmplacement(emplacement_id,new_coordonnees){
     try {
         let emplacement = emplacements.find(e => String(e.id) === String(emplacement_id));
-        console.log("Coordonnées originales : " + emplacement.coordinates)
-
         if (!emplacement) return { error: 1, status: 404, data: "emplacement introuvable" };
         emplacement.coordinates = new_coordonnees;
         return {error: 0, status: 200, data: emplacement}

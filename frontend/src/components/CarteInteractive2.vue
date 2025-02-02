@@ -81,39 +81,19 @@ export default {
       return this.prestataires.find((p) => p.id_emplacement == id);
     },
     addMarker(lat, lng) {
-      if (this.userMarker) {
-        this.map.removeLayer(this.userMarker);
-      }
-
-      this.userMarker = L.marker([lat, lng], { icon: this.icons.default }).addTo(this.map);
-
-      // Create a container for the popup content
-      const container = document.createElement('div');
-
-      // Add the popup content to the container
-      container.innerHTML = `
-    <b>Nouvel Emplacement :</b><br>[${lat.toFixed(4)}, ${lng.toFixed(4)}]
-
-  `;
-
-      // Bind the popup content to the marker
-      this.userMarker.bindPopup(container).openPopup();
-
-      // Add an event listener to the button
-      this.userMarker.on('popupopen', () => {
-        const button = container.querySelector('#confirmLocationButton');
-        if (button) {
-          button.addEventListener('click', () => {
-            this.updtatePrestaEmplacement(lat, lng);
-            console.log('Button clicked');
-          });
+      if(this.selectedPrestataireId !== null){
+        if (this.userMarker) {
+          this.map.removeLayer(this.userMarker);
         }
-      });
+
+        this.userMarker = L.marker([lat, lng], {icon: this.icons.default}).addTo(this.map);
+        this.userMarker.bindPopup(`<b>Nouvel Emplacement :</b><br>[${lat.toFixed(4)}, ${lng.toFixed(4)}]`).openPopup();
+
+        this.$emit('new-location', {lat, lng}); // Envoie les coordonnées à PrestataireDetail.vue
+        }
     },
-    async updtatePrestaEmplacement(lat, lng) {
-      await mapDataService.updateEmplacement(this.selectedPrestataireId, lat, lng);
-      await this.$router.push(`/prestataire/${this.selectedPrestataireId}`);
-    },
+
+
     async constructPrestataireEmplacement() {
       this.getAllPrestataires();
       const prestEmpl = [];
@@ -145,6 +125,9 @@ export default {
         const selectedPrestataire = prestEmplacement.find(
             (p) => p.id === this.prestataires.find((p) => p.id == this.selectedPrestataireId).id_emplacement
         );
+
+        console.log("Presta affichés : ")
+        console.log(selectedPrestataire)
         if (selectedPrestataire) {
           const marker = L.marker(selectedPrestataire.coords, {
             icon: selectedPrestataire.icon,

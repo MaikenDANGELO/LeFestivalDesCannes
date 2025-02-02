@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="carte">
-      <InteractiveMap :selectedPrestataireId="parseInt(prestataire.id)" />
+      <InteractiveMap :selectedPrestataireId="parseInt(prestataire.id)" @new-location="onNewLocation"/>
     </div>
     <div class="texte-container">
       <div class="prestataire-detail" v-if="prestataire !== null">
@@ -22,23 +22,16 @@
             <li><strong>Catégorie:</strong> {{ prestataire.categorie }}</li>
             <li><strong>Emplacement:</strong> {{ prestataire.id_emplacement }}</li>
           </ul>
-          <div v-if="utilisateur.role === 'admin' ">
 
-
-
-
-
-
-            <button @click="editPrestataire(prestataire.id)">Modifier l'emplacement</button>
-
-
-
-
-
-
-
-
+          <div class="messageToAdmin" v-if="this.utilisateur.role === 'admin'">
+            <p>Cliquer sur la carte pour changer l'emplacement du prestataire</p>
           </div>
+
+          <button v-if="isEditingLocation" @click="confirmNewLocation">Modifier l'emplacement</button>
+
+
+
+
           <div class="restaurant-menu" v-if="prestataire.id === '2'">
             <h2>Horaires</h2>
             <ul>
@@ -186,6 +179,7 @@ import usersService from "@/services/users.service";
 import baladesServices from "@/services/balades.services";
 import { map_data } from "@/datasource/data.js";
 import InteractiveMap from "@/components/CarteInteractive2.vue";
+import mapDataService from "@/services/map_data.service";
 
 export default {
   name: "PrestataireDetail",
@@ -194,6 +188,8 @@ export default {
   },
   data() {
     return {
+      isEditingLocation : false,
+      newCoords : null,
       day: "2025-09-01",
       balades: [],
       classement: [],
@@ -213,6 +209,40 @@ export default {
   methods: {
     ...mapActions('prestataire', ['getPrestataireAvis', 'getAllPrestataires', 'makeReservation']),
     ...mapActions('utilisateurs', ['getAllUsers']),
+
+    onNewLocation(coords) {
+      if (this.utilisateur.role === 'admin') {
+        this.isEditingLocation = true; // Active l'affichage du bouton
+        this.newCoords = coords; // Stocke les nouvelles coordonnées
+      }
+    },
+
+    async updatePrestaEmplacement(lat, lng) {
+      if (!this.prestataire || !this.prestataire.id) {
+        //console.error("Erreur: Aucun prestataire sélectionné.");
+        return;
+      }
+      //console.log("new coords : " + lat + " ; " + lng)
+
+      await mapDataService.updateEmplacement(this.prestataire.id, [lat, lng]);
+
+      window.confirm("Emplacement modifié avec succès")
+      if (this.$route.path !== `/prestataire/${this.prestataire.id}`) {
+        await this.$router.push(`/prestataire/${this.prestataire.id}`);
+      } else {
+        await this.loadPrestataireData(this.prestataire.id);
+      }
+    },
+
+    async confirmNewLocation() {
+      //console.log("confirmation")
+      //console.log(this)
+      if (this.newCoords && this.prestataire) {
+        await this.updatePrestaEmplacement(this.newCoords.lat, this.newCoords.lng);
+        this.isEditingLocation = false; // Cache le bouton après la mise à jour
+      }
+    },
+
     compareClassement(a,b){
       return a.place - b.place;
     },
@@ -356,6 +386,8 @@ body {
   color: #FFA726;
 }
 
+
+
 button {
   background-color: #0056D2;
   color: white;
@@ -389,6 +421,8 @@ button:hover {
 .animate-slide {
   animation: slideIn 1s ease-in-out;
 }
+
+
 
 @keyframes fadeIn {
   from {
