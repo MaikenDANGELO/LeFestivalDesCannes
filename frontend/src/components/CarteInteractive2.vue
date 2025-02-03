@@ -70,6 +70,7 @@ export default {
     };
   },
   computed: {
+    ...mapState('utilisateurs', ['utilisateur', 'utilisateurs']),
     ...mapState('prestataire', ['prestataires']),
   },
   async mounted() {
@@ -81,7 +82,7 @@ export default {
       return this.prestataires.find((p) => p.id_emplacement == id);
     },
     addMarker(lat, lng) {
-      if(this.selectedPrestataireId !== null){
+      if(this.selectedPrestataireId !== null && this.utilisateur.role === 'admin') {
         if (this.userMarker) {
           this.map.removeLayer(this.userMarker);
         }
