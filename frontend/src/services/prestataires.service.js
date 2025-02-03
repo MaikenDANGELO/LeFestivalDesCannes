@@ -1,6 +1,5 @@
 import LocalSource from "@/datasource/controller";
 //import {getRequest, postRequest} from "@/services/axios.service";
-import axios from "axios";
 
 async function getAllPrestatairesFromLocalSource() {
     return LocalSource.getAllPrestataires();
@@ -73,30 +72,38 @@ async function getAllDemandePrestataire() {
         return { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer les données.' };
     }
 }
-
 async function declineDemandePrest(id, id_utilisateur) {
     try {
-        const response = await axios.post("http://localhost:8080/api/prestataires/decline", { id });
-        if (response.status === 200) {
-            await this.sendNotification(id_utilisateur, "Votre demande de prestataire a été refusée.");
+        const response = await declineDemandePrestFromAPI(id);
+        if (response.error === 0) {
+            await sendNotification(id_utilisateur, "Votre demande de prestataire a été refusée.");
         }
-        return response.data;
+        return response;
     } catch (error) {
         return { error: 1, status: 500, data: "Erreur réseau lors du refus du prestataire." };
     }
 }
 
+async function declineDemandePrestFromAPI(id) {
+    return postRequest("/api/prestataires/decline", { id }, "declineDemandePrest");
+}
+
+
 async function acceptDemandePrest(prestataire) {
     try {
-        const response = await axios.post("http://localhost:8080/api/prestataires/accept", { id: prestataire.id });
-        if (response.status === 200) {
-            await this.sendNotification(prestataire.id_utilisateur, "Votre demande de prestataire a été acceptée ! Veuillez vous reconnecter.");
+        const response = await acceptDemandePrestFromAPI(prestataire);
+        if (response.error === 0) {
+            await sendNotification(prestataire.id_utilisateur, "Votre demande de prestataire a été acceptée !");
         }
-        return response.data;
+        return response;
     } catch (error) {
         return { error: 1, status: 500, data: "Erreur réseau lors de l'acceptation du prestataire." };
     }
 }
+async function acceptDemandePrestFromAPI(prestataire) {
+    return postRequest("/api/prestataires/accept", { id: prestataire.id }, "acceptDemandePrest");
+}
+
 
 async function deletePretataire(id){
     let response;
@@ -109,16 +116,14 @@ async function deletePretataire(id){
     return response
 }
 
-
 async function sendNotification(id_user, message) {
-    try {
-        const response = await axios.post("http://localhost:8080/api/notif/send", { id_user, message });
-        return response.data;
-    } catch (error) {
-        console.error("Erreur lors de l'envoi de la notification :", error);
-        return { error: 1, status: 500, data: "Erreur lors de l'envoi de la notification." };
-    }
+    return sendNotificationFromAPI(id_user, message);
 }
+async function sendNotificationFromAPI(id_user, message) {
+    return postRequest("/api/notif/send", { id_user, message }, "sendNotification");
+}
+
+
 
 
 async function getAllRatings(){
