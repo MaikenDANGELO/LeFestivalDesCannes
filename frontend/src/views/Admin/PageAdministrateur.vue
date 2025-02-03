@@ -244,14 +244,13 @@ export default {
           }
         },
         async declineDemandePrest(id, index) {
-          await prestatairesService.declineDemandePrest(id);
-          await prestatairesService.sendNotification(this.demandePrestataires[index].id_utilisateur, "Votre demande de prestataire a été refusée.");
-          this.demandePrestataires.splice(index, 1); // Retirer seulement du tableau local
+             const prestataire = this.demandePrestataires[index];
+             await prestatairesService.declineDemandePrest(id, prestataire.id_utilisateur);
+             this.demandePrestataires.splice(index, 1); // Supprime uniquement du tableau local
         },
         async acceptDemandePrest(prest, index) {
-          await prestatairesService.acceptDemandePrest(prest);
-          await prestatairesService.sendNotification(prest.id_utilisateur, "Votre demande de prestataire a été acceptée ! Veuillez vous reconnecter.");
-          this.demandePrestataires.splice(index, 1); // Retirer seulement du tableau local
+            await prestatairesService.acceptDemandePrest(prest);
+           this.demandePrestataires.splice(index, 1); // Supprime uniquement du tableau local
         },
       async deletePrest(id){
         console.log(id)

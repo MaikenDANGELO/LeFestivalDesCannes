@@ -1,5 +1,6 @@
 import LocalSource from "@/datasource/controller";
 //import {getRequest, postRequest} from "@/services/axios.service";
+import axios from "axios";
 
 async function getAllPrestatairesFromLocalSource() {
     return LocalSource.getAllPrestataires();
@@ -73,31 +74,27 @@ async function getAllDemandePrestataire() {
     }
 }
 
-async function declineDemandePrest(id){
-    let response;
+async function declineDemandePrest(id, id_utilisateur) {
     try {
-        response = await LocalSource.declineDemandePrest(id);
-        if (response && response.data) {
-            return { error: 0, status: 200, data: response.data };
-        } else {
-            throw new Error("Données invalides");
+        const response = await axios.post("http://localhost:8080/api/prestataires/decline", { id });
+        if (response.status === 200) {
+            await this.sendNotification(id_utilisateur, "Votre demande de prestataire a été refusée.");
         }
+        return response.data;
     } catch (error) {
-        return { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer les données.' };
+        return { error: 1, status: 500, data: "Erreur réseau lors du refus du prestataire." };
     }
 }
 
-async function acceptDemandePrest(prest){
-    let response;
+async function acceptDemandePrest(prestataire) {
     try {
-        response = await LocalSource.acceptDemandePrest(prest);
-        if (response && response.data) {
-            return { error: 0, status: 200, data: response.data };
-        } else {
-            throw new Error("Données invalides");
+        const response = await axios.post("http://localhost:8080/api/prestataires/accept", { id: prestataire.id });
+        if (response.status === 200) {
+            await this.sendNotification(prestataire.id_utilisateur, "Votre demande de prestataire a été acceptée ! Veuillez vous reconnecter.");
         }
+        return response.data;
     } catch (error) {
-        return { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer les données.' };
+        return { error: 1, status: 500, data: "Erreur réseau lors de l'acceptation du prestataire." };
     }
 }
 
@@ -112,12 +109,15 @@ async function deletePretataire(id){
     return response
 }
 
+
 async function sendNotification(id_user, message) {
-    return await fetch('/api/notifications/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id_user, message })
-    }).then(res => res.json());
+    try {
+        const response = await axios.post("http://localhost:8080/api/notif/send", { id_user, message });
+        return response.data;
+    } catch (error) {
+        console.error("Erreur lors de l'envoi de la notification :", error);
+        return { error: 1, status: 500, data: "Erreur lors de l'envoi de la notification." };
+    }
 }
 
 
