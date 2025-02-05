@@ -737,6 +737,72 @@ let classement_concours = [
   },
 ]
 
+let goodies = [
+// Accessoire et Lifestyle
+{ id: 1, nom: "Badge Festival", description: "Badge officiel du festival.", prix: 2, tailles: ["Unique"], couleurs: ["Jaune"], stock: 100, image: "badge.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 2, nom: "Badge Duo", description: "Set de 2 badges en édition limitée.", prix: 4, tailles: ["Unique"], couleurs: ["Multicolore"], stock: 50, image: "badge1.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 3, nom: "Badge Trio", description: "Set de 3 badges exclusifs pour les collectionneurs.", prix: 6, tailles: ["Unique"], couleurs: ["Multicolore"], stock: 30, image: "badge2.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 4, nom: "Coque Téléphone", description: "Coque design avec motif de canard.", prix: 12, tailles: ["iPhone", "Samsung"], couleurs: ["Jaune", "Noir"], stock: 80, image: "coque.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 5, nom: "Coque Téléphone Fun", description: "Coque fantaisie avec design unique.", prix: 14, tailles: ["iPhone"], couleurs: ["Vert", "Bleu"], stock: 50, image: "coque1.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 6, nom: "Coque Premium", description: "Coque premium avec un style épuré.", prix: 16, tailles: ["Samsung"], couleurs: ["Blanc", "Gris"], stock: 40, image: "coque2.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 7, nom: "Coque Luxe", description: "Coque de luxe avec détails dorés.", prix: 20, tailles: ["iPhone", "Samsung"], couleurs: ["Or", "Noir"], stock: 30, image: "coque3.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 8, nom: "Coque Édition Limitée", description: "Coque rare pour les amateurs de design.", prix: 22, tailles: ["iPhone"], couleurs: ["Rouge", "Bleu"], stock: 20, image: "coque4.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 9, nom: "Gourde Canard", description: "Gourde écologique avec motif canard.", prix: 15, tailles: ["500ml", "1L"], couleurs: ["Jaune"], stock: 70, image: "gourde.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 10, nom: "Lunettes Jaunes", description: "Lunettes amusantes en forme de canard.", prix: 8, tailles: ["Unique"], couleurs: ["Jaune"], stock: 90, image: "lunettes.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 11, nom: "Lunettes Festives", description: "Lunettes fantaisie pour les festivaliers.", prix: 10, tailles: ["Unique"], couleurs: ["Multicolore"], stock: 60, image: "lunettes1.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 12, nom: "Lunettes Édition Limitée", description: "Lunettes stylées pour les soirées du festival.", prix: 12, tailles: ["Unique"], couleurs: ["Bleu", "Vert"], stock: 50, image: "lunettes2.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 13, nom: "Mug Festival", description: "Mug officiel avec logo du festival.", prix: 10, tailles: ["Standard"], couleurs: ["Blanc", "Jaune"], stock: 60, image: "mugs.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 14, nom: "Mug Collector", description: "Mug pour les collectionneurs du festival.", prix: 12, tailles: ["Standard"], couleurs: ["Noir", "Rouge"], stock: 40, image: "mugs1.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 15, nom: "Mug Édition Limitée", description: "Mug rare en série limitée.", prix: 15, tailles: ["Standard"], couleurs: ["Bleu", "Vert"], stock: 30, image: "mugs2.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 16, nom: "Parapluie Festival", description: "Parapluie avec motif canard pour les jours de pluie.", prix: 18, tailles: ["Unique"], couleurs: ["Jaune", "Bleu"], stock: 40, image: "parapluie.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 17, nom: "Parapluie Compact", description: "Parapluie compact facile à transporter.", prix: 20, tailles: ["Unique"], couleurs: ["Noir", "Rouge"], stock: 30, image: "parapluie1.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 18, nom: "Parapluie Luxe", description: "Parapluie élégant pour les festivaliers.", prix: 25, tailles: ["Unique"], couleurs: ["Vert", "Multicolore"], stock: 20, image: "parapluie2.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 19, nom: "Porte-clé Canard", description: "Porte-clé mignon en forme de canard.", prix: 5, tailles: ["Unique"], couleurs: ["Jaune"], stock: 100, image: "porte-cle.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 20, nom: "Porte-clé Collector", description: "Porte-clé pour les amateurs du festival.", prix: 6, tailles: ["Unique"], couleurs: ["Blanc", "Noir"], stock: 80, image: "porte-cle1.jpg", categorie: "accessoire_et_lifestyle" },
+{ id: 21, nom: "Porte-clé Luxe", description: "Porte-clé en édition limitée avec logo.", prix: 8, tailles: ["Unique"], couleurs: ["Or", "Argent"], stock: 50, image: "porte-cle2.jpg", categorie: "accessoire_et_lifestyle" },
+
+  // Aliments
+  { id: 22, nom: "Biscuits Festival", description: "Biscuits décorés pour le festival.", prix: 5, tailles: ["Pack de 10"], couleurs: ["Doré"], stock: 60, image: "biscuits.jpg", categorie: "aliments" },
+  { id: 23, nom: "Chocolats Festival", description: "Chocolats artisanaux avec design unique.", prix: 7, tailles: ["Boîte de 6"], couleurs: ["Marron"], stock: 50, image: "chocolats.jpg", categorie: "aliments" },
+
+// Objet Cinéma et Tech
+{ id: 24, nom: "Écouteurs Canard", description: "Écouteurs stylés avec design inspiré du canard.", prix: 25, tailles: ["Standard"], couleurs: ["Jaune", "Blanc"], stock: 30, image: "ecouteur.jpg", categorie: "objet_cinema_tech" },
+{ id: 25, nom: "Écouteurs Premium", description: "Écouteurs premium pour une qualité sonore exceptionnelle.", prix: 35, tailles: ["Standard"], couleurs: ["Noir", "Rouge"], stock: 20, image: "ecouteur1.jpg", categorie: "objet_cinema_tech" },
+{ id: 26, nom: "Clap de Cinéma", description: "Mini clap de cinéma pour les passionnés de film.", prix: 10, tailles: ["15x15 cm"], couleurs: ["Noir", "Blanc"], stock: 40, image: "mini-clap.jpg", categorie: "objet_cinema_tech" },
+{ id: 27, nom: "Clé USB Festival", description: "Clé USB 32GB avec le logo officiel du festival.", prix: 12, tailles: ["32GB"], couleurs: ["Noir", "Jaune"], stock: 80, image: "usb.jpg", categorie: "objet_cinema_tech" },
+{ id: 28, nom: "Clé USB Collector", description: "Clé USB édition limitée avec un design unique.", prix: 15, tailles: ["64GB"], couleurs: ["Argent", "Or"], stock: 50, image: "usb1.jpg", categorie: "objet_cinema_tech" },
+{ id: 29, nom: "Vinyle Festival", description: "Vinyle de la bande sonore officielle du festival.", prix: 20, tailles: ["33 Tours"], couleurs: ["Noir"], stock: 35, image: "vinyle.jpg", categorie: "objet_cinema_tech" },
+{ id: 30, nom: "Vinyle Collector", description: "Vinyle édition collector avec design exclusif.", prix: 30, tailles: ["33 Tours"], couleurs: ["Noir", "Transparent"], stock: 25, image: "vinyle1.jpg", categorie: "objet_cinema_tech" },
+
+// Papeterie et Collection
+{ id: 31, nom: "Carnet Festival", description: "Carnet de notes avec couverture inspirée du festival.", prix: 6, tailles: ["A5"], couleurs: ["Jaune", "Vert"], stock: 50, image: "carnet2.jpg", categorie: "papeterie_collection" },
+{ id: 32, nom: "Carnet Collector", description: "Carnet premium pour les collectionneurs.", prix: 8, tailles: ["A5"], couleurs: ["Bleu", "Rouge"], stock: 40, image: "carnet3.jpg", categorie: "papeterie_collection" },
+{ id: 33, nom: "Carte Postale Festival", description: "Carte postale officielle du festival.", prix: 2, tailles: ["10x15 cm"], couleurs: ["Multicolore"], stock: 100, image: "carte.jpg", categorie: "papeterie_collection" },
+{ id: 34, nom: "Carte Postale Collector", description: "Carte postale en édition limitée.", prix: 3, tailles: ["10x15 cm"], couleurs: ["Blanc", "Noir"], stock: 70, image: "carte1.jpg", categorie: "papeterie_collection" },
+{ id: 35, nom: "Marque-Page Festival", description: "Marque-page élégant pour vos livres.", prix: 2, tailles: ["Unique"], couleurs: ["Jaune", "Bleu"], stock: 80, image: "marque-page.jpg", categorie: "papeterie_collection" },
+{ id: 36, nom: "Stylo Festival", description: "Stylo officiel pour prendre des notes durant le festival.", prix: 3, tailles: ["Standard"], couleurs: ["Noir", "Jaune"], stock: 100, image: "stylo.jpg", categorie: "papeterie_collection" },
+  // Premium
+  { id: 37, nom: "Catalogue Festival", description: "Catalogue officiel en édition limitée.", prix: 15, tailles: ["A4"], couleurs: ["Blanc"], stock: 20, image: "catalogue.jpg", categorie: "premium" },
+  { id: 38, nom: "Mini Palme d'Or", description: "Réplique en or du trophée emblématique.", prix: 50, tailles: ["10 cm"], couleurs: ["Or"], stock: 10, image: "palme_or.jpg", categorie: "premium" },
+
+// Textiles et Modes
+{ id: 39, nom: "T-shirt Festival", description: "T-shirt officiel du Festival de Cannes.", prix: 18, tailles: ["S", "M", "L", "XL"], couleurs: ["Blanc", "Jaune"], stock: 60, image: "t-shirt.jpg", categorie: "textiles_et_modes" },
+{ id: 40, nom: "T-shirt Édition Limitée", description: "T-shirt en édition limitée pour les fans.", prix: 20, tailles: ["S", "M", "L", "XL"], couleurs: ["Noir", "Gris"], stock: 50, image: "t-shirt2.jpg", categorie: "textiles_et_modes" },
+{ id: 41, nom: "Sweat-shirt Festival", description: "Sweat-shirt confortable avec logo festival.", prix: 35, tailles: ["M", "L", "XL"], couleurs: ["Gris", "Bleu"], stock: 50, image: "sweat-shirt.jpg", categorie: "textiles_et_modes" },
+{ id: 42, nom: "Sweat-shirt Classique", description: "Sweat-shirt classique avec design minimaliste.", prix: 38, tailles: ["M", "L", "XL"], couleurs: ["Noir", "Blanc"], stock: 40, image: "sweat-shirt1.jpg", categorie: "textiles_et_modes" },
+{ id: 43, nom: "Sweat-shirt Édition Limitée", description: "Sweat-shirt rare pour les fans.", prix: 40, tailles: ["M", "L"], couleurs: ["Rouge", "Bleu"], stock: 30, image: "sweat-shirt2.jpg", categorie: "textiles_et_modes" },
+{ id: 44, nom: "Bob Festival", description: "Bob tendance avec logo du festival.", prix: 15, tailles: ["Unique"], couleurs: ["Jaune", "Bleu"], stock: 70, image: "bob.jpg", categorie: "textiles_et_modes" },
+{ id: 45, nom: "Bob Classique", description: "Bob classique avec design épuré.", prix: 16, tailles: ["Unique"], couleurs: ["Noir", "Blanc"], stock: 60, image: "bob2.jpg", categorie: "textiles_et_modes" },
+{ id: 46, nom: "Bob Édition Limitée", description: "Bob en édition spéciale pour le festival.", prix: 18, tailles: ["Unique"], couleurs: ["Vert", "Rouge"], stock: 40, image: "bob3.jpg", categorie: "textiles_et_modes" },
+{ id: 47, nom: "Bob Fantaisie", description: "Bob fantaisie pour un style unique.", prix: 20, tailles: ["Unique"], couleurs: ["Jaune", "Multicolore"], stock: 50, image: "bob4.jpg", categorie: "textiles_et_modes" },
+{ id: 48, nom: "Écharpe Festival", description: "Écharpe chaude et stylée avec logo.", prix: 25, tailles: ["Unique"], couleurs: ["Rouge", "Blanc"], stock: 40, image: "echarpe.jpg", categorie: "textiles_et_modes" },
+{ id: 49, nom: "Écharpe Hiver", description: "Écharpe idéale pour l'hiver.", prix: 28, tailles: ["Unique"], couleurs: ["Gris", "Bleu"], stock: 35, image: "echarpe1.jpg", categorie: "textiles_et_modes" },
+{ id: 50, nom: "Tote Bag Festival", description: "Sac écologique avec motif canard.", prix: 12, tailles: ["Standard"], couleurs: ["Blanc", "Jaune"], stock: 80, image: "tote-bag.jpg", categorie: "textiles_et_modes" },
+{ id: 51, nom: "Tote Bag Classique", description: "Sac pratique pour vos courses.", prix: 14, tailles: ["Standard"], couleurs: ["Vert", "Noir"], stock: 60, image: "tote-bag1.jpg", categorie: "textiles_et_modes" },
+{ id: 52, nom: "Tote Bag Édition Limitée", description: "Sac rare pour les collectionneurs.", prix: 16, tailles: ["Standard"], couleurs: ["Rouge", "Bleu"], stock: 40, image: "tote-bag2.jpg", categorie: "textiles_et_modes" },
+];
+
+
 let balades = [
   {
     id_balade: "1",
@@ -1068,4 +1134,5 @@ module.exports = {
   menu,
   reservations,
   classement_concours,
+  goodies,
 };

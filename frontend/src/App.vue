@@ -16,6 +16,7 @@
             <router-link class="left-element nav-link-common" to="/about">À propos</router-link>
             <router-link class="left-element nav-link-common" to="/associations">Associations</router-link>
             <router-link class="left-element nav-link-common" to="/classementActivites">Classement des activités</router-link>
+            <router-link class="left-element nav-link-common" to="/boutique">Boutique Goodies</router-link>
             <router-link class="left-element nav-link-common" v-if="this.utilisateur.role === 'admin'" to="/admin">Page Administrateur</router-link>
             <a class="left-element nav-link-common" href="https://www.twitch.tv/dashducks" target="_blank">
               <img alt="Twitch logo" :src="require(`./assets/twitch.png`)" class="twitch-logo">

@@ -5,6 +5,8 @@ import utilisateurs from "./modules/utilisateurs";
 import prestataire from "./modules/prestataire";
 import sponsors from "./modules/sponsors";
 import associations from "./modules/associations";
+import boutique from "./modules/boutique";
+
 
 Vue.use(Vuex)
 
@@ -15,5 +17,6 @@ export default new Vuex.Store({
     prestataire,
     sponsors,
     associations,
+    boutique,
   },
 });

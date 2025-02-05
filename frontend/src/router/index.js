@@ -15,6 +15,9 @@ import PageReservationRestaurant from "@/views/Prestataires/PageReservationResta
 import PageClassementActivites from "@/views/PageClassementActivites.vue";
 import PageMenu from "@/views/Prestataires/PageMenu.vue";
 import PageStatistiques from '@/views/Admin/PageStatistiques.vue';
+import PageBoutique from '@/views/Boutique/PageBoutique.vue';
+import PageDetailsArticle from '@/views/Boutique/PageDetailsArticle.vue';
+
 
 Vue.use(VueRouter)
 
@@ -97,8 +100,20 @@ const routes = [
   {
     path: '/statistiques',
     name: 'Statistiques',
-    component: PageStatistiques, // Charge la nouvelle page statistiques
-  }
+    component: PageStatistiques, 
+  },
+  {
+    path: "/boutique",
+    name: "boutique",
+    component: PageBoutique,
+  },
+  {
+    path: "/boutique/article/:id",
+    name: "PageDetailsArticle",
+    component: PageDetailsArticle,
+    props: true
+  }  
+  
   /*{
     path: '/about',
     name: 'about',
