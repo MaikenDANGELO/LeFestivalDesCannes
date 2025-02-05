@@ -1,5 +1,5 @@
 import LocalSource from "@/datasource/controller";
-//import {getRequest, postRequest} from "@/services/axios.service";
+import { postRequest } from "@/services/axios.service";
 
 async function getAllPrestatairesFromLocalSource() {
     return LocalSource.getAllPrestataires();
