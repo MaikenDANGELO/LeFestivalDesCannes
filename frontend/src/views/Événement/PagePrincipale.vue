@@ -62,6 +62,7 @@
    </div>
     <ReservationTable></ReservationTable>
     <AchatBillet> </AchatBillet>
+    <BoutiqueGoodies></BoutiqueGoodies>
     <TotalDons></TotalDons>
     <br>
   </div>
@@ -77,6 +78,7 @@ import TotalDons from "@/components/totalDons.vue";
 import { filter } from "core-js/internals/array-iteration";
 import ReservationTable from "@/components/ReservationTable.vue";
 import AchatBillet from "@/components/AchatBillet.vue";
+import BoutiqueGoodies from "@/components/BoutiqueGoodies.vue";
 
 
 export default {
@@ -152,6 +154,7 @@ export default {
     CartePrestatairePerso,
     ReservationTable,
     AchatBillet,
+    BoutiqueGoodies,
   },
 };
 </script>
