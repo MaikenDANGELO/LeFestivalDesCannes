@@ -468,6 +468,25 @@ function changeDataPrest(data){
     }
 }
 
+function createEmplacement(coord, icon){
+    let newId;
+    if(emplacements.length>0) newId = parseInt(emplacements[emplacements.length-1].id)+1;
+    else newId = 1;
+    console.log(newId)
+    if(!icon) icon = "evenement"
+    console.log(icon)
+
+    let newEmplacement = {
+        id: newId,
+        coordinates: coord,
+        icon: icon
+    }
+
+    console.log(newEmplacement)
+    emplacements.push(newEmplacement);
+    console.log(emplacements)
+}
+
 
 export default {
     getAllRatings,
@@ -506,5 +525,6 @@ export default {
     cancelReservation,
     getAllClassementConcours,
     changeDataPrest,
-    updateSingleEmplacement
+    updateSingleEmplacement,
+    createEmplacement
 };

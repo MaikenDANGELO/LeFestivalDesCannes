@@ -82,7 +82,8 @@ export default {
       return this.prestataires.find((p) => p.id_emplacement == id);
     },
     addMarker(lat, lng) {
-      if(this.selectedPrestataireId !== null && this.utilisateur.role === 'admin') {
+      console.log(this.utilisateur)
+      if((this.selectedPrestataireId !== null || this.$route.path === "/acces") && this.utilisateur.role === 'admin') {
         if (this.userMarker) {
           this.map.removeLayer(this.userMarker);
         }
@@ -102,6 +103,7 @@ export default {
 
       for (const e of emplacements.data) {
         const prest = this.getPrestataireOfEmplacement(e.id);
+        if(!prest) continue;
         const tmp = {
           id: prest?.id || null,
           coords: e.coordinates,
@@ -127,8 +129,8 @@ export default {
             (p) => p.id === this.prestataires.find((p) => p.id == this.selectedPrestataireId).id_emplacement
         );
 
-        console.log("Presta affichés : ")
-        console.log(selectedPrestataire)
+        //console.log("Presta affichés : ")
+        //console.log(selectedPrestataire)
         if (selectedPrestataire) {
           const marker = L.marker(selectedPrestataire.coords, {
             icon: selectedPrestataire.icon,

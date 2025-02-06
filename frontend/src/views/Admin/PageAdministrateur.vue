@@ -11,7 +11,7 @@
 
         <div v-if="showPrestataires" class="list-prestataires">
             <h2>Prestataires <button @click="getAllPrestataires()">Refresh</button></h2>
-            <div class="prestataire" v-for="prestataire in prestataires" :key="prestataire.id">
+            <div class="prestataire" v-for="(prestataire, index) in prestataires" :key="prestataire.id">
                 <div class="presta-top"><h3>{{ prestataire.nom }}</h3></div>
                 <div class="presta-sbody">
                     <div class="presta-body">
@@ -58,7 +58,7 @@
             </div>
         </div>
         <div v-if="showAssociations" class="list-prestataires">
-            <h2>Sponsors</h2>
+            <h2>Association</h2>
             <div class="prestataire" v-for="association in associations" :key="association.id_association">
                 <div class="presta-top"><h3>{{ association.nom_association }}</h3></div>
                 <div class="presta-sbody">

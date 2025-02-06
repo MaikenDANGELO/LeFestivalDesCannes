@@ -36,11 +36,22 @@ async function updateEmplacement(emplacement_id,coords){
         response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de mettre Ã  jour l\'emplacement'  }
     }
     return response;
+}
 
+async function createEmplacement(coords, icon){
+    let response;
+    console.log("service")
+    try{
+        response = await LocalSource.createEmplacement(coords, icon);
+    }catch(err){
+        response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de créé l\'emplacement'  }
+    }
+    return response;
 }
 
 export default{
     getAllMapData,
     getAllEmplacements,
-    updateEmplacement
+    updateEmplacement,
+    createEmplacement
 }

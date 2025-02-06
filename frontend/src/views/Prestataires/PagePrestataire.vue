@@ -177,7 +177,6 @@ import prestatairesService from "@/services/prestataires.service";
 import moneyService from "@/services/money.service";
 import usersService from "@/services/users.service";
 import baladesServices from "@/services/balades.services";
-import { map_data } from "@/datasource/data.js";
 import InteractiveMap from "@/components/CarteInteractive2.vue";
 import mapDataService from "@/services/map_data.service";
 
@@ -199,7 +198,6 @@ export default {
       montantDons: 0,
       avisMofication: false,
       idAvisModification: null,
-      currentEmplacement: null
     };
   },
   computed: {
@@ -315,18 +313,9 @@ export default {
         await this.getPrestataireAvis(this.prestataire.id);
         await this.getDonationAmount();
         await this.fetchBalades();
-        this.setCurrentEmplacement();
+
       }
     },
-    setCurrentEmplacement() {
-      if (this.prestataire && this.prestataire.id_emplacement) {
-        const emplacementId = this.prestataire.id_emplacement;
-        this.currentEmplacement = map_data.find(e => e.id === emplacementId);
-        if (!this.currentEmplacement) {
-          console.error(`Emplacement avec id ${emplacementId} non trouvé dans map_data`);
-        }
-      }
-    }
   },
   async created() {
     await this.getAllPrestataires();
