@@ -17,6 +17,9 @@ import PageMenu from "@/views/Prestataires/PageMenu.vue";
 import PageStatistiques from '@/views/Admin/PageStatistiques.vue';
 import PageBoutique from '@/views/Boutique/PageBoutique.vue';
 import PageDetailsArticle from '@/views/Boutique/PageDetailsArticle.vue';
+import PagePanier from '@/views/Boutique/PagePanier.vue';
+import PageSuiviCommande from '@/views/Boutique/PageSuiviCommande.vue';
+
 
 
 Vue.use(VueRouter)
@@ -112,7 +115,17 @@ const routes = [
     name: "PageDetailsArticle",
     component: PageDetailsArticle,
     props: true
-  }  
+  },
+  {
+    path: '/boutique/panier',
+    name: 'PagePanier',
+    component: PagePanier,
+  },
+  {
+    path: '/boutique/suivi',
+    name: 'PageSuiviCommande',
+    component: PageSuiviCommande,
+  }
   
   /*{
     path: '/about',

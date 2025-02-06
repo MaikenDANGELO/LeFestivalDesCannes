@@ -1,39 +1,51 @@
 <template>
-    <div class="details-container">
-      <h1 class="details-title">✨ Découvrez notre produit exclusif !</h1>
-  
-      <div class="details-content">
-        <img class="details-image" :src="require(`@/assets/Boutique/${article.categorie}/${article.image}`)" :alt="article.nom" />
-  
-        <div class="details-info">
-          <h2 class="details-name">{{ article.nom }}</h2>
-          <p class="details-category"><strong>Catégorie :</strong> {{ categoriesLabels[article.categorie] }}</p>
-          <p class="details-description">{{ article.description }}</p>
-          <p class="details-stock"><strong>Stock disponible :</strong> {{ article.stock }}</p>
-          <p class="details-price"><strong>Prix :</strong> {{ article.prix }}€</p>
-  
-          <div v-if="article.couleurs.length">
-            <h3>Couleurs disponibles :</h3>
-            <div class="color-options">
-              <span v-for="couleur in article.couleurs" :key="couleur" class="color-circle" :style="{ backgroundColor: couleur }"></span>
-            </div>
+  <div class="details-container">
+    <h1 class="details-title">✨ Découvrez notre produit exclusif !</h1>
+
+    <div class="details-content">
+      <img
+        class="details-image"
+        :src="require(`@/assets/Boutique/${article.categorie}/${article.image}`)"
+        :alt="article.nom"
+      />
+
+      <div class="details-info">
+        <h2 class="details-name">{{ article.nom }}</h2>
+        <p class="details-category">
+          <strong>Catégorie :</strong> {{ categoriesLabels[article.categorie] }}
+        </p>
+        <p class="details-description">{{ article.description }}</p>
+        <p class="details-stock">
+          <strong>Stock disponible :</strong> {{ article.stock }}
+        </p>
+        <p class="details-price"><strong>Prix :</strong> {{ article.prix }}€</p>
+
+        <div v-if="article.couleurs && article.couleurs.length">
+          <h3>Couleurs disponibles :</h3>
+          <div class="color-options">
+            <span
+              v-for="couleur in article.couleurs"
+              :key="couleur"
+              class="color-circle"
+              :style="{ backgroundColor: couleur }"
+            ></span>
           </div>
-  
-          <div v-if="article.tailles.length">
-            <h3>Tailles disponibles :</h3>
-            <p class="details-sizes">{{ article.tailles.join(', ') }}</p>
-          </div>
-  
-          <button class="btn-add" @click="ajouterAuPanier(article)">Ajouter au panier 🛒</button>
         </div>
-      </div>
-  
-      <!-- Icône du panier -->
-      <div class="cart-icon" @click="goToPanier">
-        🛒 <span class="cart-count">{{ panierCount }}</span>
+
+        <div v-if="article.tailles && article.tailles.length">
+          <h3>Tailles disponibles :</h3>
+          <p class="details-sizes">{{ article.tailles.join(", ") }}</p>
+        </div>
+
+        <button class="btn-add" @click="ajouterAuPanier(article)">Ajouter au panier 🛒</button>
       </div>
     </div>
-  </template>
+
+    <div class="cart-icon-header" @click="goToPanier">
+      🛒 <span class="cart-count">{{ panierCount }}</span>
+    </div>
+  </div>
+</template>
 
 <script>
 import { mapState, mapActions } from "vuex";
@@ -44,10 +56,11 @@ export default {
     ...mapState("boutique", ["goodies", "panier"]),
 
     article() {
-      const id = this.$route.params.id;
-      return this.goodies.find((item) => item.id === parseInt(id));
+      const id = parseInt(this.$route.params.id, 10);
+      return this.goodies.find((item) => item.id === id) || null; 
     },
 
+    // Calcul du nombre total d'articles dans le panier
     panierCount() {
       return this.panier.reduce((total, item) => total + item.quantite, 0);
     },
@@ -67,111 +80,141 @@ export default {
     ...mapActions("boutique", ["ajouterAuPanier"]),
 
     goToPanier() {
-      this.$router.push({ name: "PanierPage" });
+      this.$router.push({ name: "PagePanier" });
     },
+  },
+
+  created() {
+    if (!this.article) {
+      alert("Cet article n'existe pas ou n'est plus disponible !");
+      this.$router.push({ name: "PageBoutique" }); // Redirige vers la boutique
+    }
   },
 };
 </script>
 
 <style scoped>
 .details-container {
-  max-width: 1200px;
+  max-width: 1400px; /* Augmente la largeur maximale */
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px; /* Plus d'espace autour */
   font-family: 'Arial', sans-serif;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
 }
 
 .details-title {
   text-align: center;
-  font-size: 2.5rem;
+  font-size: 3rem; /* Augmente la taille du titre */
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  color: #1e8449; /* Vert du thème */
 }
 
 .details-content {
   display: flex;
-  gap: 30px;
-  align-items: flex-start;
+  gap: 50px; /* Plus d’espace entre l’image et les infos */
+  align-items: center;
 }
 
 .details-image {
-  max-width: 400px;
-  border-radius: 10px;
+  max-width: 500px; /* Image plus grande */
+  height: auto; /* Ajustement automatique */
+  border-radius: 15px;
   object-fit: cover;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
 .details-info {
   flex: 1;
+  font-size: 1.4rem; /* Texte plus grand */
 }
 
 .details-name {
-  font-size: 2rem;
+  font-size: 2.5rem; /* Titre du produit plus grand */
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  color: #1e8449;
 }
 
 .details-category,
 .details-description,
 .details-stock,
 .details-price {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  font-size: 1.3rem; /* Agrandir le texte des infos */
+  color: #444;
 }
 
 .color-options {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 12px;
+  margin-top: 15px;
 }
 
 .color-circle {
-  width: 20px;
-  height: 20px;
+  width: 30px; /* Rendre les pastilles de couleur plus visibles */
+  height: 30px;
   border-radius: 50%;
-  border: 2px solid #ccc;
+  border: 3px solid #ccc;
 }
 
 .details-sizes {
-  margin-top: 10px;
+  margin-top: 15px;
+  font-size: 1.3rem; /* Texte des tailles plus grand */
 }
 
 .btn-add {
   background-color: #1e8449;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 15px 25px; /* Agrandir le bouton */
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.3s ease;
+  font-size: 1.5rem; /* Texte plus grand */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .btn-add:hover {
   background-color: #145a32;
+  transform: scale(1.1);
 }
 
-.cart-icon {
+/* Icône du panier en bas à droite */
+.cart-icon-header {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
+  bottom: 30px; /* Plus d’espace depuis le bas */
+  right: 30px; /* Plus d’espace depuis la droite */
   background-color: #1e8449;
   color: white;
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
+  width: 90px; /* Icône plus grande */
+  height: 90px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 2.5rem; /* Taille de l'icône plus grande */
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  z-index: 1000;
+}
+
+.cart-icon-header:hover {
+  background-color: #145a32;
+  transform: scale(1.2);
 }
 
 .cart-count {
   background: white;
   color: #1e8449;
   border-radius: 50%;
-  padding: 5px;
-  font-size: 1rem;
-  margin-left: 5px;
+  padding: 10px 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-left: 10px;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
 }
 </style>
