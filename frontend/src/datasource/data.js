@@ -737,6 +737,13 @@ let classement_concours = [
   },
 ]
 
+let shopInfo = [
+  {
+    id: 1,
+    shopActive: true,
+  }
+]
+
 let goodies = [
 // Accessoire et Lifestyle
 { id: 1, nom: "Badge Festival", description: "Badge officiel du festival.", prix: 2, tailles: ["Unique"], couleurs: ["Jaune"], stock: 100, image: "badge.jpg", categorie: "accessoire_et_lifestyle" },
@@ -1135,4 +1142,5 @@ module.exports = {
   reservations,
   classement_concours,
   goodies,
+  shopInfo,
 };

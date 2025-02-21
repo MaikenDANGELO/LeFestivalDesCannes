@@ -1,5 +1,14 @@
 <template>
-  <div class="boutique-container">
+  <div>
+    <div class="disabledShopView" v-if="!shopStatus && utilisateur.role!='admin'">
+        <h1>BOUTIQUE FERMÉE</h1>
+        <h2>Revenez plus tard</h2>
+      </div>
+    <div class="boutique-container">
+      <div class="adminToggle" v-if="utilisateur.role=='admin'">
+        <button @click="ToggleBoutique">Activer/Désactiver la boutique</button>
+        <p>Status: {{shopStatus ? "Activée": "Désactivée"}}</p>
+      </div>
     <h1 class="boutique-title">🎁 Boutique Goodies 🎥</h1>
     <p class="boutique-subtitle">Découvrez les articles exclusifs du Festival de Cannes !</p>
 
@@ -15,16 +24,22 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
 </template>
   
   <script>
   import { mapActions, mapState } from "vuex";
+  import prestataireServices from "@/services/prestataires.service"
   
   export default {
     name: "PageBoutique",
+    data: () => ({
+      shopStatus: true,
+    }),
     computed: {
       ...mapState("boutique", ["goodies", "panier"]),
+      ...mapState("utilisateurs", ["utilisateur"]),
   
       groupedGoodies() {
         if (!this.goodies || this.goodies.length === 0) return {};
@@ -53,17 +68,52 @@
   
     methods: {
       ...mapActions("boutique", ["getAllGoodies", "ajouterAuPanier", "retirerDuPanier", "validerCommande"]),
+      async getShopStatusFromId(){
+        let res = await prestataireServices.getShopStatusFromId(1);
+        console.log(res)
+        this.shopStatus = res.data;
+        return res.data;
+      },
+      async ToggleBoutique(){
+        let res = await prestataireServices.changeShopStatusFromId(1);
+        this.shopStatus = res.data;
+        await this.getShopStatusFromId(1)
+        console.log(res)
+        console.log(this.shopStatus)
+        return res.data;
+      }
     },
   
     created() {
       this.getAllGoodies();
     },
+    async mounted(){
+      await this.getShopStatusFromId();
+    }
   };
   </script>
   
   <style scoped>
+.disabledShopView{
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  color: white;
+  position: fixed;
+  bottom: 0px;
+}
+
+.disabledShopView h1{
+  margin-bottom: auto;
+  justify-self: center;
+  align-self: center;
+  margin-top: 200px;
+  font-size: 58px;
+}
+
   .boutique-container {
-    max-width: 1300px;
+    max-width: 1200px;
     margin: 30px auto;
     padding: 20px;
     font-family: 'Arial', sans-serif;

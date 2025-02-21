@@ -229,6 +229,26 @@ async function changeDataPrestService(data){
     }
     return response;
 }
+
+async function getShopStatusFromId(shop_id){
+    let response;
+    try{
+        response = await LocalSource.getShopStatusFromId(shop_id);
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la récupération du status du shop"};
+    }
+    return response;
+}
+
+async function changeShopStatusFromId(shop_id){
+    let response;
+    try{
+        response = await LocalSource.changeShopStatusFromId(shop_id);
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la modification du status du shop"};
+    }
+    return response;
+}
 /*
 
 async function getAllPrestatairesFromAPI(){
@@ -275,5 +295,7 @@ export default {
     cancelReservation,
     getAllClassementConcours,
     sendNotification,
-    changeDataPrestService
+    changeDataPrestService,
+    getShopStatusFromId,
+    changeShopStatusFromId,
 }
