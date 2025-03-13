@@ -4,6 +4,7 @@ import signUpTexts from "@/texts/fr/signUpTexts";
 import pagePrincipaleTexts from "@/texts/fr/pagePrincipaleTexts";
 import billeterieTexts from "@/texts/fr/billeterieTexts";
 import inscriptionCanardTexts from "@/texts/fr/inscriptionCanardTexts";
+import pageProfilTexts from "@/texts/fr/pageProfilTexts";
 
 
 export default {
@@ -12,5 +13,6 @@ export default {
     signUpTexts,
     pagePrincipaleTexts,
     billeterieTexts,
-    inscriptionCanardTexts
+    inscriptionCanardTexts,
+    pageProfilTexts
 }

@@ -2,10 +2,10 @@
   <div id="app">
     <nav class="vertical-navbar">
       <div class="nav-links">
-        <button class="nav-link" @click="setCurrentView('myProfil')">Mon Profil</button>
-        <button class="nav-link" @click="setCurrentView('myReservations')">Mes réservations</button>
+        <button class="nav-link" @click="setCurrentView('myProfil')">{{ $t('pageProfilTexts.monProfil') }}</button>
+        <button class="nav-link" @click="setCurrentView('myReservations')">{{ $t('pageProfilTexts.mesReservations') }}</button>
         <button class="nav-link" @click="setCurrentView('myNotif')">
-          Mes notifications
+          {{ $t('pageProfilTexts.mesNotifications') }}
           <div class="notification-wrapper">
             <p v-if="notifications.length !== 0" class="circle">{{ notifications.length }}</p>
             <div class="cloche notification-cloche">
@@ -16,64 +16,62 @@
       </div>
     </nav>
 
-
     <div class="main" v-if="currentView === 'myProfil' && utilisateur">
-      <h1>Mon Profil</h1>
+      <h1>{{ $t('pageProfilTexts.monProfil') }}</h1>
       <div class="case" v-if="modifyPassword === false">
         <div>
-          <h3>Données personnelles </h3>
+          <h3>{{ $t('pageProfilTexts.donneesPersonnelles') }}</h3>
           <div>
-            <button v-if="modifyPersonnalData === false" @click="clickModifyPersonnalData()">Modifier</button>
-            <button v-if="modifyPersonnalData === true" @click="changePersonnalData()" class="second-button">Sauvegarder les modifications</button>
+            <button v-if="modifyPersonnalData === false" @click="clickModifyPersonnalData()">{{ $t('pageProfilTexts.modifier') }}</button>
+            <button v-if="modifyPersonnalData === true" @click="changePersonnalData()" class="second-button">{{ $t('pageProfilTexts.sauvegarder') }}</button>
           </div>
         </div>
         <div class="personnal-info">
 
           <div class="form-group">
-            <label for="name">M./Mme</label>
+            <label for="name">{{ $t('pageProfilTexts.madameMonsieur') }}</label>
             <p v-if="modifyPersonnalData === false">{{this.utilisateur.nom}}</p>
-            <input v-else type="text" id="name" placeholder="Votre nom et prénom"  v-model="nom_utilisateur">
+            <input v-else type="text" id="name" :placeholder="$t('pageProfilTexts.nomPrenomPlaceholder') " v-model="nom_utilisateur">
           </div>
 
           <div class="form-group">
-            <label for="numero">Numéro de télephone</label>
+            <label for="numero">{{ $t('pageProfilTexts.telephone') }}</label>
             <p v-if="modifyPersonnalData === false">{{this.utilisateur.numero}}</p>
-            <input v-else type="text" id="numero" placeholder="Votre numéro de téléphone"  v-model="telephone">
+            <input v-else type="text" id="numero" :placeholder="$t('pageProfilTexts.telephonePlaceholder')" v-model="telephone">
           </div>
 
           <div class="form-group">
-            <label for="email">Email :</label>
+            <label for="email">{{ $t('pageProfilTexts.email') }} :</label>
             <p v-if="modifyPersonnalData === false">{{this.utilisateur.email}}</p>
-            <input v-else type="text" id="email" name="email" placeholder="Votre email" v-model="email_utilisateur">
+            <input v-else type="text" id="email" name="email" :placeholder="$t('pageProfilTexts.emailPlaceholder')" v-model="email_utilisateur">
           </div>
 
           <div class="form-group">
-            <label for="adresse">Adresse :</label>
+            <label for="adresse">{{ $t('pageProfilTexts.adresse') }} :</label>
             <p v-if="modifyPersonnalData === false">{{this.utilisateur.adresse}}</p>
-            <input v-else type="text" id="adresse" name="adresse" placeholder="Votre adresse" v-model="adresse_utilisateur">
+            <input v-else type="text" id="adresse" name="adresse" :placeholder="$t('pageProfilTexts.adressePlaceholder')" v-model="adresse_utilisateur">
           </div>
         </div>
       </div>
 
-
       <div class="case" v-if="modifyPersonnalData === false">
-        <h3>Mot de passe</h3>
-        <button v-if="modifyPassword ===false" @click="clickModifyPassword()" class="third-button">Changer de mot de passe</button>
-        <button v-if="modifyPassword === true" @click="changePassword()" class="third-button">Accepter</button>
+        <h3>{{ $t('pageProfilTexts.motDePasse') }}</h3>
+        <button v-if="modifyPassword ===false" @click="clickModifyPassword()" class="third-button">{{ $t('pageProfilTexts.changerMdp') }}</button>
+        <button v-if="modifyPassword === true" @click="changePassword()" class="third-button">{{ $t('pageProfilTexts.accepter') }}</button>
         <div v-if="modifyPassword === true">
 
           <div class="password">
             <div class="actuel-password">
-              <label for="mdp">Mot de passe actuel :</label>
-              <input v-model="actualPassword" :type="isPasswordVisible ? 'text' : 'password'" id="mdp" name="mdp" placeholder="Votre mot de passe" required >
+              <label for="mdp">{{ $t('pageProfilTexts.motDePasseActuel') }} :</label>
+              <input v-model="actualPassword" :type="isPasswordVisible ? 'text' : 'password'" id="mdp" name="mdp" :placeholder="$t('pageProfilTexts.motDePassePlaceholder')" required >
               <button class="password-icon" type="button" @click="togglePasswordVisibility">
                 <i :class="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
               </button>
             </div>
 
             <div class="newpassword">
-              <label for="nmdp">Nouveau mot de passe :</label>
-              <input @input="checkPasswordStrength" v-model="newPassword" :type="isPasswordVisible2 ? 'text' : 'password'" id="nmdp" name="nmdp" placeholder="Votre mot de passe" required>
+              <label for="nmdp">{{ $t('pageProfilTexts.nouveauMotDePasse') }} :</label>
+              <input @input="checkPasswordStrength" v-model="newPassword" :type="isPasswordVisible2 ? 'text' : 'password'" id="nmdp" name="nmdp" :placeholder="$t('pageProfilTexts.nouveauMotDePassePlaceholder')" required>
               <div class="progress-bar">
                 <div class="progress-fill" :style="{ width: strengthPercentage + '%', backgroundColor: strengthColor }"></div>
               </div>
@@ -82,33 +80,30 @@
               </button>
             </div>
             <div class="verif">
-              <label for="nmdp2">Vérification mot de passe :</label>
-              <input @input="checkSamePassword($event)" id="nmdp2" name="nmdp2"  type="password" placeholder="Votre mot de passe" required  :class="inputClass">
+              <label for="nmdp2">{{ $t('pageProfilTexts.verificationMdp') }} :</label>
+              <input @input="checkSamePassword($event)" id="nmdp2" name="nmdp2" type="password" :placeholder="$t('pageProfilTexts.verificationMdpPlaceholder')" required :class="inputClass">
             </div>
           </div>
         </div>
       </div>
     </div>
 
-
     <div class="main" v-if="currentView === 'myReservations'">
-
-      <h1>Mes Réservations : </h1>
-
+      <h1>{{ $t('pageProfilTexts.mesReservations') }} : </h1>
       <div v-if="reservations.length !== 0">
         <div class="case" v-for="(reservation) in reservations" :key="reservation.id_reservation" >
           <div class="reservation-details">
             <h2>{{ reservation.type_reservation }}</h2>
-            <p>Réservation le {{reservation.date_reservation}} à {{reservation.heure_reservation}}</p>
+            <p>{{ $t('pageProfilTexts.reservationLe') }} {{reservation.date_reservation}} {{ $t('pageProfilTexts.a') }} {{reservation.heure_reservation}}</p>
             <p v-if="reservation.data">{{ reservation.data }}</p>
-            <button @click="cancelReservation(reservation.id_reservation)">Annuler</button>
+            <button @click="cancelReservation(reservation.id_reservation)">{{ $t('pageProfilTexts.annuler') }}</button>
           </div>
         </div>
       </div>
     </div>
 
     <div class="main" v-if="currentView === 'myNotif'">
-      <h1>Mes Notifications</h1>
+      <h1>{{ $t('pageProfilTexts.mesNotifications') }}</h1>
       <div v-if="notifications.length !== 0">
         <div class="case" v-for="(notif) in notifications" :key="notif.id" >
           <div class="notification">
@@ -117,15 +112,13 @@
         </div>
       </div>
       <div v-else>
-        <h2>Aucune notifications</h2>
+        <h2>{{ $t('pageProfilTexts.aucuneNotifications') }}</h2>
       </div>
-
-
     </div>
     <router-view />
   </div>
-
 </template>
+
 
 <script>
 import {mapActions, mapState} from 'vuex';
