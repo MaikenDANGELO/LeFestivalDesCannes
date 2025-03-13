@@ -3,8 +3,8 @@
     <div class="header-image-container">
       <div class="header-container">
         <div>
-          <h1 class="header-title">Défilé des Canards</h1>
-          <p class="header-subtitle">Offrez à votre canard sa place dans le défilé légendaire !</p>
+          <h1 class="header-title">{{ $t('inscriptionCanardTexts.title') }}</h1>
+          <p class="header-subtitle">{{ $t('inscriptionCanardTexts.subtitle') }}</p>
         </div>
       </div>
     </div>
@@ -12,82 +12,83 @@
       <form @submit.prevent="submitForm">
         <div class="form-title">
           <img src="@/assets/canard_ticket.svg" alt="Canard" class="duck-icon" />
-          <h2>Inscription de votre Canard</h2>
+          <h2>{{ $t('inscriptionCanardTexts.inscriptionTitle') }}</h2>
           <img src="@/assets/canard_ticket.svg" alt="Canard" class="duck-icon" />
         </div>
-  
+
         <div class="form-group">
-          <label for="proprietaire">Nom du propriétaire :</label>
+          <label for="proprietaire">{{ $t('inscriptionCanardTexts.ownerLabel') }}</label>
           <input
-            v-model="form.proprietaire"
-            type="text"
-            id="proprietaire"
-            placeholder="Votre nom complet"
-            required
+              v-model="form.proprietaire"
+              type="text"
+              id="proprietaire"
+              :placeholder="$t('inscriptionCanardTexts.ownerPlaceholder')"
+              required
           />
         </div>
-  
+
         <div class="form-group">
-          <label for="nomCanard">Nom du canard :</label>
+          <label for="nomCanard">{{ $t('inscriptionCanardTexts.duckNameLabel') }}</label>
           <input
-            v-model="form.nom"
-            type="text"
-            id="nomCanard"
-            placeholder="Nom du canard"
-            required
+              v-model="form.nom"
+              type="text"
+              id="nomCanard"
+              :placeholder="$t('inscriptionCanardTexts.duckNamePlaceholder')"
+              required
           />
         </div>
-  
+
         <div class="form-group">
-          <label for="espece">Espèce du canard :</label>
+          <label for="espece">{{ $t('inscriptionCanardTexts.speciesLabel') }}</label>
           <input
-            v-model="form.espece"
-            type="text"
-            id="espece"
-            placeholder="Ex : Colvert, Mandarin..."
-            required
+              v-model="form.espece"
+              type="text"
+              id="espece"
+              :placeholder="$t('inscriptionCanardTexts.speciesPlaceholder')"
+              required
           />
         </div>
-  
+
         <div class="form-group">
-          <label for="region">Région d'origine :</label>
+          <label for="region">{{ $t('inscriptionCanardTexts.regionLabel') }}</label>
           <input
-            v-model="form.region"
-            type="text"
-            id="region"
-            placeholder="Ex : Bretagne, Provence..."
-            required
+              v-model="form.region"
+              type="text"
+              id="region"
+              :placeholder="$t('inscriptionCanardTexts.regionPlaceholder')"
+              required
           />
         </div>
-  
+
         <div class="form-group">
-          <label for="numero">Numéro attribué :</label>
+          <label for="numero">{{ $t('inscriptionCanardTexts.numberLabel') }}</label>
           <input
-            type="text"
-            id="numero"
-            :value="numero"
-            readonly
+              type="text"
+              id="numero"
+              :value="numero"
+              readonly
           />
         </div>
-  
+
         <div class="form-group">
-          <label for="heure">Heure du défilé :</label>
+          <label for="heure">{{ $t('inscriptionCanardTexts.timeLabel') }}</label>
           <input
-            type="text"
-            id="heure"
-            :value="heureDefile"
-            readonly
+              type="text"
+              id="heure"
+              :value="heureDefile"
+              readonly
           />
         </div>
-  
-        <button type="submit" class="submit-button">Enregistrer le canard</button>
+
+        <button type="submit" class="submit-button">{{ $t('inscriptionCanardTexts.submitButton') }}</button>
       </form>
     </div>
   </div>
 </template>
 
-  
-  <script>
+
+
+<script>
 import { mapState } from 'vuex';
 
   export default {
