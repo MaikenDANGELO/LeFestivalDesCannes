@@ -1,13 +1,10 @@
 <template>
     <div class="boutique-section">
       <div class="boutique-text">
-        <h3>Découvrez notre Boutique Officielle !</h3>
-        <p>
-          Plongez dans l'univers du Festival avec notre collection exclusive de goodies. 
-          T-shirts, accessoires, souvenirs... Ne manquez pas l'occasion de repartir avec un souvenir unique !
-        </p>
+        <h3>{{ $t('pagePrincipaleTexts.titreBoutique') }}</h3>
+        <p>{{ $t('pagePrincipaleTexts.texteBoutique') }}</p>
         <router-link to="/boutique" class="boutique-button">
-          -> Accéder à la boutique
+          {{ $t('pagePrincipaleTexts.accesBoutiqueLink') }}
         </router-link>
       </div>
       <img 

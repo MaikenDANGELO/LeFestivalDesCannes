@@ -1,6 +1,6 @@
 <template>
   <div class="don-container">
-    <h1 class="title">Total des Dons:</h1>
+    <h1 class="title">{{ $t('pagePrincipaleTexts.dons') }}</h1>
     <p class="total" ref="donDisplay">{{ this.totalDons }}</p>
     </div>
 </template>

@@ -1,34 +1,34 @@
 <template>
   <div class="hello">
     <BanniereAccueil></BanniereAccueil>
-    <h2>Tous nos prestataires</h2>
+    <h2>{{ $t('pagePrincipaleTexts.titre') }}</h2>
     <div class="listes-container">
       <div class="filtre">
-        <label for="search">Rechercher : </label>
+        <label for="search">{{ $t('pagePrincipaleTexts.recherche') }}</label>
         <input v-model="filtreSearch" type="search" id="search"><br>
         <div class="filtre-check" id="filtre-type">
-          <h3>Type :</h3>
+          <h3>{{ $t('pagePrincipaleTexts.type') }}</h3>
           <input type="radio" id="prestataires" value="prestataires" v-model="filtreType">
-          <label for="prestataires"> Activités</label><br>
+          <label for="prestataires"> {{ $t('pagePrincipaleTexts.activites') }}</label><br>
           <input type="radio" id="sponsors" value="sponsors" v-model="filtreType">
-          <label for="sponsors"> Sponsors</label>
+          <label for="sponsors">{{ $t('pagePrincipaleTexts.sponsors') }}</label>
         </div>
         <div class="filtre-check" id="filtre-cat" v-if="filtreType === 'prestataires'">
-          <h3>Catégorie : </h3>
+          <h3>{{ $t('pagePrincipaleTexts.categorie') }}</h3>
           <input @click="handleCatFilter('Activité')" type="checkbox" id="activite" checked>
-          <label for="activite"> Attraction et atelier</label><br>
+          <label for="activite">{{ $t('pagePrincipaleTexts.attraction') }}</label><br>
           <input @click="handleCatFilter('Mascotte')" type="checkbox" id="mascotte" checked>
-          <label for="mascotte"> Mascotte</label><br>
+          <label for="mascotte">{{ $t('pagePrincipaleTexts.mascotte') }}</label><br>
           <input @click="handleCatFilter('Gastronomie')" type="checkbox" id="gastronomie" checked>
-          <label for="gastronomie"> Gastronomie</label><br>
+          <label for="gastronomie">{{ $t('pagePrincipaleTexts.gastronomie') }}</label><br>
           <input @click="handleCatFilter('Événement')" type="checkbox" id="evenement" checked>
-          <label for="evenement"> Événement</label>
+          <label for="evenement">{{ $t('pagePrincipaleTexts.evenement') }}</label>
         </div>
-        <br><button @click="resetFilters()">Réinitialiser filtres</button>
+        <br><button @click="resetFilters()">{{ $t('pagePrincipaleTexts.resetFiltres') }}</button>
       </div>
       <div class="listes">
         <div class="liste-prestataires" id="prestataires" v-if="filtreType === 'prestataires'">
-          <h2>Activités</h2>
+          <h2>{{ $t('pagePrincipaleTexts.activitesTitre') }}</h2>
           <div class="prestataires-row" v-for="row in getPrestaRows()" :key="row[0].id">
             <div v-for="prestataire in row" :key="prestataire.id" class="prestataire-card">
               <CartePrestatairePerso :nom="prestataire.nom" :descriptionAccueil="prestataire.description_accueil"
@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="liste-prestataires" id="sponsors" v-if="filtreType === 'sponsors'">
-          <h2>Sponsors</h2>
+          <h2>{{ $t('pagePrincipaleTexts.sponsorsTitre') }}</h2>
           <div class="prestataires-row" v-for="row in getSponsorsRows()" :key="row[0].id_sponsor">
             <div v-for="sponsor in row" :key="sponsor.id_sponsor" class="prestataire-card">
               <CartePrestatairePerso :nom="sponsor.nom_sponsor" :description-accueil="sponsor.description_accueil"
@@ -50,13 +50,10 @@
     <div class="duck-section">
       <img :src="require('@/assets/parade_canards.jpg')" alt="Défilé des Canards" class="duck-image">
       <div class="duck-text">
-        <h3>Participez au Défilé des Canards !</h3>
+        <h3>{{ $t('pagePrincipaleTexts.participerDefile') }}</h3>
         <p>
-          Depuis les débuts du Festival des Canes, le Défilé des Canards a su se faire une place de choix 
-          parmi les moments les plus attendus. Chaque année, des passionnés inscrivent leurs canards, fièrement présentés avec leur nom, 
-          leur espèce et leur région d’origine. Donnez à votre canard l’occasion de défiler sous les projecteurs 
-          et de faire sensation. C’est l’occasion parfaite de mêler originalité, bonne humeur et un peu de compétition amicale.Alors, prêt à faire briller vos plumes ?
-          <router-link to="/inscription-canard" class="duck-link"> -> Inscrire un canard</router-link>
+          {{ $t('pagePrincipaleTexts.texteDefile') }}
+          <router-link to="/inscription-canard" class="duck-link">{{ $t('pagePrincipaleTexts.inscriptionCanardLink') }}</router-link>
         </p>
       </div>
    </div>

@@ -5,7 +5,7 @@
 
     <div class="signup">
       <form @submit.prevent="signUp" method="post">
-        <label class="title" for="chk" aria-hidden="true">Sign up</label>
+        <label class="title" for="chk" aria-hidden="true">{{ $t('signUpTexts.signup') }}</label>
 
         <div class="button-container">
           <button type="button" class="button-slide" id="slideButton" @click="toggleSlide()">
@@ -13,35 +13,35 @@
           </button>
         </div>
 
-        <input v-model="userName" type="text" name="txt" placeholder="User name" required="">
-        <input v-model="adresse" type="text" name="txt" placeholder="Adresse" required="">
-        <input v-model="login" type="email" name="email" placeholder="Email" required="">
-        <input v-model="tel" type="number" name="tel" placeholder="N° Télephone" required="" value="">
-        <input @input="checkPasswordStrength" v-model="password" :type="isPasswordVisible ? 'text' : 'password'" id="mdp" name="mdp" placeholder="Votre mot de passe" required >
+        <input v-model="userName" type="text" name="txt" :placeholder="$t('signUpTexts.userName')" required="">
+        <input v-model="adresse" type="text" name="txt" :placeholder="$t('signUpTexts.adresse')" required="">
+        <input v-model="login" type="email" name="email" :placeholder="$t('signUpTexts.email')" required="">
+        <input v-model="tel" type="number" name="tel" :placeholder="$t('signUpTexts.tel')" required="" value="">
+        <input @input="checkPasswordStrength" v-model="password" :type="isPasswordVisible ? 'text' : 'password'" id="mdp" name="mdp" :placeholder="$t('signUpTexts.password')" required >
         <div class="progress-bar">
           <div class="progress-fill" :style="{ width: strengthPercentage + '%', backgroundColor: strengthColor }"></div>
         </div>
         <button class="password-icon" type="button" @click="togglePasswordVisibility">
           <i :class="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
         </button>
-        <button class="submit" type="submit">Sign up</button>
+        <button class="submit" type="submit">{{$t('signUpTexts.signup')}}</button>
       </form>
     </div>
 
     <div class="login">
       <form @submit.prevent="connexion" method="POST" >
-        <label class="title" for="chk" aria-hidden="true">Login</label>
+        <label class="title" for="chk" aria-hidden="true">{{ $t('signUpTexts.login') }}</label>
 
         <label for="login">Email:</label>
-        <input v-model="login" type="text" id="login" name="login" placeholder="Votre login" required>
+        <input v-model="login" type="text" id="login" name="login" :placeholder="$t('signUpTexts.emailPlaceholder')" required>
 
         <label for="mdp">Mot de passe :</label>
-        <input v-model="password" :type="isPasswordVisible ? 'text' : 'password'" id="mdp" name="mdp" placeholder="Votre mot de passe" required>
+        <input v-model="password" :type="isPasswordVisible ? 'text' : 'password'" id="mdp" name="mdp" :placeholder="$t('signUpTexts.passwordPlaceholder')" required>
         <button class="password-icon" type="button" @click="togglePasswordVisibility">
           <i :class="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'"></i>
         </button>
 
-        <button class="submit" type="submit">Login</button>
+        <button class="submit" type="submit">{{$t('signUpTexts.login')}}</button>
       </form>
     </div>
   </div>

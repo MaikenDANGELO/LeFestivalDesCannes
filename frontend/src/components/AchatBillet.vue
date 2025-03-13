@@ -6,18 +6,12 @@
         class="reservation-image"
       />
       <div class="reservation-text">
-        <h3>Rejoignez le Festival des Canes !</h3>
-        <p>
-          Plongez dans l'ambiance festive de l'événement le plus attendu de l'année. 
-          Musique, animations, moments inoubliables et surtout... des canards! vous attendent. 
-          Assurez votre présence en achetant dès maintenant vos billets et partagez des instants magiques avec vos proches.
-        </p>
-        <p>
-          Les places sont limitées, alors n'attendez plus pour garantir votre entrée. 
-          Un festival unique vous ouvre ses portes !
-        </p>
+        <h3>{{ $t('pagePrincipaleTexts.titreBilletterie') }}</h3>
+        <p>{{ $t('pagePrincipaleTexts.texteBilletterie1') }}
+          {{ $t('pagePrincipaleTexts.texteBilletterie2') }}</p>
+        <p>{{ $t('pagePrincipaleTexts.texteBilletterie3') }}</p>
         <router-link to="/billeterie" class="reservation-button">
-          -> Acheter un billet
+          {{ $t('pagePrincipaleTexts.acheterBilletLink') }}
         </router-link>
       </div>
     </div>
