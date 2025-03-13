@@ -1,0 +1,22 @@
+export default {
+    enregistrerNouvelEmplacement: "Save a new location",
+    choisirIcone: "Choose location icon",
+    evenement: "Event",
+    pedalo: "Pedalo",
+    restaurant: "Restaurant",
+    peinture: "Painting",
+    stand: "Stand",
+    titreMigrez: "Migrate to us!",
+    texteMigrez1: "Fly to the Malsaucy peninsula, a famous protected location of the Eurockéennes, 7km north of Belfort!",
+    texteMigrez2: "These ponds will refresh both ducks and your day during your stay at the Festival des Canes.",
+    texteMigrez3: "Store your wings and take a free train, bus, or shuttle. Only 20 minutes from Belfort station, and 45 minutes from the TGV station, access the festival in an eco-friendly way with shuttles available on event days.",
+    texteMigrez4: "If you want to come by car, many parking spaces are available nearby, but we recommend using alternative transport modes to the car, even walking is better!",
+    informationsAcces: "Access Information",
+    adresse: "Address",
+    depuisGareTGV1: "From the Belfort-Montbéliard TGV station: ",
+    depuisGareTGV2: "Arrival at Belfort station by bus or shuttle in 25 minutes!",
+    depuisGareBelfort1: "From Belfort station: ",
+    depuisGareBelfort2: "Arrive at the festival in 20 minutes, then a 10-minute walk!",
+    depuisGareBelfort3: "Alternatively, take a 10-minute train ride to Bas-Évette station!",
+    vousEtesArrives: "You have arrived!"
+}

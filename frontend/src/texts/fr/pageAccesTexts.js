@@ -1,0 +1,22 @@
+export default {
+    enregistrerNouvelEmplacement: "Enregistrer un nouvel emplacement",
+    choisirIcone: "Choisir l'icone d'emplacement",
+    evenement: "Événement",
+    pedalo: "Pédalo",
+    restaurant: "Restaurant",
+    peinture: "Peinture",
+    stand: "Stand",
+    titreMigrez: "Migrez jusqu'à nous !",
+    texteMigrez1: "Faites votre envol jusqu'à la presqu'île du Malsaucy, célèbre emplacement protégé des Eurockéennes à 7km au nord de Belfort !",
+    texteMigrez2 : "Ces étangs sauront autant rafraîchir les canards que votre journée lors de votre séjour au Festival des Canes.",
+    texteMigrez3 : "Rangez vos ailes et prenez un train, un bus ou une navette gratuits. À seulement 20 minutes de la gare de Belfort, et 45 minutes de la gare TGV, accédez au festival de manière écologique grâce à la mise à disposition les jours de l'événement.",
+    texteMigrez4 : "Si vous souhaitez venir en voiture, de nombreux parkings sont à disposition à proximité, mais nous vous recommandons d'utiliser des modes de transport alternatifs à la voiture, même à pieds c'est mieux !",
+    informationsAcces: "Informations d'accès",
+    adresse: "Adresse",
+    depuisGareTGV1: "Depuis la gare TGV Belfort-Montbéliard : ",
+    depuisGareTGV2 : "Arrivée à la gare de Belfort en bus ou navette en 25 minutes !",
+    depuisGareBelfort1: "Depuis la gare de Belfort : ",
+    depuisGareBelfort2 : "Arrivée au festival en 20min puis 10min de marche !",
+    depuisGareBelfort3: " Sinon 10min en train jusqu'à la gare de Bas-Évette !",
+    vousEtesArrives: "Vous êtes arrivés !"
+}
