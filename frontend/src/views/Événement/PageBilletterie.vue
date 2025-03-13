@@ -1,102 +1,100 @@
 <template>
-    <div class="page-container">
+  <div class="page-container">
     <!-- Header avec image -->
     <div class="header-image-container">
       <div class="header-container">
         <div>
-          <h1 class="header-title">Billetterie</h1>
-          <p class="header-subtitle">Réservez vos places et vivez l'expérience unique du festival !</p>
+          <h1 class="header-title">{{ $t('billeterieTexts.titre') }}</h1>
+          <p class="header-subtitle">{{ $t('billeterieTexts.sousTitre') }}</p>
         </div>
       </div>
     </div>
 
-  <form v-if="currentStep === 1" @submit.prevent="goToPayment" class="form-container" method="POST">
-    <img src="../../assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
-    <h2>Réservation de Billet</h2>
+    <form v-if="currentStep === 1" @submit.prevent="goToPayment" class="form-container" method="POST">
+      <img src="../../assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
+      <h2>{{ $t('billeterieTexts.reservationTitre') }}</h2>
 
-    <div class="form-group">
-      <label for="firstName">Prénom :</label>
-      <input v-model="form.firstName" type="text" id="firstName" name="firstName" placeholder="Votre prénom" required>
-    </div>
+      <div class="form-group">
+        <label for="firstName">{{ $t('billeterieTexts.prenom') }} :</label>
+        <input v-model="form.firstName" type="text" id="firstName" name="firstName" :placeholder="$t('billeterieTexts.prenomPlaceholder')" required>
+      </div>
 
-    <div class="form-group">
-      <label for="lastName">Nom :</label>
-      <input v-model="form.lastName" type="text" id="lastName" name="lastName" placeholder="Votre nom" required>
-    </div>
+      <div class="form-group">
+        <label for="lastName">{{ $t('billeterieTexts.nom') }} :</label>
+        <input v-model="form.lastName" type="text" id="lastName" name="lastName" :placeholder=" $t('billeterieTexts.nomPlaceholder') " required>
+      </div>
 
-    <div class="form-group">
-      <label for="email">Email :</label>
-      <input v-model="form.email" type="email" id="email" name="email" placeholder="Votre email" required>
-    </div>
+      <div class="form-group">
+        <label for="email">{{ $t('billeterieTexts.email') }} :</label>
+        <input v-model="form.email" type="email" id="email" name="email" :placeholder="$t('billeterieTexts.emailPlaceholder')" required>
+      </div>
 
-    <div class="form-group" v-for="(ticket, index) in form.tickets" :key="index">
-      <label for="type">Type de billet :</label>
-      <select id="type" v-model="ticket.type" required>
-        <option value="">-- Sélectionnez le type de billet --</option>
-        <option value="adulte">Adulte - 10€</option>
-        <option value="enfant">Enfant - 5€</option>
-        <option value="senior">Senior - 7€</option>
-      </select>
+      <div class="form-group" v-for="(ticket, index) in form.tickets" :key="index">
+        <label for="type">{{ $t('billeterieTexts.typeBillet') }} :</label>
+        <select id="type" v-model="ticket.type" required>
+          <option value="">{{ $t('billeterieTexts.selectType') }}</option>
+          <option value="adulte">{{ $t('billeterieTexts.adulte') }} - 10€</option>
+          <option value="enfant">{{ $t('billeterieTexts.enfant') }} - 5€</option>
+          <option value="senior">{{ $t('billeterieTexts.senior') }} - 7€</option>
+        </select>
 
-      <label for="ticketQuantity">Nombre de billets :</label>
-      <input id="ticketQuantity" v-model="ticket.quantity" type="number" placeholder="Nombre de billets" min="1" max="10" required>
+        <label for="ticketQuantity">{{ $t('billeterieTexts.quantiteBillet') }} :</label>
+        <input id="ticketQuantity" v-model="ticket.quantity" type="number" :placeholder="$t('billeterieTexts.quantiteBilletPlaceholder')" min="1" max="10" required>
 
-      <button type="button" @click="removeTicket(index)">Supprimer ce type de billet</button>
-    </div>
+        <button type="button" @click="removeTicket(index)">{{ $t('billeterieTexts.supprimerBillet') }}</button>
+      </div>
 
-    <button type="button" @click="addTicket">Ajouter un type de billet</button>
+      <button type="button" @click="addTicket">{{ $t('billeterieTexts.ajouterBillet') }}</button>
 
-    <div class="form-group">
-      <p><strong>Total: {{ totalForm }} €</strong></p>
-    </div>
+      <div class="form-group">
+        <p><strong>{{ $t('billeterieTexts.total') }}: {{ totalForm }} €</strong></p>
+      </div>
 
-    <button type="submit">Passer au paiement</button>
-    <p>{{Message}}</p>
+      <button type="submit">{{ $t('billeterieTexts.passerPaiement') }}</button>
+      <p>{{Message}}</p>
 
-    <div v-if="orderSummary">
-      <h2>Récapitulatif de la commande</h2>
-      <p><strong>Prénom :</strong> {{ recap.firstName }}</p>
-      <p><strong>Nom :</strong> {{ recap.lastName }}</p>
-      <p><strong>Email :</strong> {{ recap.email }}</p>
-      <h3>Billets :</h3>
-      <ul>
-        <li v-for="(ticket, index) in recap.tickets" :key="index">
-          {{ ticket.quantity }} x {{ ticket.type }} ({{ ticket.type === 'adulte' ? '10€' : ticket.type === 'enfant' ? '5€' : '7€' }} par billet)
-        </li>
-      </ul>
-      <p><strong>Total :</strong> {{ totalRecap }} €</p>
-    </div>
-  </form>
+      <div v-if="orderSummary">
+        <h2>{{ $t('billeterieTexts.recapitulatifCommande') }}</h2>
+        <p><strong>{{ $t('billeterieTexts.prenom') }} :</strong> {{ recap.firstName }}</p>
+        <p><strong>{{ $t('billeterieTexts.nom') }} :</strong> {{ recap.lastName }}</p>
+        <p><strong>{{ $t('billeterieTexts.email') }} :</strong> {{ recap.email }}</p>
+        <h3>{{ $t('billeterieTexts.billets') }} :</h3>
+        <ul>
+          <li v-for="(ticket, index) in recap.tickets" :key="index">
+            {{ ticket.quantity }} x {{ ticket.type }} ({{ ticket.type === 'adulte' ? '10€' : ticket.type === 'enfant' ? '5€' : '7€' }} par billet)
+          </li>
+        </ul>
+        <p><strong>{{ $t('billeterieTexts.total') }} :</strong> {{ totalRecap }} €</p>
+      </div>
+    </form>
 
+    <form v-else-if="currentStep === 2" @submit.prevent="processPayment" class="form-container">
+      <h2>{{ $t('billeterieTexts.paiementTitre') }}</h2>
 
+      <div class="form-group">
+        <label for="cardNumber">{{ $t('billeterieTexts.numCarte') }} :</label>
+        <input v-model="payment.cardNumber" type="text" id="cardNumber" pattern="\d{16,}" :placeholder="$t('billeterieTexts.numCartePlaceholder')" required>
+      </div>
 
-  <form v-else-if="currentStep === 2" @submit.prevent="processPayment" class="form-container">
-    <h2>Paiement</h2>
+      <div class="form-group">
+        <label for="expirationDate">{{ $t('billeterieTexts.dateExpiration') }} :</label>
+        <input v-model="payment.expirationDate" type="text" id="expirationDate"  pattern="^(0[1-9]|1[0-2])\/\d{2}$" placeholder="MM/AA" required>
+      </div>
 
-    <div class="form-group">
-      <label for="cardNumber">Numéro de carte :</label>
-      <input v-model="payment.cardNumber" type="text" id="cardNumber" pattern="\d{16,}" placeholder="Numéro de carte" required>
-    </div>
+      <div class="form-group">
+        <label for="cvv">{{ $t('billeterieTexts.cvv') }} :</label>
+        <input v-model="payment.cvv" type="text" id="cvv" :placeholder="$t('billeterieTexts.cvvPlaceholder')" required>
+      </div>
 
-    <div class="form-group">
-      <label for="expirationDate">Date d'expiration :</label>
-      <input v-model="payment.expirationDate" type="text" id="expirationDate"  pattern="^(0[1-9]|1[0-2])\/\d{2}$" placeholder="MM/AA" required>
-    </div>
+      <div class="form-group">
+        <p><strong>{{ $t('billeterieTexts.totalAPayer') }} : {{ totalForm }} €</strong></p>
+      </div>
 
-    <div class="form-group">
-      <label for="cvv">CVV :</label>
-      <input v-model="payment.cvv" type="text" id="cvv" placeholder="CVV" required>
-    </div>
-
-    <div class="form-group">
-      <p><strong>Total à payer : {{ totalForm }} €</strong></p>
-    </div>
-
-    <button type="submit">Payer</button>
-  </form>
-    </div>
-
+      <button type="submit">{{ $t('billeterieTexts.payer') }}</button>
+    </form>
+  </div>
 </template>
+
 
 <script>
 import LocalSource from "@/datasource/controller";
