@@ -5,11 +5,11 @@
             <button v-if="isEditingLocation" @click="confirmNewLocation">Enregistrer un nouvel emplacement</button>
             <select v-if="isEditingLocation" id="browsers" v-model="chosenIcon">
                 <option value="">Choisir l'icone d'emplacement</option>
-                <option value="evenement">Evenement</option>
-                <option value="pedalo">Pedalo</option>
-                <option value="restaurant">Restaurant</option>
-                <option value="peinture">Peinture</option>
-                <option value="stand">Stand</option>
+                <option value="evenement">{{ $t('pageAccesTexts.evenement') }}</option>
+                <option value="pedalo">{{ $t('pageAccesTexts.pedalo') }}</option>
+                <option value="restaurant">{{ $t('pageAccesTexts.restaurant') }}</option>
+                <option value="peinture">{{ $t('pageAccesTexts.peinture') }}</option>
+                <option value="stand">{{ $t('pageAccesTexts.stand') }}</option>
             </select>
         </div>
         <div class="texte-container">
