@@ -1,47 +1,45 @@
 <template>
-    <div>
-        <div class="slide-container">
-            <div class="custom-slider fade" style="display: block;">
-                <div class="slide-index">1 / 3</div>
-                <img class="slide-img" src="../assets/banniere.jpg">
-            </div>
-            <div class="custom-slider fade">
-                <div class="slide-index">2 / 3</div>
-                <img class="slide-img" src="../assets/canardCine.jpg">
-            </div>
-            <div class="custom-slider fade">
-                <div class="slide-index">3 / 3</div>
-                <img class="slide-img" src="../assets/lacMalsaucy.jpg">
-            </div>
-            <a class="prev" @click="plusSlides(-1)">❮</a>
-            <a class="next" @click="plusSlides(1)">❯</a>
-        </div>
-        <div class="slide-dot" @load="currentSlide(1)">
-            <span class="dot active" @click="currentSlide(1)"></span>
-            <span class="dot" @click="currentSlide(2)"></span>
-            <span class="dot" @click="currentSlide(3)"></span>
-        </div>
-        <div style="margin: 1% 10% 1% 10%;">
-            <div style="display: flex; flex-direction: row;">
-                <div class="welcome-text">
-                        <h1>Le Festival Des Canes</h1>
-                        <h2>Célébrons les canes sans se voler dans les plumes !</h2>
-                        <p>
-                        Le Festival Des Canes est un événement unique qui se déroule chaque année le 1er septembre 
-                        au lac du Malsaucy, site du festival des Eurockéennes, pour célébrer la Fête du Canard. 
-                        Des sorties en famille aux passionnés d'ornithologie, ce festival rend hommage aux canes sous toutes leurs formes. 
-                        Venez partager un moment convivial en pleine nature et plonger dans le monde des volatiles sauvages !
-                        </p>
-                </div>
-                <br>
-                <div style="width: 250rem; padding-left: 3%;">
-                    <TempsRestant></TempsRestant>
-                </div>
-            </div>
+  <div>
+    <div class="slide-container">
+      <div class="custom-slider fade" style="display: block;">
+        <div class="slide-index">1 / 3</div>
+        <img class="slide-img" src="../assets/banniere.jpg">
+      </div>
+      <div class="custom-slider fade">
+        <div class="slide-index">2 / 3</div>
+        <img class="slide-img" src="../assets/canardCine.jpg">
+      </div>
+      <div class="custom-slider fade">
+        <div class="slide-index">3 / 3</div>
+        <img class="slide-img" src="../assets/lacMalsaucy.jpg">
+      </div>
+      <a class="prev" @click="plusSlides(-1)">❮</a>
+      <a class="next" @click="plusSlides(1)">❯</a>
+    </div>
+    <div class="slide-dot" @load="currentSlide(1)">
+      <span class="dot active" @click="currentSlide(1)"></span>
+      <span class="dot" @click="currentSlide(2)"></span>
+      <span class="dot" @click="currentSlide(3)"></span>
+    </div>
+    <div style="margin: 1% 10% 1% 10%;">
+      <div style="display: flex; flex-direction: row;">
+        <div class="welcome-text">
+          <h1>{{ $t('banniereAccueilTexts.title') }}</h1>
+          <h2>{{ $t('banniereAccueilTexts.subtitle') }}</h2>
+          <p>
+            {{ $t('banniereAccueilTexts.description') }}
+          </p>
         </div>
         <br>
+        <div style="width: 250rem; padding-left: 3%;">
+          <TempsRestant></TempsRestant>
+        </div>
+      </div>
     </div>
+    <br>
+  </div>
 </template>
+
 
 <script>
 import TempsRestant from "@/components/TempsRestant.vue";

@@ -1,78 +1,77 @@
 <template>
   <body>
-    <div class="main">
-      <div class="formulaire-evenement">
-        <h2 class="title">Formulaire Prestataire</h2>
-        <form @submit.prevent="submitForm">
-          <!-- Champ Nom -->
-          <div>
-            <label for="nom">Nom :</label>
-            <input v-model="event.nom" id="nom" type="text" required />
+  <div class="main">
+    <div class="formulaire-evenement">
+      <h2 class="title">{{ $t('prestataireTexts.title') }}</h2>
+      <form @submit.prevent="submitForm">
+        <!-- Champ Nom -->
+        <div>
+          <label for="nom">{{ $t('prestataireTexts.nom') }}</label>
+          <input v-model="event.nom" id="nom" type="text" required />
+        </div>
+
+        <!-- Champ Description -->
+        <div>
+          <label for="description">{{ $t('prestataireTexts.description') }}</label>
+          <textarea v-model="event.description" id="description" required></textarea>
+        </div>
+
+        <!-- Champ Description d'accueil -->
+        <div>
+          <label for="description_accueil">{{ $t('prestataireTexts.descriptionAccueil') }}</label>
+          <textarea v-model="event.description_accueil" id="description_accueil" required></textarea>
+        </div>
+
+        <!-- Champ Catégorie -->
+        <div>
+          <label for="categorie">{{ $t('prestataireTexts.categorie') }}</label>
+          <input v-model="event.categorie" id="categorie" type="text" required />
+        </div>
+
+        <!-- Champ ID Emplacement -->
+        <div>
+          <label for="id_emplacement">{{ $t('prestataireTexts.idEmplacement') }}</label>
+          <input v-model="event.id_emplacement" id="id_emplacement" type="text" required />
+        </div>
+
+        <!-- Champ Image -->
+        <div>
+          <label for="image">{{ $t('prestataireTexts.image') }}</label>
+          <input type="file" id="image" @change="handleFileUpload" accept=".png, .jpeg, .jpg"/>
+        </div>
+        <div v-if="previewImage">
+          <img :src="previewImage" :alt="$t('prestataireTexts.previewImageAlt')" style="max-width: 100%; margin-top: 10px;" />
+        </div>
+
+        <!-- Section Services -->
+        <div class="services-section">
+          <h3 class="underTitle">{{ $t('prestataireTexts.servicesSectionTitle') }}</h3>
+          <div v-for="(service, index) in event.services" :key="service.id_service" class="service">
+            <label>{{ $t('prestataireTexts.nomService') }}</label>
+            <input v-model="service.nom_service" type="text" required />
+
+            <label>{{ $t('prestataireTexts.descriptionService') }}</label>
+            <input v-model="service.description_service" type="text" required />
+
+            <label>{{ $t('prestataireTexts.lienService') }}</label>
+            <input v-model="service.lien_service" type="text" required />
+
+            <label>{{ $t('prestataireTexts.statutService') }}</label>
+            <select v-model="service.statut_service" required>
+              <option value="actif">{{ $t('prestataireTexts.statutActif') }}</option>
+              <option value="inactif">{{ $t('prestataireTexts.statutInactif') }}</option>
+            </select>
+
+            <button @click="removeService(index)" type="button" class="service-button">{{ $t('prestataireTexts.supprimerService') }}</button>
           </div>
+          <button type="button" @click="addService" class="add-service-button">{{ $t('prestataireTexts.ajouterService') }}</button>
+        </div>
 
-          <!-- Champ Description -->
-          <div>
-            <label for="description">Description :</label>
-            <textarea v-model="event.description" id="description" required></textarea>
-          </div>
-
-          <!-- Champ Description d'accueil -->
-          <div>
-            <label for="description_accueil">Description Accueil :</label>
-            <textarea v-model="event.description_accueil" id="description_accueil" required></textarea>
-          </div>
-
-          <!-- Champ Catégorie -->
-          <div>
-            <label for="categorie">Catégorie :</label>
-            <input v-model="event.categorie" id="categorie" type="text" required />
-          </div>
-
-          <!-- Champ ID Emplacement -->
-          <div>
-            <label for="id_emplacement">ID Emplacement :</label>
-            <input v-model="event.id_emplacement" id="id_emplacement" type="text" required />
-          </div>
-
-
-          <!-- Champ Image -->
-          <div>
-            <label for="image">Image :</label>
-            <input type="file" id="image" @change="handleFileUpload" accept=".png, .jpeg, .jpg"/>
-          </div>
-          <div v-if="previewImage">
-            <img :src="previewImage" alt="Prévisualisation de l'image" style="max-width: 100%; margin-top: 10px;" />
-          </div>
-
-          <!-- Section Services -->
-          <div class="services-section">
-            <h3 class="underTitle">Services:</h3>
-            <div v-for="(service, index) in event.services" :key="service.id_service" class="service">
-              <label>Nom du Service :</label>
-              <input v-model="service.nom_service" type="text" required />
-
-              <label>Description du Service :</label>
-              <input v-model="service.description_service" type="text" required />
-
-              <label>Lien du Service :</label>
-              <input v-model="service.lien_service" type="text" required />
-
-              <label>Statut du Service :</label>
-              <select v-model="service.statut_service" required>
-                <option value="actif">Actif</option>
-                <option value="inactif">Inactif</option>
-              </select>
-
-              <button @click="removeService(index)" type="button" class="service-button">Supprimer le Service</button>
-            </div>
-            <button type="button" @click="addService" class="add-service-button">Ajouter un Service</button>
-          </div>
-
-          <!-- Bouton de Soumission -->
-          <button type="submit" class="submit-button">Soumettre</button>
-        </form>
-      </div>
+        <!-- Bouton de Soumission -->
+        <button type="submit" class="submit-button">{{ $t('prestataireTexts.soumettre') }}</button>
+      </form>
     </div>
+  </div>
   </body>
 </template>
 

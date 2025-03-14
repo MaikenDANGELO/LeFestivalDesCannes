@@ -5,8 +5,9 @@ import pagePrincipaleTexts from "@/texts/fr/pagePrincipaleTexts";
 import billeterieTexts from "@/texts/fr/billeterieTexts";
 import inscriptionCanardTexts from "@/texts/fr/inscriptionCanardTexts";
 import pageProfilTexts from "@/texts/fr/pageProfilTexts";
-
-
+import banniereAccueilTexts from "@/texts/fr/banniereAccueilTexts";
+import carteInterractiveTexts from "@/texts/fr/carteInterractiveTexts";
+import prestataireTexts from "@/texts/fr/prestataireTexts";
 export default {
     appTexts,
     pageAccesTexts,
@@ -14,5 +15,8 @@ export default {
     pagePrincipaleTexts,
     billeterieTexts,
     inscriptionCanardTexts,
-    pageProfilTexts
+    pageProfilTexts,
+    banniereAccueilTexts,
+    carteInterractiveTexts,
+    prestataireTexts
 }

@@ -1,5 +1,5 @@
 export default {
-    changerLangue: "Change the language",
+    changerLangue: "🇬🇧",
     prestataires: "Providers",
     associations: "Associations",
     billetterie: "Ticketing",
@@ -9,5 +9,8 @@ export default {
     pageAdmin: "Admin Page",
     pagePrestataire: "Provider Page",
     profil: "Profile",
-    deconnexion: "Logout"
+    deconnexion: "Logout",
+    acceder : "Access",
+    dateDebut : "September 1st 2025",
+    debut : "Event begins in : "
 }

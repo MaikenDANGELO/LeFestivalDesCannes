@@ -8,7 +8,7 @@
         <p>{{ descriptionAccueil }}</p>
       </div>
       <router-link :to="persPageRoute">
-          <button class="prestataire-btn">Accéder</button>
+          <button class="prestataire-btn">{{$t('appTexts.acceder')}}</button>
       </router-link>
     </div>
   </template>

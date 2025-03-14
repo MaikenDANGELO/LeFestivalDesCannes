@@ -1,8 +1,8 @@
 <template>
   <body>
     <div id="chrono">
-      <p>1er Septembre 2025</p>
-      <p>Début de l'événement: </p>
+      <p>{{$t("appTexts.dateDebut")}}</p>
+      <p>{{$t("appTexts.debut")}}</p>
       <div class="chrono">
         <strong>{{chrono}}</strong>
       </div>
@@ -13,6 +13,9 @@
 </template>
 
 <script>
+
+import {mapState} from "vuex";
+
 export default {
   name: "TempsRestant",
   data(){
@@ -20,6 +23,9 @@ export default {
       chrono: '',
       dateEvenement: new Date(2025, 10, 1)
     }
+  },
+  computed : {
+    ...mapState('langue', ['currentLanguage']),
   },
   methods:{
     calculChrono(){
@@ -29,9 +35,13 @@ export default {
       let minutes = Math.floor((differenceMs % (1000 * 60 * 60)) / (1000 * 60));
       let secondes = Math.floor((differenceMs % (1000 * 60)) / 1000);
 
-
-      if (jours === 0) this.chrono = `${heures} heures, ${minutes} minutes, ${secondes} secondes`;
-      else this.chrono = `${jours} jours, ${heures} heures, ${minutes} minutes`;
+      if(this.currentLanguage === "en"){
+        if (jours === 0) this.chrono = `${heures} hours, ${minutes} minutes, ${secondes} seconds`;
+        else this.chrono = `${jours} days, ${heures} hours, ${minutes} minutes`;
+      }else {
+        if (jours === 0) this.chrono = `${heures} heures, ${minutes} minutes, ${secondes} secondes`;
+        else this.chrono = `${jours} jours, ${heures} heures, ${minutes} minutes`;
+      }
     }
   },
   created() {
