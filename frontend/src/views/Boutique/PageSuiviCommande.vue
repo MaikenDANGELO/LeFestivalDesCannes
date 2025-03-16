@@ -1,16 +1,16 @@
 <template>
     <div class="suivi-container">
-      <h1 class="suivi-title">📦 Suivi de votre commande</h1>
-  
+      <h1 class="suivi-title">{{ $t('suiviTexts.suiviCommande') }}</h1>
+
       <div class="progress-container">
         <div class="progress-bar">
           <div class="progress" :style="{ width: progressWidth }"></div>
         </div>
-  
+
         <div class="etapes">
           <div v-for="(etape, index) in etapes" :key="index" class="etape">
-            <div 
-              class="etape-icon" 
+            <div
+              class="etape-icon"
               :class="{ active: index <= etapeActuelle }"
             >
               {{ etape.emoji }}
@@ -19,36 +19,51 @@
           </div>
         </div>
       </div>
-  
+
       <div class="status-message">
         <h2>{{ etapes[etapeActuelle].message }}</h2>
       </div>
-  
-      <button class="btn-retour" @click="retourAccueil">🏠 Retour à l'accueil</button> 
+
+      <button class="btn-retour" @click="retourAccueil">{{ $t('suiviTexts.retourAccueil') }}</button>
     </div>
   </template>
 
 <script>
+import {mapState} from "vuex";
+
 export default {
   name: "PageSuiviCommande",
   data() {
     return {
       etapeActuelle: 0, // Étape actuelle de la commande
-      etapes: [
-        { nom: "Commande confirmée", emoji: "✅", message: "Votre commande a été confirmée." },
-        { nom: "Préparation", emoji: "👨‍🍳", message: "Votre commande est en cours de préparation." },
-        { nom: "Expédition", emoji: "🚚", message: "Votre colis a été expédié." },
-        { nom: "En livraison", emoji: "📍", message: "Votre commande est en route vers chez vous." },
-        { nom: "Livrée", emoji: "🎁", message: "Votre commande a été livrée ! 🎉" }
-      ],
+      etapes : [],
+
     };
   },//ça aussi je vais mettre dans datasource après.
   computed: {
+    ...mapState('langue', ['currentLanguage']),
     progressWidth() {
       return `${(this.etapeActuelle / (this.etapes.length - 1)) * 100}%`;
     }
   },
   mounted() {
+    if(this.currentLanguage === "en"){
+      this.etapes = [
+        { nom: "Order confirmed", emoji: "✅", message: "Your order has been confirmed." },
+        { nom: "Preparation", emoji: "👨‍🍳", message: "Your order is being prepared." },
+        { nom: "Shipping", emoji: "🚚", message: "Your package has been shipped." },
+        { nom: "In delivery", emoji: "📍", message: "Your order is on its way to you." },
+        { nom: "Delivered", emoji: "🎁", message: "Your order has been delivered! 🎉" }
+      ]
+    }else{
+      this.etapes= [
+        { nom: "Commande confirmée", emoji: "✅", message: "Votre commande a été confirmée." },
+        { nom: "Préparation", emoji: "👨‍🍳", message: "Votre commande est en cours de préparation." },
+        { nom: "Expédition", emoji: "🚚", message: "Votre colis a été expédié." },
+        { nom: "En livraison", emoji: "📍", message: "Votre commande est en route vers chez vous." },
+        { nom: "Livrée", emoji: "🎁", message: "Votre commande a été livrée ! 🎉" }
+      ]
+    }
     this.simulerSuiviCommande();
   },
   methods: {

@@ -1,43 +1,43 @@
 <template>
   <div class="details-container">
-    <h1 class="details-title">✨ Découvrez notre produit exclusif !</h1>
+    <h1 class="details-title">{{ $t('boutiqueTexts.decouvrezProduit') }}</h1>
 
     <div class="details-content">
       <img
-        class="details-image"
-        :src="require(`@/assets/Boutique/${article.categorie}/${article.image}`)"
-        :alt="article.nom"
+          class="details-image"
+          :src="require(`@/assets/Boutique/${article.categorie}/${article.image}`)"
+          :alt="article.nom"
       />
 
       <div class="details-info">
         <h2 class="details-name">{{ article.nom }}</h2>
         <p class="details-category">
-          <strong>Catégorie :</strong> {{ categoriesLabels[article.categorie] }}
+          <strong>{{ $t('boutiqueTexts.categorie') }}</strong> {{ categoriesLabels[article.categorie] }}
         </p>
         <p class="details-description">{{ article.description }}</p>
         <p class="details-stock">
-          <strong>Stock disponible :</strong> {{ article.stock }}
+          <strong>{{ $t('boutiqueTexts.stockDisponible') }}</strong> {{ article.stock }}
         </p>
-        <p class="details-price"><strong>Prix :</strong> {{ article.prix }}€</p>
+        <p class="details-price"><strong>{{ $t('boutiqueTexts.prix') }}</strong> {{ article.prix }}€</p>
 
         <div v-if="article.couleurs && article.couleurs.length">
-          <h3>Couleurs disponibles :</h3>
+          <h3>{{ $t('boutiqueTexts.couleursDisponibles') }}</h3>
           <div class="color-options">
             <span
-              v-for="couleur in article.couleurs"
-              :key="couleur"
-              class="color-circle"
-              :style="{ backgroundColor: couleur }"
+                v-for="couleur in article.couleurs"
+                :key="couleur"
+                class="color-circle"
+                :style="{ backgroundColor: couleur }"
             ></span>
           </div>
         </div>
 
         <div v-if="article.tailles && article.tailles.length">
-          <h3>Tailles disponibles :</h3>
+          <h3>{{ $t('boutiqueTexts.taillesDisponibles') }}</h3>
           <p class="details-sizes">{{ article.tailles.join(", ") }}</p>
         </div>
 
-        <button class="btn-add" @click="ajouterAuPanier(article)">Ajouter au panier 🛒</button>
+        <button class="btn-add" @click="ajouterAuPanier(article)">{{ $t('boutiqueTexts.ajouterAuPanier') }}</button>
       </div>
     </div>
 
@@ -46,6 +46,7 @@
     </div>
   </div>
 </template>
+
 
 <script>
 import { mapState, mapActions } from "vuex";

@@ -1,34 +1,35 @@
 <template>
   <div>
     <div class="disabledShopView" v-if="!shopStatus && utilisateur.role!='admin'">
-        <h1>BOUTIQUE FERMÉE</h1>
-        <h2>Revenez plus tard</h2>
-      </div>
+      <h1>{{ $t('boutiqueTexts.boutiqueFermee') }}</h1>
+      <h2>{{ $t('boutiqueTexts.revenezPlusTard') }}</h2>
+    </div>
     <div class="boutique-container">
       <div class="adminToggle" v-if="utilisateur.role=='admin'">
-        <button @click="ToggleBoutique">Activer/Désactiver la boutique</button>
-        <p>Status: {{shopStatus ? "Activée": "Désactivée"}}</p>
+        <button @click="ToggleBoutique">{{ $t('boutiqueTexts.toggleBoutique') }}</button>
+        <p>{{ $t('boutiqueTexts.status') }}: {{ shopStatus ? $t('boutiqueTexts.activee') : $t('boutiqueTexts.desactivee') }}</p>
       </div>
-    <h1 class="boutique-title">🎁 Boutique Goodies 🎥</h1>
-    <p class="boutique-subtitle">Découvrez les articles exclusifs du Festival de Cannes !</p>
+      <h1 class="boutique-title">{{ $t('boutiqueTexts.titre') }}</h1>
+      <p class="boutique-subtitle">{{ $t('boutiqueTexts.sousTitre') }}</p>
 
-    <div v-for="(goodies, categorie) in groupedGoodies" :key="categorie" class="boutique-section">
-      <h2 class="boutique-section-title">{{ categoriesLabels[categorie] }}</h2>
-      <div class="goodies-list">
-        <div class="goodie-item" v-for="goodie in goodies" :key="goodie.id">
-          <router-link :to="'/boutique/article/' + goodie.id">
-            <img class="goodie-image" :src="require(`@/assets/Boutique/${goodie.categorie}/${goodie.image}`)" :alt="goodie.nom" />
-          </router-link>
-          <h3 class="goodie-name">{{ goodie.nom }}</h3>
-          <p class="goodie-price">{{ goodie.prix }}€</p>
+      <div v-for="(goodies, categorie) in groupedGoodies" :key="categorie" class="boutique-section">
+        <h2 class="boutique-section-title">{{ categoriesLabels[categorie] }}</h2>
+        <div class="goodies-list">
+          <div class="goodie-item" v-for="goodie in goodies" :key="goodie.id">
+            <router-link :to="'/boutique/article/' + goodie.id">
+              <img class="goodie-image" :src="require(`@/assets/Boutique/${goodie.categorie}/${goodie.image}`)" :alt="goodie.nom" />
+            </router-link>
+            <h3 class="goodie-name">{{ goodie.nom }}</h3>
+            <p class="goodie-price">{{ goodie.prix }}€</p>
+          </div>
         </div>
       </div>
     </div>
-    </div>
   </div>
 </template>
-  
-  <script>
+
+
+<script>
   import { mapActions, mapState } from "vuex";
   import prestataireServices from "@/services/prestataires.service"
   

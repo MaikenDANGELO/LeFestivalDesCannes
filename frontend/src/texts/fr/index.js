@@ -8,6 +8,8 @@ import pageProfilTexts from "@/texts/fr/pageProfilTexts";
 import banniereAccueilTexts from "@/texts/fr/banniereAccueilTexts";
 import carteInterractiveTexts from "@/texts/fr/carteInterractiveTexts";
 import prestataireTexts from "@/texts/fr/prestataireTexts";
+import boutiqueTexts from "@/texts/fr/boutiqueTexts";
+import pagePrestaTexts from "@/texts/fr/pagePrestaTexts";
 export default {
     appTexts,
     pageAccesTexts,
@@ -18,5 +20,7 @@ export default {
     pageProfilTexts,
     banniereAccueilTexts,
     carteInterractiveTexts,
-    prestataireTexts
+    prestataireTexts,
+    boutiqueTexts,
+    pagePrestaTexts
 }

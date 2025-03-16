@@ -1,10 +1,10 @@
 <template>
     <div class="menu-container">
-      <h1 class="menu-title">Menu du Restaurant Le Gourmet</h1>
-  
+      <h1 class="menu-title">{{ $t('pagePrestaTexts.menuRestau') }}</h1>
+
       <!-- Section Plats -->
       <section class="menu-section">
-        <h2 class="menu-section-title">Plats</h2>
+        <h2 class="menu-section-title">{{ $t('pagePrestaTexts.plats') }}</h2>
         <div class="menu-items">
           <div v-for="plat in menuData.plats" :key="plat.id" class="menu-item">
             <img :src="require(`@/assets/menu/${plat.image}`)" :alt="plat.nom" class="menu-item-image" />
@@ -12,15 +12,15 @@
               <h3 class="menu-item-title">{{ plat.nom }}</h3>
               <p class="menu-item-description">{{ plat.description }}</p>
               <p class="menu-item-price">{{ plat.prix }} €</p>
-              <button class="menu-item-button" @click="ajouterAuPanier(plat)">Ajouter au panier</button>
+              <button class="menu-item-button" @click="ajouterAuPanier(plat)">{{ $t('pagePrestaTexts.ajouterPanier') }}</button>
             </div>
           </div>
         </div>
       </section>
-  
+
       <!-- Section Boissons -->
       <section class="menu-section">
-        <h2 class="menu-section-title">Boissons</h2>
+        <h2 class="menu-section-title">{{ $t('pagePrestaTexts.boissons') }}</h2>
         <div class="menu-items">
           <div v-for="boisson in menuData.boissons" :key="boisson.id" class="menu-item">
             <img :src="require(`@/assets/menu/${boisson.image}`)" :alt="boisson.nom" class="menu-item-image" />
@@ -28,15 +28,15 @@
               <h3 class="menu-item-title">{{ boisson.nom }}</h3>
               <p class="menu-item-description">{{ boisson.description }}</p>
               <p class="menu-item-price">{{ boisson.prix }} €</p>
-              <button class="menu-item-button" @click="ajouterAuPanier(boisson)">Ajouter au panier</button>
+              <button class="menu-item-button" @click="ajouterAuPanier(boisson)">{{ $t('pagePrestaTexts.ajouterPanier') }}</button>
             </div>
           </div>
         </div>
       </section>
-  
+
       <!-- Section Desserts -->
       <section class="menu-section">
-        <h2 class="menu-section-title">Desserts</h2>
+        <h2 class="menu-section-title">{{ $t('pagePrestaTexts.desserts') }}</h2>
         <div class="menu-items">
           <div v-for="dessert in menuData.desserts" :key="dessert.id" class="menu-item">
             <img :src="require(`@/assets/menu/${dessert.image}`)" :alt="dessert.nom" class="menu-item-image" />
@@ -44,15 +44,15 @@
               <h3 class="menu-item-title">{{ dessert.nom }}</h3>
               <p class="menu-item-description">{{ dessert.description }}</p>
               <p class="menu-item-price">{{ dessert.prix }} €</p>
-              <button class="menu-item-button" @click="ajouterAuPanier(dessert)">Ajouter au panier</button>
+              <button class="menu-item-button" @click="ajouterAuPanier(dessert)">{{ $t('pagePrestaTexts.ajouterPanier') }}</button>
             </div>
           </div>
         </div>
       </section>
-  
+
       <!-- Section Menus Enfants -->
       <section class="menu-section">
-        <h2 class="menu-section-title">Menus Enfants</h2>
+        <h2 class="menu-section-title">{{ $t('pagePrestaTexts.menuEnfants') }}</h2>
         <div class="menu-items">
           <div v-for="menuEnfant in menuData.menusEnfants" :key="menuEnfant.id" class="menu-item">
             <img :src="require(`@/assets/menu/${menuEnfant.image}`)" :alt="menuEnfant.nom" class="menu-item-image" />
@@ -60,28 +60,28 @@
               <h3 class="menu-item-title">{{ menuEnfant.nom }}</h3>
               <p class="menu-item-description">{{ menuEnfant.description }}</p>
               <p class="menu-item-price">{{ menuEnfant.prix }} €</p>
-              <button class="menu-item-button" @click="ajouterAuPanier(menuEnfant)">Ajouter au panier</button>
+              <button class="menu-item-button" @click="ajouterAuPanier(menuEnfant)">{{ $t('pagePrestaTexts.ajouterPanier') }}</button>
             </div>
           </div>
         </div>
       </section>
-  
+
       <!-- Panier -->
       <aside class="panier-container">
-        <h2 class="panier-title">Votre Panier</h2>
+        <h2 class="panier-title">{{ $t('pagePrestaTexts.votrePanier') }}</h2>
         <ul class="panier-list">
           <li v-for="item in panier" :key="item.id">
             <span>{{ item.nom }} x{{ item.quantite }}</span>
-            <button class="panier-remove" @click="retirerDuPanier(item)">Supprimer</button>
+            <button class="panier-remove" @click="retirerDuPanier(item)">{{ $t('pagePrestaTexts.supprimer') }}</button>
           </li>
         </ul>
         <p class="panier-total">Total : {{ totalPanier }} €</p>
-  
+
         <div class="recuperation-section">
-          <label for="heureRecuperation">Heure de récupération :</label>
+          <label for="heureRecuperation">{{ $t('pagePrestaTexts.heureRecup') }}</label>
           <input id="heureRecuperation" v-model="heureRecuperation" type="time" class="recuperation-input" />
         </div>
-        <button class="valider-button" @click="validerCommande">Valider la commande</button>
+        <button class="valider-button" @click="validerCommande">{{ $t('pagePrestaTexts.validComm') }}</button>
       </aside>
     </div>
   </template>

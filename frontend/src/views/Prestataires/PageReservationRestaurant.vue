@@ -1,72 +1,72 @@
 <template>
-    <div>
-      <!-- Image avec titre et phrase accrocheuse -->
-      <div class="header-image-container">
-        <div class="header-container">
-          <div>
-            <h1 class="header-title">Restaurant Le Gourmet</h1>
-            <p class="header-subtitle">Réservez votre table et régalez vos papilles !</p>
-            <!-- Bouton Accédez au menu -->
-            <div class="menu-button-container">
-              <button class="menu-button" @click="$router.push('/menu')">Accédez au menu</button>
-            </div>
+  <div>
+    <!-- Image avec titre et phrase accrocheuse -->
+    <div class="header-image-container">
+      <div class="header-container">
+        <div>
+          <h1 class="header-title">{{ $t('pagePrestaTexts.restaurantTitle') }}</h1>
+          <p class="header-subtitle">{{ $t('pagePrestaTexts.restaurantSubtitle') }}</p>
+          <!-- Bouton Accédez au menu -->
+          <div class="menu-button-container">
+            <button class="menu-button" @click="$router.push('/menu')">{{ $t('pagePrestaTexts.menuButton') }}</button>
           </div>
         </div>
       </div>
-  
-      <!-- Formulaire -->
-      <div class="reservation-container">
-        <h1 class="reservation-title">
-          <img src="../../assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
-          Réserver une table
-          <img src="../../assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
-        </h1>
-        <p class="reservation-description">
-          Remplissez ce formulaire pour réserver votre table. Vous recevrez un mail de confirmation avec votre ticket.
-        </p>
-        <form @submit.prevent="handleSubmit" class="reservation-form">
-          <div class="form-group">
-            <label for="fullname">Votre prénom et nom :</label>
-            <input type="text" id="fullname" v-model="clientFullName" placeholder="Entrez votre prénom et nom" required>
-          </div>
-          <div class="form-group">
-            <label for="email">Votre email :</label>
-            <input type="email" id="email" v-model="clientEmail" placeholder="Entrez votre email" required>
-          </div>
-          <div class="form-group">
-            <label for="date">Choisissez une date :</label>
-            <input type="date" id="date" v-model="reservationDate" @change="updateAvailableTimes" required>
-          </div>
-          <div class="form-group">
-            <label for="time">Choisissez une heure :</label>
-            <select id="time" v-model="reservationTime" required>
-              <option v-for="time in availableTimes" :key="time" :value="time">
-                {{ time }}
-              </option>
-              <option v-if="!availableTimes.length" disabled>
-                Pas d'horaires disponibles pour cette date.
-              </option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="special-info">Informations spéciales (optionnel) :</label>
-            <textarea id="special-info" v-model="specialInfo" placeholder="Exemple : anniversaire, allergies alimentaires..." rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="guests">Nombre de convives :</label>
-            <input type="number" id="guests" v-model="guestCount" min="1" placeholder="Exemple : 4" required>
-          </div>
-          <div v-if="timeMessage" class="message">{{ timeMessage }}</div>
-          <button type="submit" class="reservation-button">Confirmer la réservation</button>
-        </form>
-      </div>
     </div>
-  </template>
-  
-  
-  
-  
-  <script>
+
+    <!-- Formulaire -->
+    <div class="reservation-container">
+      <h1 class="reservation-title">
+        <img src="../../assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
+        {{ $t('pagePrestaTexts.reserveTableTitle') }}
+        <img src="../../assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
+      </h1>
+      <p class="reservation-description">
+        {{ $t('pagePrestaTexts.reserveTableDescription') }}
+      </p>
+      <form @submit.prevent="handleSubmit" class="reservation-form">
+        <div class="form-group">
+          <label for="fullname">{{ $t('pagePrestaTexts.fullNameLabel') }}</label>
+          <input type="text" id="fullname" v-model="clientFullName" :placeholder=" $t('pagePrestaTexts.fullNamePlaceholder') " required>
+        </div>
+        <div class="form-group">
+          <label for="email">{{ $t('pagePrestaTexts.emailLabel') }}</label>
+          <input type="email" id="email" v-model="clientEmail" :placeholder=" $t('pagePrestaTexts.emailPlaceholder') " required>
+        </div>
+        <div class="form-group">
+          <label for="date">{{ $t('pagePrestaTexts.dateLabel') }}</label>
+          <input type="date" id="date" v-model="reservationDate" @change="updateAvailableTimes" required>
+        </div>
+        <div class="form-group">
+          <label for="time">{{ $t('pagePrestaTexts.timeLabel') }}</label>
+          <select id="time" v-model="reservationTime" required>
+            <option v-for="time in availableTimes" :key="time" :value="time">
+              {{ time }}
+            </option>
+            <option v-if="!availableTimes.length" disabled>
+              {{ $t('pagePrestaTexts.noAvailableTimes') }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="special-info">{{ $t('pagePrestaTexts.specialInfoLabel') }}</label>
+          <textarea id="special-info" v-model="specialInfo" :placeholder="$t('pagePrestaTexts.specialInfoPlaceholder') " rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="guests">{{ $t('pagePrestaTexts.guestsLabel') }}</label>
+          <input type="number" id="guests" v-model="guestCount" min="1" :placeholder=" $t('pagePrestaTexts.guestsPlaceholder') " required>
+        </div>
+        <div v-if="timeMessage" class="message">{{ timeMessage }}</div>
+        <button type="submit" class="reservation-button">{{ $t('pagePrestaTexts.confirmReservationButton') }}</button>
+      </form>
+    </div>
+  </div>
+</template>
+
+
+
+
+<script>
 import prestataireService from "@/services/prestataires.service"; // Importer les disponibilités
 import { mapActions, mapState } from 'vuex';
 
