@@ -60,6 +60,8 @@
     <ReservationTable></ReservationTable>
     <AchatBillet> </AchatBillet>
     <BoutiqueGoodies></BoutiqueGoodies>
+    <page-associations></page-associations>
+    <page-classement-activites></page-classement-activites>
     <TotalDons></TotalDons>
     <br>
   </div>
@@ -76,6 +78,8 @@ import { filter } from "core-js/internals/array-iteration";
 import ReservationTable from "@/components/ReservationTable.vue";
 import AchatBillet from "@/components/AchatBillet.vue";
 import BoutiqueGoodies from "@/components/BoutiqueGoodies.vue";
+import PageAssociations from "@/components/PageAssociations.vue";
+import PageClassementActivites from "@/components/PageClassementActivites.vue";
 
 
 export default {
@@ -119,7 +123,7 @@ export default {
       return data;
     },
     handleCatFilter(cat) {
-      if (this.filtreCategory.includes(cat)) this.filtreCategory.splice(this.filtreCategory.findIndex((f) => f == cat), 1);
+      if (this.filtreCategory.includes(cat)) this.filtreCategory.splice(this.filtreCategory.findIndex((f) => f === cat), 1);
       else this.filtreCategory.push(cat);
     },
     getFilteredPrestataires(prestataires) {
@@ -146,6 +150,8 @@ export default {
     }
   },
   components: {
+    PageClassementActivites,
+    PageAssociations,
     TotalDons,
     BanniereAccueil,
     CartePrestatairePerso,

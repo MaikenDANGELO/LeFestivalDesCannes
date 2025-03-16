@@ -15,7 +15,7 @@ const i18n = new VueI18n({
 store.watch(
     (state) => state.langue.currentLanguage,
     (newLang) => {
-        console.log("🔄 Mise à jour de la langue dans i18n :", newLang);
+        //console.log("🔄 Mise à jour de la langue dans i18n :", newLang);
         i18n.locale = newLang;
     }
 );
