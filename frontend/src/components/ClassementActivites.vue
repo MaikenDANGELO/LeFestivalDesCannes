@@ -1,6 +1,6 @@
 <template>
   <div class="classement">
-    <h1>Classement des activités</h1>
+    <h1>{{$t('appTexts.classementActivites')}}</h1>
     <div v-for="(presta,index) in presta_avis_average" :key="presta.id">
       <div v-if="index === 0">
         <h2>{{index+1}}. {{ presta.nom }} : {{ presta.note }}/5</h2>

@@ -12,5 +12,7 @@ export default {
     deconnexion: "Déconnexion",
     acceder : "Accéder",
     dateDebut : "1er Septembre 2025",
-    debut : "Début de l'événement : "
+    debut : "Début de l'événement : ",
+    accederPage : "Accéder à la page",
+
 }

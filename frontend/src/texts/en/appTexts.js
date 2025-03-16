@@ -12,5 +12,6 @@ export default {
     deconnexion: "Logout",
     acceder : "Access",
     dateDebut : "September 1st 2025",
-    debut : "Event begins in : "
+    debut : "Event begins in : ",
+    accederPage : "Access Page",
 }

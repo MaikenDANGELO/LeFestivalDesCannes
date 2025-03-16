@@ -78,8 +78,8 @@ import { filter } from "core-js/internals/array-iteration";
 import ReservationTable from "@/components/ReservationTable.vue";
 import AchatBillet from "@/components/AchatBillet.vue";
 import BoutiqueGoodies from "@/components/BoutiqueGoodies.vue";
-import PageAssociations from "@/components/PageAssociations.vue";
-import PageClassementActivites from "@/components/PageClassementActivites.vue";
+import AssociationsPresentes from "@/components/AssociationsPresentes.vue";
+import ClassementActivites from "@/components/ClassementActivites.vue";
 
 
 export default {
@@ -150,8 +150,8 @@ export default {
     }
   },
   components: {
-    PageClassementActivites,
-    PageAssociations,
+    PageClassementActivites: ClassementActivites,
+    PageAssociations: AssociationsPresentes,
     TotalDons,
     BanniereAccueil,
     CartePrestatairePerso,

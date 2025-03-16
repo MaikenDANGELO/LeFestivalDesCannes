@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="list-prestataires">
-      <h2>Associations</h2>
+      <h2>{{ $t('appTexts.associations') }}</h2>
       <div class="prestataire" v-for="association in associations" :key="association.id_association">
         <div class="presta-top"><h3>{{ association.nom_association }}</h3></div>
         <div class="presta-sbody">
@@ -11,7 +11,7 @@
             </div>
             <div class="presta-text">{{ association.description_accueil }}</div>
             <div class="presta-actions">
-              <button @click="handleSponsorGoToPage(association.id_association)">Accéder à la page</button>
+              <button @click="handleSponsorGoToPage(association.id_association)">{{ $t('appTexts.accederPage') }}</button>
             </div>
           </div>
         </div>
