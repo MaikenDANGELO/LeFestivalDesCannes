@@ -1,5 +1,5 @@
 export default {
-    changerLangue: "🇬🇧",
+    changerLangue: "en → fr",
     prestataires: "Providers",
     associations: "Associations",
     billetterie: "Ticketing",
