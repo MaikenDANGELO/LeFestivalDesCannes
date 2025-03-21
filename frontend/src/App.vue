@@ -66,7 +66,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('utilisateurs', ['logout']),
+    ...mapActions('utilisateurs', ['logout', 'checkSession']),
     ...mapActions('prestataire', ['getAllPrestataires']),
     handleScroll() {
       const currentScrollY = window.scrollY;
@@ -103,6 +103,9 @@ export default {
   },
   beforeDestroy() {
     window.removeEventListener('scroll', this.handleScroll);
+  },
+  created() {
+    this.checkSession()
   }
 }
 </script>

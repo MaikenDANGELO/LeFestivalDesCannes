@@ -15,33 +15,37 @@
         </div>
         <div class="filtre-check" id="filtre-cat" v-if="filtreType === 'prestataires'">
           <h3>Catégorie : </h3>
-          <input @click="handleCatFilter('Activité')" type="checkbox" id="activite" checked>
-          <label for="activite"> Attraction et atelier</label><br>
-          <input @click="handleCatFilter('Mascotte')" type="checkbox" id="mascotte" checked>
-          <label for="mascotte"> Mascotte</label><br>
-          <input @click="handleCatFilter('Gastronomie')" type="checkbox" id="gastronomie" checked>
-          <label for="gastronomie"> Gastronomie</label><br>
-          <input @click="handleCatFilter('Événement')" type="checkbox" id="evenement" checked>
-          <label for="evenement"> Événement</label>
+          <div v-for="cat in uniqueCategories" :key="cat">
+            <input @click="handleCatFilter(cat)" type="checkbox" :id="cat" :checked="filtreCategory.includes(cat)">
+            <label :for="cat">{{ cat }}</label><br>
+          </div>
         </div>
         <br><button @click="resetFilters()">Réinitialiser filtres</button>
       </div>
       <div class="listes">
         <div class="liste-prestataires" id="prestataires" v-if="filtreType === 'prestataires'">
           <h2>Activités</h2>
-          <div class="prestataires-row" v-for="row in getPrestaRows()" :key="row[0].id">
+          <div v-for="row in prestaRows" :key="row[0].id" class="prestataires-row">
             <div v-for="prestataire in row" :key="prestataire.id" class="prestataire-card">
-              <CartePrestatairePerso :nom="prestataire.nom" :descriptionAccueil="prestataire.description_accueil"
-                :image="prestataire.image" :pers-page-route="`/prestataire/${prestataire.id}`"></CartePrestatairePerso>
+              <CartePrestatairePerso
+                  :nom="prestataire.nom"
+                  :descriptionAccueil="prestataire.description_accueil"
+                  :image="prestataire.image"
+                  :pers-page-route="`/prestataire/${prestataire.id}`"
+              ></CartePrestatairePerso>
             </div>
           </div>
         </div>
         <div class="liste-prestataires" id="sponsors" v-if="filtreType === 'sponsors'">
           <h2>Sponsors</h2>
-          <div class="prestataires-row" v-for="row in getSponsorsRows()" :key="row[0].id_sponsor">
+          <div v-for="row in sponsorRows" :key="row[0].id_sponsor" class="prestataires-row">
             <div v-for="sponsor in row" :key="sponsor.id_sponsor" class="prestataire-card">
-              <CartePrestatairePerso :nom="sponsor.nom_sponsor" :description-accueil="sponsor.description_accueil"
-                :image="sponsor.image" :pers-page-route="`/sponsor/${sponsor.id_sponsor}`"></CartePrestatairePerso>
+              <CartePrestatairePerso
+                  :nom="sponsor.nom_sponsor"
+                  :description-accueil="sponsor.description_accueil"
+                  :image="sponsor.image"
+                  :pers-page-route="`/sponsor/${sponsor.id_sponsor}`">
+              </CartePrestatairePerso>
             </div>
           </div>
         </div>
@@ -52,101 +56,114 @@
       <div class="duck-text">
         <h3>Participez au Défilé des Canards !</h3>
         <p>
-          Depuis les débuts du Festival des Canes, le Défilé des Canards a su se faire une place de choix 
-          parmi les moments les plus attendus. Chaque année, des passionnés inscrivent leurs canards, fièrement présentés avec leur nom, 
-          leur espèce et leur région d’origine. Donnez à votre canard l’occasion de défiler sous les projecteurs 
-          et de faire sensation. C’est l’occasion parfaite de mêler originalité, bonne humeur et un peu de compétition amicale.Alors, prêt à faire briller vos plumes ?
+          Depuis les débuts du Festival des Canes, le Défilé des Canards a su se faire une place de choix
+          parmi les moments les plus attendus. Chaque année, des passionnés inscrivent leurs canards, fièrement présentés avec leur nom,
+          leur espèce et leur région d’origine. Donnez à votre canard l’occasion de défiler sous les projecteurs
+          et de faire sensation. C’est l’occasion parfaite de mêler originalité, bonne humeur et un peu de compétition amicale.
+          Alors, prêt à faire briller vos plumes ?
           <router-link to="/inscription-canard" class="duck-link"> -> Inscrire un canard</router-link>
         </p>
       </div>
-   </div>
+    </div>
     <ReservationTable></ReservationTable>
-    <AchatBillet> </AchatBillet>
+    <AchatBillet></AchatBillet>
     <BoutiqueGoodies></BoutiqueGoodies>
     <TotalDons></TotalDons>
     <br>
   </div>
 </template>
 
-
-
 <script>
 import BanniereAccueil from "@/components/BanniereAccueil.vue";
 import CartePrestatairePerso from "@/components/CartePrestatairePerso.vue";
 import { mapState, mapActions } from "vuex";
 import TotalDons from "@/components/totalDons.vue";
-import { filter } from "core-js/internals/array-iteration";
 import ReservationTable from "@/components/ReservationTable.vue";
 import AchatBillet from "@/components/AchatBillet.vue";
 import BoutiqueGoodies from "@/components/BoutiqueGoodies.vue";
-
 
 export default {
   name: "PagePrincipale",
   data() {
     return {
-      prestatairesRows: [],
       filtreSearch: "",
-      filtreCategory: ['Activité', 'Mascotte', 'Gastronomie', 'Événement'],
+      filtreCategory: [],
       filtreType: "prestataires",
     };
   },
   computed: {
-    ...mapState('prestataire', ['prestataires']), // on récupère prestataires depuis le store
+    ...mapState('prestataire', ['prestataires']),
     ...mapState('sponsors', ['sponsors']),
+    filteredPrestataires() {
+      return this.getFilteredPrestataires(this.prestataires);
+    },
+    prestaRows() {
+      const rows = [];
+      for (let i = 0; i < this.filteredPrestataires.length; i += 4) {
+        rows.push(this.filteredPrestataires.slice(i, i + 4));
+      }
+      return rows;
+    },
+    filteredSponsors() {
+      return this.getFilteredSponsors(this.sponsors);
+    },
+    sponsorRows() {
+      const rows = [];
+      for (let i = 0; i < this.filteredSponsors.length; i += 4) {
+        rows.push(this.filteredSponsors.slice(i, i + 4));
+      }
+      return rows;
+    },
+    uniqueCategories() {
+      const categories = this.prestataires.map(prestataire => prestataire.categorie);
+      console.log('categories', categories)
+      let oui = [...new Set(categories)];
+      //console.log(oui)
+      return oui
+    },
   },
   methods: {
-    filter,
-    ...mapActions('prestataire', ['getAllPrestataires']), // on récupère la méthode de récupération des prestataires du store
+    ...mapActions('prestataire', ['getAllPrestataires']),
     ...mapActions('sponsors', ['getAllSponsors']),
-    getPrestaRows() {
-      this.getAllPrestataires(); // charge les prestataires depuis les données
-      let prestataires = this.getFilteredPrestataires(this.prestataires);
-      let rows = [];
-      for (let i = 0; i < prestataires.length; i += 4) { // Ajusté pour 4 blocs par ligne
-        rows.push(prestataires.slice(i, i + 4));
-      }
-      return rows;
-    },
-    getSponsorsRows() {
-      this.getAllSponsors(); // charge les prestataires depuis les données
-      let sponsors = this.getFilteredSponsors(this.sponsors);
-      let rows = [];
-      for (let i = 0; i < sponsors.length; i += 4) { // Ajusté pour 4 blocs par ligne
-        rows.push(sponsors.slice(i, i + 4));
-      }
-      return rows;
-    },
-    // Gère l'envoi de commentaire depuis une page prestataire
-    handleCommentSent(data) {
-      return data;
-    },
     handleCatFilter(cat) {
-      if (this.filtreCategory.includes(cat)) this.filtreCategory.splice(this.filtreCategory.findIndex((f) => f == cat), 1);
-      else this.filtreCategory.push(cat);
+      if (this.filtreCategory.includes(cat)) {
+        this.filtreCategory.splice(this.filtreCategory.indexOf(cat), 1);
+      } else {
+        this.filtreCategory.push(cat);
+      }
     },
     getFilteredPrestataires(prestataires) {
-      let catFilteredPrestataires = [];
-      for (const cat of this.filtreCategory) {
-        for (const prest of prestataires) {
-          if (!catFilteredPrestataires.includes(prest) && prest.categorie === cat)
-            catFilteredPrestataires.push(prest)
-        }
+      // Si aucune catégorie n'est sélectionnée, ne renvoyer aucun prestataire
+      if (this.filtreCategory.length === 0) {
+        return [];
       }
-      return prestataires.filter((p) => p.nom.toLowerCase().includes(this.filtreSearch.toLowerCase()) && catFilteredPrestataires.includes(p));
+
+      // Filtrer d'abord par catégorie
+      let catFilteredPrestataires = prestataires.filter(prest =>
+          this.filtreCategory.includes(prest.categorie)
+      );
+
+      // Ensuite, appliquer le filtre de recherche
+      return catFilteredPrestataires.filter(prest =>
+          prest.nom.toLowerCase().includes(this.filtreSearch.toLowerCase())
+      );
     },
     getFilteredSponsors(sponsors) {
-      return sponsors.filter(s => s.nom_sponsor.toLowerCase().includes(this.filtreSearch.toLowerCase()));
+      return sponsors.filter(s =>
+          s.nom_sponsor.toLowerCase().includes(this.filtreSearch.toLowerCase())
+      );
     },
-    resetFilters(){
-      this.filtreCategory = ['Activité', 'Mascotte', 'Gastronomie', 'Événement'];
+    resetFilters() {
       this.filtreType = 'prestataires';
       this.filtreSearch = '';
-      document.getElementById("activite").checked = true;
-      document.getElementById("mascotte").checked = true;
-      document.getElementById("gastronomie").checked = true;
-      document.getElementById("evenement").checked = true;
-    }
+      console.log(this.uniqueCategories)
+      this.filtreCategory = [...this.uniqueCategories];
+    },
+  },
+  async mounted() {
+    await this.getAllPrestataires();
+    await this.getAllSponsors();
+    this.resetFilters();
   },
   components: {
     TotalDons,

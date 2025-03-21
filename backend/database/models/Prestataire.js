@@ -7,7 +7,7 @@ const Prestataire = sequelize.define('Prestataire', {
     nom: { type: DataTypes.STRING },
     description: { type: DataTypes.TEXT },
     description_accueil: { type: DataTypes.STRING },
-    categorie: { type: DataTypes.STRING },
+    categorie: { type: DataTypes.INTEGER, references: { model: 'categories', key: 'id' } },
     id_emplacement: { type: DataTypes.INTEGER },
     id_evenement: { type: DataTypes.INTEGER },
     page_route: { type: DataTypes.STRING },

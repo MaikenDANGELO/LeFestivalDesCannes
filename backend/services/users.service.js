@@ -81,7 +81,7 @@ exports.sendAvis = async (id_prestataire, id_utilisateur, texte, note, callback)
 exports.modifyAvis = async (texte, note, id, callback) => {
     try {
         await Avis.update(
-            { texte, note },
+            { texte: texte, note: note },
             { where: { id } }
         );
         callback(null, "L'avis a été modifié avec succès");
@@ -106,7 +106,9 @@ exports.changePersonnalData = async (id, nom, email, numero, adresse, callback) 
             { nom_utilisateur: nom, email_utilisateur: email, telephone: numero, adresse_utilisateur: adresse },
             { where: { id } }
         );
-        callback(null, 'Données mise à jour');
+
+        const user = await Utilisateur.findByPk(id);
+        callback(null, user);
     } catch (error) {
         callback(error, null);
     }

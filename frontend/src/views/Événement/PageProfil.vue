@@ -166,9 +166,8 @@ export default {
     }
   },
   methods:{
-    ...mapActions('utilisateurs', ['getAllUsers', 'logIn']),
+    ...mapActions('utilisateurs', ['getAllUsers', 'changeData']),
     async cancelReservation(id){
-      console.log('Annulation de la réservation '+id)
       await prestatairesService.cancelReservation(id, this.utilisateur.role);
       await this.fetchUserReservations()
       await this.getNotificationByID(this.utilisateur.id)
@@ -178,7 +177,6 @@ export default {
         const response = await prestatairesService.getReservationsfromUid(this.utilisateur.id);
         if (response.error === 0) {
           this.reservations = response.data;
-          console.log(this.reservations)
         } else {
           console.error("Erreur lors du chargement des réservations :", response.data);
         }
@@ -230,10 +228,6 @@ export default {
     togglePasswordVisibility2() {
       this.isPasswordVisible2 = !this.isPasswordVisible2;
     },
-    async getNotificationByID(id){
-      let notif = await usersService.getNotificationByUserID(id);
-      this.notifications = notif.data;
-    },
     validatePhone(phone) {
       const regex = /^\d{10}$/; // Exemple pour un numéro à 10 chiffres
       return regex.test(phone);
@@ -248,18 +242,14 @@ export default {
             email: this.email_utilisateur,
             numero: this.telephone,
             adresse:this.adresse_utilisateur,
-            },
-            this.utilisateur.id)
+            id:  this.utilisateur.id
+            })
       this.nom_utilisateur=''
       this.email_utilisateur=''
       this.adresse_utilisateur=''
       this.telephone=''
-      this.logIn(response.data);
+      this.changeData(response.data);
       this.clickModifyPersonnalData()
-    },
-    async markNotificationsAsRead() {
-      await usersService.markAllAsRead(this.utilisateur.id);
-      this.notifications = [];
     },
     async changePassword(){
       if (this.samePassword){
@@ -278,17 +268,24 @@ export default {
           this.isPasswordVisible2= false
         }
       }
-
-    }
-  },
-  async fetchNotifications() {
-    try {
+    },
+    async fetchNotifications() {
+      try {
         const response = await usersService.getNotificationByUserID(this.utilisateur.id);
         this.notifications = response.data;
         console.log("Notifications reçues :", this.notifications); // Debug
-    } catch (error) {
+      } catch (error) {
         console.error("Erreur lors du chargement des notifications :", error);
-    }
+      }
+    },
+    async getNotificationByID(id){
+      try {
+        let notif = await usersService.getNotificationByUserID(id);
+        this.notifications = notif.data; // Stocker les notifications dans la variable
+      } catch (error) {
+        console.error("Erreur lors du chargement des notifications :", error);
+      }
+    },
   },
   async created() {
     await this.fetchUserReservations();
@@ -300,15 +297,6 @@ export default {
     this.adresse_utilisateur = this.utilisateur.adresse;
     this.telephone = this.utilisateur.numero;
   },
-  async getNotificationByID(id){
-    try {
-        let notif = await usersService.getNotificationByUserID(id);
-        this.notifications = notif.data; // Stocker les notifications dans la variable
-    } catch (error) {
-        console.error("Erreur lors du chargement des notifications :", error);
-    }
-  },
-
 };
 </script>
 

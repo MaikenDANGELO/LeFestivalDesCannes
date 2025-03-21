@@ -24,7 +24,11 @@ Ces trois cas sont traités par une unique fonction handleError().
 
 // creation d'un agent axios, avec une config. pour atteindre l'API
 const axiosAgent = axios.create({
-    baseURL: 'https://apidemo.iut-bm.univ-fcomte.fr/herocorp'
+    baseURL: 'http://localhost:3000',
+    withCredentials: true,
+    headers: {
+        'Content-Type': 'application/json',
+    },
 })
 
 /* Pour la démonstration, décommenter l'instruction suivnante.
@@ -153,7 +157,7 @@ async function putRequest(uri, data, name, config = {}){
 async function deleteRequest(uri, name, data ,config = {}){
     let response = null
     try {
-        response = await axiosAgent.delete(uri, data, config)
+        response = await axiosAgent.delete(uri, { ...config, data });
     } catch (err){
         response = handleError(name, err);
     }

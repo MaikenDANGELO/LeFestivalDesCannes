@@ -29,7 +29,24 @@ exports.getAllAvis = async (callback) => {
 
 exports.getAllPrestataire = async (callback)=>{
     try {
-        const prestataires = await Prestataire.findAll();
+        const prestataires = await Prestataire.findAll({
+            include: [
+                {
+                    model: Service, // On inclut les services
+                    as: 'services', // L'alias de l'association (au cas où tu l'utilises)
+                    required: false // Pour inclure même les prestataires sans services
+                }
+            ]
+        });
+
+
+        /*
+        // Affichage des prestataires et de leurs services associés
+        prestataires.forEach(prestataire => {
+            console.log(prestataire.nom, prestataire.services);
+        });
+
+         */
         callback(null, prestataires);
     } catch (error) {
         callback(error, null);
@@ -75,7 +92,8 @@ exports.sendFormPrestataire = async (form, id_utilisateur, callback)=>{
 
 exports.getTotalDonsOf = async (id, callback) => {
     try {
-        const total = await Dons.sum('montant', { where: { id_prestataire: id } });
+        let total = await Dons.sum('montant', { where: { id_prestataire: id } });
+        if (total === null) total = 0
         callback(null, total);
     } catch (error) {
         callback(error, null);
@@ -110,20 +128,6 @@ exports.getAllBalades = async (callback) => {
     }
 }
 
-exports.getbaladesfromUid = async (user_id, callback) => {
-    try {
-        const balades = await Reservation.findAll({
-            where: {
-                type_service: 'balade',
-                reserved_user_id: user_id
-            }
-        });
-        callback(null, balades);
-    } catch (error) {
-        callback(error, null);
-    }
-}
-
 exports.reservebalade = async (balade_id, user_id, callback) => {
     try {
         const balade = await Reservation.findByPk(balade_id);
@@ -150,6 +154,48 @@ exports.cancelbalade = async (balade_id, user_id, callback) => {
         } else {
             callback("Balade introuvable", null);
         }
+    } catch (error) {
+        callback(error, null);
+    }
+}
+
+
+exports.makeReservation = async () => {}
+
+exports.getReservationsfromUid = async () => {}
+
+exports.getPrestgastro = async (callback) => {
+    try {
+        const prest = await Prestataire.findAll({
+            where: {
+                categorie: 2
+            }
+        });
+        callback(null, prest);
+    } catch (error) {
+        callback(error,null);
+    }
+}
+
+exports.getTotalDons = async (callback) => {
+    try{
+        let somme = await Dons.sum('montant')
+        callback(null, somme)
+    }catch (error) {
+        callback(error, null)
+    }
+}
+
+exports.getAllDisponibiliteResto = async (id, callback) => {
+    try {
+        const reservations = await Reservation.findAll({
+            where: {
+                type_service: 'restaurant',
+                reserved_user_id: null,
+                id_prestataire : id
+            }
+        });
+        callback(null, reservations);
     } catch (error) {
         callback(error, null);
     }

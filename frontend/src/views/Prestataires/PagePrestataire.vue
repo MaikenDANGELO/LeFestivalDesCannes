@@ -3,6 +3,7 @@
     <div class="carte">
       <InteractiveMap :selectedPrestataireId="parseInt(prestataire.id)" @new-location="onNewLocation"/>
     </div>
+
     <div class="texte-container">
       <div class="prestataire-detail" v-if="prestataire !== null">
         <div class="image-container">
@@ -32,7 +33,7 @@
 
 
 
-          <div class="restaurant-menu" v-if="prestataire.id === '2'">
+          <div class="restaurant-menu" v-if="prestataire.id  === 2">
             <h2>Horaires</h2>
             <ul>
               <li>Lundi : Fermé</li>
@@ -107,16 +108,21 @@
             </div>
             <div v-else>Soyez connecté(e) pour poster un avis</div><br>
             <h3>Avis des utilisateurs</h3>
-            <div v-for="(avis,index) in avis_prestataire" :key="avis['id']">
-              <h4>{{ getUtilisateur(avis['id_utilisateur'])['nom_utilisateur'] }} - {{ avis['note'] }}/5</h4>
-              <p>{{ avis['texte'] }}</p>
-              <div class="avisButton">
-                <button v-if="(avis['id_utilisateur'] === utilisateur.id || utilisateur.role === 'admin')" @click="deleteAvis(avis['id_commentaire'])">Supprimer</button>
-                <button v-if="avis['id_utilisateur'] === utilisateur.id" @click="modifyAvis(index + 1, avis['note'], avis['texte'])">Modifier</button>
+            <div v-if="Array.isArray(avis_prestataire) && avis_prestataire.length > 0">
+              <div v-for="(avis) in avis_prestataire" :key="avis['id']" >
+                <h4>{{ getUtilisateur(avis['id_utilisateur'])?.nom_utilisateur || 'Utilisateur inconnu' }} - {{ avis['note'] }}/5</h4>
+                <p>{{ avis['texte'] }}</p>
+                <div class="avisButton">
+                  <button v-if="(avis['id_utilisateur'] === utilisateur.id || utilisateur.role === 'admin')" @click="deleteAvis(avis['id'])">Supprimer</button>
+                  <button v-if="avis['id_utilisateur'] === utilisateur.id" @click="modifyAvis(avis.id, avis['note'], avis['texte'])">Modifier</button>
+                </div>
               </div>
             </div>
+            <div v-else>
+              <p>Aucun avis pour le moment</p>
+            </div>
           </div>
-          <div v-if="prestataire.id === '6'">
+          <div v-if="this.prestataire.id === 6 ">
             <h2>Classement du concours</h2>
             <div class="classement">
               <div class="classement-place" v-for="(pl) of classement" :key="pl.id_classement">
@@ -124,26 +130,26 @@
               </div>
             </div>
           </div>
-          <div v-if="prestataire.id === '8'">
+
+          <div v-if="this.prestataire.id  === 8">
             <h2>Balades</h2>
-            <p v-if="utilisateur.role === ''">Veuillez être enregistré pour réserver une balade</p>
+            <p v-if="this.utilisateur.role === ''">Veuillez être enregistré pour réserver une balade</p>
 
            <input type="date" id="date" v-model="day" @change="fetchBalades" min="2025-09-01" max="2025-09-03" >
-
 
 
             <ul>
               <li v-for="balade in balades" :key="balade.id_balade" class="balade-item">
                 <div class="balade-details">
-                  <p>Ballade le {{ balade.date_balade }} à {{ balade.heure_balade }}</p>
+                  <p>Ballade le {{ balade.date }} à {{ balade.heure }}</p>
                 </div>
                 <div class="balade-actions">
                   <div v-if="utilisateur.role === 'utilisateur'">
                     <p v-if="balade.reserved_user_id !== utilisateur.id && balade.reserved_user_id !== null" class="indisponible">indisponible</p>
-                    <button v-if="balade.reserved_user_id === null" @click="reserverBalade(balade.id_balade, utilisateur.id)" class="btn reserver">Réserver</button>
+                    <button v-if="balade.reserved_user_id === null" @click="reserverBalade(balade.id, utilisateur.id)" class="btn reserver">Réserver</button>
                   </div>
-                  <p v-if="utilisateur.role === 'admin' && balade.reserved_user_id !== null">Réservée par {{ getUtilisateur(balade.reserved_user_id).nom_utilisateur }}</p>
-                  <button v-if="balade.reserved_user_id === utilisateur.id || (utilisateur.role === 'admin' && balade.reserved_user_id !== null)" @click="cancelBalade(balade.id_balade)" class="btn annuler">Annuler</button>
+                  <p v-if="utilisateur.role === 'admin' && balade.reserved_user_id !== null">Réservée par {{ getUtilisateur(balade.reserved_user_id).nom_utilisateur || 'Utilisateur inconnu' }}</p>
+                  <button v-if="balade.reserved_user_id === utilisateur.id || (utilisateur.role === 'admin' && balade.reserved_user_id !== null)" @click="cancelBalade(balade.id)" class="btn annuler">Annuler</button>
                   <p v-if="balade.reserved_user_id === null">Aucune réservation</p>
                 </div>
               </li>
@@ -154,7 +160,7 @@
             <h2>Services proposés</h2>
             <ul>
               <li v-for="service in prestataire.services" :key="service.id_service">
-                <div v-if="service.statut_service === 'actif'">
+                <div v-if="service.statut_service">
                   <strong>{{ service.nom_service }}</strong>
                   <p>{{ service.description_service }}</p>
                 </div>
@@ -217,10 +223,8 @@ export default {
 
     async updatePrestaEmplacement(lat, lng) {
       if (!this.prestataire || !this.prestataire.id) {
-        //console.error("Erreur: Aucun prestataire sélectionné.");
         return;
       }
-      //console.log("new coords : " + lat + " ; " + lng)
 
       await mapDataService.updateEmplacement(this.prestataire.id, [lat, lng]);
 
@@ -233,8 +237,6 @@ export default {
     },
 
     async confirmNewLocation() {
-      //console.log("confirmation")
-      //console.log(this)
       if (this.newCoords && this.prestataire) {
         await this.updatePrestaEmplacement(this.newCoords.lat, this.newCoords.lng);
         this.isEditingLocation = false; // Cache le bouton après la mise à jour
@@ -246,10 +248,8 @@ export default {
     },
     async getClassementConcours(){
       let classement = await prestatairesService.getAllClassementConcours();
-      console.log(classement)
       this.classement = classement.data.filter(e => e.concours === "cuisine");
       this.classement.sort(this.compareClassement);
-      console.log(this.classement)
     },
     getUserFromClassement(id){
       return this.utilisateurs.find(e => e.id_utilisateur === parseInt(id));
@@ -265,13 +265,13 @@ export default {
     async fetchBalades() {
       const response = await baladesServices.getAllBalades();
       if (response.error === 0) {
-        this.balades = response.data.filter(balade => balade.date_balade === this.day);
+        this.balades = response.data.filter(balade => balade.date.slice(0, 10) === this.day);
       } else {
         console.error("Erreur lors du chargement des balades :", response.data);
       }
     },
     getUtilisateur(id) {
-      return this.utilisateurs.find(u => u['id_utilisateur'] === id);
+      return this.utilisateurs.find(u => u.id === id);
     },
     async sendCommentForm() {
       const data = [this.prestataire['id'], this.user_note, this.user_comment, this.utilisateur.id];
@@ -291,7 +291,8 @@ export default {
       this.$router.push('/dons/' + id);
     },
     async getDonationAmount() {
-      this.montantDons = (await moneyService.getTotalDonsOf(this.prestataire.id)).data;
+      let r = await moneyService.getTotalDonsOf(this.prestataire.id)
+      if (r.error === 0) this.montantDons = r.data;
     },
     async deleteAvis(id) {
       await usersService.deleteAvis(id);
@@ -308,7 +309,7 @@ export default {
       }
     },
     async loadPrestataireData(id) {
-      this.prestataire = this.prestataires.find(p => p.id === id);
+      this.prestataire = this.prestataires.find(p => p.id === Number(id));
       if (this.prestataire) {
         await this.getPrestataireAvis(this.prestataire.id);
         await this.getDonationAmount();

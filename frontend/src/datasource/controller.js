@@ -1,4 +1,4 @@
-import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS, emplacements, disponibilitesResto, reservations, classement_concours} from "./data";
+import { balades,prestataires, billetterie, utilisateurs, avis, dons, map_data, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS, emplacements, disponibilitesResto, reservations, classement_concours} from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllRatings(){
@@ -13,17 +13,6 @@ function getAllbalades() {
     return{error : 0,data : balades}
 }
 
-function getAllPrestataires() {
-    return { error: 0, data: prestataires };
-}
-
-function getAllSponsors() {
-    return { error: 0, data: sponsors };
-}
-
-function getAllAssociation() {
-    return {error: 0, data: associations};
-}
 
 function getAllMapData() {
     return { error: 0, data: map_data };
@@ -490,8 +479,6 @@ function createEmplacement(coord, icon){
 
 export default {
     getAllRatings,
-    getAllPrestataires,
-    getAllSponsors,
     insertCommandeBillet,
     connexion,
     getAvisOfPrestataire,
@@ -506,7 +493,6 @@ export default {
     deleteAvis,
     modifyAvis,
     modifyEmplacementPrestataire,
-    getAllAssociation,
     getAllDemandePrestataire,
     getAllbalades,
     declineDemandePrest,

@@ -11,12 +11,12 @@ router.get('/', prestatairesController.getAllPrestataire)
  * @swagger
  * /api/prestataires/:
  *   get:
- *     description: Retrieves a list of all service providers (prestataires).
+ *     description: Récupère la liste de tous les prestataires.
  *     tags:
  *       - Prestataires
  *     responses:
  *       '200':
- *         description: Successfully retrieved the list of service providers.
+ *         description: Liste des prestataires récupérée avec succès.
  *         content:
  *           application/json:
  *             schema:
@@ -58,20 +58,23 @@ router.get('/', prestatairesController.getAllPrestataire)
  *                         type: integer
  *                         example: 1
  *       '500':
- *         description: Internal server error.
+ *         description: Erreur interne du serveur.
  */
+
+router.get("/getTotalDons", prestatairesController.getTotalDons)
+
 
 router.get("/getAllBalades", prestatairesController.getAllBalades)
 /**
  * @swagger
  * /api/prestataires/getAllBalades:
  *   get:
- *     description: Retrieves a list of all balade type reservations.
+ *     description: Récupère la liste de toutes les réservations de type balade.
  *     tags:
  *       - Prestataires
  *     responses:
  *       '200':
- *         description: Successfully retrieved the list of balade type reservations.
+ *         description: Liste des réservations de balade récupérée avec succès.
  *         content:
  *           application/json:
  *             schema:
@@ -103,94 +106,9 @@ router.get("/getAllBalades", prestatairesController.getAllBalades)
  *                         type: integer
  *                         example: 1
  *       '500':
- *         description: Internal server error.
+ *         description: Erreur interne du serveur.
  */
 
-router.get("/getbaladesfromUid", utilisateurMiddleware.isLogin, prestatairesController.getbaladesfromUid)
-/**
- * @swagger
- * /api/prestataires/getbaladesfromUid:
- *  get:
- *       summary: Obtenir les balades d'un utilisateur
- *       description: Récupère toutes les balades réservées pour un utilisateur connecté.
- *       tags:
- *         - Prestataires
- *       responses:
- *         '200':
- *           description: Liste des balades récupérée avec succès.
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   data:
- *                     type: array
- *                     items:
- *                       $ref: '#/components/schemas/Reservation'
- *         '401':
- *           description: Utilisateur non connecté.
- *           content:
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: Vous n'êtes pas connecté
- *         '500':
- *           description: Erreur serveur interne.
- *           content:
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: Erreur lors de la récupération des balades.
- *       security:
- *         - sessionAuth: []
- *
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: session_id
- *   schemas:
- *     Reservation:
- *       type: object
- *       properties:
- *         id:
- *           type: integer
- *           description: ID unique de la réservation.
- *         id_prestataire:
- *           type: integer
- *           description: ID du prestataire associé à cette réservation.
- *         date:
- *           type: string
- *           format: date
- *           description: Date de la réservation.
- *         heure:
- *           type: string
- *           format: time
- *           description: Heure de la réservation.
- *         type_service:
- *           type: string
- *           description: Type de service réservé (balade ou restaurant).
- *           enum:
- *             - balade
- *             - restaurant
- *         reserved_user_id:
- *           type: integer
- *           description: ID de l'utilisateur ayant réservé.
- *       required:
- *         - id
- *         - id_prestataire
- *         - date
- *         - heure
- *         - type_service
- *       example:
- *         id: 1
- *         id_prestataire: 10
- *         date: "2025-01-10"
- *         heure: "14:00:00"
- *         type_service: "balade"
- *         reserved_user_id: 5
- */
 
 router.get("/getTotalDonsOf/:id", prestatairesController.getTotalDonsOf)
 /**
@@ -245,7 +163,7 @@ router.get("/getTotalDonsOf/:id", prestatairesController.getTotalDonsOf)
  */
 
 
-router.get("/getAllAvis",prestatairesController.getAllAvis)
+router.get("/getAllAvis", prestatairesController.getAllAvis)
 /**
  * @swagger
  * /api/prestataires/getAllAvis:
@@ -277,7 +195,7 @@ router.get("/getAllAvis",prestatairesController.getAllAvis)
  *                       texte:
  *                         type: string
  *                         description: Texte de l'avis
- *                         example: "Excellent service, very satisfied!"
+ *                         example: "Excellent service, très satisfait !"
  *                       note:
  *                         type: integer
  *                         description: La note de l'avis (1-5)
@@ -288,66 +206,80 @@ router.get("/getAllAvis",prestatairesController.getAllAvis)
  *         description: Erreur interne du serveur
  */
 
+
+router.get("/getPrestGastro", prestatairesController.getPrestGastro)
+
+router.get("/getAllDisponibiliteResto/:id", prestatairesController.getAllDisponibiliteResto)
+
 router.get("/getAvis/:id", prestatairesController.getAvis)
 /**
  * @swagger
  * /api/prestataires/getAvis/{id}:
  *   get:
- *     description: Used to retrieve reviews (avis) for a specific service provider (prestataire) based on the provided ID in the URL path
+ *     description: Utilisé pour récupérer les avis (avis) et services pour un prestataire spécifique en fonction de l'ID fourni dans l'URL
  *     tags:
  *       - Prestataires
  *     parameters:
  *       - in: path
  *         name: id
  *         required: true
- *         description: The ID of the service provider (prestataire) to get reviews for
+ *         description: L'ID du prestataire pour lequel obtenir les avis et services
  *         schema:
  *           type: integer
  *           example: 1
  *     responses:
  *       '200':
- *         description: Successfully retrieved the reviews for the service provider
+ *         description: Les avis et services du prestataire ont été récupérés avec succès
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 data:
+ *                 prestataire:
  *                   type: object
  *                   properties:
- *                     id_prestataire:
+ *                     id:
  *                       type: integer
- *                       description: The ID of the service provider
- *                       example: 123
- *                     id_utilisateur:
- *                       type: integer
- *                       description: The ID of the user who gave the review
- *                       example: 456
- *                     texte:
+ *                       description: L'ID du prestataire
+ *                       example: 1
+ *                     nom:
  *                       type: string
- *                       description: The review text
- *                       example: "Excellent service, very satisfied!"
- *                     note:
- *                       type: integer
- *                       description: The rating given by the user (1-5)
- *                       example: 5
+ *                       description: Le nom du prestataire
+ *                       example: "Jeux et Divertissements"
+ *                     description:
+ *                       type: string
+ *                       description: La description du prestataire
+ *                       example: "Espace dédié aux jeux pour enfants et adultes avec diverses animations..."
+ *                     services:
+ *                       type: array
+ *                       description: Liste des services proposés par le prestataire
+ *                       items:
+ *                         type: object
+ *                         properties:
+ *                           id:
+ *                             type: integer
+ *                             description: L'ID du service
+ *                             example: 1
+ *                           nom_service:
+ *                             type: string
+ *                             description: Le nom du service
+ *                             example: "Jeu de société géant"
+ *                           description_service:
+ *                             type: string
+ *                             description: La description du service
+ *                             example: "Un grand jeu de société à jouer en famille..."
+ *                           statut_service:
+ *                             type: string
+ *                             description: Le statut du service
+ *                             example: "Disponible"
  *       '404':
- *         description: Reviews not found for the provided service provider ID
+ *         description: Prestataire ou avis non trouvés pour l'ID fourni
  *       '500':
- *         description: Internal server error
- *       security:
- *         - sessionAuth: []
- *
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: session_id
+ *         description: Erreur interne du serveur
  */
 
 
-router.post('/sendFormPrestataire', utilisateurMiddleware.isLogin, prestatairesMiddleware.alreadyExists, prestatairesController.sendFormPrestataire)
+router.post('/sendFormPrestataire', utilisateurMiddleware.isLoggedIn, prestatairesMiddleware.alreadyExists, prestatairesController.sendFormPrestataire)
 /**
  * @swagger
  * /api/prestataires/sendFormPrestataire:
@@ -466,18 +398,9 @@ router.post('/sendFormPrestataire', utilisateurMiddleware.isLogin, prestatairesM
  *                   error:
  *                     type: string
  *                     description: Message d'erreur.
- *       security:
- *         - sessionAuth: []
- *
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: session_id
  */
 
-router.post("/makeDonation/:prestId", utilisateurMiddleware.isLogin, prestatairesController.makeDonation)
+router.post("/makeDonation/:prestId", utilisateurMiddleware.isLoggedIn, prestatairesController.makeDonation)
 /**
  * @swagger
  * /api/prestataires/makeDonation/{prestId}:
@@ -519,44 +442,21 @@ router.post("/makeDonation/:prestId", utilisateurMiddleware.isLogin, prestataire
  *                 type: object
  *                 properties:
  *                   data:
- *                     type: string
- *                     description: Message de confirmation du don.
- *                     example: "Donation enregistrée avec succès"
+ *                     type: object
+ *                     description: Données du don effectué.
  *         '400':
- *           description: Mauvaise requête - Le montant du don est requis.
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   message:
- *                     type: string
- *                     description: Message d'erreur concernant la requête.
- *                     example: "Le montant du don est requis"
+ *           description: Mauvais format de demande ou paramètres manquants.
+ *         '401':
+ *           description: Utilisateur non connecté.
+ *         '404':
+ *           description: Prestataire non trouvé pour l'ID donné.
  *         '500':
- *           description: Erreur interne du serveur - Une erreur est survenue lors de l'enregistrement du don.
- *           content:
- *             application/json:
- *               schema:
- *                 type: object
- *                 properties:
- *                   error:
- *                     type: string
- *                     description: Description de l'erreur.
- *                     example: "Erreur lors de l'enregistrement du don"
- *       security:
- *         - sessionAuth: []
- *
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: session_id
+ *           description: Erreur lors de l'enregistrement du don.
  */
 
 
-router.patch("/reservebalade/:balade_id", utilisateurMiddleware.isLogin, prestatairesController.reservebalade)
+
+router.patch("/reservebalade/:balade_id", utilisateurMiddleware.isLoggedIn, prestatairesController.reservebalade)
 /**
  * @swagger
  * /api/prestataires/reservebalade/{balade_id}:
@@ -604,18 +504,9 @@ router.patch("/reservebalade/:balade_id", utilisateurMiddleware.isLogin, prestat
  *               schema:
  *                 type: string
  *                 example: "Une erreur s'est produite sur le serveur"
- *       security:
- *         - sessionAuth: []
- *
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: session_id
  */
 
-router.patch("/cancelbalade/:balade_id", utilisateurMiddleware.isLogin, prestatairesController.cancelbalade)
+router.patch("/cancelbalade/:balade_id", utilisateurMiddleware.isLoggedIn, prestatairesController.cancelbalade)
 /**
  * @swagger
  * /api/prestataires/cancelbalade/{balade_id}:
@@ -663,15 +554,6 @@ router.patch("/cancelbalade/:balade_id", utilisateurMiddleware.isLogin, prestata
  *               schema:
  *                 type: string
  *                 example: "Une erreur s'est produite sur le serveur"
- *       security:
- *         - sessionAuth: []
- *
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: session_id
  */
 
 /**

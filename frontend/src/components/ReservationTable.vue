@@ -3,16 +3,16 @@
       <div class="reservation-text">
         <h3>Découvrez la spécialité du jour !</h3>
         <p>
-          Le Gourmet vous invite à savourer une expérience unique avec notre spécialité du jour. 
+          Le Gourmet vous invite à savourer une expérience unique avec notre spécialité du jour.
           Les places sont limitées, alors réservez dès maintenant pour ne pas manquer cette occasion !
         </p>
-        <router-link to="/reservation-restaurant" class="reservation-button">
+        <router-link :to="{ name: 'ReservationRestaurantList' }" class="reservation-button">
           -> Réserver une table
         </router-link>
       </div>
-      <img 
-        src="@/assets/gourmet.jpg" 
-        alt="Image Gourmet" 
+      <img
+        src="@/assets/gourmet.jpg"
+        alt="Image Gourmet"
         class="reservation-image"
       />
     </div>

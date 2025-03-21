@@ -1,547 +1,454 @@
 const express = require("express");
-const userController =
-    require("../controllers/users.controller");
-const userMiddleware =
-    require("../middlewares/users.middleware");
+const userController = require("../controllers/users.controller");
+const userMiddleware = require("../middlewares/users.middleware");
 var router = express.Router();
 
-router.get("/", userController.home)
-/**
- * @swagger
- * /api/users/:
- *   get:
- *     description: Used to know if the user is in the session
- *     tags:
- *       - Users
- *     responses:
- *       '200':
- *         description: A user object associated with the session
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 id:
- *                   type: integer
- *                   description: The unique identifier for the user.
- *                 name:
- *                   type: string
- *                   description: The name of the user.
- *                 email:
- *                   type: string
- *                   description: The email address of the user.
- *                 created_at:
- *                   type: string
- *                   format: date-time
- *                   description: The date and time when the user was created.
- *       '401':
- *         description: User is not connected (no session available)
- *       '500':
- *         description: Internal server error
- */
 
 
-router.get("/getAllUser",userController.getUsers);
-/**
- * @swagger
- * /api/users/getAllUser:
- *   get:
- *     description: Used to retrieve all users
- *     tags:
- *       - Users
- *     responses:
- *       '200':
- *         description: A list of users
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                     description: The unique identifier for the user.
- *                   name:
- *                     type: string
- *                     description: The name of the user.
- *                   email:
- *                     type: string
- *                     description: The email address of the user.
- *       '500':
- *         description: Internal server error
- */
+module.exports = (passport) => {
+    router.get("/", userMiddleware.isLoggedIn, userController.home)
+    /**
+     * @swagger
+     * /api/users/:
+     *   get:
+     *     description: Vérifie si un utilisateur est connecté à la session
+     *     tags:
+     *       - Utilisateurs
+     *     responses:
+     *       '200':
+     *         description: Objet utilisateur associé à la session active
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 id:
+     *                   type: integer
+     *                   description: Identifiant unique de l'utilisateur
+     *                 name:
+     *                   type: string
+     *                   description: Nom de l'utilisateur
+     *                 email:
+     *                   type: string
+     *                   description: Adresse email de l'utilisateur
+     *                 created_at:
+     *                   type: string
+     *                   format: date-time
+     *                   description: Date et heure de création de l'utilisateur
+     *       '401':
+     *         description: Utilisateur non connecté (session indisponible)
+     *       '500':
+     *         description: Erreur interne du serveur
+     */
 
-router.get('/getNotificationByUserID', userMiddleware.isLogin, userController.getNotificationByUserID)
-/**
- * @swagger
- * /api/users/getNotificationByUserID:
- *   get:
- *     description: Retrieve notifications for a specific user by their ID
- *     tags:
- *       - Users
- *     responses:
- *       '200':
- *         description: A list of notifications for the specified user
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                     description: The unique identifier for the notification
- *                     example: 101
- *                   message:
- *                     type: string
- *                     description: The content of the notification
- *                     example: "You have a new message."
- *                   created_at:
- *                     type: string
- *                     format: date-time
- *                     description: The timestamp when the notification was created
- *                     example: "2024-12-13T14:00:00Z"
- *         '401':
- *           description: L'utilisateur n'est pas connecté.
- *           content:
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: "Vous n'êtes pas connecté"
- *       '500':
- *         description: Internal server error
- */
+    router.get("/logout", userMiddleware.isLoggedIn, userController.logout);
+    /**
+     * @swagger
+     * /api/users/logout:
+     *   get:
+     *     description: Permet à un utilisateur connecté de se déconnecter en détruisant sa session.
+     *     tags:
+     *       - Utilisateurs
+     *     responses:
+     *       '200':
+     *         description: Déconnexion réussie.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 error:
+     *                   type: integer
+     *                   example: 0
+     *                 data:
+     *                   type: string
+     *                   example: "Déconnexion réussie"
+     *       '400':
+     *         description: Erreur lors de la tentative de déconnexion.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 error:
+     *                   type: integer
+     *                   example: 1
+     *                 data:
+     *                   type: string
+     *                   example: "Erreur de déconnexion"
+     */
 
+    router.get("/getAllUser", userController.getUsers);
+    /**
+     * @swagger
+     * /api/users/getAllUser:
+     *   get:
+     *     description: Récupère la liste de tous les utilisateurs
+     *     tags:
+     *       - Utilisateurs
+     *     responses:
+     *       '200':
+     *         description: Liste des utilisateurs
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: array
+     *               items:
+     *                 type: object
+     *                 properties:
+     *                   id:
+     *                     type: integer
+     *                     description: Identifiant unique de l'utilisateur
+     *                   name:
+     *                     type: string
+     *                     description: Nom de l'utilisateur
+     *                   email:
+     *                     type: string
+     *                     description: Adresse email de l'utilisateur
+     *       '500':
+     *         description: Erreur interne du serveur
+     */
 
-router.post("/connexion" ,userMiddleware.validateLogin, userController.connexion);
-/**
- * @swagger
- * /api/users/connexion:
- *   post:
- *     description: Used to get a specific user by login and password
- *     tags:
- *       - Users
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - login
- *               - mdp
- *             properties:
- *               login:
- *                 type: string
- *                 minLength: 1
- *                 maxLength: 45
- *                 example: carole.durand@example.com
- *               mdp:
- *                 type: string
- *                 minLength: 1
- *                 maxLength: 45
- *                 example: admin
- *     responses:
- *       '200':
- *         description: Successfully user found
- *       '400':
- *         description: Bad request - Login or password missing or invalid
- *       '404':
- *         description: User not found
- *       '500':
- *         description: Internal server error
- *       security:
- *         - sessionAuth: []
- *
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: session_id
- */
+    router.get('/getNotificationByUserID/:id', userMiddleware.isLoggedIn, userController.getNotificationByUserID)
+    /**
+     * @swagger
+     * /api/users/getNotificationByUserID/{id}:
+     *   get:
+     *     description: Récupère les notifications pour un utilisateur spécifique par son ID
+     *     tags:
+     *       - Utilisateurs
+     *     parameters:
+     *       - in: path
+     *         name: id
+     *         required: true
+     *         description: ID de l'utilisateur
+     *         schema:
+     *           type: integer
+     *     responses:
+     *       '200':
+     *         description: Liste des notifications pour l'utilisateur spécifié
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: array
+     *               items:
+     *                 type: object
+     *                 properties:
+     *                   id:
+     *                     type: integer
+     *                     description: Identifiant unique de la notification
+     *                   message:
+     *                     type: string
+     *                     description: Contenu de la notification
+     *                   created_at:
+     *                     type: string
+     *                     format: date-time
+     *                     description: Date de création de la notification
+     *       '401':
+     *         description: L'utilisateur n'est pas connecté
+     *       '500':
+     *         description: Erreur interne du serveur
+     */
 
+    router.post("/connexion", userMiddleware.validateLogin, passport.authenticate("local-signin"), userController.connexion);
+    /**
+     * @swagger
+     * /api/users/connexion:
+     *   post:
+     *     description: Permet à un utilisateur de se connecter avec un login et un mot de passe
+     *     tags:
+     *       - Utilisateurs
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - login
+     *               - mdp
+     *             properties:
+     *               login:
+     *                 type: string
+     *                 description: Login de l'utilisateur
+     *               mdp:
+     *                 type: string
+     *                 description: Mot de passe de l'utilisateur
+     *     responses:
+     *       '200':
+     *         description: Connexion réussie
+     *       '400':
+     *         description: Requête invalide - Login ou mot de passe manquant ou invalide
+     *       '404':
+     *         description: Utilisateur non trouvé
+     *       '500':
+     *         description: Erreur interne du serveur
+     */
 
-router.post("/signup" ,userMiddleware.validatePassword, userController.signup);
-/**
- * @swagger
- * /api/users/signup:
- *   post:
- *     description: Used to register a user
- *     tags:
- *       - Users
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - login
- *               - mdp
- *             properties:
- *               login:
- *                 type: string
- *                 minLength: 1
- *                 maxLength: 45
- *                 example: a.dupont@example.com
- *               mdp:
- *                 type: string
- *                 minLength: 8
- *                 maxLength: 45
- *                 example: Userdede1234*
- *               numero:
- *                 type: string
- *                 minLength: 10
- *                 maxLength: 11
- *                 example: 1020304050
- *               username:
- *                 type: string
- *                 minLength: 1
- *                 maxLength: 45
- *                 example: DedeCasqueDargent
- *               adresse:
- *                 type: string
- *                 minLength: 1
- *                 maxLength: 45
- *                 example: 70 rue la brouette
- *               codePrest:
- *                 type: integer
- *                 minLength: 1
- *                 maxLength: 10
- *                 example: 497
- *               signUp:
- *                 type: string
- *                 minLength: 1
- *                 maxLength: 45
- *                 example: Prestataire
- *     responses:
- *       '200':
- *         description: Successfully registered user
- *       '400':
- *         description: Bad request - password invalid
- *       '500':
- *         description: Internal server error
- */
+    router.post("/signup", userMiddleware.validatePassword, passport.authenticate("local-signup"), userController.signup);
+    /**
+     * @swagger
+     * /api/users/signup:
+     *   post:
+     *     description: Inscription d'un nouvel utilisateur
+     *     tags:
+     *       - Utilisateurs
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - login
+     *               - mdp
+     *             properties:
+     *               login:
+     *                 type: string
+     *                 description: Email de l'utilisateur
+     *               mdp:
+     *                 type: string
+     *                 description: Mot de passe sécurisé de l'utilisateur
+     *     responses:
+     *       '200':
+     *         description: Inscription réussie
+     *       '400':
+     *         description: Mot de passe invalide ou informations manquantes
+     *       '500':
+     *         description: Erreur interne du serveur
+     */
 
+    router.post('/sendAvis', userMiddleware.isLoggedIn , userController.sendAvis)
+    /**
+     * @swagger
+     * /api/users/sendAvis:
+     *   post:
+     *     description: Permet à un utilisateur d'envoyer un avis pour un prestataire
+     *     tags:
+     *       - Utilisateurs
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - id_prestataire
+     *               - texte
+     *               - note
+     *             properties:
+     *               id_prestataire:
+     *                 type: integer
+     *                 description: Identifiant du prestataire
+     *               texte:
+     *                 type: string
+     *                 description: Contenu de l'avis
+     *               note:
+     *                 type: integer
+     *                 description: Note attribuée au prestataire
+     *     responses:
+     *       '200':
+     *         description: Avis publié avec succès
+     *       '401':
+     *         description: L'utilisateur n'est pas connecté
+     *       '500':
+     *         description: Erreur interne du serveur
+     */
 
-router.post('/sendAvis',userMiddleware.isLogin, userController.sendAvis)
-/**
- * @swagger
- * /api/users/sendAvis:
- *   post:
- *     description: Used to send a review (avis) for a service provider (prestataire)
- *     tags:
- *       - Users
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - id_prestataire
- *               - texte
- *               - note
- *             properties:
- *               id_prestataire:
- *                 type: integer
- *                 description: The ID of the service provider (prestataire)
- *                 example: 1
- *               texte:
- *                 type: string
- *                 description: The content of the review (text)
- *                 example: "Très bon service, je recommande !"
- *               note:
- *                 type: integer
- *                 description: The rating for the service, typically a number between 1 and 5
- *                 example: 5
- *     responses:
- *       '200':
- *         description: The review has been successfully posted
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: string
- *                   example: "L'avis a été publié avec succès"
- *         '401':
- *           description: L'utilisateur n'est pas connecté.
- *           content:
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: "Vous n'êtes pas connecté"
- *       '500':
- *         description: Internal server error
- *       security:
- *         - sessionAuth: []
- *
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: session_id
- */
+    router.delete('/deleteAvis', userMiddleware.isLoggedIn, userController.deleteAvis)
+    /**
+     * @swagger
+     * /api/users/deleteAvis:
+     *   delete:
+     *     description: Supprime un avis donné par son ID
+     *     tags:
+     *       - Utilisateurs
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - id
+     *             properties:
+     *               id:
+     *                 type: integer
+     *                 description: ID de l'avis à supprimer
+     *     responses:
+     *       '200':
+     *         description: Avis supprimé avec succès
+     *       '401':
+     *         description: L'utilisateur n'est pas connecté
+     *       '500':
+     *         description: Erreur interne du serveur
+     */
 
-router.delete('/deleteAvis',userMiddleware.isLogin, userController.deleteAvis)
-/**
- * @swagger
- * /api/users/deleteAvis:
- *   delete:
- *     description: Used to delete an avis (review) by its ID
- *     tags:
- *       - Users
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - id
- *             properties:
- *               id:
- *                 type: integer
- *                 description: The ID of the avis to delete
- *                 example: 2
- *     responses:
- *       '200':
- *         description: Avis has been successfully deleted
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: string
- *                   example: "L'avis a été supprimé avec succès"
- *         '401':
- *           description: L'utilisateur n'est pas connecté.
- *           content:
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: "Vous n'êtes pas connecté"
- *       '500':
- *         description: Internal server error
- *       security:
- *         - sessionAuth: []
- *
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: session_id
- */
+    router.put('/modifyAvis', userMiddleware.isLoggedIn, userController.modifyAvis)
+    /**
+     * @swagger
+     * /api/users/modifyAvis:
+     *   put:
+     *     description: Modifie un avis existant pour un prestataire
+     *     tags:
+     *       - Utilisateurs
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - texte
+     *               - note
+     *               - id
+     *             properties:
+     *               texte:
+     *                 type: string
+     *                 description: Nouveau contenu de l'avis
+     *               note:
+     *                 type: integer
+     *                 description: Nouvelle note attribuée
+     *               id:
+     *                 type: integer
+     *                 description: ID de l'avis à modifier
+     *     responses:
+     *       '200':
+     *         description: Avis modifié avec succès
+     *       '401':
+     *         description: L'utilisateur n'est pas connecté
+     *       '500':
+     *         description: Erreur interne du serveur
+     */
 
+    router.put('/changePersonnalData',userMiddleware.isLoggedIn, userController.changePersonnalData)
+    /**
+     * @swagger
+     * /api/users/changePersonnalData:
+     *   put:
+     *     description: Permet de mettre à jour les données personnelles (nom, email, numéro de téléphone, adresse) d'un utilisateur spécifique.
+     *     tags:
+     *       - Utilisateurs
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - id
+     *               - nom
+     *               - email
+     *               - numero
+     *               - adresse
+     *             properties:
+     *               id:
+     *                 type: integer
+     *                 description: L'identifiant unique de l'utilisateur.
+     *                 example: 1
+     *               nom:
+     *                 type: string
+     *                 description: Le nouveau nom de l'utilisateur.
+     *                 example: "John Doe"
+     *               email:
+     *                 type: string
+     *                 description: Le nouvel email de l'utilisateur.
+     *                 example: "john.doe@example.com"
+     *               numero:
+     *                 type: string
+     *                 description: Le nouveau numéro de téléphone de l'utilisateur.
+     *                 example: "0123456789"
+     *               adresse:
+     *                 type: string
+     *                 description: La nouvelle adresse de l'utilisateur.
+     *                 example: "1234 Rue de l'Érable"
+     *     responses:
+     *       '200':
+     *         description: Données personnelles mises à jour avec succès.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 error:
+     *                   type: integer
+     *                   example: 0
+     *                 data:
+     *                   type: object
+     *                   description: Les nouvelles données de l'utilisateur.
+     *       '401':
+     *         description: L'utilisateur n'est pas connecté.
+     *         content:
+     *           text/plain:
+     *             schema:
+     *               type: string
+     *               example: "Vous n'êtes pas connecté"
+     *       '500':
+     *         description: Erreur interne du serveur.
+     */
 
-router.put('/modifyAvis',userMiddleware.isLogin, userController.modifyAvis)
-/**
- * @swagger
- * /api/users/modifyAvis:
- *   put:
- *     description: Used to modify an existing review (avis) for a service provider (prestataire)
- *     tags:
- *       - Users
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - texte
- *               - note
- *               - id
- *             properties:
- *               texte:
- *                 type: string
- *                 description: The updated content of the review (text)
- *                 example: "Service de qualité, très satisfait !"
- *               note:
- *                 type: integer
- *                 description: The updated rating for the service, typically a number between 1 and 5
- *                 example: 4
- *               id:
- *                 type: integer
- *                 description: The ID of the review to modify
- *                 example: 2
- *     responses:
- *       '200':
- *         description: The review has been successfully modified
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: string
- *                   example: "L'avis a été modifié avec succès"
- *         '401':
- *           description: L'utilisateur n'est pas connecté.
- *           content:
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: "Vous n'êtes pas connecté"
- *       '500':
- *         description: Internal server error
- *       security:
- *         - sessionAuth: []
- *
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: session_id
- */
+    router.put('/changePassword',
+        userMiddleware.isLoggedIn,
+        userMiddleware.validatePassword,
+        userMiddleware.validateActualPassword,
+        userMiddleware.passwordAlreadyUsed,
+        userController.changePassword)
+    /**
+     * @swagger
+     * /api/users/changePassword:
+     *   put:
+     *     description: Permet de changer le mot de passe d'un utilisateur après validation de l'ancien mot de passe.
+     *     tags:
+     *       - Utilisateurs
+     *     requestBody:
+     *       required: true
+     *       content:
+     *         application/json:
+     *           schema:
+     *             type: object
+     *             required:
+     *               - id
+     *               - newPassword
+     *             properties:
+     *               id:
+     *                 type: integer
+     *                 description: L'identifiant unique de l'utilisateur.
+     *                 example: 1
+     *               newPassword:
+     *                 type: string
+     *                 description: Le nouveau mot de passe de l'utilisateur.
+     *                 example: "NouveauMotDePasse456@"
+     *     responses:
+     *       '200':
+     *         description: Mot de passe changé avec succès.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 data:
+     *                   type: string
+     *                   example: "Mot de passe changée"
+     *       '400':
+     *         description: Mauvaise requête - Le mot de passe actuel est incorrect ou le nouveau mot de passe ne respecte pas les critères de sécurité.
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 error:
+     *                   type: string
+     *                   example: "Le mot de passe courant donné n'est pas le bon"
+     *       '401':
+     *         description: L'utilisateur n'est pas connecté.
+     *         content:
+     *           text/plain:
+     *             schema:
+     *               type: string
+     *               example: "Vous n'êtes pas connecté"
+     *       '500':
+     *         description: Erreur interne du serveur.
+     */
 
-router.put('/changePersonnalData',userMiddleware.isLogin, userController.changePersonnalData)
-/**
- * @swagger
- * /api/users/changePersonnalData:
- *   put:
- *     description: Update the personal data (name, email, phone number, address) for a specific user
- *     tags:
- *       - Users
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - nom
- *               - email
- *               - numero
- *               - adresse
- *             properties:
- *               nom:
- *                 type: string
- *                 description: The updated name of the user
- *                 example: "John Doe"
- *               email:
- *                 type: string
- *                 description: The updated email address of the user
- *                 example: "john.doe@example.com"
- *               numero:
- *                 type: string
- *                 description: The updated phone number of the user
- *                 example: "0123456789"
- *               adresse:
- *                 type: string
- *                 description: The updated address of the user
- *                 example: "1234 Elm Street"
- *     responses:
- *       '200':
- *         description: Successfully updated user personal data
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: string
- *                   example: "Données mise à jour"
- *         '401':
- *           description: L'utilisateur n'est pas connecté.
- *           content:
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: "Vous n'êtes pas connecté"
- *       '500':
- *         description: Internal server error
- *       security:
- *         - sessionAuth: []
- *
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: session_id
- */
-
-router.put('/changePassword',
-    userMiddleware.isLogin,
-    userMiddleware.validatePassword,
-    userMiddleware.validateActualPassword,
-    userMiddleware.passwordAlreadyUsed,
-    userController.changePassword)
-/**
- * @swagger
- * /api/users/changePassword:
- *   put:
- *     description: Allows a user to change their password. Validates the current password and ensures the new password meets security criteria and has not been used before.
- *     tags:
- *       - Users
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - actualPassword
- *               - newPassword
- *             properties:
- *               actualPassword:
- *                 type: string
- *                 description: The current password of the user
- *                 example: "OldPassword123!"
- *               newPassword:
- *                 type: string
- *                 description: The new password for the user
- *                 example: "NewPassword456@"
- *     responses:
- *       '200':
- *         description: Password successfully changed
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: string
- *                   example: "Mot de passe changée"
- *       '400':
- *         description: Bad request - Password validation failed or new password already used
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: "Le mot de passe courant donné n'est pas le bon"
- *         '401':
- *           description: L'utilisateur n'est pas connecté.
- *           content:
- *             text/plain:
- *               schema:
- *                 type: string
- *                 example: "Vous n'êtes pas connecté"
- *       '500':
- *         description: Internal server error
- *       security:
- *         - sessionAuth: []
- *
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: session_id
- */
-
-
-module.exports = router;
+    return router;
+}
