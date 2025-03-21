@@ -10,6 +10,10 @@
             <div class="panier-details">
               <h2 class="panier-name">{{ article.nom }}</h2>
               <p class="panier-price">{{ article.prix }}€</p>
+              <p v-if="article.tailleSelectionnee" class="panier-taille">
+                <strong>Taille :</strong> {{ article.tailleSelectionnee }}
+               </p>
+              <p class="panier-details">{{ article.description }}</p>
               <div class="panier-quantity">
                 <button @click="modifierQuantite(article, -1)">➖</button>
                 <span>{{ article.quantite }}</span>

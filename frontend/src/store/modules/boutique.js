@@ -7,6 +7,16 @@ export default {
     panier: [],
   }),
   mutations: {
+    modifierQuantite: (state, { goodieId, quantite }) => {
+      const item = state.panier.find((item) => item.id === goodieId);
+      if (item) {
+        item.quantite += quantite;
+        if (item.quantite <= 0) {
+          state.panier = state.panier.filter((item) => item.id !== goodieId);
+        }
+      }
+    },
+    
     // Met à jour la liste des goodies
     setGoodies: (state, goodies) => {
       state.goodies = goodies;
@@ -41,6 +51,9 @@ export default {
   },
 
   actions: {
+    modifierQuantite({ commit }, payload) {
+      commit("modifierQuantite", payload);
+    },    
     // Charge tous les goodies depuis `data.js`
     getAllGoodies({ commit }) {
       commit("setGoodies", goodies);
