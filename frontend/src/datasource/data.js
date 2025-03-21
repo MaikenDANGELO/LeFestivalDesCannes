@@ -1903,6 +1903,17 @@ let notifications = []
 
 let MOTS_DE_PASSE_UTILISATEURS = []
 
+let canard_defile = [
+    {
+        "id": 1,
+        "nom": "Jacques",
+        "nom_propriétaire": "Jean",
+        "espece": "colvert",
+        "region": "bretagne",
+        "heure_defile": "16:00"
+    }
+]
+
 module.exports = {
     disponibilitesResto,
     balades,
@@ -1923,4 +1934,5 @@ module.exports = {
     classement_concours,
     goodies,
     shopInfo,
+    canard_defile,
 };

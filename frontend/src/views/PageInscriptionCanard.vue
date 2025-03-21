@@ -90,6 +90,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import prestatairesService from "@/services/prestataires.service"
 
   export default {
     name: "PageInscriptionCanard",
@@ -100,14 +101,6 @@ import { mapState } from 'vuex';
           nom: "",
           espece: "",
           region: "",
-        },
-        lastSubmission: {
-          proprietaire: "",
-          nom: "",
-          espece: "",
-          region: "",
-          numero: "",
-          heureDefile: "",
         },
         numero: 1,
         heureDefile: "",
@@ -125,8 +118,9 @@ import { mapState } from 'vuex';
       ...mapState("utilisateurs", ['utilisateur']),
     },
     methods: {
-      fetchCurrentNumero() {
-        this.numero = 6;
+      async fetchCurrentNumero() {
+        this.numero = await prestatairesService.getNextCanardDefileID();
+        this.numero = this.numero.data
       },
 
       setHeureDefile() {
@@ -166,14 +160,14 @@ import { mapState } from 'vuex';
 
       submitForm() {
         this.lastSubmission = {
-          proprietaire: this.form.proprietaire,
-          nom: this.form.nom,
-          espece: this.form.espece,
-          region: this.form.region,
-          numero: this.numero,
-          heureDefile: this.heureDefile,
+          "id": this.numero,
+          "nom": this.form.nom,
+          "nom_proprietaire": this.form.proprietaire,
+          "espece": this.form.espece,
+          "region": this.form.region,
+          "heureDefile": this.heureDefile,
         };
-  
+        prestatairesService.insertCanardDefile(this.lastSubmission)
         this.showTicket = true;
   
         alert(
