@@ -820,7 +820,7 @@ let goodies = [
         stock: 50,
         image: "coque1.jpg",
         categorie: "accessoire_et_lifestyle",
-        pays_fabrication: "Corée du Sud",
+        pays_fabrication: "Chine",
         composition: "Plastique rigide, impression HD",
         temps_livraison: "4 à 6 jours ouvrés",
         avis: [] 
