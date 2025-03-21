@@ -227,10 +227,8 @@ export default {
     },
     async getClassementConcours(){
       let classement = await prestatairesService.getAllClassementConcours();
-      console.log(classement)
       this.classement = classement.data.filter(e => e.concours === "cuisine");
       this.classement.sort(this.compareClassement);
-      console.log(this.classement)
     },
     getUserFromClassement(id){
       return this.utilisateurs.find(e => e.id_utilisateur === parseInt(id));
@@ -261,6 +259,15 @@ export default {
         this.avisMofication = false;
         this.idAvisModification = null;
       } else {
+        for(let a of this.avis_prestataire){
+          if(parseInt(a["id_utilisateur"]) === parseInt(this.utilisateur.id) && parseInt(a["id_prestataire"]) === parseInt(this.prestataire['id'])){
+            await usersService.modifyAvis(data, a["id_commentaire"]);
+            this.user_comment = '';
+            this.user_note = 0;
+            await this.getPrestataireAvis(this.prestataire['id']);
+            return;
+          }
+        }
         await prestatairesService.sendAvisOfUser(data);
       }
       this.user_comment = '';

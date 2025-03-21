@@ -371,7 +371,6 @@ function modifyAvis(data, id){
     };
     try {
         avis[id-1] = insert;
-        console.log(avis + ' ' + id)
         return { error: 0, status:200, data:"Avis mis à jour correctement"};
     }catch (error) {
         return { error: 1, status: 500, data: error.message }
