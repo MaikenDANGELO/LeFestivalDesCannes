@@ -10,6 +10,7 @@ export default {
             email:'',
             adresse:'',
             numero:'',
+            id_prestataire:'',
             estConnecte:false,
         },
         utilisateurs: [],
@@ -22,6 +23,7 @@ export default {
             state.utilisateur.email = user.email_utilisateur
             state.utilisateur.adresse = user.adresse_utilisateur
             state.utilisateur.numero = user.telephone
+            if(user.role=='prestataire') state.utilisateur.id_prestataire = user.id_prestataire
             state.utilisateur.estConnecte = true
         },
         LOGOUT(state) {

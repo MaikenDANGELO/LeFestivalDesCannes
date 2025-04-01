@@ -13,11 +13,12 @@ let utilisateurs = [
         "id_utilisateur": 2,
         "nom_utilisateur": "Bob Martin",
         "email_utilisateur": "bob.martin@example.com",
-        "mot_de_passe": "$2b$10$O4aTDFMXhFL7Z1BRvkFpUuhcu8Q7ReCA0zEFkfv9uMfETV74gQVFO",
+        "mot_de_passe": "$2a$10$NXn/UVZz3yYcV.xGweJ29.K/aZSE.FIHl2NXcPbX1BT4xUwSiuwJ6", // boutique
         "adresse_utilisateur": "456 avenue de Lyon, 69001 Lyon, France",
         "telephone": "0987654321",
         "date_inscription": "2024-01-05T00:00:00.000Z",
-        "role": "prestataire"
+        "role": "prestataire",
+        "id_prestataire": 4
     },
     {
         "id_utilisateur": 3,
@@ -47,7 +48,8 @@ let utilisateurs = [
         "adresse_utilisateur": "654 avenue de Nice, 06000 Nice, France",
         "telephone": "0612345678",
         "date_inscription": "2024-04-20T00:00:00.000Z",
-        "role": "prestataire"
+        "role": "prestataire",
+        "id_prestataire": 5
     },
     {
         "id_utilisateur": 6,
@@ -57,7 +59,8 @@ let utilisateurs = [
         "adresse_utilisateur": "123 avenue Bordeaux, 33000 Bordeaux, France",
         "telephone": "0600000001",
         "date_inscription": "2024-06-01T00:00:00.000Z",
-        "role": "prestataire"
+        "role": "prestataire",
+        "id_prestataire": 6,
     },
     {
         "id_utilisateur": 7,
@@ -67,7 +70,8 @@ let utilisateurs = [
         "adresse_utilisateur": "123 rue Strasbourg, 67000 Strasbourg, France",
         "telephone": "0600000002",
         "date_inscription": "2024-06-01T00:00:00.000Z",
-        "role": "prestataire"
+        "role": "prestataire",
+        "id_prestataire": 7
     },
     {
         "id_utilisateur": 8,
@@ -77,7 +81,8 @@ let utilisateurs = [
         "adresse_utilisateur": "123 rue Rouen, 76000 Rouen, France",
         "telephone": "0600000003",
         "date_inscription": "2024-06-01T00:00:00.000Z",
-        "role": "prestataire"
+        "role": "prestataire",
+        "id_prestataire": 8
     },
     {
         "id_utilisateur": 9,
@@ -87,7 +92,8 @@ let utilisateurs = [
         "adresse_utilisateur": "123 rue Reims, 51100 Reims, France",
         "telephone": "0600000004",
         "date_inscription": "2024-06-01T00:00:00.000Z",
-        "role": "prestataire"
+        "role": "prestataire",
+        "id_prestataire": 3,
     },
     {
         "id_utilisateur": 10,
@@ -97,7 +103,8 @@ let utilisateurs = [
         "adresse_utilisateur": "321 avenue Nancy, 54000 Nancy, France",
         "telephone": "0600000005",
         "date_inscription": "2024-06-02T00:00:00.000Z",
-        "role": "prestataire"
+        "role": "prestataire",
+        "id_prestataire": 2
     },
     {
         "id_utilisateur": 11,
@@ -107,7 +114,8 @@ let utilisateurs = [
         "adresse_utilisateur": "654 avenue Metz, 57000 Metz, France",
         "telephone": "0600000006",
         "date_inscription": "2024-06-03T00:00:00.000Z",
-        "role": "prestataire"
+        "role": "prestataire",
+        "id_prestataire": 1
     }
 ];
 
@@ -1905,12 +1913,22 @@ let MOTS_DE_PASSE_UTILISATEURS = []
 
 let canard_defile = [
     {
-        "id": 1,
-        "nom": "Jacques",
-        "nom_propriétaire": "Jean",
-        "espece": "colvert",
-        "region": "bretagne",
-        "heure_defile": "16:00"
+        id: 1,
+        nom: "Jacques",
+        nom_propriétaire: "Jean",
+        espece: "colvert",
+        region: "bretagne",
+        heure_defile: "16:00"
+    }
+]
+
+let commandes = [
+    {
+        id: 1,
+        acheteur: "john smith",
+        adresse: "1 rue de la république, 01000",
+        lignes_commande: [],
+        total: 100
     }
 ]
 
@@ -1935,4 +1953,5 @@ module.exports = {
     goodies,
     shopInfo,
     canard_defile,
+    commandes,
 };

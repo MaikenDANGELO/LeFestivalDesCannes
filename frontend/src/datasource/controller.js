@@ -1,4 +1,4 @@
-import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, canard_defile, notifications, MOTS_DE_PASSE_UTILISATEURS, emplacements, disponibilitesResto, reservations, classement_concours, shopInfo} from "./data";
+import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, commandes, associations, demandePrestataires, canard_defile, notifications, MOTS_DE_PASSE_UTILISATEURS, emplacements, disponibilitesResto, reservations, classement_concours, shopInfo} from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllRatings(){
@@ -517,7 +517,7 @@ function getNextCanardDefileID(){
     let maxID = 1;
     if(canard_defile.length == 0) return {error: 0, status: 200, data: maxID}
     for(let canard of canard_defile){
-        if(canard["id"] > maxID) maxID = canard["id"]
+        if(canard.id > maxID) maxID = canard.id
     }
     return {error: 0, status: 200, data: maxID+1}
 }
@@ -525,15 +525,27 @@ function getNextCanardDefileID(){
 function insertCanardDefile(data){
     if(!data) return {error: 1, status: 404, data: "aucune donnée à insérer"}
     let canard = {
-        "id": getNextCanardDefileID().data,
-        "nom": data.nom,
-        "nom_propriétaire": data.proprietaire,
-        "espece": data.espece,
-        "region": data.region,
-        "heure_defile": data.heure
+        id: getNextCanardDefileID().data,
+        nom: data.nom,
+        nom_propriétaire: data.proprietaire,
+        espece: data.espece,
+        region: data.region,
+        heure_defile: data.heure
     }
     canard_defile.push(canard)
     return {error: 0, status: 200, data: "insertion avec succès"}
+}
+
+function getAllCommandes(){
+    return {error: 0, status: 200, data: commandes}
+}
+
+function getBoutiqueChiffreDaffaire(){
+    let sum = 0;
+    for(let el of commandes){
+        sum += el.total
+    }
+    return {error: 0, status: 200, data: sum}
 }
 
 export default {
@@ -579,4 +591,6 @@ export default {
     changeShopStatusFromId,
     getNextCanardDefileID,
     insertCanardDefile,
+    getAllCommandes,
+    getBoutiqueChiffreDaffaire,
 };

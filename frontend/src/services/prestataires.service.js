@@ -250,6 +250,26 @@ async function changeShopStatusFromId(shop_id){
     return response;
 }
 
+async function getAllBoutiqueCommandes(){
+    let response;
+    try{
+        response = await LocalSource.getAllCommandes();
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la récupération des commandes de la boutique"};
+    }
+    return response;
+}
+
+async function getBoutiqueChiffreDaffaire(){
+    let response;
+    try{
+        response = await LocalSource.getBoutiqueChiffreDaffaire();
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la récupération du chiffre d'affaire de la boutique"};
+    }
+    return response;
+}
+
 async function getNextCanardDefileID(){
     let response;
     try{
@@ -321,4 +341,6 @@ export default {
     changeShopStatusFromId,
     getNextCanardDefileID,
     insertCanardDefile,
+    getAllBoutiqueCommandes,
+    getBoutiqueChiffreDaffaire,
 }

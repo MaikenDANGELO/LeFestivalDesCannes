@@ -5,9 +5,12 @@
       <h2>{{ $t('boutiqueTexts.revenezPlusTard') }}</h2>
     </div>
     <div class="boutique-container">
-      <div class="adminToggle" v-if="utilisateur.role=='admin'">
+      <div class="adminToggle" v-if="(utilisateur.role=='prestataire'&&utilisateur.id_prestataire==4)||(utilisateur.role=='admin')">
         <button @click="ToggleBoutique">{{ $t('boutiqueTexts.toggleBoutique') }}</button>
         <p>{{ $t('boutiqueTexts.status') }}: {{ shopStatus ? $t('boutiqueTexts.activee') : $t('boutiqueTexts.desactivee') }}</p>
+      </div>
+      <div class="boutiqueChiffreAffaire" v-if="(utilisateur.role=='prestataire'&&utilisateur.id_prestataire==4)||(utilisateur.role=='admin')">
+        <p>Chiffre d'affaire: {{ chiffreDaffaire }}€</p>
       </div>
       <h1 class="boutique-title">{{ $t('boutiqueTexts.titre') }}</h1>
       <p class="boutique-subtitle">{{ $t('boutiqueTexts.sousTitre') }}</p>
@@ -37,6 +40,7 @@
     name: "PageBoutique",
     data: () => ({
       shopStatus: true,
+      chiffreDaffaire: 0
     }),
     computed: {
       ...mapState("boutique", ["goodies", "panier"]),
@@ -71,7 +75,6 @@
       ...mapActions("boutique", ["getAllGoodies", "ajouterAuPanier", "retirerDuPanier", "validerCommande"]),
       async getShopStatusFromId(){
         let res = await prestataireServices.getShopStatusFromId(1);
-        console.log(res)
         this.shopStatus = res.data;
         return res.data;
       },
@@ -79,9 +82,11 @@
         let res = await prestataireServices.changeShopStatusFromId(1);
         this.shopStatus = res.data;
         await this.getShopStatusFromId(1)
-        console.log(res)
-        console.log(this.shopStatus)
         return res.data;
+      },
+      async getChiffreDAffaire(){
+        let res = await prestataireServices.getBoutiqueChiffreDaffaire();
+        return res.data
       }
     },
   
@@ -90,6 +95,7 @@
     },
     async mounted(){
       await this.getShopStatusFromId();
+      this.chiffreDaffaire = await this.getChiffreDAffaire();
     }
   };
   </script>
