@@ -53,33 +53,6 @@ async function modifyEmplacementPrestataire(prestId, emplacementId) {
     return response;
 }
 
-async function getAllDemandePrestataire() {
-    let response;
-    try {
-        response = await LocalSource.getAllDemandePrestataire();
-        if (response && response.data) {
-            return { error: 0, status: 200, data: response.data };
-        } else {
-            throw new Error("Données invalides");
-        }
-    } catch (error) {
-        return { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer les données.' };
-    }
-}
-
-
-
-
-async function deletePretataire(id){
-    let response;
-    try{
-        response = await LocalSource.deletePretataire(id);
-    }
-    catch(error){
-        response = {error: 1, status: 404, data:  'erreur réseau, impossible de modifier l\'empalcement'}
-    }
-    return response
-}
 
 async function sendNotification(id_user, message) {
     return sendNotificationFromAPI(id_user, message);
@@ -131,16 +104,6 @@ async function makeReservation(data){
 
 async function getAllReservationsFromLocalSource(){
     return LocalSource.getAllReservations();
-}
-
-async function getAllReservations(){
-    let response;
-    try{
-        response = null;
-    }catch(error){
-        response = {error: 1, status: 500, data: 'erreur réseau, impossible de récupérer les réservations'};
-    }
-    return response;
 }
 
 async function getReservationsfromUid(user_id) {
@@ -257,10 +220,7 @@ export default {
     sendAvisOfUser,
     modifyEmplacementPrestataire,
     sendFormPrestataire,
-    getAllDemandePrestataire,
-    deletePretataire,
     getAllDisponibiliteResto,
-    getAllReservations,
     makeReservation,
     getReservationsfromUid,
     cancelReservation,

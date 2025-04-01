@@ -44,7 +44,7 @@
                   :nom="sponsor.nom_sponsor"
                   :description-accueil="sponsor.description_accueil"
                   :image="sponsor.image"
-                  :pers-page-route="`/sponsor/${sponsor.id_sponsor}`">
+                  :pers-page-route="`/sponsor/${sponsor.id}`">
               </CartePrestatairePerso>
             </div>
           </div>

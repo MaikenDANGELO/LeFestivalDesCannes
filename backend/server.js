@@ -74,6 +74,7 @@ app.use("/api/prestataires",prestataireRouter);
 app.use("/api/administrateur",adminRouter);
 app.use("/api/sponsors",sponsorsRouter);
 app.use('/api/associations', require('./routes/associations.router'));
+app.use('/api/event', require('./routes/event.router'));
 
 // Middlewaires Gestion erreurs
 app.use("*",(req,res,next)=>{

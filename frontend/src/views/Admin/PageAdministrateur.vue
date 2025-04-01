@@ -130,7 +130,6 @@
 <script>
 import { mapActions, mapState } from 'vuex';
 import moneyService from '@/services/money.service';
-import prestatairesService from "@/services/prestataires.service";
 import * as adminService from "@/services/admin.service";
 
 export default {
@@ -250,7 +249,10 @@ export default {
         },
       async deletePrest(id){
         console.log(id)
-        const response = await prestatairesService.deletePretataire(id)
+        const response = await adminService.deletePrestService(id);
+        if(response.error === 0) {
+          this.getAllPrestataires();
+        }
         alert(response.data)
       }
     }

@@ -13,7 +13,6 @@ export default {
     },
     actions: {
         async getAllAssociations({ commit }) {
-            console.log("récupération des assos");
             let response = await AssociationsService.getAllAssociations();
             if (response.error === 0) {
                 commit("updateAssociations", response.data);

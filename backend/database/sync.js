@@ -40,6 +40,8 @@ const syncDatabase = async () => {
         Categories.hasMany(Prestataire, { foreignKey: 'id_categorie', as: 'prestataires', onDelete: 'CASCADE' });
         Prestataire.belongsTo(Categories, { foreignKey: 'id_categorie', as: 'relationCategorie', onDelete: 'CASCADE' });
 
+        Prestataire.hasMany(Reservation, { foreignKey: 'id_prestataire', as: 'reservations', onDelete: 'CASCADE' });
+        Reservation.belongsTo(Prestataire, { foreignKey: 'id_prestataire', as: 'prestataire', onDelete: 'CASCADE' });
 
         await sequelize.sync({ force: true });
 
@@ -222,6 +224,30 @@ const syncDatabase = async () => {
             { id_prestataire: 8, date: '2025-09-03', heure: '15:30', type_service: 'balade' },
             { id_prestataire: 8, date: '2025-09-03', heure: '16:00', type_service: 'balade' },
             { id_prestataire: 8, date: '2025-09-03', heure: '16:30', type_service: 'balade' }
+        ]);
+
+       await Association.bulkCreate(  [
+            {
+                id_association: "1",
+                nom_association: "Les Canards Ailés",
+                description_accueil: "Bienvenue à notre club passionné par l'aventure et la découverte.",
+                description: "Nous organisons des activités en plein air pour amateurs de nature et d'aventure, telles que des randonnées, des excursions en canoë et bien plus.",
+                image: convertImageToBase64("test/ImagesPrestataires/logo.png"),
+            },
+            {
+                id_association: "2",
+                nom_association: "La Plume Solidaire",
+                description_accueil: "Rejoignez-nous pour écrire un monde meilleur.",
+                description: "Association dédiée à l'aide humanitaire à travers des ateliers d'écriture et de sensibilisation dans les écoles et les quartiers.",
+                image:  convertImageToBase64("test/ImagesPrestataires/logo.png"),
+            },
+            {
+                id_association: "3",
+                nom_association: "L'Étang des Canards",
+                description_accueil: "Un havre de paix pour les amoureux des canards.",
+                description: "Cette association se consacre à la préservation des canards et de leurs habitats naturels à travers des actions locales et des ateliers pédagogiques.",
+                image: convertImageToBase64("test/ImagesPrestataires/logo.png"),
+            },
         ]);
 
         console.log('Database & tables created!');

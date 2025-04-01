@@ -6,7 +6,7 @@ const Association = sequelize.define('Association', {
     nom_association: { type: DataTypes.STRING },
     description_accueil: { type: DataTypes.STRING },
     description: { type: DataTypes.STRING },
-    image: { type: DataTypes.STRING }
+    image: { type: DataTypes.TEXT }
 }, {
     tableName: 'associations',
     timestamps: false

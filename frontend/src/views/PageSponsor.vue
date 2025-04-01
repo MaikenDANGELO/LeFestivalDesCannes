@@ -8,7 +8,6 @@
         <h1>{{ sponsor.nom_sponsor }}</h1>
         <p>{{ sponsor.description }}</p>
         <ul>
-          <li><strong>Catégorie:</strong> {{ sponsor.categorie }}</li>
           <li><strong>Emplacement:</strong> {{ sponsor.id_emplacement }}</li>
         </ul>
       </div>
@@ -17,7 +16,6 @@
       <p>Chargement des données... (probleme à régler en rechargeant la page)</p>
     </div>
   </template>
-  <!-- À ADAPTER POUR CORRESPONDRE AUX SPONSORS !!-->
 
   <script>
   import {mapActions, mapState} from 'vuex';

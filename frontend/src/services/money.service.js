@@ -1,5 +1,7 @@
 import {getRequest, postRequest} from "@/services/axios.service";
 
+
+
 async function getTotalDons(){
     let response
     try {
@@ -30,6 +32,21 @@ async function makeDonation(userId, prestaId, amount, message){
     return response
 }
 
+async function paidTicketService(data){
+    let response
+    try {
+        response = await paidTicketServiceFromAPI(data)
+    }catch (error) {
+        response = { error: 1, status: 404, data: error.message };
+    }
+    return response
+}
+
+
+async function paidTicketServiceFromAPI(data) {
+    return postRequest('/api/event/paidTicket', data, 'paidTicketService')
+}
+
 async function getTotalDonsFromAPI(){
     return getRequest('/api/prestataires/getTotalDons', 'getTotalDons')
 }
@@ -46,4 +63,5 @@ export default {
     getTotalDons,
     getTotalDonsOf,
     makeDonation,
+    paidTicketService
 }
