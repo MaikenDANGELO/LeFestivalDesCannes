@@ -17,7 +17,7 @@ exports.declineDemandePrest = async (req, res) => {
         else if (error === "Prestataire déjà accepté") return res.status(400).send(error);
         else if(error) return res.status(500).send(error);
 
-        return res.status(200).json({data: data});
+        return res.status(200).json({error: 0,data: data});
     });
 }
 

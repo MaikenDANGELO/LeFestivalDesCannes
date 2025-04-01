@@ -3,6 +3,9 @@ const Prestataire = require("../database/models/Prestataire");
 const Service = require("../database/models/Service");
 const Dons = require("../database/models/Don");
 const Reservation = require("../database/models/Reservation");
+const Categorie = require("../database/models/Categorie");
+const fs = require('fs');
+
 
 exports.getAvis = async (id, callback) => {
     try {
@@ -32,21 +35,16 @@ exports.getAllPrestataire = async (callback)=>{
         const prestataires = await Prestataire.findAll({
             include: [
                 {
-                    model: Service, // On inclut les services
-                    as: 'services', // L'alias de l'association (au cas où tu l'utilises)
-                    required: false // Pour inclure même les prestataires sans services
+                    model: Service,
+                    as: 'services',
+                    required: false
+                },
+                {
+                    model: Categorie,
+                    as: 'relationCategorie',
                 }
-            ]
+            ],
         });
-
-
-        /*
-        // Affichage des prestataires et de leurs services associés
-        prestataires.forEach(prestataire => {
-            console.log(prestataire.nom, prestataire.services);
-        });
-
-         */
         callback(null, prestataires);
     } catch (error) {
         callback(error, null);
@@ -55,11 +53,12 @@ exports.getAllPrestataire = async (callback)=>{
 
 exports.sendFormPrestataire = async (form, id_utilisateur, callback)=>{
     try {
+
         const prestataire = await Prestataire.create({
             nom: form.nom,
             description: form.description,
             description_accueil: form.description_accueil,
-            categorie: form.categorie,
+            id_categorie: form.categorie,
             id_emplacement: form.id_emplacement,
             image: form.image,
             accepted: false,
@@ -67,6 +66,7 @@ exports.sendFormPrestataire = async (form, id_utilisateur, callback)=>{
             page_route: '',
             id_evenement: 1
         });
+
 
         const services = form.services.map(service => ({
             id_service: service.id_service,
@@ -77,11 +77,9 @@ exports.sendFormPrestataire = async (form, id_utilisateur, callback)=>{
             id_prestataire: prestataire.id
         }));
 
-        console.log("Prestataire: ", prestataire);
-        console.log("Services: ", services);
+
         await Service.bulkCreate(services);
 
-        console.log("Services créés");
 
         callback(null, prestataire);
     } catch (error) {
@@ -160,7 +158,28 @@ exports.cancelbalade = async (balade_id, user_id, callback) => {
 }
 
 
-exports.makeReservation = async () => {}
+exports.makeReservation = async (userId, date, hour, pertId, option ,callback) => {
+    try {
+         const reservation = await Reservation.findOne({
+            where: {
+                id_prestataire: pertId,
+                date: date,
+                heure: hour
+            }
+        });
+
+        if (reservation) {
+            reservation.reserved_user_id = userId;
+            reservation.options = option;
+            await reservation.save();
+            callback(null, "Réservation effectuée avec succès");
+        } else {
+            callback("Réservation introuvable", null);
+        }
+    } catch (error) {
+        callback(error, null);
+    }
+}
 
 exports.getReservationsfromUid = async () => {}
 
@@ -196,6 +215,15 @@ exports.getAllDisponibiliteResto = async (id, callback) => {
             }
         });
         callback(null, reservations);
+    } catch (error) {
+        callback(error, null);
+    }
+}
+
+exports.getAllCategories = async (callback) => {
+    try {
+        const categories = await Categorie.findAll();
+        callback(null, categories);
     } catch (error) {
         callback(error, null);
     }

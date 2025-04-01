@@ -63,6 +63,7 @@ router.get('/', prestatairesController.getAllPrestataire)
 
 router.get("/getTotalDons", prestatairesController.getTotalDons)
 
+router.get("/getAllCategories", prestatairesController.getAllCategories)
 
 router.get("/getAllBalades", prestatairesController.getAllBalades)
 /**
@@ -399,6 +400,8 @@ router.post('/sendFormPrestataire', utilisateurMiddleware.isLoggedIn, prestatair
  *                     type: string
  *                     description: Message d'erreur.
  */
+
+router.post("/makeReservation" ,utilisateurMiddleware.isLoggedIn, prestatairesController.makeReservation)
 
 router.post("/makeDonation/:prestId", utilisateurMiddleware.isLoggedIn, prestatairesController.makeDonation)
 /**

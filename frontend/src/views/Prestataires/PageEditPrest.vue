@@ -179,7 +179,7 @@ export default {
   },
   mounted() {
     this.prestataire = this.prestataires.find(prestataire => prestataire.id_utilisateur === this.$route.params.id);
-    this.previewImage = require("@/assets/ImagesPrestataires/" + this.prestataire.image);
+    this.previewImage = this.prestataire.image;
   }
 };
 </script>

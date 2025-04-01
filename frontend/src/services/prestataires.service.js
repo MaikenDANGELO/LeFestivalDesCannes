@@ -32,10 +32,10 @@ async function sendAvisOfUser(data){
     return response
 }
 
-async function sendFormPrestataire(data, id_utilisateur){
+async function sendFormPrestataire(data){
     let response;
     try{
-        response = await LocalSource.sendFormPrestataire(data, id_utilisateur);
+        response = await sendFormPrestataireFromAPI(data);
     }catch(error){
         response = {error: 1, status: 404, data:  'erreur réseau, impossible d\'envoyer le formulaire'}
     }
@@ -66,32 +66,7 @@ async function getAllDemandePrestataire() {
         return { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer les données.' };
     }
 }
-async function declineDemandePrest(id, id_utilisateur) {
-    try {
-        const response = await declineDemandePrestFromAPI(id);
-        if (response.error === 0) {
-            await sendNotification(id_utilisateur, "Votre demande de prestataire a été refusée.");
-        }
-        return response;
-    } catch (error) {
-        return { error: 1, status: 500, data: "Erreur réseau lors du refus du prestataire." };
-    }
-}
 
-
-
-
-async function acceptDemandePrest(prestataire) {
-    try {
-        const response = await acceptDemandePrestFromAPI(prestataire);
-        if (response.error === 0) {
-            await sendNotification(prestataire.id_utilisateur, "Votre demande de prestataire a été acceptée !");
-        }
-        return response;
-    } catch (error) {
-        return { error: 1, status: 500, data: "Erreur réseau lors de l'acceptation du prestataire." };
-    }
-}
 
 
 
@@ -144,11 +119,10 @@ async function getAllDisponibiliteResto(id){
     return response;
 }
 
-async function makeReservation(user_id, date, hour, type, data){
-    console.log(user_id, date, hour, type, data)
+async function makeReservation(data){
     let response;
     try{
-        response = await LocalSource.makeReservation(user_id,date,hour,type,data);
+        response = await makeReservationFromAPI(data);
     }catch(error){
         response = {error: 1, status: 404, data:  'erreur réseau, impossible de créer la réservation'}
     }
@@ -217,7 +191,6 @@ async function getAllClassementConcours(){
 async function changeDataPrestService(data){
     let response;
     try{
-        console.log(data);
         response = await LocalSource.changeDataPrest(data);
     }catch(error){
         response = {error: 1, status: 500, data: "erreur lors de la récupération du classement"};
@@ -243,28 +216,17 @@ async function sendAvisOfUserFromAPI(data){
     return postRequest('/api/users/sendAvis', data, 'sendAvisOfUser');
 }
 
-async function declineDemandePrestFromAPI(id) {
-    return postRequest("/api/prestataires/decline", { id }, "declineDemandePrest");
-}
-
-async function acceptDemandePrestFromAPI(prestataire) {
-    return postRequest("/api/prestataires/accept", { id: prestataire.id }, "acceptDemandePrest");
-}
-
-/*
 async function sendFormPrestataireFromAPI(data){
-    return postRequest('/api/prestataires/sendForm', data, 'sendFormPrestataire');
+    return postRequest('/api/prestataires/sendFormPrestataire', data, 'sendFormPrestataire');
 }
-*/
+
 
 async function getAllRatingFromAPI(){
     return getRequest('/api/prestataires/getAllAvis', 'getAllRatings');
 }
 
 async function getPrestGastroService(){
-    let response
-    response = await getPrestGastroFromAPI()
-    return response
+    return await getPrestGastroFromAPI()
 }
 
 
@@ -276,6 +238,18 @@ async function getAllDisponibiliteRestoFromAPI(id){
     return getRequest(`/api/prestataires/getAllDisponibiliteResto/` + id, 'getAllDisponibiliteResto');
 }
 
+async function makeReservationFromAPI(data){
+    return postRequest('/api/prestataires/makeReservation', data, 'makeReservation');
+}
+
+async function getAllCategroiesFromAPI(){
+    return getRequest('/api/prestataires/getAllCategories', 'getAllCategories');
+}
+
+async function getAllCategorieService(){
+    return await getAllCategroiesFromAPI();
+}
+
 export default {
     getAllRatings,
     getAllPrestataires,
@@ -284,8 +258,6 @@ export default {
     modifyEmplacementPrestataire,
     sendFormPrestataire,
     getAllDemandePrestataire,
-    declineDemandePrest,
-    acceptDemandePrest,
     deletePretataire,
     getAllDisponibiliteResto,
     getAllReservations,
@@ -295,5 +267,6 @@ export default {
     getAllClassementConcours,
     sendNotification,
     changeDataPrestService,
-    getPrestGastroService
+    getPrestGastroService,
+    getAllCategorieService
 }

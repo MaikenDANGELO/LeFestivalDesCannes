@@ -26,14 +26,6 @@
       </p>
       <form @submit.prevent="handleSubmit" class="reservation-form">
         <div class="form-group">
-          <label for="fullname">Votre prénom et nom :</label>
-          <input type="text" id="fullname" v-model="clientFullName" placeholder="Entrez votre prénom et nom" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Votre email :</label>
-          <input type="email" id="email" v-model="clientEmail" placeholder="Entrez votre email" required>
-        </div>
-        <div class="form-group">
           <label for="date">Choisissez une date :</label>
           <input type="date" id="date" v-model="reservationDate" @change="updateAvailableTimes" min="2025-09-01" max="2025-09-03"  required>
         </div>
@@ -54,7 +46,7 @@
         </div>
         <div class="form-group">
           <label for="guests">Nombre de convives :</label>
-          <input type="number" id="guests" v-model="guestCount" min="1" placeholder="Exemple : 4" required>
+          <input type="number" id="guests" v-model="guestCount" min="1" max="10" placeholder="Exemple : 4" required>
         </div>
         <div v-if="timeMessage" class="message">{{ timeMessage }}</div>
         <button type="submit" class="reservation-button">Confirmer la réservation</button>
@@ -68,7 +60,8 @@
 
 <script>
 import prestataireService from "@/services/prestataires.service"; // Importer les disponibilités
-import { mapActions, mapState } from 'vuex';
+import {mapState } from 'vuex';
+import PrestatairesService from "@/services/prestataires.service";
 
 export default {
   name: "PageReservationRestaurant",
@@ -80,8 +73,6 @@ export default {
       prestataire: {},
       reservationDate: "",
       reservationTime: "",
-      clientFullName: "",
-      clientEmail: "",
       specialInfo: "",
       guestCount: 1,
       timeMessage: "",
@@ -96,7 +87,6 @@ export default {
     this.fillUserInformation();
   },
   methods: {
-    ...mapActions('prestataire', ['makeReservation']),
     fillUserInformation(){
       if(this.utilisateur.estConnecte){
         this.clientFullName = this.utilisateur.nom;
@@ -106,23 +96,20 @@ export default {
     async updateAvailableTimes() {
       let disponibilitesResto = await prestataireService.getAllDisponibiliteResto(this.id);
       disponibilitesResto = disponibilitesResto.data;
-      // Met à jour les horaires disponibles en fonction de la date sélectionnée
-      console.log(disponibilitesResto);
       this.availableTimes = disponibilitesResto
           .filter(reservation => reservation.date === this.reservationDate)
           .map(reservation => reservation.heure);
     },
-    handleSubmit() {
-      if (!this.availableTimes.includes(this.reservationTime)) {
-        this.timeMessage =
-            "L'heure sélectionnée n'est pas disponible. Veuillez en choisir une autre.";
-        return;
+    async handleSubmit() {
+      this.reservationTime = this.reservationTime.replace(/h/, ":") + ":00";
+      this.reservationDate = new Date(this.reservationDate).toISOString()
+
+      const response = await PrestatairesService.makeReservation({user_id : this.utilisateur.id,date: this.reservationDate,hour : this.reservationTime, prestataire_id : this.id, options: {info: this.specialInfo, guest_count: this.guestCount}});
+      if (response.error === 0) {
+        alert(
+            `Réservation confirmée pour ${this.clientFullName}. Un ticket a été envoyé à ${this.clientEmail}.`
+        );
       }
-      this.makeReservation([this.utilisateur.id, this.reservationDate, this.reservationTime, "Restaurant", {nom_restaurant: "Restaurant Le Gourmet"}]);
-      this.timeMessage = "";
-      alert(
-          `Réservation confirmée pour ${this.clientFullName}. Un ticket a été envoyé à ${this.clientEmail}.`
-      );
 
       // TODO: Ajouter l'envoi d'un email avec le ticket
     },

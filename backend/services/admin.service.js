@@ -13,6 +13,7 @@ exports.acceptDemandePrest =  async (prestataireID, callback)=>{
             return callback("Prestataire déjà accepté", null);
         }
 
+
         prestataire.accepted = true
         prestataire.page_route = `/prestataire/${prestataire.id}`;
         await prestataire.save();
@@ -39,7 +40,7 @@ exports.declineDemandePrest = async (prestataireID, callback)=>{
         if (!prestataire) {
            return callback("Prestataire non trouvé", null);
         }
-        if (!prestataire.accepted) return callback("Prestataire déjà accepté", null);
+        if (prestataire.accepted) return callback("Prestataire déjà accepté", null);
 
         await prestataire.destroy();
 

@@ -10,7 +10,7 @@ const Reservation = sequelize.define('Reservation', {
     heure: { type: DataTypes.TIME },
     type_service: { type: DataTypes.STRING, validate: { isIn: [['balade', 'restaurant']] } },
     reserved_user_id: { type: DataTypes.INTEGER, references: { model: Utilisateur, key: 'id' }, allowNull: true },
-    options: { type: DataTypes.STRING , allowNull: true}
+    options: { type: DataTypes.JSON , allowNull: true}
 }, {
     tableName: 'reservations',
     timestamps: false

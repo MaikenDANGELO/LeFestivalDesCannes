@@ -7,7 +7,7 @@
     <div class="texte-container">
       <div class="prestataire-detail" v-if="prestataire !== null">
         <div class="image-container">
-          <img class="animate-fade" :src="require(`@/assets/ImagesPrestataires/${prestataire.image}`)" alt="Logo du Prestataire">
+          <img class="animate-fade" :src="prestataire.image" alt="Logo du Prestataire">
           <div class="images-balade" v-if="prestataire.id === '8'">
             <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img1.jpg`)" alt="balade1">
             <img class="animate-fade" :src="require(`@/assets/ImagesBalade/img2.jpg`)" alt="balade2">
@@ -20,7 +20,7 @@
           <h1>{{ prestataire.nom }}</h1>
           <p>{{ prestataire.description }}</p>
           <ul>
-            <li><strong>Catégorie:</strong> {{ prestataire.categorie }}</li>
+            <li><strong>Catégorie:</strong> {{ prestataire.relationCategorie.nom }}</li>
             <li><strong>Emplacement:</strong> {{ prestataire.id_emplacement }}</li>
           </ul>
 

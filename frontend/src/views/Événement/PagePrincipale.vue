@@ -27,12 +27,12 @@
           <h2>Activités</h2>
           <div v-for="row in prestaRows" :key="row[0].id" class="prestataires-row">
             <div v-for="prestataire in row" :key="prestataire.id" class="prestataire-card">
-              <CartePrestatairePerso
-                  :nom="prestataire.nom"
-                  :descriptionAccueil="prestataire.description_accueil"
-                  :image="prestataire.image"
-                  :pers-page-route="`/prestataire/${prestataire.id}`"
-              ></CartePrestatairePerso>
+                <CartePrestatairePerso
+                    :nom="prestataire.nom"
+                    :descriptionAccueil="prestataire.description_accueil"
+                    :image="prestataire.image"
+                    :pers-page-route="`/prestataire/${prestataire.id}`"
+                ></CartePrestatairePerso>
             </div>
           </div>
         </div>
@@ -65,7 +65,7 @@
         </p>
       </div>
     </div>
-    <ReservationTable></ReservationTable>
+    <ReservationTable v-if="utilisateur.estConnecte"></ReservationTable>
     <AchatBillet></AchatBillet>
     <BoutiqueGoodies></BoutiqueGoodies>
     <TotalDons></TotalDons>
@@ -94,6 +94,7 @@ export default {
   computed: {
     ...mapState('prestataire', ['prestataires']),
     ...mapState('sponsors', ['sponsors']),
+    ...mapState('utilisateurs', ['utilisateur']),
     filteredPrestataires() {
       return this.getFilteredPrestataires(this.prestataires);
     },
@@ -115,11 +116,9 @@ export default {
       return rows;
     },
     uniqueCategories() {
-      const categories = this.prestataires.map(prestataire => prestataire.categorie);
-      console.log('categories', categories)
-      let oui = [...new Set(categories)];
-      //console.log(oui)
-      return oui
+      const categories = this.prestataires.map(prestataire => prestataire.relationCategorie.nom);
+      return [...new Set(categories)];
+
     },
   },
   methods: {
@@ -133,15 +132,20 @@ export default {
       }
     },
     getFilteredPrestataires(prestataires) {
-      // Si aucune catégorie n'est sélectionnée, ne renvoyer aucun prestataire
       if (this.filtreCategory.length === 0) {
         return [];
       }
 
       // Filtrer d'abord par catégorie
       let catFilteredPrestataires = prestataires.filter(prest =>
-          this.filtreCategory.includes(prest.categorie)
+          this.filtreCategory.includes(prest.relationCategorie.nom)
       );
+
+      catFilteredPrestataires = catFilteredPrestataires.filter(prest => {
+        if (prest.accepted === true) {
+          return prest;
+        }
+      })
 
       // Ensuite, appliquer le filtre de recherche
       return catFilteredPrestataires.filter(prest =>
@@ -156,7 +160,6 @@ export default {
     resetFilters() {
       this.filtreType = 'prestataires';
       this.filtreSearch = '';
-      console.log(this.uniqueCategories)
       this.filtreCategory = [...this.uniqueCategories];
     },
   },

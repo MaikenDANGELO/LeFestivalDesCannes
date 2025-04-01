@@ -38,14 +38,13 @@ exports.getAllPrestataire = async (req, res) =>{
 }
 
 exports.sendFormPrestataire = async (req, res) =>{
-    const id_utilisateur = req.session.id_user
-    const form = req.body
-    console.log(form)
+    const id_utilisateur = req.body.id_utilisateur
+    const form = req.body.form
     await prestataireService.sendFormPrestataire(form, id_utilisateur,(error,data)=>{
         if(error){
             return res.status(500).send(error);
         }
-        return res.status(200).json({data:data});
+        return res.status(200).json({error:0, data:data});
     })
 }
 
@@ -136,4 +135,23 @@ exports.getAllDisponibiliteResto = async (req, res) => {
         }
         return res.status(200).json({error: 0, data: data});
     });
+}
+
+exports.makeReservation = async (req, res) => {
+    const {user_id, date, hour, prestataire_id, options} = req.body;
+    await prestataireService.makeReservation(user_id, date, hour, prestataire_id, options, (error, data) => {
+        if (error) {
+            return res.status(500).send(error);
+        }
+        return res.status(200).json({error: 0, data: data});
+    });
+}
+
+exports.getAllCategories = async (req, res) => {
+    await prestataireService.getAllCategories((error, data) => {
+        if (error){
+            return res.status(500).send(error)
+        }
+        return res.status(200).json({error: 0, data: data})
+    })
 }

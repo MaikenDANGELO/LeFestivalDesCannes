@@ -12,11 +12,12 @@
         <div v-if="showPrestataires" class="list-prestataires">
             <h2>Prestataires <button @click="getAllPrestataires()">Refresh</button></h2>
             <div class="prestataire" v-for="(prestataire, index) in prestataires" :key="prestataire.id">
+              <div v-if="prestataire.accepted === true">
                 <div class="presta-top"><h3>{{ prestataire.nom }}</h3></div>
                 <div class="presta-sbody">
                     <div class="presta-body">
                         <div class="presta-icon">
-                            <img class="prestataire-img" alt="prestimg" :src="require(`../../assets/ImagesPrestataires/${prestataire.image}`)" />
+                            <img class="prestataire-img" alt="prestimg" :src="prestataire.image" />
                         </div>
                         <div class="presta-text">{{ prestataire.description_accueil }}</div>
                         <div class="presta-actions">
@@ -36,6 +37,7 @@
                         </div>
                     </div>
                 </div>
+              </div>
             </div>
         </div>
         <div v-if="showSponsors" class="list-prestataires">
@@ -86,7 +88,7 @@
               <div class="presta-sbody">
                 <div class="presta-body">
                   <div class="presta-icon">
-                    <!--<img  class="prestataire-img" alt="prestimg" :src="require(`../assets/ImagesPrestataires/${prestataire.image}`)" />-->
+                    <img  class="prestataire-img" alt="prestimg" :src="prestataire.image" />
                   </div>
                   <div class="presta-text">{{ prestataire.description_accueil }}</div>
                   <div class="presta-actions">
@@ -97,8 +99,8 @@
                     </div>
                   </div>
                   <div class="service-actions">
-                    <button @click="acceptDemandePrest(prestataire, index)">Accepter</button>
-                    <button @click="declineDemandePrest(index)">Refuser</button>
+                    <button @click="acceptDemandePrest(prestataire.id, index)">Accepter</button>
+                    <button @click="declineDemandePrest(prestataire.id,index)">Refuser</button>
                   </div>
                 </div>
                 <div class="presta-bottom">
@@ -129,6 +131,7 @@
 import { mapActions, mapState } from 'vuex';
 import moneyService from '@/services/money.service';
 import prestatairesService from "@/services/prestataires.service";
+import * as adminService from "@/services/admin.service";
 
 export default {
     name: "PageAdministrateur",
@@ -160,6 +163,7 @@ export default {
         this.getAllDemandePrestataire();
 
     },
+  /*
     watch: {
         prestataires(newPrestataires) {
             this.showServices = Array.from({ length: newPrestataires.length }, () => false);
@@ -167,6 +171,8 @@ export default {
             this.maintainDonsPrest();
         }
     },
+
+   */
     methods: {
         ...mapActions('prestataire', ['getAllPrestataires','modifyEmplacementPrestataire']),
         ...mapActions('sponsors', ['getAllSponsors']),
@@ -226,31 +232,21 @@ export default {
             this.maintainEmplacementPrest();
         },
         async getAllDemandePrestataire() {
-          const response = await prestatairesService.getAllDemandePrestataire();
-          this.demandePrestataires = response.data;
-
-          for (let i = 0; i < this.demandePrestataires.length; i++) {
-            const file = this.demandePrestataires[i].image  // Récupère le premier fichier sélectionné
-
-            if (file && typeof file === Blob) {// Vérifie que le fichier est une image
-              const reader = new FileReader();
-
-              reader.onload = (e) => {
-                this.demandePrestataires[i].image = e.target.result;
-              };
-
-              reader.readAsDataURL(file);
-            }
+          const response = await adminService.getAllDemandePrestataire();
+          if (response.error === 0) {
+            this.demandePrestataires = response.data;
           }
         },
         async declineDemandePrest(id, index) {
-             const prestataire = this.demandePrestataires[index];
-             await prestatairesService.declineDemandePrest(id, prestataire.id_utilisateur);
-             this.demandePrestataires.splice(index, 1); // Supprime uniquement du tableau local
-        },
-        async acceptDemandePrest(prest, index) {
-            await prestatairesService.acceptDemandePrest(prest);
-           this.demandePrestataires.splice(index, 1); // Supprime uniquement du tableau local
+          const response = await adminService.declineDemandePrest(id);
+          if (response.error === 0) {
+            this.demandePrestataires.splice(index, 1); // Supprime uniquement du tableau local
+          }        },
+        async acceptDemandePrest(id, index) {
+            const response = await adminService.acceptDemandePrest(id);
+            if (response.error === 0) {
+              this.demandePrestataires.splice(index, 1); // Supprime uniquement du tableau local
+            }
         },
       async deletePrest(id){
         console.log(id)

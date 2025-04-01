@@ -1,4 +1,4 @@
-import {getRequest} from "@/services/axios.service";
+import {getRequest, putRequest} from "@/services/axios.service";
 
 async function getAllDemandePrestataire() {
     let response;
@@ -46,11 +46,11 @@ async function getAllDemandePrestataireFromAPI(){
 }
 
 async function declineDemandePrestFromAPI(id){
-    return getRequest('/api/administrateur/decline/'+id, 'declineDemandePrest');
+    return putRequest(`/api/administrateur/decline/${id}`, {},'declineDemandePrest');
 }
 
 async function acceptDemandePrestFromAPI(id){
-    return getRequest('/api/administrateur/accept/'+id, 'acceptDemandePrest');
+    return putRequest(`/api/administrateur/accept/${id}`, {}, 'acceptDemandePrest');
 }
 
 export {

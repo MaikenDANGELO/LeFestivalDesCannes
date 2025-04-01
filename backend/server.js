@@ -12,6 +12,7 @@ const passport = require("passport");
 const Utilisateur = require("./database/models/Utilisateur");
 const userRouter = require("./routes/users.router")(passport);
 const bodyParser = require("body-parser");
+const path = require("path");
 
 
 const session = require("express-session")
@@ -72,6 +73,7 @@ app.use("/api/users",userRouter);
 app.use("/api/prestataires",prestataireRouter);
 app.use("/api/administrateur",adminRouter);
 app.use("/api/sponsors",sponsorsRouter);
+app.use('/api/associations', require('./routes/associations.router'));
 
 // Middlewaires Gestion erreurs
 app.use("*",(req,res,next)=>{
