@@ -22,7 +22,6 @@
                         <div class="presta-actions">
                             <div class="prest-actions-btn">
                                 <button @click="handlePrestaGoToPage(prestataire.id)">Accéder à la page</button>
-                                <button>Modifier prestataire</button>
                                 <button @click="deletePrest(prestataire.id)">Supprimer prestataire</button>
                             </div>
                             <div class="prest-actions-emplacement">
@@ -50,7 +49,6 @@
                         <div class="presta-text">{{ sponsor.description_accueil }}</div>
                         <div class="presta-actions">
                             <button @click="handleSponsorGoToPage(sponsor.id_sponsor)">Accéder à la page</button>
-                            <button>Modifier sponsor</button>
                             <button>Supprimer sponsor</button>
                         </div>
                     </div>
@@ -69,7 +67,6 @@
                         <div class="presta-text">{{ association.description_accueil }}</div>
                         <div class="presta-actions">
                             <button @click="handleSponsorGoToPage(association.id_association)">Accéder à la page</button>
-                            <button>Modifier association</button>
                             <button>Supprimer association</button>
                         </div>
                     </div>
@@ -273,6 +270,7 @@ export default {
         flex-direction: column;
         margin-top: 1%;
         margin-bottom: 1%;
+        width: 100%;
     }
     .presta-sbody{
         border: 1px solid black;
