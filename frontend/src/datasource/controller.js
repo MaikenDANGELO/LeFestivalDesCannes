@@ -1,4 +1,22 @@
-import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS, emplacements, disponibilitesResto, reservations, classement_concours} from "./data";
+import {
+    balades,
+    prestataires,
+    billetterie,
+    utilisateurs,
+    avis,
+    dons,
+    sponsors,
+    map_data,
+    associations,
+    demandePrestataires,
+    notifications,
+    MOTS_DE_PASSE_UTILISATEURS,
+    emplacements,
+    disponibilitesResto,
+    reservations,
+    classement_concours,
+    shopInfo, canard_defile, commandes
+} from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllRatings(){
@@ -34,16 +52,17 @@ function getAllDisponibiliteResto(){
 }
 
 
-function updateSingleEmplacement(emplacement_id,new_coordonnees){
+function updateSingleEmplacement(emplacement_id,new_coordonnees) {
     try {
         let emplacement = emplacements.find(e => String(e.id) === String(emplacement_id));
-        if (!emplacement) return { error: 1, status: 404, data: "emplacement introuvable" };
+        if (!emplacement) return {error: 1, status: 404, data: "emplacement introuvable"};
         emplacement.coordinates = new_coordonnees;
         return {error: 0, status: 200, data: emplacement}
 
-    }catch (error) {
+    } catch (error) {
         return {error: 1, status: 404, data: "Erreur lors de la mise à jour de l'emplacement"};
     }
+}
 
 function getShopStatusFromId(shop_id){
     try{

@@ -88,7 +88,7 @@
 
         <!-- Button to remove the service -->
         <button @click.prevent="removeService(index)" v-if="prestataire.services.length > 1" class="btn btn-danger">
-          Supprimer le service
+          Supprimer le service</button>
       <h2>Services proposés</h2>
       <table v-if="prestataire.services.length" class="table-services">
         <thead>
@@ -153,6 +153,7 @@
 
       <div class="form-group">
         <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
       </div>
     </form>
   </div>
