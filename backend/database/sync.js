@@ -100,8 +100,18 @@ const syncDatabase = async () => {
             { nom_utilisateur: 'Thomas Girard', email_utilisateur: 'thomas.girard@example.com', mot_de_passe:  bcrypt.hashSync('user', bcrypt.genSaltSync(8), null), adresse_utilisateur: '123 rue Rouen, 76000 Rouen, France', telephone: '0600000003', date_inscription: '2024-06-01T00:00:00.000Z', role: 'prestataire' },
             { nom_utilisateur: 'Sophie Marchand', email_utilisateur: 'sophie.marchand@example.com', mot_de_passe:  bcrypt.hashSync('user', bcrypt.genSaltSync(8), null), adresse_utilisateur: '123 rue Reims, 51100 Reims, France', telephone: '0600000004', date_inscription: '2024-06-01T00:00:00.000Z', role: 'prestataire' },
             { nom_utilisateur: 'Paul Dubois', email_utilisateur: 'paul.dubois@example.com', mot_de_passe:  bcrypt.hashSync('user', bcrypt.genSaltSync(8), null), adresse_utilisateur: '321 avenue Nancy, 54000 Nancy, France', telephone: '0600000005', date_inscription: '2024-06-02T00:00:00.000Z', role: 'prestataire' },
-            { nom_utilisateur: 'Claire Fontaine', email_utilisateur: 'claire.fontaine@example.com', mot_de_passe:  bcrypt.hashSync('user', bcrypt.genSaltSync(8), null), adresse_utilisateur: '654 avenue Metz, 57000 Metz, France', telephone: '0600000006', date_inscription: '2024-06-03T00:00:00.000Z', role: 'prestataire' }
+            { nom_utilisateur: 'Claire Fontaine', email_utilisateur: 'claire.fontaine@example.com', mot_de_passe:  bcrypt.hashSync('user', bcrypt.genSaltSync(8), null), adresse_utilisateur: '654 avenue Metz, 57000 Metz, France', telephone: '0600000006', date_inscription: '2024-06-03T00:00:00.000Z', role: 'prestataire' },
+            {
+                nom_utilisateur: 'Marc Dupont',
+                email_utilisateur: 'marc.dupont@example.com',
+                mot_de_passe: bcrypt.hashSync('password123', bcrypt.genSaltSync(8), null),
+                adresse_utilisateur: '12 rue des Lilas, 75015 Paris, France',
+                telephone: '0612345678',
+                date_inscription: '2024-06-10T00:00:00.000Z',
+                role: 'prestataire'
+            }
         ]);
+
         await Emplacement.bulkCreate([
             { id: 1, coordinates: [47.6862,6.8071], icon: 'evenement' },
             { id: 2, coordinates: [47.6865, 6.8085], icon: 'restaurant' },
@@ -129,7 +139,19 @@ const syncDatabase = async () => {
             {nom: 'Dégustation de Canard', description: "Venez déguster une variété de plats à base de canard, préparés par des chefs renommés. Découvrez des recettes traditionnelles et innovantes, toutes mettant en vedette le canard sous ses meilleures formes.", description_accueil: 'Dégustation de plats à base de canard.', id_categorie: 3, id_emplacement: 5, id_evenement: 1, page_route: '/prestataire/5', image: convertImageToBase64('test/ImagesPrestataires/degustation_canard.jpg'), accepted: true, id_utilisateur: 8 },
             {nom: 'Concours de Cuisine', description: "Participez ou assistez à un concours de cuisine où des chefs amateurs et professionnels se défient pour créer le meilleur plat à base de canard. Un jury de renom évaluera les créations et décernera des prix aux meilleurs chefs.", description_accueil: 'Concours de cuisine autour du canard.', id_categorie: 4, id_emplacement: 6, id_evenement: 1, page_route: '/prestataire/6', image: convertImageToBase64('test/ImagesPrestataires/concours_cuisine_canard.jpg'), accepted: true, id_utilisateur: 9 },
             {nom: 'Atelier Peinture', description: "Découvrez l'art de la peinture sur canard. Participez à cet atelier unique où des artistes locaux vous montreront comment créer des œuvres d'art étonnantes en utilisant des canards comme toile.", description_accueil: 'Atelier de peinture sur canard.', id_categorie: 1, id_emplacement: 7, id_evenement: 1, page_route: '/prestataire/7', image: convertImageToBase64('test/ImagesPrestataires/atelier_peinture_canard.jpg'), accepted: true, id_utilisateur: 10 },
-            {nom: "Ped'ailo!", description: "Avec Ped'ailo, prenez vos ailes et flottez comme un canard sur les étangs du Malsaucy en famille, entre amis ou en canard solitaire !", description_accueil: 'Stand de pédalo sur les étangs', id_categorie: 1, id_emplacement: 8, id_evenement: 1, page_route: '/prestataire/8', image: convertImageToBase64('test/ImagesPrestataires/pedalo_canard.jpg'), accepted: true, id_utilisateur: 11 }
+            {nom: "Ped'ailo!", description: "Avec Ped'ailo, prenez vos ailes et flottez comme un canard sur les étangs du Malsaucy en famille, entre amis ou en canard solitaire !", description_accueil: 'Stand de pédalo sur les étangs', id_categorie: 1, id_emplacement: 8, id_evenement: 1, page_route: '/prestataire/8', image: convertImageToBase64('test/ImagesPrestataires/pedalo_canard.jpg'), accepted: true, id_utilisateur: 11 },
+            {
+                nom: 'Goodies & Souvenirs',
+                description: "Boutique spécialisée dans les souvenirs et objets promotionnels du festival : t-shirts, mugs, porte-clés et autres articles exclusifs aux couleurs de l'événement.",
+                description_accueil: 'Goodies et souvenirs du festival.',
+                id_categorie: 4,
+                id_emplacement: 3,
+                id_evenement: 1,
+                page_route: '/prestataire/9',
+                image: convertImageToBase64('test/ImagesPrestataires/goodies_souvenirs.jpg'),
+                accepted: true,
+                id_utilisateur: 12
+            }
         ]);
 
         await Menu.bulkCreate([
@@ -320,6 +342,9 @@ const syncDatabase = async () => {
         })));
 
 
+        BoutiqueStatus.create({
+            id_prestataire : 1,
+        })
 
 
 

@@ -83,6 +83,12 @@ app.use("/api/administrateur",adminRouter);
 app.use("/api/sponsors",sponsorsRouter);
 app.use('/api/associations', require('./routes/associations.router'));
 app.use('/api/event', require('./routes/event.router'));
+app.use("/api/produits", produitRouter);
+app.use("/api/categories-produits", categorieProduitRouter);
+app.use("/api/commandes", commandeRouter);
+app.use("/api/avis-produits", avisProduitRouter);
+app.use("/api/suivi-commande", suiviCommandeRouter);
+app.use("/api/boutique-status", boutiqueStatusRouter);
 
 // Middlewaires Gestion erreurs
 app.use("*",(req,res,next)=>{
@@ -99,10 +105,3 @@ app.listen(PORT,()=>{
     console.log(`Serveur ecoute sur port ${PORT}`);
 })
 
-//Middleware concernant la boutique
-app.use("/api/produits", produitRouter);
-app.use("/api/categories-produits", categorieProduitRouter);
-app.use("/api/commandes", commandeRouter);
-app.use("/api/avis-produits", avisProduitRouter);
-app.use("/api/suivi-commande", suiviCommandeRouter);
-app.use("/api/boutique-status", boutiqueStatusRouter);

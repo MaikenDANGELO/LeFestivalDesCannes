@@ -3,6 +3,9 @@ const router = express.Router();
 const commandeController = require('../controllers/commande.controller');
 
 router.post('/', commandeController.createCommande);
+
+router.get('/getBoutiqueChiffreDaffaire', commandeController.getMoney);
+
 router.get('/utilisateur/:id', commandeController.getCommandesUtilisateur);
 
 /**

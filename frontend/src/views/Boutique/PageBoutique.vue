@@ -74,12 +74,12 @@
     methods: {
       ...mapActions("boutique", ["getAllGoodies", "ajouterAuPanier", "retirerDuPanier", "validerCommande"]),
       async getShopStatusFromId(){
-        let res = await prestataireServices.getShopStatusFromId(1);
+        let res = await prestataireServices.getShopStatusFromId(9);
         this.shopStatus = res.data;
         return res.data;
       },
       async ToggleBoutique(){
-        let res = await prestataireServices.changeShopStatusFromId(1);
+        let res = await prestataireServices.changeShopStatusFromId(9);
         this.shopStatus = res.data;
         await this.getShopStatusFromId(1)
         return res.data;

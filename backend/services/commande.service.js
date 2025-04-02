@@ -48,3 +48,14 @@ exports.getCommandesByUserId = async (userId, callback) => {
         callback(error, null);
     }
 };
+
+exports.getMoney = async (callback) => {
+    try {
+        const commandes = await Commande.findAll();
+        let total = 0;
+        commandes.forEach(c => total += c.total);
+        callback(null, total);
+    } catch (error) {
+        callback(error, null);
+    }
+}

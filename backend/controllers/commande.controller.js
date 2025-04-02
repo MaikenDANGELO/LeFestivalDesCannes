@@ -15,3 +15,11 @@ exports.getCommandesUtilisateur = async (req, res) => {
         return res.status(200).json({ data });
     });
 };
+
+exports.getMoney = async (req, res) => {
+    await commandeService.getMoney((error, data) => {
+        if (error) return res.status(500).send(error);
+
+        return res.status(200).json({ error:0, data: data });
+    })
+}

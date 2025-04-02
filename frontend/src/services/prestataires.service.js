@@ -1,5 +1,5 @@
 import LocalSource from "@/datasource/controller";
-import {getRequest, patchRequest, postRequest} from "@/services/axios.service";
+import {getRequest, patchRequest, postRequest, putRequest} from "@/services/axios.service";
 
 
 async function getAllPrestataires() {
@@ -62,7 +62,6 @@ async function getAllRatings(){
     let response;
     try{
         response = await getAllRatingFromAPI();
-        //response = await getAllRatingFromAPI();
     }
     catch(error){
         response = {error: 1, status: 404, data:  'erreur réseau, impossible de récupérer les avis'}
@@ -161,46 +160,49 @@ async function changeDataPrestService(data){
     return response;
 }
 
-async function getShopStatusFromId(shop_id){
+async function getShopStatusFromId(prestataire_id){
     let response;
     try{
-        response = await LocalSource.getShopStatusFromId(shop_id);
+        response = await getShopStatusFromIdFromAPI(prestataire_id);
     }catch(error){
         response = {error: 1, status: 500, data: "erreur lors de la récupération du status du shop"};
     }
     return response;
 }
 
-async function changeShopStatusFromId(shop_id){
+async function getShopStatusFromIdFromAPI(prestataire_id){
+    return getRequest('/api/boutique-status/' + prestataire_id, 'getShopStatus');
+}
+
+async function changeShopStatusFromId(prestataire_id){
     let response;
     try{
-        response = await LocalSource.changeShopStatusFromId(shop_id);
+        response = await changeShopStatusFromIdFromAPI(prestataire_id);
     }catch(error){
         response = {error: 1, status: 500, data: "erreur lors de la modification du status du shop"};
     }
     return response;
 }
 
-async function getAllBoutiqueCommandes(){
-    let response;
-    try{
-        response = await LocalSource.getAllCommandes();
-    }catch(error){
-        response = {error: 1, status: 500, data: "erreur lors de la récupération des commandes de la boutique"};
-    }
-    return response;
+async function changeShopStatusFromIdFromAPI(prestataire_id){
+    return putRequest('/api/boutique-status/' + prestataire_id, {}, 'changeShopStatus');
 }
+
+
 
 async function getBoutiqueChiffreDaffaire(){
     let response;
     try{
-        response = await LocalSource.getBoutiqueChiffreDaffaire();
+        response = await getBoutiqueChiffreDaffaireFromAPI();
     }catch(error){
         response = {error: 1, status: 500, data: "erreur lors de la récupération du chiffre d'affaire de la boutique"};
     }
     return response;
 }
 
+async function getBoutiqueChiffreDaffaireFromAPI(){
+    return getRequest('/api/commandes/getBoutiqueChiffreDaffaire', 'getBoutiqueChiffreDaffaire');
+}
 
 
 
@@ -280,6 +282,5 @@ export default {
     getAllCategorieService,
     getShopStatusFromId,
     changeShopStatusFromId,
-    getAllBoutiqueCommandes,
     getBoutiqueChiffreDaffaire,
 }
