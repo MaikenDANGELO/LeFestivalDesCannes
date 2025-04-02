@@ -159,16 +159,6 @@ export default {
         this.getAllDemandePrestataire();
 
     },
-  /*
-    watch: {
-        prestataires(newPrestataires) {
-            this.showServices = Array.from({ length: newPrestataires.length }, () => false);
-            this.maintainEmplacementPrest();
-            this.maintainDonsPrest();
-        }
-    },
-
-   */
     methods: {
         ...mapActions('prestataire', ['getAllPrestataires','modifyEmplacementPrestataire']),
         ...mapActions('sponsors', ['getAllSponsors']),
@@ -237,11 +227,14 @@ export default {
           const response = await adminService.declineDemandePrest(id);
           if (response.error === 0) {
             this.demandePrestataires.splice(index, 1); // Supprime uniquement du tableau local
+            this.getAllDemandePrestataire()
+
           }        },
         async acceptDemandePrest(id, index) {
             const response = await adminService.acceptDemandePrest(id);
             if (response.error === 0) {
               this.demandePrestataires.splice(index, 1); // Supprime uniquement du tableau local
+              this.getAllDemandePrestataire()
             }
         },
       async deletePrest(id){

@@ -5,10 +5,10 @@
       <div class="header-container">
         <div>
           <h1 class="header-title">{{prestataire.nom}}</h1>
-          <p class="header-subtitle">Réservez votre table et régalez vos papilles !</p>
+          <p class="header-subtitle">{{ $t('pagePrestaTexts.restaurantSubtitle') }} </p>
           <!-- Bouton Accédez au menu -->
           <div class="menu-button-container">
-            <button class="menu-button" @click="$router.push('/menu')">Accédez au menu</button>
+            <button class="menu-button" @click="$router.push('/menu')">{{ $t('pagePrestaTexts.menuButton') }}</button>
           </div>
         </div>
       </div>
@@ -18,38 +18,37 @@
     <div class="reservation-container">
       <h1 class="reservation-title">
         <img src="@/assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
-        Réserver une table
+        {{ $t('pagePrestaTexts.reserveTableTitle') }}
         <img src="@/assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
       </h1>
       <p class="reservation-description">
-        Remplissez ce formulaire pour réserver votre table. Vous recevrez un mail de confirmation avec votre ticket.
+        {{ $t('pagePrestaTexts.reserveTableDescription') }}
       </p>
       <form @submit.prevent="handleSubmit" class="reservation-form">
         <div class="form-group">
-          <label for="date">Choisissez une date :</label>
+          <label for="date">{{ $t('pagePrestaTexts.dateLabel') }}</label>
           <input type="date" id="date" v-model="reservationDate" @change="updateAvailableTimes" min="2025-09-01" max="2025-09-03"  required>
         </div>
         <div class="form-group">
-          <label for="time">Choisissez une heure :</label>
+          <label for="time">{{ $t('pagePrestaTexts.timeLabel') }}</label>
           <select id="time" v-model="reservationTime" required>
             <option v-for="time in availableTimes" :key="time" :value="time">
               {{ time }}
             </option>
             <option v-if="!availableTimes.length" disabled>
-              Pas d'horaires disponibles pour cette date.
-            </option>
+              {{ $t('pagePrestaTexts.noAvailableTimes') }}           </option>
           </select>
         </div>
         <div class="form-group">
-          <label for="special-info">Informations spéciales (optionnel) :</label>
+          <label for="special-info">{{ $t('pagePrestaTexts.specialInfoLabel') }}</label>
           <textarea id="special-info" v-model="specialInfo" placeholder="Exemple : anniversaire, allergies alimentaires..." rows="3"></textarea>
         </div>
         <div class="form-group">
-          <label for="guests">Nombre de convives :</label>
+          <label for="guests">{{ $t('pagePrestaTexts.guestsLabel') }} </label>
           <input type="number" id="guests" v-model="guestCount" min="1" max="10" placeholder="Exemple : 4" required>
         </div>
         <div v-if="timeMessage" class="message">{{ timeMessage }}</div>
-        <button type="submit" class="reservation-button">Confirmer la réservation</button>
+        <button type="submit" class="reservation-button">{{ $t('pagePrestaTexts.confirmReservationButton') }}</button>
       </form>
     </div>
   </div>
@@ -59,7 +58,6 @@
 
 
 <script>
-import prestataireService from "@/services/prestataires.service"; // Importer les disponibilités
 import {mapState } from 'vuex';
 import PrestatairesService from "@/services/prestataires.service";
 
@@ -94,7 +92,7 @@ export default {
       }
     },
     async updateAvailableTimes() {
-      let disponibilitesResto = await prestataireService.getAllDisponibiliteResto(this.id);
+      let disponibilitesResto = await PrestatairesService.getAllDisponibiliteResto(this.id);
       disponibilitesResto = disponibilitesResto.data;
       this.availableTimes = disponibilitesResto
           .filter(reservation => reservation.date === this.reservationDate)

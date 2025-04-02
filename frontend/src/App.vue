@@ -15,7 +15,6 @@
             <router-link class="left-element nav-link-common" to="/billeterie">{{ $t('appTexts.billetterie') }}</router-link>
             <router-link class="left-element nav-link-common" to="/boutique">{{ $t('appTexts.boutique') }}</router-link>
             <router-link class="left-element nav-link-common" to="/acces">{{ $t('appTexts.acces') }}</router-link>
-            <!--<router-link class="left-element nav-link-common" to="/about">À propos</router-link>-->
 <!--            <router-link class="left-element nav-link-common" to="/classementActivites">{{ $t('appTexts.classementActivites') }}</router-link>-->
             <router-link class="left-element nav-link-common" v-if="this.utilisateur.role === 'admin'" to="/admin">{{ $t('appTexts.pageAdmin') }}</router-link>
             <a class="left-element nav-link-common" href="https://www.twitch.tv/dashducks" target="_blank">
@@ -259,8 +258,25 @@ body {
   z-index: 1000;
 }
 
+.dropdown {
+  position: sticky;
+  top: 4%; /* Fixe-le au même niveau que la navbar */
+  right: 10px; /* Ajuste la distance depuis la droite de la navbar */
+  z-index: 100; /* Assure-toi qu'il reste au-dessus des autres éléments de la navbar */
+}
 
 
+.nav-link{
+  position: sticky;
+  top: 4.5%;
+  right: 10px;
+  z-index: 100;
+  text-decoration: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 .nav-link svg path{
   fill: white;
   transition: 0.5s;

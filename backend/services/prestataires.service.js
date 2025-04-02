@@ -188,7 +188,7 @@ exports.getPrestgastro = async (callback) => {
     try {
         const prest = await Prestataire.findAll({
             where: {
-                categorie: 2
+                id_categorie: 2
             }
         });
         callback(null, prest);

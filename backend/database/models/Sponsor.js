@@ -6,7 +6,7 @@ const Sponsor = sequelize.define('Sponsor', {
     nom_sponsor: { type: DataTypes.STRING },
     description_accueil: { type: DataTypes.TEXT },
     description: { type: DataTypes.TEXT },
-    image: { type: DataTypes.STRING }
+    image: { type: DataTypes.TEXT }
 }, {
     tableName: 'sponsors',
     timestamps: false

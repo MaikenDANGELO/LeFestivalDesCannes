@@ -128,11 +128,11 @@ const syncDatabase = async () => {
         ]);
 
         await Sponsor.bulkCreate([
-            {nom_sponsor: 'BirdLife International', description_accueil: 'Soutenir la protection des cannes sauvages...', description: 'BirdLife International est un leader mondial...', image: 'logo.png' },
-            {nom_sponsor: 'Wild Ducks Conservation', description_accueil: 'Engagés pour un environnement sûr...', description: "Wild Ducks Conservation s'efforce de créer...", image: 'logo.png' },
-            {nom_sponsor: 'Natural Habitat Safaris', description_accueil: 'Offrir des expériences écoresponsables...', description: 'Natural Habitat Safaris propose des voyages...', image: 'logo.png' },
-            {nom_sponsor: 'Fondation des Marais Sauvages', description_accueil: 'Protège les habitats naturels des ansériformes.', description: 'La Fondation des Marais Sauvages est dédiée...', image: 'logo.png' },
-            {nom_sponsor: 'Éco Nature Environnement', description_accueil: 'Un partenaire clé pour la sensibilisation...', description: 'Éco Nature Environnement organise des campagnes...', image: 'logo.png' }
+            {nom_sponsor: 'BirdLife International', description_accueil: 'Soutenir la protection des cannes sauvages...', description: 'BirdLife International est un leader mondial...', image:  convertImageToBase64("test/ImagesPrestataires/logo.png") },
+            {nom_sponsor: 'Wild Ducks Conservation', description_accueil: 'Engagés pour un environnement sûr...', description: "Wild Ducks Conservation s'efforce de créer...", image:  convertImageToBase64("test/ImagesPrestataires/logo.png") },
+            {nom_sponsor: 'Natural Habitat Safaris', description_accueil: 'Offrir des expériences écoresponsables...', description: 'Natural Habitat Safaris propose des voyages...', image:  convertImageToBase64("test/ImagesPrestataires/logo.png")},
+            {nom_sponsor: 'Fondation des Marais Sauvages', description_accueil: 'Protège les habitats naturels des ansériformes.', description: 'La Fondation des Marais Sauvages est dédiée...', image:  convertImageToBase64("test/ImagesPrestataires/logo.png") },
+            {nom_sponsor: 'Éco Nature Environnement', description_accueil: 'Un partenaire clé pour la sensibilisation...', description: 'Éco Nature Environnement organise des campagnes...', image:  convertImageToBase64("test/ImagesPrestataires/logo.png")}
         ]);
         await Avis.bulkCreate([
             { id_prestataire: 1, id_utilisateur: 1, texte: 'Je me suis trop méga amusée omg omg wouhouuu !!', note: 5 },

@@ -65,7 +65,7 @@
           </div>
           <div class="avis">
             <h2>{{ $t('pagePrestaTexts.avisEtComm')}}</h2>
-            <div v-if="utilisateur.role === 'utilisateur'" class="avis-input">
+            <div v-if="utilisateur.role === 'Utilisateur'" class="avis-input">
               <h3>{{ $t('pagePrestaTexts.envoiAvis')}}</h3>
               <div class="rating" id="rating">
                 <input type="radio" name="rating" id="rating-5" v-model="user_note" value=5>
@@ -111,12 +111,12 @@
               </div>
             </div>
           </div>
+
           <div v-if="this.prestataire.id === 8">
             <h2>{{ $t('pagePrestaTexts.balade')}}</h2>
             <p v-if="this.utilisateur.role === ''">{{ $t('pagePrestaTexts.baladeBeConnected')}}</p>
 
            <input type="date" id="date" v-model="day" @change="fetchBalades" min="2025-09-01" max="2025-09-03" >
-
 
 
             <ul>
@@ -125,7 +125,7 @@
                   <p>{{ $t('pagePrestaTexts.balade')}} {{ $t('pagePrestaTexts.le')}} {{ balade.date }} {{ $t('pagePrestaTexts.a')}} {{ balade.heure }}</p>
                 </div>
                 <div class="balade-actions">
-                  <div v-if="utilisateur.role === 'utilisateur'">
+                  <div v-if="utilisateur.role === 'Utilisateur'">
                     <p v-if="balade.reserved_user_id !== utilisateur.id && balade.reserved_user_id !== null" class="indisponible">{{ $t('pagePrestaTexts.indispo')}}</p>
                     <button v-if="balade.reserved_user_id === null" @click="reserverBalade(balade.id, utilisateur.id)" class="btn reserver">{{ $t('pagePrestaTexts.reserver')}}</button>
                   </div>

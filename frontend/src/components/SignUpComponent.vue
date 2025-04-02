@@ -63,7 +63,7 @@ export default {
       adresse:'',
       isPasswordVisible: false,
       message:'',
-      signup:'Utilisateur',
+      signup:'utilisateur',
       strengthPercentage: 0,
       strengthColor: 'red'
     }
@@ -91,7 +91,7 @@ export default {
       try {
         let response = await this.signUpStore({ email: this.login, password: this.password, numero: this.tel, username: this.userName, adresse: this.adresse, signUp: this.signup });
         if (response === 0) {
-          if (this.signup === "Prestataire") this.$emit("updateSignUp", !this.signUpPrestatire);
+          if (this.signup === "prestataire") this.$emit("updateSignUp", !this.signUpPrestatire);
           else this.$router.push({name: "home"});
         }
 
@@ -105,10 +105,10 @@ export default {
 
       button.classList.toggle('active');
 
-      if (this.signup === "Utilisateur") {
-        this.signup = "Prestataire";
+      if (this.signup === "utilisateur") {
+        this.signup = "prestataire";
       } else {
-        this.signup = "Utilisateur";
+        this.signup = "utilisateur";
       }
     },
     checkPasswordStrength() {
