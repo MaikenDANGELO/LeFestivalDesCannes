@@ -204,7 +204,6 @@ export default {
 
     async updatePrestaEmplacement(lat, lng) {
       if (!this.prestataire || !this.prestataire.id) {
-        //console.error("Erreur: Aucun prestataire sélectionné.");
         return;
       }
       //console.log("new coords : " + lat + " ; " + lng)

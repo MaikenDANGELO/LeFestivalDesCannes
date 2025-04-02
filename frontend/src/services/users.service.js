@@ -101,6 +101,46 @@ async function changePassword(id,actualPassword,newPassword){
     return response;
 }
 
+async function insertCanardDefileService(data){
+    let response;
+    try{
+        response = await insertCanardDefileFromAPI(data);
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de l'insertion du prochain canard de defile"};
+    }
+    return response;
+}
+async function getNextCanardDefileIDService(){
+    let response;
+    try{
+        response = await  getNextCanardDefileIDFromAPI();
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la récupération du prochain id du canard de defile"};
+    }
+    return response;
+}
+
+async function getNextTimeDefile(){
+    let response;
+    try{
+        response = await getNextTimeDefileFromAPI();
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la récupération de l'heure du prochain defile"};
+    }
+    return response;
+}
+
+async function getNextTimeDefileFromAPI(){
+    return await getRequest('/api/users/getNextTimeDefile', 'getNextTimeDefile');
+}
+
+async function getNextCanardDefileIDFromAPI(){
+    return await getRequest('/api/users/getNextCanardDefileID', 'getNextCanardDefileID');
+}
+async function insertCanardDefileFromAPI(data){
+    return await postRequest('/api/users/registerDuck', data, 'insertCanardDefile');
+}
+
 async function logInFromAPI(data){
     return await postRequest('/api/users/connexion', data, 'login');
 }
@@ -155,5 +195,8 @@ export default{
     logInService,
     logOutService,
     checkSessionService,
-    signUpService
+    signUpService,
+    insertCanardDefileService,
+    getNextCanardDefileIDService,
+    getNextTimeDefile
 }

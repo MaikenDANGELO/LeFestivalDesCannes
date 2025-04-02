@@ -201,25 +201,9 @@ async function getBoutiqueChiffreDaffaire(){
     return response;
 }
 
-async function getNextCanardDefileID(){
-    let response;
-    try{
-        response = await LocalSource.getNextCanardDefileID();
-    }catch(error){
-        response = {error: 1, status: 500, data: "erreur lors de la récupération du prochain id du canard de defile"};
-    }
-    return response;
-}
 
-async function insertCanardDefile(data){
-    let response;
-    try{
-        response = await LocalSource.insertCanardDefile(data);
-    }catch(error){
-        response = {error: 1, status: 500, data: "erreur lors de l'insertion du prochain canard de defile"};
-    }
-    return response;
-}
+
+
 
 
 async function changeDataPrestFromAPI(data){
@@ -296,8 +280,6 @@ export default {
     getAllCategorieService,
     getShopStatusFromId,
     changeShopStatusFromId,
-    getNextCanardDefileID,
-    insertCanardDefile,
     getAllBoutiqueCommandes,
     getBoutiqueChiffreDaffaire,
 }

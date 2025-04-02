@@ -11,11 +11,9 @@
             <div @click="this.handlePrestDropdownClick" class="dropdown-content" v-if="isDropdownVisible2">
               <router-link  v-for="prestataire in this.prestataires" :key="prestataire['id']" :to="`/prestataire/${prestataire['id']}`">{{prestataire['nom']}}</router-link>
             </div>
-<!--            <router-link class="left-element nav-link-common" to="/associations">{{ $t('appTexts.associations') }}</router-link>-->
             <router-link class="left-element nav-link-common" to="/billeterie">{{ $t('appTexts.billetterie') }}</router-link>
             <router-link class="left-element nav-link-common" to="/boutique">{{ $t('appTexts.boutique') }}</router-link>
             <router-link class="left-element nav-link-common" to="/acces">{{ $t('appTexts.acces') }}</router-link>
-<!--            <router-link class="left-element nav-link-common" to="/classementActivites">{{ $t('appTexts.classementActivites') }}</router-link>-->
             <router-link class="left-element nav-link-common" v-if="this.utilisateur.role === 'admin'" to="/admin">{{ $t('appTexts.pageAdmin') }}</router-link>
             <a class="left-element nav-link-common" href="https://www.twitch.tv/dashducks" target="_blank">
               <img alt="Twitch logo" :src="require(`./assets/twitch.png`)" class="twitch-logo">

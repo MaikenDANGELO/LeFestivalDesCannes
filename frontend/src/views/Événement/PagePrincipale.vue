@@ -51,9 +51,9 @@
         </div>
       </div>
     </div>
-    <div class="duck-section">
+    <div class="duck-section" v-if="utilisateur.estConnecte">
       <img :src="require('@/assets/parade_canards.jpg')" alt="Défilé des Canards" class="duck-image">
-      <div class="duck-text">
+      <div class="duck-text" >
         <h3>{{ $t('pagePrincipaleTexts.participerDefile') }}</h3>
         <p>
           {{ $t('pagePrincipaleTexts.texteDefile') }}

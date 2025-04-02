@@ -41,6 +41,8 @@ module.exports = (passport) => {
      *         description: Erreur interne du serveur
      */
 
+    router.get('/getNextCanardDefileID', userController.getNextCanardDefileID)
+    router.get('/getNextTimeDefile', userController.getNextTimeDefile)
     router.get("/logout", userMiddleware.isLoggedIn, userController.logout);
     /**
      * @swagger
@@ -218,6 +220,7 @@ module.exports = (passport) => {
      *         description: Erreur interne du serveur
      */
 
+    router.post('/registerDuck', userMiddleware.isLoggedIn, userController.registerDuck)
     router.post('/sendAvis', userMiddleware.isLoggedIn , userController.sendAvis)
     /**
      * @swagger

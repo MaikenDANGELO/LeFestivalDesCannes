@@ -98,3 +98,31 @@ exports.changePassword = async (req, res) => {
         return res.status(200).json({error: 0, data: data});
     })
 }
+
+exports.registerDuck = async (req, res) => {
+    const {nom, idproprietaire, espece, region, heureDefile} = req.body
+    await userService.registerDuck(nom, idproprietaire, espece, region, heureDefile,(error, data) => {
+        if (error) {
+            return res.status(500).send(error);
+        }
+        return res.status(200).json({error: 0, data: data});
+    })
+}
+
+exports.getNextCanardDefileID = async (req, res) => {
+    await userService.getNextCanardDefileID((error, data) => {
+        if (error) {
+            return res.status(500).send(error);
+        }
+        return res.status(200).json({error: 0, data: data});
+    })
+}
+
+exports.getNextTimeDefile = async (req, res) => {
+    await userService.getNextTimeDefile((error, data) => {
+        if (error) {
+            return res.status(500).send(error);
+        }
+        return res.status(200).json({error: 0, data: data});
+    })
+}
