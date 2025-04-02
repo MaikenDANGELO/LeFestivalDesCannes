@@ -90,6 +90,19 @@ const routes = [
     path: "/reservation-restaurant",
     name: "ReservationRestaurant",
     component: PageReservationRestaurant,
+    children: [
+      {
+        path: "list",
+        name: "ReservationRestaurantList",
+        component: () => import('@/components/listPrestGastro.vue'),
+      },
+      {
+        path: ":id",
+        name: "ReservationRestaurantDetail",
+        component:() => import('@/components/ReservationPrest.vue'),
+        props: true
+      },
+      ]
   },
   {
     path : "/classementActivites",

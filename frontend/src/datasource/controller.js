@@ -548,32 +548,6 @@ function getBoutiqueChiffreDaffaire(){
     return {error: 0, status: 200, data: sum}
 }
 
-function cancelBoutiqueCommande(id){
-    let comm;
-    for(let commande of commandes){
-        if(commande.id === id){
-            comm = commande;
-            break;
-        }
-    }
-    if(!comm) return {error: 0, status: 200, data: "commande introuvable"}
-    comm.status = "annulee"
-    return {error: 0, status: 200, data: "commande annulée"}
-}
-
-function validateBoutiqueCommande(id){
-    let comm;
-    for(let commande of commandes){
-        if(commande.id === id){
-            comm = commande;
-            break;
-        }
-    }
-    if(!comm) return {error: 0, status: 200, data: "commande introuvable"}
-    comm.status = "validee"
-    return {error: 0, status: 200, data: "commande validee"}
-}
-
 export default {
     getAllRatings,
     getAllPrestataires,
@@ -619,6 +593,4 @@ export default {
     insertCanardDefile,
     getAllCommandes,
     getBoutiqueChiffreDaffaire,
-    cancelBoutiqueCommande,
-    validateBoutiqueCommande,
 };

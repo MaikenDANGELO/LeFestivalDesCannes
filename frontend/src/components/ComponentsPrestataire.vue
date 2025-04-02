@@ -22,11 +22,13 @@
           <textarea v-model="event.description_accueil" id="description_accueil" required></textarea>
         </div>
 
-        <!-- Champ Catégorie -->
-        <div>
-          <label for="categorie">{{ $t('prestataireTexts.categorie') }}</label>
-          <input v-model="event.categorie" id="categorie" type="text" required />
-        </div>
+          <!-- Champ Catégorie -->
+          <div>
+            <label for="categorie">{{ $t('prestataireTexts.categorie') }}</label>
+            <select v-model="event.categorie" id="categorie" required>
+              <option v-for="categorie in categories" :key="categorie.id" :value="categorie.id">{{categorie.nom}}</option>
+            </select>
+          </div>
 
         <!-- Champ ID Emplacement -->
         <div>
@@ -109,12 +111,11 @@ export default {
     handleFileUpload(event) {
       const file = event.target.files[0];
       if (file && (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg')) {
-        this.event.image = file;
 
-        // Générer une prévisualisation de l'image
         const reader = new FileReader();
         reader.onload = (e) => {
           this.previewImage = e.target.result;
+          this.event.image = e.target.result;
         };
         reader.readAsDataURL(file);
       } else {
@@ -134,12 +135,21 @@ export default {
       this.event.services.splice(index, 1);
     },
     async submitForm() {
-      console.log("Données du formulaire :", this.event);
-      await prestatairesService.sendFormPrestataire(this.event, this.utilisateur.id)
-      this.$router.push({ name: "home" });
-      alert("Formulaire soumis !");
+      const response  = await prestatairesService.sendFormPrestataire({form:this.event, id_utilisateur:this.utilisateur.id})
+      console.log(response)
+      if (response.error === 0) {
+        this.$router.push({name: "home"});
+        alert("Formulaire soumis !");
+      }
+      else {
+        alert(response.data)
+      }
     },
   },
+  async created() {
+    const response = await prestatairesService.getAllCategorieService()
+    this.categories = response.data
+  }
 };
 </script>
 

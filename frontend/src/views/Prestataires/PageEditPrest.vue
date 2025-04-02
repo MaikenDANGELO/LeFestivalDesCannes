@@ -22,7 +22,13 @@
       <!-- Catégorie -->
       <div class="form-group">
         <label for="categorie">Catégorie</label>
-        <input type="text" id="categorie" v-model="prestataire.categorie" class="form-control" required />
+        <input
+            type="text"
+            id="categorie"
+            v-model="prestataire.relationCategorie.nom"
+            class="form-control"
+            required
+        />
       </div>
 
       <!-- Image -->
@@ -34,6 +40,55 @@
         <img :src="previewImage" alt="Prévisualisation de l'image" class="preview-image" />
       </div>
 
+      <!-- Services -->
+      <div v-for="(service, index) in prestataire.services" :key="service.id_service" class="service-form-group">
+        <h3>Service {{ index + 1 }}</h3>
+        <div class="form-group">
+          <label :for="'service-name-' + index">Nom du service</label>
+          <input
+              type="text"
+              :id="'service-name-' + index"
+              v-model="service.nom_service"
+              class="form-control"
+              required
+          />
+        </div>
+
+        <div class="form-group">
+          <label :for="'service-description-' + index">Description</label>
+          <textarea
+              :id="'service-description-' + index"
+              v-model="service.description_service"
+              class="form-control"
+              required
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label :for="'service-link-' + index ">Lien du service</label>
+          <input
+              type="text"
+              :id="'service-link-' + index"
+              v-model="service.lien_service"
+              class="form-control"
+          />
+        </div>
+
+        <div class="form-group">
+          <label :for="'service-status-' + index">Statut</label>
+          <select
+              :id="'service-status-' + index"
+              v-model="service.statut_service"
+              class="form-control"
+          >
+            <option :value="true">Actif</option>
+            <option :value="false">Inactif</option>
+          </select>
+        </div>
+
+        <!-- Button to remove the service -->
+        <button @click.prevent="removeService(index)" v-if="prestataire.services.length > 1" class="btn btn-danger">
+          Supprimer le service</button>
       <h2>Services proposés</h2>
       <table v-if="prestataire.services.length" class="table-services">
         <thead>
@@ -99,6 +154,7 @@
       <div class="form-group">
         <button type="submit" class="btn btn-primary">Enregistrer</button>
       </div>
+      </div>
     </form>
   </div>
 </template>
@@ -121,25 +177,24 @@ export default {
   },
   methods: {
     ...mapActions('prestataire', ['getAllPrestataires']),
-    
+
     async updatePrestataire() {
       let response = await PrestatairesService.changeDataPrestService(this.prestataire);
       if (response.error === 0) {
+        alert('Les informations du prestataire ont été mises à jour avec succès.');
         await this.getAllPrestataires();
+      }else {
+        alert(response.data);
       }
-      alert(response.data);
     },
-
     addService() {
       this.prestataire.services.push({
-        id_service: "",
         nom_service: "",
         description_service: "",
         lien_service: "",
         statut_service: "actif"
       });
     },
-
     removeService(index) {
       this.prestataire.services.splice(index, 1);
       this.$forceUpdate();
@@ -191,30 +246,34 @@ export default {
     handleFileUpload(event) {
       const file = event.target.files[0];
       if (file && (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg')) {
-        this.prestataire.image = file;
 
+        // Générer une prévisualisation de l'image
         const reader = new FileReader();
         reader.onload = (e) => {
           this.previewImage = e.target.result;
+          this.prestataire.image = e.target.result;
         };
         reader.readAsDataURL(file);
       } else {
         alert('Veuillez sélectionner une image au format PNG, JPEG ou JPG.');
       }
-    }
+    },
   },
-
   mounted() {
     this.prestataire = this.prestataires.find(prestataire => prestataire.id_utilisateur === this.$route.params.id);
     this.previewImage = require("@/assets/ImagesPrestataires/" + this.prestataire.image);
-    
+
     if (!this.prestataire.typesArticles) {
       this.prestataire.typesArticles = [];
     }
+  },
+  async created() {
+    await this.getAllPrestataires()
+    this.prestataire = await this.prestataires.find(prestataire => prestataire.id_utilisateur === Number(this.$route.params.id));
+    this.previewImage = this.prestataire.image;
   }
 };
 </script>
-
 
 <style scoped>
 .edit-prestataire {
@@ -228,7 +287,7 @@ export default {
 /* Espacement amélioré entre les boutons */
 .form-group button {
   margin-right: 10px;
-  margin-bottom: 10px; 
+  margin-bottom: 10px;
 }
 
 /* Image de prévisualisation réduite */
@@ -247,7 +306,7 @@ export default {
   margin-top: 20px;
 }
 
-.table th, .table td, 
+.table th, .table td,
 .table-services th, .table-services td {
   padding: 12px;
   border: 1px solid #ddd;

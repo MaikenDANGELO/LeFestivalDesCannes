@@ -2,18 +2,7 @@ const userService = require("../services/users.service");
 
 
 exports.home = async (req, res) => {
-    let session = req.session;
-
-    if (session.id_user) {
-        await userService.getUser(session.id_user, (error,data)=>{
-            if(error){
-                return res.status(500).send(error);
-            }
-            return res.status(200).json({data:data});
-        })
-    }else{
-        return res.status(401).send("Utilisateur non connecté")
-    }
+    res.status(200).json({error: 0, data: req.user});
 }
 
 exports.getUsers = async(req,res) => {
@@ -21,34 +10,32 @@ exports.getUsers = async(req,res) => {
         if(error){
             return res.status(500).send("Erreur interne");
         }
-        return res.status(200).json({data:data});
+        return res.status(200).json({error:0, data:data});
     })
 }
 
 
 exports.connexion = async(req, res) => {
-    let {login,mdp} = req.body
-    await userService.connexion(login, mdp,(error,data)=>{
-        if(error){
-            return res.status(500).send(error);
-        }
-        else if (data === "Aucun utilisateur ne correspond à ce login"){
-            return res.status(404).send(data);
-        }
-        req.session.id_user = data.id;
-        return res.status(200).json({data:data});
-    })
+    if (req.user) res.status(200).json({error: 0, data: req.user});
+    else res.status(400).json({error: 1, data: "Erreur lors de la connexion"});
+
 }
 
 exports.signup = async (req, res) =>{
-    let {login, mdp, numero, username, adresse, signUp} = req.body
-    await userService.signup(login, mdp, numero, username, adresse, signUp,(error,data)=>{
-        if(error){
-            return res.status(500).send(error);
+    if (req.user) res.status(200).json({error: 0, data: req.user});
+    else res.status(400).json({error: 1, data: "Erreur lors de l'inscription"});
+
+}
+
+exports.logout = (req,res)=>{
+    req.session.destroy((err)=>{
+        if(!err){
+            res.status(200).json({error:0, data: "Déconnexion réussie"});
         }
-        req.session.id_user = data.id;
-        return res.status(200).json({data:data});
-    })
+        else {
+            res.status(400).json({error:1, data:"Erreur de déconnexion"});
+        }
+    });
 }
 
 exports.deleteAvis = async (req, res) =>{
@@ -62,9 +49,8 @@ exports.deleteAvis = async (req, res) =>{
 }
 
 exports.sendAvis = async (req, res) =>{
-    const {id_prestataire, texte, note} = req.body
-    const id_utilisateur = req.session.id_user
-    await userService.sendAvis(id_prestataire, id_utilisateur, texte, note, (error,data)=>{
+    const [id_prestataire, note,texte, id_user] = req.body
+    await userService.sendAvis(id_prestataire, id_user, texte, note, (error,data)=>{
         if(error){
             return res.status(500).send(error);
         }
@@ -78,12 +64,12 @@ exports.modifyAvis = async (req, res) =>{
         if(error){
             return res.status(500).send(error);
         }
-        return res.status(200).json({data:data});
+        return res.status(200).json({error: 0, data:data});
     })
 }
 
 exports.getNotificationByUserID =  async (req, res) => {
-    const id =  req.session.id_user
+    const id =  req.params.id
     await userService.getNotificationByUserID(id, (error, data) => {
         if (error) {
             return res.status(500).send(error);
@@ -93,23 +79,50 @@ exports.getNotificationByUserID =  async (req, res) => {
 }
 
 exports.changePersonnalData = async (req, res) => {
-    const {nom, email, numero, adresse} = req.body
-    const id =  req.session.id_user
+    const {nom, email, adresse, numero, id} = req.body
     await userService.changePersonnalData(id, nom, email, numero, adresse,(error, data) => {
         if (error) {
             return res.status(500).send(error);
         }
-        return res.status(200).json({data: data});
+        return res.status(200).json({error: 0, data: data});
     })
 }
 
 exports.changePassword = async (req, res) => {
     const newPassword = req.body.newPassword
-    const id = req.session.id_user
+    const id = req.body.id
     await userService.changePassword(id,newPassword,(error, data) => {
         if (error) {
             return res.status(500).send(error);
         }
-        return res.status(200).json({data: data});
+        return res.status(200).json({error: 0, data: data});
+    })
+}
+
+exports.registerDuck = async (req, res) => {
+    const {nom, idproprietaire, espece, region, heureDefile} = req.body
+    await userService.registerDuck(nom, idproprietaire, espece, region, heureDefile,(error, data) => {
+        if (error) {
+            return res.status(500).send(error);
+        }
+        return res.status(200).json({error: 0, data: data});
+    })
+}
+
+exports.getNextCanardDefileID = async (req, res) => {
+    await userService.getNextCanardDefileID((error, data) => {
+        if (error) {
+            return res.status(500).send(error);
+        }
+        return res.status(200).json({error: 0, data: data});
+    })
+}
+
+exports.getNextTimeDefile = async (req, res) => {
+    await userService.getNextTimeDefile((error, data) => {
+        if (error) {
+            return res.status(500).send(error);
+        }
+        return res.status(200).json({error: 0, data: data});
     })
 }

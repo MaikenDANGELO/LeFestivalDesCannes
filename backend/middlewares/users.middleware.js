@@ -4,14 +4,14 @@ const Utilisateur = require('../database/models/Utilisateur');
 
 
 exports.validateLogin = (req, res, next) =>{
-    let { login,mdp } = req.body
-    if (!login)  return res.status(400).send('Login pas valide !');
-    if (!mdp) return res.status(400).send('Mot de passe pas valide !');
+    let { email,password } = req.body
+    if (!email)  return res.status(400).send('Login pas valide !');
+    if (!password) return res.status(400).send('Mot de passe pas valide !');
     next();
 }
 
 exports.validatePassword = async (req, res, next) => {
-    let password = req.body.mdp;
+    let password = req.body.password;
     if (password === undefined) password = req.body.newPassword
 
     if (password.length < 8) {
@@ -35,7 +35,7 @@ exports.validatePassword = async (req, res, next) => {
 }
 
 exports.validateActualPassword = async (req, res, next) => {
-    const id = req.session.id_user;
+    const id = req.body.id;
     const actualPassword = req.body.actualPassword;
 
     try {
@@ -56,7 +56,7 @@ exports.validateActualPassword = async (req, res, next) => {
 };
 
 exports.passwordAlreadyUsed = async (req, res, next) => {
-    const id = req.session.id_user;
+    const id = req.body.id
     const newPassword = req.body.newPassword;
 
     try {
@@ -75,9 +75,7 @@ exports.passwordAlreadyUsed = async (req, res, next) => {
     }
 };
 
-exports.isLogin = async (req, res, next) => {
-    if (!req.session.id_user) {
-        return res.status(401).send("Vous n'êtes pas connecté");
-    }
-    next();
+exports.isLoggedIn = async (req, res, next) =>{
+    if (req.isAuthenticated()) return next();
+    else return res.status(401).json({ message: "Non authentifié" });
 }

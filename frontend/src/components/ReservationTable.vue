@@ -3,13 +3,13 @@
       <div class="reservation-text">
         <h3>{{ $t('pagePrincipaleTexts.titreSpecialite') }}</h3>
         <p>{{ $t('pagePrincipaleTexts.texteSpecialite') }}</p>
-        <router-link to="/reservation-restaurant" class="reservation-button">
+        <router-link :to="{ name: 'ReservationRestaurantList' }" class="reservation-button">
           {{ $t('pagePrincipaleTexts.reserverTableLink') }}
         </router-link>
       </div>
-      <img 
-        src="@/assets/gourmet.jpg" 
-        alt="Image Gourmet" 
+      <img
+        src="@/assets/gourmet.jpg"
+        alt="Image Gourmet"
         class="reservation-image"
       />
     </div>

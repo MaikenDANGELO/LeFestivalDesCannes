@@ -15,50 +15,54 @@
         </div>
         <div class="filtre-check" id="filtre-cat" v-if="filtreType === 'prestataires'">
           <h3>{{ $t('pagePrincipaleTexts.categorie') }}</h3>
-          <input @click="handleCatFilter('Activité')" type="checkbox" id="activite" checked>
-          <label for="activite">{{ $t('pagePrincipaleTexts.attraction') }}</label><br>
-          <input @click="handleCatFilter('Mascotte')" type="checkbox" id="mascotte" checked>
-          <label for="mascotte">{{ $t('pagePrincipaleTexts.mascotte') }}</label><br>
-          <input @click="handleCatFilter('Gastronomie')" type="checkbox" id="gastronomie" checked>
-          <label for="gastronomie">{{ $t('pagePrincipaleTexts.gastronomie') }}</label><br>
-          <input @click="handleCatFilter('Événement')" type="checkbox" id="evenement" checked>
-          <label for="evenement">{{ $t('pagePrincipaleTexts.evenement') }}</label>
+          <div v-for="cat in uniqueCategories" :key="cat">
+            <input @click="handleCatFilter(cat)" type="checkbox" :id="cat" :checked="filtreCategory.includes(cat)">
+            <label :for="cat">{{ cat }}</label><br>
+          </div>
         </div>
         <br><button @click="resetFilters()">{{ $t('pagePrincipaleTexts.resetFiltres') }}</button>
       </div>
       <div class="listes">
         <div class="liste-prestataires" id="prestataires" v-if="filtreType === 'prestataires'">
           <h2>{{ $t('pagePrincipaleTexts.activitesTitre') }}</h2>
-          <div class="prestataires-row" v-for="row in getPrestaRows()" :key="row[0].id">
+          <div v-for="row in prestaRows" :key="row[0].id" class="prestataires-row">
             <div v-for="prestataire in row" :key="prestataire.id" class="prestataire-card">
-              <CartePrestatairePerso :nom="prestataire.nom" :descriptionAccueil="prestataire.description_accueil"
-                :image="prestataire.image" :pers-page-route="`/prestataire/${prestataire.id}`"></CartePrestatairePerso>
+                <CartePrestatairePerso
+                    :nom="prestataire.nom"
+                    :descriptionAccueil="prestataire.description_accueil"
+                    :image="prestataire.image"
+                    :pers-page-route="`/prestataire/${prestataire.id}`"
+                ></CartePrestatairePerso>
             </div>
           </div>
         </div>
         <div class="liste-prestataires" id="sponsors" v-if="filtreType === 'sponsors'">
           <h2>{{ $t('pagePrincipaleTexts.sponsorsTitre') }}</h2>
-          <div class="prestataires-row" v-for="row in getSponsorsRows()" :key="row[0].id_sponsor">
+          <div v-for="row in sponsorRows" :key="row[0].id_sponsor" class="prestataires-row">
             <div v-for="sponsor in row" :key="sponsor.id_sponsor" class="prestataire-card">
-              <CartePrestatairePerso :nom="sponsor.nom_sponsor" :description-accueil="sponsor.description_accueil"
-                :image="sponsor.image" :pers-page-route="`/sponsor/${sponsor.id_sponsor}`"></CartePrestatairePerso>
+              <CartePrestatairePerso
+                  :nom="sponsor.nom_sponsor"
+                  :description-accueil="sponsor.description_accueil"
+                  :image="sponsor.image"
+                  :pers-page-route="`/sponsor/${sponsor.id}`">
+              </CartePrestatairePerso>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="duck-section">
+    <div class="duck-section" v-if="utilisateur.estConnecte">
       <img :src="require('@/assets/parade_canards.jpg')" alt="Défilé des Canards" class="duck-image">
-      <div class="duck-text">
+      <div class="duck-text" >
         <h3>{{ $t('pagePrincipaleTexts.participerDefile') }}</h3>
         <p>
           {{ $t('pagePrincipaleTexts.texteDefile') }}
           <router-link to="/inscription-canard" class="duck-link">{{ $t('pagePrincipaleTexts.inscriptionCanardLink') }}</router-link>
         </p>
       </div>
-   </div>
-    <ReservationTable></ReservationTable>
-    <AchatBillet> </AchatBillet>
+    </div>
+    <ReservationTable v-if="utilisateur.estConnecte"></ReservationTable>
+    <AchatBillet></AchatBillet>
     <BoutiqueGoodies></BoutiqueGoodies>
     <page-associations></page-associations>
     <page-classement-activites></page-classement-activites>
@@ -74,13 +78,11 @@ import BanniereAccueil from "@/components/BanniereAccueil.vue";
 import CartePrestatairePerso from "@/components/CartePrestatairePerso.vue";
 import { mapState, mapActions } from "vuex";
 import TotalDons from "@/components/totalDons.vue";
-import { filter } from "core-js/internals/array-iteration";
 import ReservationTable from "@/components/ReservationTable.vue";
 import AchatBillet from "@/components/AchatBillet.vue";
 import BoutiqueGoodies from "@/components/BoutiqueGoodies.vue";
 import AssociationsPresentes from "@/components/AssociationsPresentes.vue";
 import ClassementActivites from "@/components/ClassementActivites.vue";
-
 
 export default {
   name: "PagePrincipale",
@@ -88,66 +90,86 @@ export default {
     return {
       prestatairesRows: [],
       filtreSearch: "",
-      filtreCategory: ['Activité', 'Mascotte', 'Gastronomie', 'Événement'],
+      filtreCategory: [],
       filtreType: "prestataires",
     };
   },
   computed: {
-    ...mapState('prestataire', ['prestataires']), // on récupère prestataires depuis le store
+    ...mapState('prestataire', ['prestataires']),
     ...mapState('sponsors', ['sponsors']),
+    ...mapState('utilisateurs', ['utilisateur']),
+    filteredPrestataires() {
+      return this.getFilteredPrestataires(this.prestataires);
+    },
+    prestaRows() {
+      const rows = [];
+      for (let i = 0; i < this.filteredPrestataires.length; i += 4) {
+        rows.push(this.filteredPrestataires.slice(i, i + 4));
+      }
+      return rows;
+    },
+    filteredSponsors() {
+      return this.getFilteredSponsors(this.sponsors);
+    },
+    sponsorRows() {
+      const rows = [];
+      for (let i = 0; i < this.filteredSponsors.length; i += 4) {
+        rows.push(this.filteredSponsors.slice(i, i + 4));
+      }
+      return rows;
+    },
+    uniqueCategories() {
+      const categories = this.prestataires.map(prestataire => prestataire.relationCategorie.nom);
+      return [...new Set(categories)];
+
+    },
   },
   methods: {
-    filter,
-    ...mapActions('prestataire', ['getAllPrestataires']), // on récupère la méthode de récupération des prestataires du store
+    ...mapActions('prestataire', ['getAllPrestataires']),
     ...mapActions('sponsors', ['getAllSponsors']),
-    getPrestaRows() {
-      this.getAllPrestataires(); // charge les prestataires depuis les données
-      let prestataires = this.getFilteredPrestataires(this.prestataires);
-      let rows = [];
-      for (let i = 0; i < prestataires.length; i += 4) { // Ajusté pour 4 blocs par ligne
-        rows.push(prestataires.slice(i, i + 4));
-      }
-      return rows;
-    },
-    getSponsorsRows() {
-      this.getAllSponsors(); // charge les prestataires depuis les données
-      let sponsors = this.getFilteredSponsors(this.sponsors);
-      let rows = [];
-      for (let i = 0; i < sponsors.length; i += 4) { // Ajusté pour 4 blocs par ligne
-        rows.push(sponsors.slice(i, i + 4));
-      }
-      return rows;
-    },
-    // Gère l'envoi de commentaire depuis une page prestataire
-    handleCommentSent(data) {
-      return data;
-    },
     handleCatFilter(cat) {
-      if (this.filtreCategory.includes(cat)) this.filtreCategory.splice(this.filtreCategory.findIndex((f) => f === cat), 1);
-      else this.filtreCategory.push(cat);
+      if (this.filtreCategory.includes(cat)) {
+        this.filtreCategory.splice(this.filtreCategory.indexOf(cat), 1);
+      } else {
+        this.filtreCategory.push(cat);
+      }
     },
     getFilteredPrestataires(prestataires) {
-      let catFilteredPrestataires = [];
-      for (const cat of this.filtreCategory) {
-        for (const prest of prestataires) {
-          if (!catFilteredPrestataires.includes(prest) && prest.categorie === cat)
-            catFilteredPrestataires.push(prest)
-        }
+      if (this.filtreCategory.length === 0) {
+        return [];
       }
-      return prestataires.filter((p) => p.nom.toLowerCase().includes(this.filtreSearch.toLowerCase()) && catFilteredPrestataires.includes(p));
+
+      // Filtrer d'abord par catégorie
+      let catFilteredPrestataires = prestataires.filter(prest =>
+          this.filtreCategory.includes(prest.relationCategorie.nom)
+      );
+
+      catFilteredPrestataires = catFilteredPrestataires.filter(prest => {
+        if (prest.accepted === true) {
+          return prest;
+        }
+      })
+
+      // Ensuite, appliquer le filtre de recherche
+      return catFilteredPrestataires.filter(prest =>
+          prest.nom.toLowerCase().includes(this.filtreSearch.toLowerCase())
+      );
     },
     getFilteredSponsors(sponsors) {
-      return sponsors.filter(s => s.nom_sponsor.toLowerCase().includes(this.filtreSearch.toLowerCase()));
+      return sponsors.filter(s =>
+          s.nom_sponsor.toLowerCase().includes(this.filtreSearch.toLowerCase())
+      );
     },
-    resetFilters(){
-      this.filtreCategory = ['Activité', 'Mascotte', 'Gastronomie', 'Événement'];
+    resetFilters() {
       this.filtreType = 'prestataires';
       this.filtreSearch = '';
-      document.getElementById("activite").checked = true;
-      document.getElementById("mascotte").checked = true;
-      document.getElementById("gastronomie").checked = true;
-      document.getElementById("evenement").checked = true;
-    }
+      this.filtreCategory = [...this.uniqueCategories];
+    },
+  },
+  async mounted() {
+    await this.getAllPrestataires();
+    await this.getAllSponsors();
+    this.resetFilters();
   },
   components: {
     PageClassementActivites: ClassementActivites,

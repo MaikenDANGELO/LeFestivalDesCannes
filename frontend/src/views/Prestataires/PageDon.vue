@@ -62,66 +62,65 @@ import { mapActions, mapState } from 'vuex';
 import moneyService from '@/services/money.service';
 
 export default {
-    name: "PageDon",
-    data() {
-        return {
-            prestataire: null,
-            premadeAmount: ["5", "10", "20"],
-            userInput: "0",
-            montantDon: "5",
-            isDonValide: true,
-            message: "",
-            payment: {
-                cardNumber: "",
-                expirationDate: "",
-                cvv: "",
-            },
-        };
+  name: "PageDon",
+  data() {
+    return {
+      prestataire: null,
+      premadeAmount: ["5", "10", "20"],
+      userInput: "0",
+      montantDon: "5",
+      isDonValide: true,
+      message: "",
+      payment: {
+        cardNumber: "",
+        expirationDate: "",
+        cvv: "",
+      },
+    };
+  },
+  methods: {
+    ...mapActions('prestataire', ['getAllPrestataires']),
+    ...mapActions('utilisateurs', ['getAllUsers']),
+    getUtilisateur(id) {
+      return this.utilisateurs.find(u => u['id_utilisateur'] === id);
     },
-    methods: {
-        ...mapActions('prestataire', ['getAllPrestataires']),
-        ...mapActions('utilisateurs', ['getAllUsers']),
-        getUtilisateur(id) {
-            return this.utilisateurs.find(u => u['id_utilisateur'] === id);
-        },
-        checkIsMontantValide() {
-            if (this.montantDon > 0) this.isDonValide = true;
-            else this.isDonValide = false;
-        },
-        updateMontantDon() {
-            if (parseInt(this.userInput) && this.userInput > 0) {
-                this.montantDon = this.userInput;
-                this.isDonValide = true;
-            } else {
-                this.isDonValide = false;
-            }
-        },
-        async makeDonation() {
-            let response;
-            console.log("Réalisation d'un don..")
-            try {
-                console.log(this.utilisateur.id, this.prestataire.id, parseInt(this.montantDon), this.message)
-                response = await moneyService.makeDonation(parseInt(this.utilisateur.id), this.prestataire.id, parseInt(this.montantDon), this.message);
-                console.log(response)
-            } catch (e) {
-                response = e;
-            }
+    checkIsMontantValide() {
+      if (this.montantDon > 0) this.isDonValide = true;
+      else this.isDonValide = false;
+    },
+    updateMontantDon() {
+      if (parseInt(this.userInput) && this.userInput > 0) {
+        this.montantDon = this.userInput;
+        this.isDonValide = true;
+      } else {
+        this.isDonValide = false;
+      }
+    },
+    async makeDonation() {
+      let response;
+      try {
+        response = await moneyService.makeDonation(parseInt(this.utilisateur.id), this.prestataire.id, parseInt(this.montantDon), this.message);
+        console.log(response)
+        //this.$router.push()
+      } catch (e) {
+        response = e;
+      }
 
-            return response;
-        }
-    },
-    computed: {
-        ...mapState('utilisateurs', ['utilisateur', 'utilisateurs']),
-        ...mapState('prestataire', ["avis_prestataire", "prestataires"])
-    },
-    async created() {
-        if (!this.utilisateur || !this.utilisateur.estConnecte) this.$router.push('/');
-        await this.getAllPrestataires();
-        await this.getAllUsers();
-        const id = this.$route.params.id;
-        this.prestataire = this.prestataires.find(p => p.id === id); // récupère le prestataire d'après l'id renseignée depuis la Page  principale    
-    },
-};
+      return response;
+    }
+  },
+  computed: {
+    ...mapState('utilisateurs', ['utilisateur', 'utilisateurs']),
+    ...mapState('prestataire', ["avis_prestataire", "prestataires"])
+  },
+  async created() {
+    if (!this.utilisateur || !this.utilisateur.estConnecte) this.$router.push('/');
+    await this.getAllPrestataires();
+    await this.getAllUsers();
+    const id = Number(this.$route.params.id);
+    this.prestataire = this.prestataires.find(p => p.id === id);
+  }
+}
 </script>
 
 <style scoped></style>

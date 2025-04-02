@@ -3,6 +3,10 @@ const Prestataire = require("../database/models/Prestataire");
 const Service = require("../database/models/Service");
 const Dons = require("../database/models/Don");
 const Reservation = require("../database/models/Reservation");
+const Categorie = require("../database/models/Categorie");
+const fs = require('fs');
+const {DataTypes} = require("sequelize");
+
 
 exports.getAvis = async (id, callback) => {
     try {
@@ -29,7 +33,19 @@ exports.getAllAvis = async (callback) => {
 
 exports.getAllPrestataire = async (callback)=>{
     try {
-        const prestataires = await Prestataire.findAll();
+        const prestataires = await Prestataire.findAll({
+            include: [
+                {
+                    model: Service,
+                    as: 'services',
+                    required: false
+                },
+                {
+                    model: Categorie,
+                    as: 'relationCategorie',
+                }
+            ],
+        });
         callback(null, prestataires);
     } catch (error) {
         callback(error, null);
@@ -38,11 +54,12 @@ exports.getAllPrestataire = async (callback)=>{
 
 exports.sendFormPrestataire = async (form, id_utilisateur, callback)=>{
     try {
+
         const prestataire = await Prestataire.create({
             nom: form.nom,
             description: form.description,
             description_accueil: form.description_accueil,
-            categorie: form.categorie,
+            id_categorie: form.categorie,
             id_emplacement: form.id_emplacement,
             image: form.image,
             accepted: false,
@@ -50,6 +67,7 @@ exports.sendFormPrestataire = async (form, id_utilisateur, callback)=>{
             page_route: '',
             id_evenement: 1
         });
+
 
         const services = form.services.map(service => ({
             id_service: service.id_service,
@@ -60,11 +78,9 @@ exports.sendFormPrestataire = async (form, id_utilisateur, callback)=>{
             id_prestataire: prestataire.id
         }));
 
-        console.log("Prestataire: ", prestataire);
-        console.log("Services: ", services);
+
         await Service.bulkCreate(services);
 
-        console.log("Services créés");
 
         callback(null, prestataire);
     } catch (error) {
@@ -75,7 +91,8 @@ exports.sendFormPrestataire = async (form, id_utilisateur, callback)=>{
 
 exports.getTotalDonsOf = async (id, callback) => {
     try {
-        const total = await Dons.sum('montant', { where: { id_prestataire: id } });
+        let total = await Dons.sum('montant', { where: { id_prestataire: id } });
+        if (total === null) total = 0
         callback(null, total);
     } catch (error) {
         callback(error, null);
@@ -102,20 +119,6 @@ exports.getAllBalades = async (callback) => {
         const balades = await Reservation.findAll({
             where: {
                 type_service: 'balade'
-            }
-        });
-        callback(null, balades);
-    } catch (error) {
-        callback(error, null);
-    }
-}
-
-exports.getbaladesfromUid = async (user_id, callback) => {
-    try {
-        const balades = await Reservation.findAll({
-            where: {
-                type_service: 'balade',
-                reserved_user_id: user_id
             }
         });
         callback(null, balades);
@@ -151,6 +154,143 @@ exports.cancelbalade = async (balade_id, user_id, callback) => {
             callback("Balade introuvable", null);
         }
     } catch (error) {
+        callback(error, null);
+    }
+}
+
+
+exports.makeReservation = async (userId, date, hour, pertId, option ,callback) => {
+    try {
+         const reservation = await Reservation.findOne({
+            where: {
+                id_prestataire: pertId,
+                date: date,
+                heure: hour
+            }
+        });
+
+        if (reservation) {
+            reservation.reserved_user_id = userId;
+            reservation.options = option;
+            await reservation.save();
+            callback(null, "Réservation effectuée avec succès");
+        } else {
+            callback("Réservation introuvable", null);
+        }
+    } catch (error) {
+        callback(error, null);
+    }
+}
+
+exports.getReservationsfromUid = async () => {}
+
+exports.getPrestgastro = async (callback) => {
+    try {
+        const prest = await Prestataire.findAll({
+            where: {
+                id_categorie: 2
+            }
+        });
+        callback(null, prest);
+    } catch (error) {
+        callback(error,null);
+    }
+}
+
+exports.getTotalDons = async (callback) => {
+    try{
+        let somme = await Dons.sum('montant')
+        callback(null, somme)
+    }catch (error) {
+        callback(error, null)
+    }
+}
+
+exports.getAllDisponibiliteResto = async (id, callback) => {
+    try {
+        const reservations = await Reservation.findAll({
+            where: {
+                type_service: 'restaurant',
+                reserved_user_id: null,
+                id_prestataire : id
+            }
+        });
+        callback(null, reservations);
+    } catch (error) {
+        callback(error, null);
+    }
+}
+
+exports.getAllCategories = async (callback) => {
+    try {
+        const categories = await Categorie.findAll();
+        callback(null, categories);
+    } catch (error) {
+        callback(error, null);
+    }
+}
+
+exports.changeDataPrest = async (data, callback) => {
+    try {
+        const prestataire = await Prestataire.findByPk(data.id);
+        if (prestataire) {
+            prestataire.nom = data.nom;
+            prestataire.description = data.description;
+            prestataire.description_accueil = data.description_accueil;
+            prestataire.id_categorie = data.id_categorie;
+            prestataire.id_emplacement = data.id_emplacement;
+            prestataire.image = data.image;
+
+            await prestataire.save()
+
+            console.log('pres', prestataire);
+
+            for (const serviceData of data.services) {
+                console.log('serviceData', serviceData);
+                let existingService = await Service.findOne({ id: serviceData.id });
+
+
+                if (existingService) {
+                    existingService.nom_service = serviceData.nom_service;
+                    existingService.description_service = serviceData.description_service;
+                    existingService.lien_service = serviceData.lien_service;
+                    existingService.statut_service = serviceData.statut_service;
+                    await existingService.save();
+                } else {
+                   const non = await Service.create({
+                        nom_service: serviceData.nom_service,
+                        description_service: serviceData.description_service,
+                        lien_service: serviceData.lien_service,
+                        statut_service: serviceData.statut_service,
+                        id_prestataire: prestataire.id
+                    });
+
+                }
+            }
+            await prestataire.save();
+
+            const oui = await Prestataire.findByPk(data.id, {
+                include: [
+                    {
+                        model: Service,
+                        as: 'services',
+                        required: false
+                    },
+                    {
+                        model: Categorie,
+                        as: 'relationCategorie',
+                    }
+                ],
+                raw:true,
+                nest: true
+            });
+            //console.log(oui)
+            callback(null, prestataire);
+        } else {
+            callback("Prestataire introuvable", null);
+        }
+    } catch (error) {
+        console.log(error)
         callback(error, null);
     }
 }

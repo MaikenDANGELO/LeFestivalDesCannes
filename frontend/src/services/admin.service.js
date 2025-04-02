@@ -1,4 +1,4 @@
-import {getRequest} from "@/services/axios.service";
+import {deleteRequest, getRequest, putRequest} from "@/services/axios.service";
 
 async function getAllDemandePrestataire() {
     let response;
@@ -41,20 +41,40 @@ async function acceptDemandePrest(id){
         return { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer les données.' };
     }
 }
+
+async function deletePrestService(id){
+    let response;
+    try {
+        response = await deletePrestFromAPI(id)
+        if (response && response.data) {
+            return response
+        } else {
+            throw new Error("Données invalides");
+        }
+    } catch (error) {
+        return { error: 1, status: 404, data: 'Erreur réseau, impossible de récupérer les données.' };
+    }
+}
+
+async function deletePrestFromAPI(id){
+    return deleteRequest(`/api/administrateur/delete/${id}`, 'deletePrest', {} );
+}
+
 async function getAllDemandePrestataireFromAPI(){
     return getRequest('/api/administrateur/demandes', 'getAllDemandePrestataire');
 }
 
 async function declineDemandePrestFromAPI(id){
-    return getRequest('/api/administrateur/decline/'+id, 'declineDemandePrest');
+    return putRequest(`/api/administrateur/decline/${id}`, {},'declineDemandePrest');
 }
 
 async function acceptDemandePrestFromAPI(id){
-    return getRequest('/api/administrateur/accept/'+id, 'acceptDemandePrest');
+    return putRequest(`/api/administrateur/accept/${id}`, {}, 'acceptDemandePrest');
 }
 
 export {
     getAllDemandePrestataire,
     declineDemandePrest,
-    acceptDemandePrest
+    acceptDemandePrest,
+    deletePrestService
 }

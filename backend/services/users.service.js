@@ -2,6 +2,8 @@ const bcrypt = require('bcrypt')
 const Utilisateur= require('../database/models/Utilisateur');
 const Notification = require('../database/models/Notif');
 const Avis = require('../database/models/Avis');
+const Canard = require('../database/models/Canard');
+const Insciption = require('../database/models/InscriptionDefile');
 
 exports.getUsers = async (callback) => {
     try {
@@ -81,7 +83,7 @@ exports.sendAvis = async (id_prestataire, id_utilisateur, texte, note, callback)
 exports.modifyAvis = async (texte, note, id, callback) => {
     try {
         await Avis.update(
-            { texte, note },
+            { texte: texte, note: note },
             { where: { id } }
         );
         callback(null, "L'avis a été modifié avec succès");
@@ -106,7 +108,9 @@ exports.changePersonnalData = async (id, nom, email, numero, adresse, callback) 
             { nom_utilisateur: nom, email_utilisateur: email, telephone: numero, adresse_utilisateur: adresse },
             { where: { id } }
         );
-        callback(null, 'Données mise à jour');
+
+        const user = await Utilisateur.findByPk(id);
+        callback(null, user);
     } catch (error) {
         callback(error, null);
     }
@@ -123,3 +127,41 @@ exports.changePassword = async (id, newPassword, callback) => {
         callback(error, null);
     }
 };
+
+exports.registerDuck = async (nom, idproprietaire, espece, region, heureDefile, callback) => {
+    try {
+        const canard = await Canard.create({
+            nom: nom,
+            id_proprietaire: idproprietaire,
+            espece: espece,
+            region: region,
+        });
+
+        Insciption.create({
+            id_canard: canard.id,
+            heure_defile: heureDefile
+        })
+
+        callback(null, "Canard enregistré avec succès");
+    } catch (error) {
+        callback(error, null);
+    }
+}
+
+exports.getNextCanardDefileID = async (callback) => {
+    try {
+        const id = await Canard.max('id');
+        callback(null, id + 1);
+    } catch (error) {
+        callback(error, null);
+    }
+}
+
+exports.getNextTimeDefile = async (callback) => {
+    try {
+        const date = await Insciption.max('heure_defile');
+        callback(null, date);
+    } catch (error) {
+        callback(error, null);
+    }
+}

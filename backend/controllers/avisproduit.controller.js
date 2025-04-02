@@ -1,4 +1,4 @@
-const avisProduitService = require('../services/avisProduit.service');
+const avisProduitService = require('../services/avisproduit.service');
 
 exports.createAvisProduit = async (req, res) => {
     await avisProduitService.createAvis(req.body, (error, data) => {

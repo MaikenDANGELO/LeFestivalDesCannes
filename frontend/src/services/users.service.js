@@ -1,15 +1,49 @@
-import LocalSource from '@/datasource/controller';
-//import {getRequest, deleteRequest, putRequest} from "@/services/axios.service";
+import {getRequest, deleteRequest, postRequest, putRequest} from "@/services/axios.service";
 
-async function getAllUsersFromLocalSource() {
-    return LocalSource.getAllUsers();
+async function signUpService(data){
+    let response;
+    try{
+        response = await signUpFromAPI(data);
+    }catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau, impossible de s\'inscrire'}
+    }
+    return response;
+}
+
+async function logInService(data){
+    let response;
+    try{
+        response = await logInFromAPI(data);
+    }catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau, impossible de se connecter'}
+    }
+    return response;
+}
+
+async function logOutService(){
+    let response;
+    try{
+        response = await logOutFromAPI();
+    }catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau, impossible de se déconnecter'}
+    }
+    return response;
+}
+
+async function checkSessionService(){
+    let response;
+    try{
+        response = await checkSessionFromAPI();
+    }catch(error){
+        response = {error: 1, status: 404, data:  'erreur réseau, impossible de vérifier la session'}
+    }
+    return response;
 }
 
 async function getAllUsers() {
     let response;
     try{
-        response = await getAllUsersFromLocalSource();
-        //response = await getAllUsersFromAPI();
+        response = await getAllUsersFromAPI();
     }catch(err){
         response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des utilisateurs'  }
     }
@@ -19,8 +53,7 @@ async function getAllUsers() {
 async function deleteAvis(id){
     let response;
     try{
-        response = await LocalSource.deleteAvis(id);
-        //response = await deleteAvisFromAPI(id);
+        response = await deleteAvisFromAPI(id);
     }catch(err){
         response = {error: 1, status: 404, data: 'erreur rÃ©seau, impossible de rÃ©cupÃ©rer la liste des utilisateurs'  }
     }
@@ -30,7 +63,7 @@ async function deleteAvis(id){
 async function modifyAvis(data, id){
     let response;
     try{
-        response = await LocalSource.modifyAvis(data, id);
+        response = await modifyAvisFromAPI(data, id);
     }catch(error){
         response = {error: 1, status: 404, data:  'erreur réseau, impossible d\'envoyer le formulaire'}
     }
@@ -40,28 +73,18 @@ async function modifyAvis(data, id){
 async function getNotificationByUserID(id){
     let response;
     try{
-        response = await LocalSource.getNotificationByUserID(id);
-        //response = await getNotificationByUserIDFromAPI()
-    }catch(error){
-        response = {error: 1, status: 404, data:  'erreur réseau'}
-    }
-    return response;
-}
-async function markAllAsRead(id){
-    let response;
-    try{
-        await LocalSource.markAllAsRead(id);
+        response = await getNotificationByUserIDFromAPI(id)
     }catch(error){
         response = {error: 1, status: 404, data:  'erreur réseau'}
     }
     return response;
 }
 
-async function changePersonnalData(data, id){
+
+async function changePersonnalData(data){
     let response;
     try{
-        response = await LocalSource.changePersonnalData(data, id);
-        //response = await changePersonnalDataFromAPI(data);
+        response = await changePersonnalDataFromAPI(data);
     }catch(error){
         response = {error: 1, status: 404, data:  'erreur réseau'}
     }
@@ -71,29 +94,86 @@ async function changePersonnalData(data, id){
 async function changePassword(id,actualPassword,newPassword){
     let response;
     try{
-        response = await LocalSource.changePassword(id,actualPassword,newPassword);
-        //response = await changePasswordFromAPI({actualPassword,newPassword});
+       response = await changePasswordFromAPI({id:id, actualPassword: actualPassword, newPassword:newPassword});
     }catch(error){
         response = {error: 1, status: 404, data:  'erreur réseau'}
     }
     return response;
 }
 
-/*
+async function insertCanardDefileService(data){
+    let response;
+    try{
+        response = await insertCanardDefileFromAPI(data);
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de l'insertion du prochain canard de defile"};
+    }
+    return response;
+}
+async function getNextCanardDefileIDService(){
+    let response;
+    try{
+        response = await  getNextCanardDefileIDFromAPI();
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la récupération du prochain id du canard de defile"};
+    }
+    return response;
+}
+
+async function getNextTimeDefile(){
+    let response;
+    try{
+        response = await getNextTimeDefileFromAPI();
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la récupération de l'heure du prochain defile"};
+    }
+    return response;
+}
+
+async function getNextTimeDefileFromAPI(){
+    return await getRequest('/api/users/getNextTimeDefile', 'getNextTimeDefile');
+}
+
+async function getNextCanardDefileIDFromAPI(){
+    return await getRequest('/api/users/getNextCanardDefileID', 'getNextCanardDefileID');
+}
+async function insertCanardDefileFromAPI(data){
+    return await postRequest('/api/users/registerDuck', data, 'insertCanardDefile');
+}
+
+async function logInFromAPI(data){
+    return await postRequest('/api/users/connexion', data, 'login');
+}
+
+async function logOutFromAPI(){
+    return await getRequest('/api/users/logout', 'logout');
+}
+
 async function getAllUsersFromAPI(){
     return await getRequest('/api/users/getAllUser', 'getAllUser');
 }
 
+
 async function deleteAvisFromAPI(id){
-    return await deleteRequest('/api/users/deleteAvis', id, 'deleteAvis');
+    return await deleteRequest('/api/users/deleteAvis', 'deleteAvis', {id:id});
 }
+
+async function checkSessionFromAPI(){
+    return await getRequest('/api/users/', 'checkSession');
+}
+
+async function signUpFromAPI(data){
+    return await postRequest('/api/users/signup', data, 'signup');
+}
+
 
 async function modifyAvisFromAPI(data, id){
-    return await putRequest('/api/users/modifyAvis', {data, id},'modifyAvis');
+    return await putRequest('/api/users/modifyAvis', {texte:data[2],note:data[1], id:id},'modifyAvis');
 }
 
-async function getNotificationByUserIDFromAPI(){
-    return await getRequest('/api/users/getNotificationByUserID', 'getNotificationByUserID');
+
+async function getNotificationByUserIDFromAPI(id){
+    return await getRequest(`/api/users/getNotificationByUserID/${id}`, 'getNotificationByUserID');
 }
 
 async function changePersonnalDataFromAPI(data){
@@ -103,14 +183,20 @@ async function changePersonnalDataFromAPI(data){
 async function changePasswordFromAPI(data){
     return await putRequest('/api/users/changePassword', data,'changePassword');
 }
- */
+
 
 export default{
     getAllUsers,
     deleteAvis,
     modifyAvis,
     getNotificationByUserID,
-    markAllAsRead,
     changePersonnalData,
-    changePassword
+    changePassword,
+    logInService,
+    logOutService,
+    checkSessionService,
+    signUpService,
+    insertCanardDefileService,
+    getNextCanardDefileIDService,
+    getNextTimeDefile
 }

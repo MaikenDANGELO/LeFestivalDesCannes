@@ -5,7 +5,7 @@ const userMiddleware = require("../middlewares/users.middleware");
 
 var router = express.Router();
 
-router.get('/demandes', userMiddleware.isLogin, adminMiddleware.logInAdmin, adminController.getDemandesPrest)
+router.get('/demandes', userMiddleware.isLoggedIn, adminMiddleware.logInAdmin, adminController.getDemandesPrest)
 /**
  * @swagger
  * /api/administrateur/demandes:
@@ -80,15 +80,9 @@ router.get('/demandes', userMiddleware.isLogin, adminMiddleware.logInAdmin, admi
  *               schema:
  *                 type: string
  *                 example: "Erreur interne du serveur"
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: sessionId
  */
 
-router.put('/accept/:id', userMiddleware.isLogin, adminMiddleware.logInAdmin, adminController.acceptDemandePrest)
+router.put('/accept/:id', userMiddleware.isLoggedIn, adminMiddleware.logInAdmin, adminController.acceptDemandePrest)
 /**
  * @swagger
  * /api/administrateur/accept/{id}:
@@ -143,7 +137,7 @@ router.put('/accept/:id', userMiddleware.isLogin, adminMiddleware.logInAdmin, ad
  *                     description: Message d'erreur.
  */
 
-router.put('/decline/:id', userMiddleware.isLogin, adminMiddleware.logInAdmin, adminController.declineDemandePrest)
+router.put('/decline/:id', userMiddleware.isLoggedIn, adminMiddleware.logInAdmin, adminController.declineDemandePrest)
 /**
  * @swagger
  * /api/administrateur/decline/{id}:
@@ -198,7 +192,7 @@ router.put('/decline/:id', userMiddleware.isLogin, adminMiddleware.logInAdmin, a
  *                     description: Message d'erreur.
  */
 
-router.delete('/delete/:id', userMiddleware.isLogin, adminMiddleware.logInAdmin, adminController.deletePrestataire)
+router.delete('/delete/:id', userMiddleware.isLoggedIn, adminMiddleware.logInAdmin, adminController.deletePrestataire)
 /**
  * @swagger
  * /api/administrateur/delete/{id}:
@@ -239,12 +233,6 @@ router.delete('/delete/:id', userMiddleware.isLogin, adminMiddleware.logInAdmin,
  *           schema:
  *             type: string
  *             example: "Erreur serveur"
- * components:
- *   securitySchemes:
- *     sessionAuth:
- *       type: apiKey
- *       in: cookie
- *       name: sessionId
  */
 
 module.exports = router;

@@ -1,4 +1,4 @@
-const suiviCommandeService = require('../services/suiviCommande.service');
+const suiviCommandeService = require('../services/suivicommande.service');
 
 exports.getSuiviCommande = async (req, res) => {
     const { id_commande } = req.params;

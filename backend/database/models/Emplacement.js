@@ -2,46 +2,46 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../connection');
 
 const Emplacement = sequelize.define('Emplacement', {
-    id: { 
-        type: DataTypes.INTEGER, 
-        primaryKey: true, 
-        autoIncrement: true 
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
     },
-    name: { 
-        type: DataTypes.STRING, 
+    name: {
+        type: DataTypes.STRING,
         allowNull: true
     },
-    type: { 
-        type: DataTypes.STRING, 
+    type: {
+        type: DataTypes.STRING,
         allowNull: true
     },
-    coordinates: { 
-        type: DataTypes.JSON, 
-        allowNull: false 
+    coordinates: {
+        type: DataTypes.JSON,
+        allowNull: false
     },
-    points: { 
-        type: DataTypes.JSON, 
-        allowNull: true 
+    points: {
+        type: DataTypes.JSON,
+        allowNull: true
     },
-    icon: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
+    icon: {
+        type: DataTypes.STRING,
+        allowNull: true
     },
-    fill_color: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
+    fill_color: {
+        type: DataTypes.STRING,
+        allowNull: true
     },
-    stroke_color: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
+    stroke_color: {
+        type: DataTypes.STRING,
+        allowNull: true
     },
-    stroke_width: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
+    stroke_width: {
+        type: DataTypes.STRING,
+        allowNull: true
     },
-    opacity: { 
-        type: DataTypes.STRING, 
-        allowNull: true 
+    opacity: {
+        type: DataTypes.STRING,
+        allowNull: true
     }
 }, {
     tableName: 'emplacements',

@@ -78,7 +78,7 @@
 
       <div class="form-group">
         <label for="expirationDate">{{ $t('billeterieTexts.dateExpiration') }} :</label>
-        <input v-model="payment.expirationDate" type="text" id="expirationDate"  pattern="^(0[1-9]|1[0-2])\/\d{2}$" placeholder="MM/AA" required>
+        <input v-model="payment.expirationDate" type="text" id="expirationDate"  pattern="^(0[1-9]|1[0-2])\/\d{2}$" placeholder="MM/AA" @input="formatExpirationDate" required>
       </div>
 
       <div class="form-group">
@@ -97,8 +97,8 @@
 
 
 <script>
-import LocalSource from "@/datasource/controller";
 import {mapState} from "vuex";
+import moneyService from '@/services/money.service';
 
 export default {
   name: 'BilletterieForm',
@@ -148,7 +148,8 @@ export default {
         total += (this.ticketPrices[this.recap.tickets[i].type] || 0) * this.recap.tickets[i].quantity;
       }
       return total;
-    }
+    },
+
   },
   methods: {
     addTicket() {
@@ -177,29 +178,27 @@ export default {
         this.Message = "Donner le type et le nombre de tickets.";
         return;
       }
-      const response = await LocalSource.insertCommandeBillet(this, this.totalForm);
+      const response = await moneyService.paidTicketService({form: this.form, total: this.totalForm})
       if (response.error === 0){
-        // Gérer la réponse en cas de succès
         this.Message = "Réservation réussie ! Merci de votre achat.";
+        this.recap.firstName = this.form.firstName;
+        this.recap.lastName = this.form.lastName;
+        this.recap.email = this.form.email;
+        this.recap.tickets = [...this.form.tickets];
+
+        //Rénitialisation de form et des informations de payment
+        this.form = {
+          firstName: '',
+          lastName: '',
+          email: '',
+          tickets: [],
+        }
+        this.resetPayment();
       }
       else{
         this.Message = "Une erreur est survenue lors de la réservation.";
       }
 
-      //Translation des variables de form dans recap
-      this.recap.firstName = this.form.firstName;
-      this.recap.lastName = this.form.lastName;
-      this.recap.email = this.form.email;
-      this.recap.tickets = [...this.form.tickets];
-
-      //Rénitialisation de form et des informations de payment
-      this.form = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        tickets: [],
-      }
-      this.resetPayment();
 
     },
     resetPayment() {
@@ -207,6 +206,15 @@ export default {
       this.payment.cardNumber = '';
       this.payment.expirationDate = '';
       this.payment.cvv = '';
+    },
+    formatExpirationDate() {
+      let value = this.payment.expirationDate.replace(/\D/g, ''); // Supprime tout sauf les chiffres
+
+      if (value.length >= 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+      }
+
+      this.payment.expirationDate = value.substring(0, 5); // Limite à 5 caractères
     }
   },
   mounted(){

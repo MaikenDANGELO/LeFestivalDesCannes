@@ -80,7 +80,7 @@
           />
         </div>
 
-        <button type="submit" class="submit-button">{{ $t('inscriptionCanardTexts.submitButton') }}</button>
+        <button type="submit" :disabled="heureDefile === null" class="submit-button">{{ $t('inscriptionCanardTexts.submitButton') }}</button>
       </form>
     </div>
   </div>
@@ -90,7 +90,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import prestatairesService from "@/services/prestataires.service"
+import usersService from "@/services/users.service";
 
   export default {
     name: "PageInscriptionCanard",
@@ -119,18 +119,25 @@ import prestatairesService from "@/services/prestataires.service"
     },
     methods: {
       async fetchCurrentNumero() {
-        this.numero = await prestatairesService.getNextCanardDefileID();
-        this.numero = this.numero.data
+        const response = await usersService.getNextCanardDefileIDService();
+        if (response.error === 0) {
+          this.numero = response.data;
+        }
       },
 
-      setHeureDefile() {
-        if (!this.heureDefile) {
-            // Initialisation : premier horaire par défaut à 16h00
-            this.heureDefile = "16:00";
-            return;
+      async setHeureDefile() {
+        const response = await usersService.getNextTimeDefile()
+        if (response.error === 0) {
+          this.heureDefile = response.data;
         }
 
-        // Extraction des heures et minutes de l'heure actuelle
+        if (!this.heureDefile) {
+          this.heureDefile = "16:00";
+          return;
+        }
+
+
+
         const [currentHours, currentMinutes] = this.heureDefile
             .split(":")
             .map(Number);
@@ -147,8 +154,8 @@ import prestatairesService from "@/services/prestataires.service"
 
         // Si l'heure dépasse 19:00, recommence à 16:00 (nouvelle journée)
         if (newHours >= 19) {
-            newHours = 16; // Redémarre à 16h
-            newMinutes = 0; // Commence à l'heure pile
+           this.heureDefile = null
+          return;
         }
 
         // Formate et met à jour l'heure du prochain défilé
@@ -158,28 +165,30 @@ import prestatairesService from "@/services/prestataires.service"
         }
         ,
 
-      submitForm() {
+      async submitForm() {
         this.lastSubmission = {
-          "id": this.numero,
-          "nom": this.form.nom,
-          "nom_proprietaire": this.form.proprietaire,
-          "espece": this.form.espece,
-          "region": this.form.region,
-          "heureDefile": this.heureDefile,
+          nom: this.form.nom,
+          idproprietaire: this.utilisateur.id,
+          espece: this.form.espece,
+          region: this.form.region,
+          heureDefile: this.heureDefile,
         };
-        prestatairesService.insertCanardDefile(this.lastSubmission)
-        this.showTicket = true;
-  
-        alert(
-          `Votre canard "${this.form.nom}" a été inscrit avec succès pour le défilé à ${this.heureDefile} !`
-        );
-  
-        this.numero++;
-        this.form.proprietaire = "";
-        this.form.nom = "";
-        this.form.espece = "";
-        this.form.region = "";
-        this.setHeureDefile();
+
+        const response  = await usersService.insertCanardDefileService(this.lastSubmission)
+        if (response.error === 0) {
+          this.showTicket = true;
+
+          alert(
+              `Votre canard "${this.form.nom}" a été inscrit avec succès pour le défilé à ${this.heureDefile} !`
+          );
+
+          this.numero++;
+          this.form.proprietaire = "";
+          this.form.nom = "";
+          this.form.espece = "";
+          this.form.region = "";
+          this.setHeureDefile();
+        }
       },
     },
   };

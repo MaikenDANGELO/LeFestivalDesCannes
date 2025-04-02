@@ -8,7 +8,7 @@
         <div class="presta-sbody">
           <div class="presta-body">
             <div class="presta-icon">
-              <img class="prestataire-img" alt="prestimg" :src="require(`../assets/${association.image}`)" />
+              <img class="prestataire-img" alt="prestimg" :src="association.image" />
             </div>
             <div class="presta-text">{{ association.description_accueil }}</div>
             <div class="presta-actions">

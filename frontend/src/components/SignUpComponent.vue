@@ -49,7 +49,6 @@
 </template>
 
 <script>
-import LocalSource from "@/datasource/controller";
 import {mapActions, mapState} from "vuex";
 
 export default {
@@ -64,7 +63,7 @@ export default {
       adresse:'',
       isPasswordVisible: false,
       message:'',
-      signup:'Utilisateur',
+      signup:'utilisateur',
       strengthPercentage: 0,
       strengthColor: 'red'
     }
@@ -73,19 +72,14 @@ export default {
     ...mapState('utilisateurs', ['utilisateur']),
   },
   methods:{
-    ...mapActions('utilisateurs', [ 'logIn']),
+    ...mapActions('utilisateurs', [ 'logIn', "signUpStore"]),
     async connexion(){
       try {
-        const response = await LocalSource.connexion(this.login, this.password);
-        if (response.error === 0) {
-          await this.logIn(response.data);
+        await this.logIn({email: this.login, password: this.password});
+        // redirection vers la page appropriée selon l'utilisateur
+        if(this.utilisateur.role === "admin") this.$router.push({name: "adminhome"});
+        else this.$router.push({ name: "home" });
 
-          // redirection vers la page appropriée selon l'utilisateur
-          if(this.utilisateur.role === "admin") this.$router.push({name: "adminhome"});
-          else this.$router.push({ name: "home" });
-        } else {
-          alert(response.data)
-        }
       } catch (error) {
         alert("Une erreur est survenue. Veuillez réessayer.")
       }
@@ -95,17 +89,14 @@ export default {
     },
     async signUp(){
       try {
-        const response = await LocalSource.signUp(this.login, this.password, this.tel, this.userName, this.adresse, this.signup);
-
-        if (response.error === 0) {
-          await this.logIn(response.data);
-          // redirection vers la page approprié selon l'utilisateur
-          if (this.signup === "Prestataire") this.$emit("updateSignUp", !this.signUpPrestatire);
-          else this.$router.push({ name: "home" });
-        } else {
-          alert(response.data)
+        let response = await this.signUpStore({ email: this.login, password: this.password, numero: this.tel, username: this.userName, adresse: this.adresse, signUp: this.signup });
+        if (response === 0) {
+          if (this.signup === "prestataire") this.$emit("updateSignUp", !this.signUpPrestatire);
+          else this.$router.push({name: "home"});
         }
+
       } catch (error) {
+        console.log(error);
         alert("Une erreur est survenue. Veuillez réessayer.")
       }
     },
@@ -114,10 +105,10 @@ export default {
 
       button.classList.toggle('active');
 
-      if (this.signup === "Utilisateur") {
-        this.signup = "Prestataire";
+      if (this.signup === "utilisateur") {
+        this.signup = "prestataire";
       } else {
-        this.signup = "Utilisateur";
+        this.signup = "utilisateur";
       }
     },
     checkPasswordStrength() {

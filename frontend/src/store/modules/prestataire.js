@@ -13,34 +13,32 @@ export default {
         },
         updateAvisPrestataire: (state, avis_prestataire) => {
             state.avis_prestataire = avis_prestataire;
+
         },
         updateTousAvis: (state, tous_avis) => {
             state.avis_prestataire_global = tous_avis;
         },
         modifyEmplacement: () => {},
-        makeReservation: () => {},
     },
     actions: {
         async getAllPrestataires({ commit }) {
             //console.log("récupération des prestataires");
             let response = await PrestatairesService.getAllPrestataires();
             if (response.error === 0) {
-                commit("updatePrestataires", response.data);
+                await commit("updatePrestataires", response.data);
             } else {
                 console.log(response.data);
             }
         },
         async getPrestataireAvis({commit}, id_prestataire) {
-            console.log("récupération des avis du prestataire "+id_prestataire);
             let response = await PrestatairesService.getAvisOfPrestataire(id_prestataire);
             if (response.error === 0){
                 commit("updateAvisPrestataire", response.data);
             }else{
-                console.log(response.data);
+                commit("updateAvisPrestataire", []);
             }
         },
         async getAllAvis({commit}) {
-            console.log("récupération de tous les avis");
             let response = await PrestatairesService.getAllRatings();
             if (response.error === 0){
                 commit("updateTousAvis", response.data);
@@ -51,7 +49,6 @@ export default {
         async modifyEmplacementPrestataire({commit},array){
             let idPrest = array[0];
             let emplacementId = array[1];
-            console.log("modification de l'emplacement du prestataire "+idPrest+" à "+emplacementId);
             let response = await PrestatairesService.modifyEmplacementPrestataire(idPrest,emplacementId)
             if(response.error === 0){
                 commit("modifyEmplacement");
@@ -59,19 +56,5 @@ export default {
                 console.log(response.data);
             }
         },
-        async makeReservation({commit}, data){
-            let user_id = data[0];
-            let date = data[1];
-            let hour = data[2];
-            let type = data[3];
-            let detes = data[4];
-            console.log("enregistrement d'une réservation");
-            let response = await PrestatairesService.makeReservation(user_id,date,hour,type,detes);
-            if(response.error === 0){
-                commit("makeReservation");
-            }else{
-                console.log(response.data)
-            }
-        }
     }
 }
