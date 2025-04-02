@@ -1928,7 +1928,8 @@ let commandes = [
         acheteur: "john smith",
         adresse: "1 rue de la république, 01000",
         lignes_commande: [],
-        total: 100
+        total: 100,
+        status: "en attente"
     }
 ]
 

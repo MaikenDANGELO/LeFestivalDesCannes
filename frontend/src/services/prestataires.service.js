@@ -270,6 +270,26 @@ async function getBoutiqueChiffreDaffaire(){
     return response;
 }
 
+async function cancelBoutiqueCommande(id){
+    let response;
+    try{
+        response = await LocalSource.cancelBoutiqueCommande(id);
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de l'annulation d'une commande de la boutique"};
+    }
+    return response;
+}
+
+async function validateBoutiqueCommande(id){
+    let response;
+    try{
+        response = await LocalSource.validateBoutiqueCommande(id);
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la validation d'une commande de la boutique"};
+    }
+    return response;
+}
+
 async function getNextCanardDefileID(){
     let response;
     try{
@@ -343,4 +363,6 @@ export default {
     insertCanardDefile,
     getAllBoutiqueCommandes,
     getBoutiqueChiffreDaffaire,
+    cancelBoutiqueCommande,
+    validateBoutiqueCommande,
 }

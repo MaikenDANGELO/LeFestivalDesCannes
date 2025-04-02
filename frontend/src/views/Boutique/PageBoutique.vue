@@ -1,16 +1,21 @@
 <template>
   <div>
-    <div class="disabledShopView" v-if="!shopStatus && utilisateur.role!='admin'">
+    <div class="disabledShopView" v-if="!shopStatus && (utilisateur.role!='admin' && !(utilisateur.role=='prestataire'&&utilisateur.id_prestataire==4))">
       <h1>{{ $t('boutiqueTexts.boutiqueFermee') }}</h1>
       <h2>{{ $t('boutiqueTexts.revenezPlusTard') }}</h2>
     </div>
     <div class="boutique-container">
-      <div class="adminToggle" v-if="(utilisateur.role=='prestataire'&&utilisateur.id_prestataire==4)||(utilisateur.role=='admin')">
-        <button @click="ToggleBoutique">{{ $t('boutiqueTexts.toggleBoutique') }}</button>
-        <p>{{ $t('boutiqueTexts.status') }}: {{ shopStatus ? $t('boutiqueTexts.activee') : $t('boutiqueTexts.desactivee') }}</p>
-      </div>
-      <div class="boutiqueChiffreAffaire" v-if="(utilisateur.role=='prestataire'&&utilisateur.id_prestataire==4)||(utilisateur.role=='admin')">
-        <p>Chiffre d'affaire: {{ chiffreDaffaire }}€</p>
+      <div class="adminView" v-if="(utilisateur.role=='prestataire'&&utilisateur.id_prestataire==4)||(utilisateur.role=='admin')">
+          <div class="adminToggle">
+          <button @click="ToggleBoutique">{{ $t('boutiqueTexts.toggleBoutique') }}</button>
+          <p>{{ $t('boutiqueTexts.status') }}: {{ shopStatus ? $t('boutiqueTexts.activee') : $t('boutiqueTexts.desactivee') }}</p>
+        </div>
+        <div class="boutiqueChiffreAffaire">
+          <p>Chiffre d'affaire: {{ chiffreDaffaire }}€</p>
+        </div>
+        <div>
+          <router-link to="/boutique/validation_commandes">Voir les commandes utilisateur</router-link> 
+        </div>
       </div>
       <h1 class="boutique-title">{{ $t('boutiqueTexts.titre') }}</h1>
       <p class="boutique-subtitle">{{ $t('boutiqueTexts.sousTitre') }}</p>

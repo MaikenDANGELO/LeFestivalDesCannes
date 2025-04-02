@@ -19,6 +19,7 @@ import PageBoutique from '@/views/Boutique/PageBoutique.vue';
 import PageDetailsArticle from '@/views/Boutique/PageDetailsArticle.vue';
 import PagePanier from '@/views/Boutique/PagePanier.vue';
 import PageSuiviCommande from '@/views/Boutique/PageSuiviCommande.vue';
+import PageValidationCommande from '@/views/Boutique/PageValidationCommande.vue';
 
 
 
@@ -125,6 +126,11 @@ const routes = [
     path: '/boutique/suivi',
     name: 'PageSuiviCommande',
     component: PageSuiviCommande,
+  },
+  {
+    path: '/boutique/validation_commandes',
+    name: 'ValidationCommande',
+    component: PageValidationCommande,
   }
   
   /*{
