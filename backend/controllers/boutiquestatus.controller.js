@@ -1,4 +1,4 @@
-const boutiqueStatusService = require('../services/boutiqueStatus.service');
+const boutiqueStatusService = require('../services/boutiquestatus.service');
 
 exports.getStatus = async (req, res) => {
     const { id_prestataire } = req.params;
