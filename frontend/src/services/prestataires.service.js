@@ -1,5 +1,5 @@
 import LocalSource from "@/datasource/controller";
-import {getRequest, postRequest} from "@/services/axios.service";
+import {getRequest, patchRequest, postRequest} from "@/services/axios.service";
 
 
 async function getAllPrestataires() {
@@ -154,11 +154,16 @@ async function getAllClassementConcours(){
 async function changeDataPrestService(data){
     let response;
     try{
-        response = await LocalSource.changeDataPrest(data);
+        response = await changeDataPrestFromAPI(data);
     }catch(error){
-        response = {error: 1, status: 500, data: "erreur lors de la récupération du classement"};
+        response = {error: 1, status: 500, data: "erreur lors du changement de données"};
     }
     return response;
+}
+
+
+async function changeDataPrestFromAPI(data){
+    return patchRequest('/api/prestataires/modifyDataPrest', {data:data}, 'changeDataPrest');
 }
 
 

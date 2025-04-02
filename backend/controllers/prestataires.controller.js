@@ -24,7 +24,7 @@ exports.getAllAvis = async (req, res) =>{
         if(data.length === 0){
             return res.status(404).json({ message: "Aucun avis trouvé" });
         }
-        return res.status(200).json({data:data})
+        return res.status(200).json({ error: 0, data:data})
     })
 }
 
@@ -154,4 +154,14 @@ exports.getAllCategories = async (req, res) => {
         }
         return res.status(200).json({error: 0, data: data})
     })
+}
+
+exports.changeDataPrest = async (req, res) => {
+    const {data} = req.body
+    await prestataireService.changeDataPrest(data,(error, data) => {
+        if (error){
+            return res.status(500).json({error: 1, data: "erreur lors du changement de données"});
+        }
+        return res.status(200).json({error: 0, data: data});
+    } )
 }

@@ -4,7 +4,7 @@ const prestatairesController =
 const prestatairesMiddleware = require("../middlewares/prestataires.middleware");
 const utilisateurMiddleware = require("../middlewares/users.middleware");
 
-var router = express.Router();
+const router = express.Router();
 
 router.get('/', prestatairesController.getAllPrestataire)
 /**
@@ -626,5 +626,8 @@ router.patch("/cancelbalade/:balade_id", utilisateurMiddleware.isLoggedIn, prest
  *         type_service:
  *           type: string
  */
+
+
+router.patch('/modifyDataPrest', utilisateurMiddleware.isLoggedIn, prestatairesController.changeDataPrest)
 
 module.exports = router;

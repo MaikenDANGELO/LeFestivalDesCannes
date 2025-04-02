@@ -5,6 +5,7 @@ const Dons = require("../database/models/Don");
 const Reservation = require("../database/models/Reservation");
 const Categorie = require("../database/models/Categorie");
 const fs = require('fs');
+const {DataTypes} = require("sequelize");
 
 
 exports.getAvis = async (id, callback) => {
@@ -225,6 +226,71 @@ exports.getAllCategories = async (callback) => {
         const categories = await Categorie.findAll();
         callback(null, categories);
     } catch (error) {
+        callback(error, null);
+    }
+}
+
+exports.changeDataPrest = async (data, callback) => {
+    try {
+        const prestataire = await Prestataire.findByPk(data.id);
+        if (prestataire) {
+            prestataire.nom = data.nom;
+            prestataire.description = data.description;
+            prestataire.description_accueil = data.description_accueil;
+            prestataire.id_categorie = data.id_categorie;
+            prestataire.id_emplacement = data.id_emplacement;
+            prestataire.image = data.image;
+
+            await prestataire.save()
+
+            console.log('pres', prestataire);
+
+            for (const serviceData of data.services) {
+                console.log('serviceData', serviceData);
+                let existingService = await Service.findOne({ id: serviceData.id });
+
+
+                if (existingService) {
+                    existingService.nom_service = serviceData.nom_service;
+                    existingService.description_service = serviceData.description_service;
+                    existingService.lien_service = serviceData.lien_service;
+                    existingService.statut_service = serviceData.statut_service;
+                    await existingService.save();
+                } else {
+                   const non = await Service.create({
+                        nom_service: serviceData.nom_service,
+                        description_service: serviceData.description_service,
+                        lien_service: serviceData.lien_service,
+                        statut_service: serviceData.statut_service,
+                        id_prestataire: prestataire.id
+                    });
+
+                }
+            }
+            await prestataire.save();
+
+            const oui = await Prestataire.findByPk(data.id, {
+                include: [
+                    {
+                        model: Service,
+                        as: 'services',
+                        required: false
+                    },
+                    {
+                        model: Categorie,
+                        as: 'relationCategorie',
+                    }
+                ],
+                raw:true,
+                nest: true
+            });
+            //console.log(oui)
+            callback(null, prestataire);
+        } else {
+            callback("Prestataire introuvable", null);
+        }
+    } catch (error) {
+        console.log(error)
         callback(error, null);
     }
 }

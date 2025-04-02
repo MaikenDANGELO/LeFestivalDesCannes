@@ -42,7 +42,7 @@
         <input
             type="text"
             id="categorie"
-            v-model="prestataire.categorie"
+            v-model="prestataire.relationCategorie.nom"
             class="form-control"
             required
         />
@@ -98,8 +98,8 @@
               v-model="service.statut_service"
               class="form-control"
           >
-            <option value="actif">Actif</option>
-            <option value="inactif">Inactif</option>
+            <option :value="true">Actif</option>
+            <option :value="false">Inactif</option>
           </select>
         </div>
 
@@ -144,14 +144,14 @@ export default {
     async updatePrestataire() {
       let response = await PrestatairesService.changeDataPrestService(this.prestataire)
       if (response.error === 0) {
+        alert('Les informations du prestataire ont été mises à jour avec succès.');
         await this.getAllPrestataires();
+      }else {
+        alert(response.data);
       }
-      alert(response.data);
-
     },
     addService() {
       this.prestataire.services.push({
-        id_service: "",
         nom_service: "",
         description_service: "",
         lien_service: "",
@@ -164,12 +164,12 @@ export default {
     handleFileUpload(event) {
       const file = event.target.files[0];
       if (file && (file.type === 'image/png' || file.type === 'image/jpeg' || file.type === 'image/jpg')) {
-        this.event.image = file;
 
         // Générer une prévisualisation de l'image
         const reader = new FileReader();
         reader.onload = (e) => {
           this.previewImage = e.target.result;
+          this.prestataire.image = e.target.result;
         };
         reader.readAsDataURL(file);
       } else {
@@ -177,8 +177,9 @@ export default {
       }
     },
   },
-  mounted() {
-    this.prestataire = this.prestataires.find(prestataire => prestataire.id_utilisateur === this.$route.params.id);
+  async created() {
+    await this.getAllPrestataires()
+    this.prestataire = await this.prestataires.find(prestataire => prestataire.id_utilisateur === Number(this.$route.params.id));
     this.previewImage = this.prestataire.image;
   }
 };
