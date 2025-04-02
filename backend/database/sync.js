@@ -21,6 +21,13 @@ const fs = require('fs');
 const path = require('path');
 
 
+const Produit = require('./models/Produit');
+const CategorieProduit = require('./models/CategorieProduit');
+const Commande = require('./models/Commande');
+const CommandeProduit = require('./models/CommandeProduit');
+const AvisProduit = require('./models/AvisProduit');
+const SuiviCommande = require('./models/SuiviCommande');
+const BoutiqueStatus = require('./models/BoutiqueStatus');
 
 
 const syncDatabase = async () => {
@@ -36,6 +43,42 @@ const syncDatabase = async () => {
 
         Prestataire.hasMany(Avis, { foreignKey: 'id_prestataire', as: 'avis', onDelete: 'CASCADE' });
         Avis.belongsTo(Prestataire, { foreignKey: 'id_prestataire', as: 'prestataire', onDelete: 'CASCADE' });
+
+        //boutique
+        // Produit → Categorie
+        CategorieProduit.hasMany(Produit, { foreignKey: 'id_categorie', as: 'produits', onDelete: 'CASCADE' });
+        Produit.belongsTo(CategorieProduit, { foreignKey: 'id_categorie', as: 'categorie', onDelete: 'CASCADE' });
+
+        // Produit → Prestataire
+        Prestataire.hasMany(Produit, { foreignKey: 'id_prestataire', as: 'produits', onDelete: 'CASCADE' });
+        Produit.belongsTo(Prestataire, { foreignKey: 'id_prestataire', as: 'prestataire', onDelete: 'CASCADE' });
+
+        // AvisProduit → Produit + Utilisateur
+        Produit.hasMany(AvisProduit, { foreignKey: 'id_produit', as: 'avis_produits', onDelete: 'CASCADE' });
+        AvisProduit.belongsTo(Produit, { foreignKey: 'id_produit', as: 'produit', onDelete: 'CASCADE' });
+
+        Utilisateur.hasMany(AvisProduit, { foreignKey: 'id_utilisateur', as: 'avis_utilisateur', onDelete: 'CASCADE' });
+        AvisProduit.belongsTo(Utilisateur, { foreignKey: 'id_utilisateur', as: 'utilisateur', onDelete: 'CASCADE' });
+
+        // Commande → Utilisateur
+        Utilisateur.hasMany(Commande, { foreignKey: 'id_utilisateur', as: 'commandes', onDelete: 'CASCADE' });
+        Commande.belongsTo(Utilisateur, { foreignKey: 'id_utilisateur', as: 'utilisateur', onDelete: 'CASCADE' });
+
+        // CommandeProduit → Commande + Produit
+        Commande.hasMany(CommandeProduit, { foreignKey: 'id_commande', as: 'articles', onDelete: 'CASCADE' });
+        CommandeProduit.belongsTo(Commande, { foreignKey: 'id_commande', as: 'commande', onDelete: 'CASCADE' });
+
+        Produit.hasMany(CommandeProduit, { foreignKey: 'id_produit', as: 'commandes', onDelete: 'CASCADE' });
+        CommandeProduit.belongsTo(Produit, { foreignKey: 'id_produit', as: 'produit', onDelete: 'CASCADE' });
+
+        // SuiviCommande → Commande
+        Commande.hasMany(SuiviCommande, { foreignKey: 'id_commande', as: 'suivi', onDelete: 'CASCADE' });
+        SuiviCommande.belongsTo(Commande, { foreignKey: 'id_commande', as: 'commande', onDelete: 'CASCADE' });
+
+        // BoutiqueStatus → Prestataire
+        Prestataire.hasOne(BoutiqueStatus, { foreignKey: 'id_prestataire', as: 'status', onDelete: 'CASCADE' });
+        BoutiqueStatus.belongsTo(Prestataire, { foreignKey: 'id_prestataire', as: 'prestataire', onDelete: 'CASCADE' });
+
 
         Categories.hasMany(Prestataire, { foreignKey: 'id_categorie', as: 'prestataires', onDelete: 'CASCADE' });
         Prestataire.belongsTo(Categories, { foreignKey: 'id_categorie', as: 'relationCategorie', onDelete: 'CASCADE' });
@@ -76,7 +119,7 @@ const syncDatabase = async () => {
             { id: 3, nom: 'Mascotte' },
             { id: 4, nom: 'Événement'}
         ])
-        
+
         // Insertion des prestataires
         await Prestataire.bulkCreate([
             {nom: 'Jeux et Divertissements', description: "Espace dédié aux jeux pour enfants et adultes avec diverses animations, telles que des ateliers créatifs, des jeux de société géants, et des parcours d'obstacles pour toute la famille. C'est l'endroit idéal pour se détendre et s'amuser, que vous soyez enfant ou adulte.", description_accueil: 'Jeux et animations pour tous.', id_categorie: 1, id_emplacement: 1, id_evenement: 1, page_route: '/prestataire/1', image: convertImageToBase64('test/ImagesPrestataires/jeu_divertissement.jpg'), accepted: true,  id_utilisateur: 2 },
@@ -96,25 +139,25 @@ const syncDatabase = async () => {
             { nom: 'Cuisse de canard à l\'orange', type:"Plats" , description: 'Une cuisse de canard tendre servie avec une sauce à l\'orange.', prix: 20, image: 'cuisse_canard_orange.jpg', categorie: 'plats', id_prestataire: 2 },
             { nom: 'Poulet rôti', type:"Plats" , description: 'Poulet rôti aux herbes de Provence.', prix: 15, image: 'poulet_roti.jpg', categorie: 'plats', id_prestataire: 2 },
             { nom: 'Steak frites', type:"Plats" , description: 'Steak de bœuf grillé accompagné de frites maison.', prix: 17, image: 'steak_frites.jpg', categorie: 'plats', id_prestataire: 2 },
-          
+
             // Boissons
             { nom: 'Eau plate', type:"Boissons" , description: 'Bouteille de 50 cl.', prix: 2, image: 'eau_plate.jpg', categorie: 'boissons', id_prestataire: 2 },
             { nom: 'Eau pétillante', type:"Boissons" , description: 'Bouteille de 50 cl.', prix: 2.5, image: 'eau_petillante.jpg', categorie: 'boissons', id_prestataire: 2 },
             { nom: 'Coca-Cola', type:"Boissons" , description: 'Canette de 33 cl.', prix: 3, image: 'coca_cola.jpg', categorie: 'boissons', id_prestataire: 2 },
-          
+
             // Desserts
             { nom: 'Tarte aux pommes', type:"Desserts" , description: 'Tarte maison avec des pommes caramélisées.', prix: 6, image: 'tarte_pommes.jpg', categorie: 'desserts', id_prestataire: 2 },
             { nom: 'Mousse au chocolat', type:"Desserts" , description: 'Délicieuse mousse au chocolat noir.', prix: 5, image: 'mousse_chocolat.jpg', categorie: 'desserts', id_prestataire: 2 },
             { nom: 'Crème brûlée', type:"Desserts" , description: 'Crème vanille avec une croûte caramélisée.', prix: 6, image: 'creme_brulee.jpg', categorie: 'desserts', id_prestataire: 2 },
             { nom: 'Fondant au chocolat', type:"Desserts" , description: 'Fondant avec un cœur coulant au chocolat.', prix: 7, image: 'fondant_chocolat.jpg', categorie: 'desserts', id_prestataire: 2 },
             { nom: 'Coupe glacée', type:"Desserts" , description: 'Deux boules de glace avec des fruits frais.', prix: 5, image: 'coupe_glacee.jpg', categorie: 'desserts', id_prestataire: 2 },
-          
+
             // Menus Enfants
             { nom: 'Nuggets de poulet', type:"Menus Enfants" ,description: '5 nuggets avec frites et jus d\'orange.', prix: 8, image: 'nuggets_poulet.jpg', categorie: 'menusEnfants', id_prestataire: 2 },
             { nom: 'Mini burger', type:"Menus Enfants" , description: 'Petit burger avec steak haché et frites.', prix: 9, image: 'mini_burger.jpg', categorie: 'menusEnfants', id_prestataire: 2 },
             { nom: 'Pâtes à la bolognaise', type:"Menus Enfants" , description: 'Assiette de pâtes avec sauce tomate et viande hachée.', prix: 7, image: 'pates_bolognaise.jpg', categorie: 'menusEnfants', id_prestataire: 2 }
           ]);
-                 
+
 
         await Service.bulkCreate([
             { nom_service: 'service1', description_service: 'description', lien_service: 'lien_service1', statut_service: true, id_prestataire: 1 },
@@ -249,6 +292,33 @@ const syncDatabase = async () => {
                 image: convertImageToBase64("test/ImagesPrestataires/logo.png"),
             },
         ]);
+        //boutique
+        await Produit.bulkCreate(goodies.map(g => ({
+            nom: g.nom,
+            description: g.description,
+            prix: g.prix,
+            tailles: g.tailles.join(','), // ou JSON.stringify si champ JSON
+            couleurs: JSON.stringify(g.couleurs),
+            couleur_image: JSON.stringify(g.couleur_image),
+            stock: g.stock,
+            image: g.image,
+            categorie: g.categorie,
+            pays_fabrication: g.pays_fabrication,
+            composition: g.composition,
+            temps_livraison: g.temps_livraison,
+            id_categorie: 1, // ou assigner dynamiquement selon catégories créées
+            id_prestataire: 2 // ou autre prestataire valide
+        })));
+        await CategorieProduit.bulkCreate([
+            { nom: 'accessoire_et_lifestyle' },
+            { nom: 'aliments' },
+            { nom: 'objet_cinema_tech' },
+            { nom: 'papeterie_collection' },
+            { nom: 'premium' },
+            { nom: 'textiles_et_modes' }
+        ]);
+
+
 
         console.log('Database & tables created!');
 
