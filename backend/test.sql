@@ -115,6 +115,43 @@ CREATE TABLE notif (
     message VARCHAR(999)
 );
 
+-- ENTITÉS BOUTIQUE
+CREATE TABLE categorie_produit (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE produits (
+    id SERIAL PRIMARY KEY,
+    nom VARCHAR(255),
+    description TEXT,
+    prix DECIMAL(10,2),
+    tailles TEXT,
+    couleurs JSON,
+    couleur_image JSON,
+    stock INT,
+    image VARCHAR(255),
+    categorie VARCHAR(255),
+    pays_fabrication VARCHAR(255),
+    composition TEXT,
+    temps_livraison VARCHAR(255),
+    id_categorie INT REFERENCES categorie_produit(id),
+    id_prestataire INT REFERENCES prestataires(id)
+);
+
+CREATE TABLE commandes (
+    id SERIAL PRIMARY KEY,
+    id_utilisateur INT REFERENCES utilisateurs(id),
+    date_commande DATE DEFAULT CURRENT_DATE
+);
+
+CREATE TABLE commande_produits (
+    id SERIAL PRIMARY KEY,
+    id_commande INT REFERENCES commandes(id),
+    id_produit INT REFERENCES produits(id),
+    quantite INT
+);
+
 -- Insertion des données
 -- Insertion des utilisateurs
 INSERT INTO utilisateurs (nom_utilisateur, email_utilisateur, mot_de_passe, adresse_utilisateur, telephone, date_inscription, role) VALUES
@@ -225,6 +262,31 @@ INSERT INTO reservations (id_prestataire, date, heure, type_service) VALUES (8, 
 INSERT INTO reservations (id_prestataire, date, heure, type_service) VALUES (8, '2025-09-01', '15:30', 'balade');
 INSERT INTO reservations (id_prestataire, date, heure, type_service) VALUES (8, '2025-09-01', '16:00', 'balade');
 INSERT INTO reservations (id_prestataire, date, heure, type_service) VALUES (8, '2025-09-01', '16:30', 'balade');
+
+-- Insertion des données liées à la boutique
+INSERT INTO categorie_produit (nom) VALUES
+('accessoire_et_lifestyle'),
+('aliments'),
+('objet_cinema_tech'),
+('papeterie_collection'),
+('premium'),
+('textiles_et_modes');
+
+INSERT INTO produits (nom, description, prix, tailles, couleurs, couleur_image, stock, image, categorie, pays_fabrication, composition, temps_livraison, id_categorie, id_prestataire)
+VALUES (
+    'T-shirt Festival', 'T-shirt 100% coton bio avec logo canard.', 20.00, 'S,M,L,XL',
+    '["blanc", "noir", "jaune"]'::json,
+    '{"blanc": "tshirt_blanc.jpg", "noir": "tshirt_noir.jpg", "jaune": "tshirt_jaune.jpg"}'::json,
+    100, 'tshirt_blanc.jpg', 'textiles_et_modes', 'France', '100% coton biologique', '3-5 jours',
+    6, 2
+);
+
+INSERT INTO commandes (id_utilisateur) VALUES
+(1), -- Alice
+(2); -- Bob
+INSERT INTO commande_produits (id_commande, id_produit, quantite) VALUES
+(1, 1, 2), -- Alice commande 2 T-shirts
+(2, 1, 1); -- Bob commande 1 T-shirt
 
 -- Ajoutez plus d'enregistrements selon vos données.
 

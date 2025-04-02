@@ -12,6 +12,14 @@ const swaggerUi = require("swagger-ui-express");
 const expressSession = require("express-session"),
     cookieParser = require("cookie-parser")
 const serverRouter = express.Router();
+//require pour la boutique
+const produitRouter = require("./routes/produit.router");
+const categorieProduitRouter = require("./routes/categorieproduit.router");
+const commandeRouter = require("./routes/commande.router");
+const avisProduitRouter = require("./routes/avisproduit.router");
+const suiviCommandeRouter = require("./routes/suivicommande.router");
+const boutiqueStatusRouter = require("./routes/boutiquestatus.router");
+
 
 sync()
 /** Swagger Initialization - START */
@@ -69,3 +77,11 @@ app.use((err,req,res,next)=>{
 app.listen(PORT,()=>{
     console.log(`Serveur ecoute sur port ${PORT}`);
 })
+
+//Middleware concernant la boutique
+app.use("/api/produits", produitRouter);
+app.use("/api/categories-produits", categorieProduitRouter);
+app.use("/api/commandes", commandeRouter);
+app.use("/api/avis-produits", avisProduitRouter);
+app.use("/api/suivi-commande", suiviCommandeRouter);
+app.use("/api/boutique-status", boutiqueStatusRouter);

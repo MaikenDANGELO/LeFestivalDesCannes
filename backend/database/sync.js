@@ -14,6 +14,13 @@ const MotDePasseUtilisateur = require('./models/MotDePasseUtilisateur');
 const Notif = require('./models/Notif');
 const Emplacement = require('./models/Emplacement');
 const Menu = require('./models/Menu');
+const Produit = require('./models/Produit');
+const CategorieProduit = require('./models/CategorieProduit');
+const Commande = require('./models/Commande');
+const CommandeProduit = require('./models/CommandeProduit');
+const AvisProduit = require('./models/AvisProduit');
+const SuiviCommande = require('./models/SuiviCommande');
+const BoutiqueStatus = require('./models/BoutiqueStatus');
 
 
 const syncDatabase = async () => {
@@ -29,6 +36,42 @@ const syncDatabase = async () => {
 
         Prestataire.hasMany(Avis, {foreignKey: 'id_prestataire', as: 'avis', onDelete: 'CASCADE'});
         Avis.belongsTo(Prestataire, {foreignKey: 'id_prestataire', as: 'prestataire', onDelete: 'CASCADE'});
+
+        //boutique
+        // Produit → Categorie
+        CategorieProduit.hasMany(Produit, { foreignKey: 'id_categorie', as: 'produits', onDelete: 'CASCADE' });
+        Produit.belongsTo(CategorieProduit, { foreignKey: 'id_categorie', as: 'categorie', onDelete: 'CASCADE' });
+
+        // Produit → Prestataire
+        Prestataire.hasMany(Produit, { foreignKey: 'id_prestataire', as: 'produits', onDelete: 'CASCADE' });
+        Produit.belongsTo(Prestataire, { foreignKey: 'id_prestataire', as: 'prestataire', onDelete: 'CASCADE' });
+
+        // AvisProduit → Produit + Utilisateur
+        Produit.hasMany(AvisProduit, { foreignKey: 'id_produit', as: 'avis_produits', onDelete: 'CASCADE' });
+        AvisProduit.belongsTo(Produit, { foreignKey: 'id_produit', as: 'produit', onDelete: 'CASCADE' });
+
+        Utilisateur.hasMany(AvisProduit, { foreignKey: 'id_utilisateur', as: 'avis_utilisateur', onDelete: 'CASCADE' });
+        AvisProduit.belongsTo(Utilisateur, { foreignKey: 'id_utilisateur', as: 'utilisateur', onDelete: 'CASCADE' });
+
+        // Commande → Utilisateur
+        Utilisateur.hasMany(Commande, { foreignKey: 'id_utilisateur', as: 'commandes', onDelete: 'CASCADE' });
+        Commande.belongsTo(Utilisateur, { foreignKey: 'id_utilisateur', as: 'utilisateur', onDelete: 'CASCADE' });
+
+        // CommandeProduit → Commande + Produit
+        Commande.hasMany(CommandeProduit, { foreignKey: 'id_commande', as: 'articles', onDelete: 'CASCADE' });
+        CommandeProduit.belongsTo(Commande, { foreignKey: 'id_commande', as: 'commande', onDelete: 'CASCADE' });
+
+        Produit.hasMany(CommandeProduit, { foreignKey: 'id_produit', as: 'commandes', onDelete: 'CASCADE' });
+        CommandeProduit.belongsTo(Produit, { foreignKey: 'id_produit', as: 'produit', onDelete: 'CASCADE' });
+
+        // SuiviCommande → Commande
+        Commande.hasMany(SuiviCommande, { foreignKey: 'id_commande', as: 'suivi', onDelete: 'CASCADE' });
+        SuiviCommande.belongsTo(Commande, { foreignKey: 'id_commande', as: 'commande', onDelete: 'CASCADE' });
+
+        // BoutiqueStatus → Prestataire
+        Prestataire.hasOne(BoutiqueStatus, { foreignKey: 'id_prestataire', as: 'status', onDelete: 'CASCADE' });
+        BoutiqueStatus.belongsTo(Prestataire, { foreignKey: 'id_prestataire', as: 'prestataire', onDelete: 'CASCADE' });
+
 
 
         await sequelize.sync({force: true});
@@ -517,6 +560,33 @@ const syncDatabase = async () => {
             {id_prestataire: 8, date: '2025-09-01', heure: '16:00', type_service: 'balade'},
             {id_prestataire: 8, date: '2025-09-01', heure: '16:30', type_service: 'balade'}
         ]);
+        //boutique
+        await Produit.bulkCreate(goodies.map(g => ({
+            nom: g.nom,
+            description: g.description,
+            prix: g.prix,
+            tailles: g.tailles.join(','), // ou JSON.stringify si champ JSON
+            couleurs: JSON.stringify(g.couleurs),
+            couleur_image: JSON.stringify(g.couleur_image),
+            stock: g.stock,
+            image: g.image,
+            categorie: g.categorie,
+            pays_fabrication: g.pays_fabrication,
+            composition: g.composition,
+            temps_livraison: g.temps_livraison,
+            id_categorie: 1, // ou assigner dynamiquement selon catégories créées
+            id_prestataire: 2 // ou autre prestataire valide
+        })));
+        await CategorieProduit.bulkCreate([
+            { nom: 'accessoire_et_lifestyle' },
+            { nom: 'aliments' },
+            { nom: 'objet_cinema_tech' },
+            { nom: 'papeterie_collection' },
+            { nom: 'premium' },
+            { nom: 'textiles_et_modes' }
+        ]);
+        
+        
 
         console.log('Database & tables created!');
 
