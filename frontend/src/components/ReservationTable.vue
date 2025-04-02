@@ -1,13 +1,10 @@
 <template>
     <div class="reservation-section">
       <div class="reservation-text">
-        <h3>Découvrez la spécialité du jour !</h3>
-        <p>
-          Le Gourmet vous invite à savourer une expérience unique avec notre spécialité du jour.
-          Les places sont limitées, alors réservez dès maintenant pour ne pas manquer cette occasion !
-        </p>
+        <h3>{{ $t('pagePrincipaleTexts.titreSpecialite') }}</h3>
+        <p>{{ $t('pagePrincipaleTexts.texteSpecialite') }}</p>
         <router-link :to="{ name: 'ReservationRestaurantList' }" class="reservation-button">
-          -> Réserver une table
+          {{ $t('pagePrincipaleTexts.reserverTableLink') }}
         </router-link>
       </div>
       <img

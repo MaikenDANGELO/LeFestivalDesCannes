@@ -7,25 +7,29 @@
         </router-link>
         <div id="navItems" class="nav-items">
           <div class="left-items" @click="this.handlePrestDropdownClick">
-            <button class="left-element nav-link-common" @click="this.toggleDropdown2">Prestataires</button>
+            <button class="left-element nav-link-common" @click="this.toggleDropdown2">{{ $t('appTexts.prestataires') }}</button>
             <div @click="this.handlePrestDropdownClick" class="dropdown-content" v-if="isDropdownVisible2">
               <router-link  v-for="prestataire in this.prestataires" :key="prestataire['id']" :to="`/prestataire/${prestataire['id']}`">{{prestataire['nom']}}</router-link>
             </div>
-            <router-link class="left-element nav-link-common" to="/acces">Accès</router-link>
-            <router-link class="left-element nav-link-common" to="/billeterie">Billetterie</router-link>
-            <router-link class="left-element nav-link-common" to="/about">À propos</router-link>
-            <router-link class="left-element nav-link-common" to="/associations">Associations</router-link>
-            <router-link class="left-element nav-link-common" to="/classementActivites">Classement des activités</router-link>
-            <router-link class="left-element nav-link-common" to="/boutique">Boutique Goodies</router-link>
-            <router-link class="left-element nav-link-common" v-if="this.utilisateur.role === 'admin'" to="/admin">Page Administrateur</router-link>
+<!--            <router-link class="left-element nav-link-common" to="/associations">{{ $t('appTexts.associations') }}</router-link>-->
+            <router-link class="left-element nav-link-common" to="/billeterie">{{ $t('appTexts.billetterie') }}</router-link>
+            <router-link class="left-element nav-link-common" to="/boutique">{{ $t('appTexts.boutique') }}</router-link>
+            <router-link class="left-element nav-link-common" to="/acces">{{ $t('appTexts.acces') }}</router-link>
+            <!--<router-link class="left-element nav-link-common" to="/about">À propos</router-link>-->
+<!--            <router-link class="left-element nav-link-common" to="/classementActivites">{{ $t('appTexts.classementActivites') }}</router-link>-->
+            <router-link class="left-element nav-link-common" v-if="this.utilisateur.role === 'admin'" to="/admin">{{ $t('appTexts.pageAdmin') }}</router-link>
             <a class="left-element nav-link-common" href="https://www.twitch.tv/dashducks" target="_blank">
               <img alt="Twitch logo" :src="require(`./assets/twitch.png`)" class="twitch-logo">
             </a>
-            <router-link class="left-element nav-link-common" v-if="this.utilisateur.role === 'prestataire'"  :to="`/prestataire/edit/${this.utilisateur.id}`">Page Prestataire</router-link>
+
+
+            <router-link class="left-element nav-link-common" v-if="this.utilisateur.role === 'prestataire'"  :to="`/prestataire/edit/${this.utilisateur.id}`">{{ $t('appTexts.pagePrestataire') }}</router-link>
 
           </div>
         </div>
         <div class="right-items">
+          <p class="left-element nav-link-common" @click="toggleLanguage" style="margin-right: 2cm;">{{ $t('appTexts.changerLangue') }}</p>
+
           <router-link v-if="!utilisateur.estConnecte" to="/signup" class="nav-link">
             <svg class="icon-user" xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 512 512">
               <path d="M256 512c-68.38 0-132.667-26.629-181.02-74.98S0 324.38 0 256 26.629 123.333 74.98 74.98 187.62 0 256 0s132.667 26.629 181.02 74.98S512 187.62 512 256s-26.629 132.667-74.98 181.02S324.38 512 256 512zm0-472C136.897 40 40 136.897 40 256s96.897 216 216 216 216-96.897 216-216S375.103 40 256 40zm-1 235c-52.935 0-96-43.065-96-96s43.065-96 96-96 96 43.065 96 96-43.065 96-96 96zm0-152c-30.879 0-56 25.122-56 56s25.121 56 56 56 56-25.122 56-56-25.121-56-56-56zm126.712 268.472c8.546-6.999 9.799-19.6 2.8-28.146C356.231 328.801 314.444 309 269.865 309h-23.73c-44.579 0-86.366 19.801-114.646 54.327-6.999 8.545-5.746 21.146 2.8 28.146s21.146 5.745 28.146-2.799c20.65-25.214 51.158-39.674 83.7-39.674h23.73c32.542 0 63.05 14.46 83.701 39.673A19.96 19.96 0 0 0 369.05 396c4.459 0 8.945-1.483 12.662-4.528z"/>
@@ -34,8 +38,8 @@
           <div v-else class="dropdown" @click="handleDropdownClick">
             <button @click="toggleDropdown" class="circle">{{ initiale }}</button>
             <div v-if="isDropdownVisible" class="dropdown-content">
-              <router-link v-if="utilisateur.role !== 'admin' " to="/pageProfil">Profil</router-link>
-              <button @click="logOut">Déconnexion</button>
+              <router-link v-if="utilisateur.role !== 'admin' " to="/pageProfil">{{ $t('appTexts.profil') }}</router-link>
+              <button @click="logOut">{{ $t('appTexts.deconnexion') }}</button>
             </div>
           </div>
         </div>
@@ -59,6 +63,7 @@ export default {
     };
   },
   computed: {
+    ...mapState('langue', ['currentLanguage']),
     ...mapState('utilisateurs', ['utilisateur']),
     ...mapState('prestataire', ['prestataires']),
     initiale() {
@@ -66,8 +71,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions('langue', ['toggleLanguage']),
     ...mapActions('utilisateurs', ['logout', 'checkSession']),
     ...mapActions('prestataire', ['getAllPrestataires']),
+
     handleScroll() {
       const currentScrollY = window.scrollY;
 

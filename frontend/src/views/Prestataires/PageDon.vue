@@ -1,6 +1,6 @@
 <template>
     <div class="prestataire-detail" v-if="prestataire">
-        <h1>Faire un don à {{ prestataire.nom }}</h1>
+        <h1>{{$t('pagePrestaTexts.donnera')}}{{ prestataire.nom }}</h1>
         <div>
             <input @change="checkIsMontantValide()" id="montant5" type="radio" value="5" v-model="montantDon">
             <label for="montant5">5€ </label>
@@ -9,28 +9,28 @@
             <input @change="checkIsMontantValide()" id="montant20" type="radio" value="20" v-model="montantDon">
             <label for="montant20">20€ </label>
             <input @change="checkIsMontantValide()" id="montant0" type="radio" value="0" v-model="montantDon">
-            <label for="montant0">Choisir un montant personnalisé </label><br>
+            <label for="montant0">{{$t('pagePrestaTexts.montantPerso')}}</label><br>
             <div v-if="!premadeAmount.includes(montantDon)">
-                <label for="personnalise">Entrer un montant personnalisé: </label>
+                <label for="personnalise">{{$t('pagePrestaTexts.montantPerso')}}</label>
                 <input id="personnalise" type="text" @change="updateMontantDon()" v-model="userInput">
             </div>
             <div v-if="isDonValide">
-                <p>Montant choisi: {{ montantDon }} €</p><br>
-                <label for="message">Message personnalisé (optionnel): </label>
+                <p>{{$t('pagePrestaTexts.montantChoisi')}}{{ montantDon }} €</p><br>
+                <label for="message">{{$t('pagePrestaTexts.messagePerso')}}</label>
                 <input id="message" type="text" style="overflow-y: scroll;" placeholder="Message optionnel"
                     v-model="message"><br><br>
                 <div>
                     <form @submit.prevent="makeDonation">
-                        <h2>Paiement</h2>
+                        <h2>{{$t('pagePrestaTexts.paiement')}}</h2>
 
                         <div class="form-group">
-                            <label for="cardNumber">Numéro de carte :</label>
+                            <label for="cardNumber">{{$t('billeterieTexts.numCarte')}}</label>
                             <input v-model="payment.cardNumber" type="text" id="cardNumber" pattern="\d{16,}"
                                 placeholder="Numéro de carte" required>
                         </div>
 
                         <div class="form-group">
-                            <label for="expirationDate">Date d'expiration :</label>
+                            <label for="expirationDate">{{$t('billeterieTexts.dateExpiration')}}</label>
                             <input v-model="payment.expirationDate" type="text" id="expirationDate"
                                 pattern="^(0[1-9]|1[0-2])\/\d{2}$" placeholder="MM/AA" required>
                         </div>
@@ -41,19 +41,19 @@
                         </div>
 
                         <div class="form-group">
-                            <p><strong>Total à payer : {{ montantDon }} €</strong></p>
+                            <p><strong>Total : {{ montantDon }} €</strong></p>
                         </div>
-                        <input type="submit" :value="'Faire un don de '+montantDon+'€'">
+                        <input type="submit" :value="$t('pagePrestaTexts.faireDonDe')+montantDon+'€'">
                     </form>
                 </div>
             </div>
             <div v-else>
-                <p style="color: red;">Veuillez entrer un montant valide</p>
+                <p style="color: red;">{{ $t('pagePrestaTexts.entrerMontantValide') }}</p>
             </div>
         </div>
     </div>
     <div v-else>
-        <p>Chargement des données...</p>
+        <p>{{$t('pagePrestaTexts.chargementDonnees')}}</p>
     </div>
 </template>
 

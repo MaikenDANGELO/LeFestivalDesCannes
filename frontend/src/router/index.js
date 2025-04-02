@@ -9,10 +9,10 @@ import PageAdministrateur from "@/views/Admin/PageAdministrateur.vue";
 import PageSponsor from '@/views/PageSponsor.vue';
 import PageDon from '@/views/Prestataires/PageDon.vue';
 import PageInscriptionCanard from "@/views/PageInscriptionCanard.vue";
-import PageAssociations from "@/views/PageAssociations.vue";
+import AssociationsPresentes from "@/components/AssociationsPresentes.vue";
 import PageProfil from "@/views/Événement/PageProfil.vue";
 import PageReservationRestaurant from "@/views/Prestataires/PageReservationRestaurant.vue";
-import PageClassementActivites from "@/views/PageClassementActivites.vue";
+import ClassementActivites from "@/components/ClassementActivites.vue";
 import PageMenu from "@/views/Prestataires/PageMenu.vue";
 import PageStatistiques from '@/views/Admin/PageStatistiques.vue';
 import PageBoutique from '@/views/Boutique/PageBoutique.vue';
@@ -78,7 +78,7 @@ const routes = [
   {
     path: '/associations',
     name:'Associations',
-    component : PageAssociations
+    component : AssociationsPresentes
   },
   {
     path: '/pageProfil',
@@ -106,7 +106,7 @@ const routes = [
   {
     path : "/classementActivites",
     name : "ClassementActivites",
-    component : PageClassementActivites,
+    component : ClassementActivites,
   },
   {
     path: '/menu',

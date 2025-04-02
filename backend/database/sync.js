@@ -14,12 +14,6 @@ const MotDePasseUtilisateur = require('./models/MotDePasseUtilisateur');
 const Notif = require('./models/Notif');
 const Emplacement = require('./models/Emplacement');
 const Menu = require('./models/Menu');
-const Categories = require('./models/Categorie');
-
-const bcrypt = require("bcrypt");
-const fs = require('fs');
-const path = require('path');
-
 
 
 
@@ -37,11 +31,6 @@ const syncDatabase = async () => {
         Prestataire.hasMany(Avis, { foreignKey: 'id_prestataire', as: 'avis', onDelete: 'CASCADE' });
         Avis.belongsTo(Prestataire, { foreignKey: 'id_prestataire', as: 'prestataire', onDelete: 'CASCADE' });
 
-        Categories.hasMany(Prestataire, { foreignKey: 'id_categorie', as: 'prestataires', onDelete: 'CASCADE' });
-        Prestataire.belongsTo(Categories, { foreignKey: 'id_categorie', as: 'relationCategorie', onDelete: 'CASCADE' });
-
-        Prestataire.hasMany(Reservation, { foreignKey: 'id_prestataire', as: 'reservations', onDelete: 'CASCADE' });
-        Reservation.belongsTo(Prestataire, { foreignKey: 'id_prestataire', as: 'prestataire', onDelete: 'CASCADE' });
 
         await sequelize.sync({ force: true });
 
@@ -96,25 +85,25 @@ const syncDatabase = async () => {
             { nom: 'Cuisse de canard à l\'orange', type:"Plats" , description: 'Une cuisse de canard tendre servie avec une sauce à l\'orange.', prix: 20, image: 'cuisse_canard_orange.jpg', categorie: 'plats', id_prestataire: 2 },
             { nom: 'Poulet rôti', type:"Plats" , description: 'Poulet rôti aux herbes de Provence.', prix: 15, image: 'poulet_roti.jpg', categorie: 'plats', id_prestataire: 2 },
             { nom: 'Steak frites', type:"Plats" , description: 'Steak de bœuf grillé accompagné de frites maison.', prix: 17, image: 'steak_frites.jpg', categorie: 'plats', id_prestataire: 2 },
-          
+
             // Boissons
             { nom: 'Eau plate', type:"Boissons" , description: 'Bouteille de 50 cl.', prix: 2, image: 'eau_plate.jpg', categorie: 'boissons', id_prestataire: 2 },
             { nom: 'Eau pétillante', type:"Boissons" , description: 'Bouteille de 50 cl.', prix: 2.5, image: 'eau_petillante.jpg', categorie: 'boissons', id_prestataire: 2 },
             { nom: 'Coca-Cola', type:"Boissons" , description: 'Canette de 33 cl.', prix: 3, image: 'coca_cola.jpg', categorie: 'boissons', id_prestataire: 2 },
-          
+
             // Desserts
             { nom: 'Tarte aux pommes', type:"Desserts" , description: 'Tarte maison avec des pommes caramélisées.', prix: 6, image: 'tarte_pommes.jpg', categorie: 'desserts', id_prestataire: 2 },
             { nom: 'Mousse au chocolat', type:"Desserts" , description: 'Délicieuse mousse au chocolat noir.', prix: 5, image: 'mousse_chocolat.jpg', categorie: 'desserts', id_prestataire: 2 },
             { nom: 'Crème brûlée', type:"Desserts" , description: 'Crème vanille avec une croûte caramélisée.', prix: 6, image: 'creme_brulee.jpg', categorie: 'desserts', id_prestataire: 2 },
             { nom: 'Fondant au chocolat', type:"Desserts" , description: 'Fondant avec un cœur coulant au chocolat.', prix: 7, image: 'fondant_chocolat.jpg', categorie: 'desserts', id_prestataire: 2 },
             { nom: 'Coupe glacée', type:"Desserts" , description: 'Deux boules de glace avec des fruits frais.', prix: 5, image: 'coupe_glacee.jpg', categorie: 'desserts', id_prestataire: 2 },
-          
+
             // Menus Enfants
             { nom: 'Nuggets de poulet', type:"Menus Enfants" ,description: '5 nuggets avec frites et jus d\'orange.', prix: 8, image: 'nuggets_poulet.jpg', categorie: 'menusEnfants', id_prestataire: 2 },
             { nom: 'Mini burger', type:"Menus Enfants" , description: 'Petit burger avec steak haché et frites.', prix: 9, image: 'mini_burger.jpg', categorie: 'menusEnfants', id_prestataire: 2 },
             { nom: 'Pâtes à la bolognaise', type:"Menus Enfants" , description: 'Assiette de pâtes avec sauce tomate et viande hachée.', prix: 7, image: 'pates_bolognaise.jpg', categorie: 'menusEnfants', id_prestataire: 2 }
           ]);
-                 
+
 
         await Service.bulkCreate([
             { nom_service: 'service1', description_service: 'description', lien_service: 'lien_service1', statut_service: true, id_prestataire: 1 },

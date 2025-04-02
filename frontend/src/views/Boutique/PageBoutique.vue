@@ -1,30 +1,50 @@
 <template>
-  <div class="boutique-container">
-    <h1 class="boutique-title">🎁 Boutique Goodies 🎥</h1>
-    <p class="boutique-subtitle">Découvrez les articles exclusifs du Festival de Cannes !</p>
+  <div>
+    <div class="disabledShopView" v-if="!shopStatus && utilisateur.role!='admin'">
+      <h1>{{ $t('boutiqueTexts.boutiqueFermee') }}</h1>
+      <h2>{{ $t('boutiqueTexts.revenezPlusTard') }}</h2>
+    </div>
+    <div class="boutique-container">
+      <div class="adminToggle" v-if="(utilisateur.role=='prestataire'&&utilisateur.id_prestataire==4)||(utilisateur.role=='admin')">
+        <button @click="ToggleBoutique">{{ $t('boutiqueTexts.toggleBoutique') }}</button>
+        <p>{{ $t('boutiqueTexts.status') }}: {{ shopStatus ? $t('boutiqueTexts.activee') : $t('boutiqueTexts.desactivee') }}</p>
+      </div>
+      <div class="boutiqueChiffreAffaire" v-if="(utilisateur.role=='prestataire'&&utilisateur.id_prestataire==4)||(utilisateur.role=='admin')">
+        <p>Chiffre d'affaire: {{ chiffreDaffaire }}€</p>
+      </div>
+      <h1 class="boutique-title">{{ $t('boutiqueTexts.titre') }}</h1>
+      <p class="boutique-subtitle">{{ $t('boutiqueTexts.sousTitre') }}</p>
 
-    <div v-for="(goodies, categorie) in groupedGoodies" :key="categorie" class="boutique-section">
-      <h2 class="boutique-section-title">{{ categoriesLabels[categorie] }}</h2>
-      <div class="goodies-list">
-        <div class="goodie-item" v-for="goodie in goodies" :key="goodie.id">
-          <router-link :to="'/boutique/article/' + goodie.id">
-            <img class="goodie-image" :src="require(`@/assets/Boutique/${goodie.categorie}/${goodie.image}`)" :alt="goodie.nom" />
-          </router-link>
-          <h3 class="goodie-name">{{ goodie.nom }}</h3>
-          <p class="goodie-price">{{ goodie.prix }}€</p>
+      <div v-for="(goodies, categorie) in groupedGoodies" :key="categorie" class="boutique-section">
+        <h2 class="boutique-section-title">{{ categoriesLabels[categorie] }}</h2>
+        <div class="goodies-list">
+          <div class="goodie-item" v-for="goodie in goodies" :key="goodie.id">
+            <router-link :to="'/boutique/article/' + goodie.id">
+              <img class="goodie-image" :src="require(`@/assets/Boutique/${goodie.categorie}/${goodie.image}`)" :alt="goodie.nom" />
+            </router-link>
+            <h3 class="goodie-name">{{ goodie.nom }}</h3>
+            <p class="goodie-price">{{ goodie.prix }}€</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-  
-  <script>
+
+
+<script>
   import { mapActions, mapState } from "vuex";
+  import prestataireServices from "@/services/prestataires.service"
   
   export default {
     name: "PageBoutique",
+    data: () => ({
+      shopStatus: true,
+      chiffreDaffaire: 0
+    }),
     computed: {
       ...mapState("boutique", ["goodies", "panier"]),
+      ...mapState("utilisateurs", ["utilisateur"]),
   
       groupedGoodies() {
         if (!this.goodies || this.goodies.length === 0) return {};
@@ -53,17 +73,54 @@
   
     methods: {
       ...mapActions("boutique", ["getAllGoodies", "ajouterAuPanier", "retirerDuPanier", "validerCommande"]),
+      async getShopStatusFromId(){
+        let res = await prestataireServices.getShopStatusFromId(1);
+        this.shopStatus = res.data;
+        return res.data;
+      },
+      async ToggleBoutique(){
+        let res = await prestataireServices.changeShopStatusFromId(1);
+        this.shopStatus = res.data;
+        await this.getShopStatusFromId(1)
+        return res.data;
+      },
+      async getChiffreDAffaire(){
+        let res = await prestataireServices.getBoutiqueChiffreDaffaire();
+        return res.data
+      }
     },
   
     created() {
       this.getAllGoodies();
     },
+    async mounted(){
+      await this.getShopStatusFromId();
+      this.chiffreDaffaire = await this.getChiffreDAffaire();
+    }
   };
   </script>
   
   <style scoped>
+.disabledShopView{
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  color: white;
+  position: fixed;
+  bottom: 0px;
+}
+
+.disabledShopView h1{
+  margin-bottom: auto;
+  justify-self: center;
+  align-self: center;
+  margin-top: 200px;
+  font-size: 58px;
+}
+
   .boutique-container {
-    max-width: 1300px;
+    max-width: 1200px;
     margin: 30px auto;
     padding: 20px;
     font-family: 'Arial', sans-serif;

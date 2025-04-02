@@ -1,85 +1,90 @@
 <template>
-    <div class="panier-container">
-      <h1 v-if="!commandeValidee" class="panier-title">🛍️ Votre Panier</h1>
-  
-      <div v-if="!commandeValidee">
-        <div v-if="panier.length > 0">
-          <div class="panier-items">
-            <div v-for="article in panier" :key="article.id" class="panier-item">
-              <img class="panier-image" :src="require(`@/assets/Boutique/${article.categorie}/${article.image}`)" :alt="article.nom" />
-              <div class="panier-details">
-                <h2 class="panier-name">{{ article.nom }}</h2>
-                <p class="panier-price">{{ article.prix }}€</p>
-                <div class="panier-quantity">
-                  <button @click="modifierQuantite(article, -1)">➖</button>
-                  <span>{{ article.quantite }}</span>
-                  <button @click="modifierQuantite(article, 1)">➕</button>
-                </div>
-                <button class="panier-remove" @click="retirerDuPanier(article)">🗑️ Supprimer</button>
+  <div class="panier-container">
+    <h1 v-if="!commandeValidee" class="panier-title">🛍️ {{ $t('boutiqueTexts.votrePanier') }}</h1>
+
+    <div v-if="!commandeValidee">
+      <div v-if="panier.length > 0">
+        <div class="panier-items">
+          <div v-for="article in panier" :key="article.id" class="panier-item">
+            <img class="panier-image" :src="require(`@/assets/Boutique/${article.categorie}/${article.image}`)" :alt="article.nom" />
+            <div class="panier-details">
+              <h2 class="panier-name">{{ article.nom }}</h2>
+              <p class="panier-price">{{ article.prix }}€</p>
+              <p v-if="article.tailleSelectionnee" class="panier-taille">
+                <strong>Taille :</strong> {{ article.tailleSelectionnee }}
+               </p>
+              <p class="panier-details">{{ article.description }}</p>
+              <div class="panier-quantity">
+                <button @click="modifierQuantite(article, -1)">➖</button>
+                <span>{{ article.quantite }}</span>
+                <button @click="modifierQuantite(article, 1)">➕</button>
               </div>
+              <button class="panier-remove" @click="retirerDuPanier(article)">🗑️ {{ $t('boutiqueTexts.supprimer') }}</button>
             </div>
           </div>
-  
-          <!-- Total -->
-          <div class="panier-total">
-            <h2>Total : {{ totalPanier }}€</h2>
-          </div>
-  
-          <!-- Choix entre livraison et retrait -->
-          <div class="choix-retrait">
-            <h2>📍 Choisissez votre mode de récupération</h2>
-            <button class="choix-button" @click="choisirRetrait">🚶‍♂️ Retrait au festival</button>
-            <button class="choix-button" @click="choisirLivraison">🚚 Livraison à domicile</button>
-          </div>
-  
-          <!-- Adresse si livraison -->
-          <div v-if="livraison">
-            <h3>📦 Entrez votre adresse de livraison</h3>
-            <input v-model="adresse" type="text" placeholder="Rue, Ville, Code Postal" required />
-          </div>
-  
-          <!-- Redirection vers PageAcces si retrait -->
-          <div v-if="retrait">
-            <p>ℹ️ Vous pouvez récupérer votre commande au festival.</p>
-            <router-link to="/Acces" class="lien-acces">Voir l'accès au festival</router-link>
-          </div>
-  
-          <!-- Paiement -->
-          <div v-if="utilisateur.estConnecte && modeRecuperation">
-            <h2 class="paiement-title">💳 Sélectionnez votre moyen de paiement</h2>
-            <div class="paiement-options">
-              <button v-for="methode in moyensPaiement" :key="methode.nom" class="paiement-button" @click="selectionnerPaiement(methode.nom)">
-                <img :src="require(`@/assets/Boutique/icones_paiement/${methode.image}`)" :alt="methode.nom" />
-              </button>
-            </div>
-  
-            <div v-if="paiementSelectionne">
-              <h3>🔐 Infos de paiement pour {{ paiementSelectionne }}</h3>
-              <input v-model="infosPaiement.nom" type="text" placeholder="Nom sur la carte" />
-              <input v-model="infosPaiement.numero" type="text" placeholder="Numéro de carte" />
-              <input v-model="infosPaiement.expiration" type="text" placeholder="MM/AA" />
-              <input v-model="infosPaiement.cvv" type="text" placeholder="CVV" />
-              <p v-if="messageErreur" class="message-erreur">{{ messageErreur }}</p>
-              <button class="panier-valider" @click="validerCommande">✅ Valider la commande</button>
-            </div>
-          </div>
-  
-          <p v-else class="panier-message">
-            🔒 Vous devez être connecté pour finaliser votre commande. <router-link to="/Signup">Se connecter</router-link>
-          </p>
         </div>
-        <p v-else class="panier-vide">Votre panier est vide.</p>
+
+        <!-- Total -->
+        <div class="panier-total">
+          <h2>{{ $t('boutiqueTexts.total') }} : {{ totalPanier }}€</h2>
+        </div>
+
+        <!-- Choix entre livraison et retrait -->
+        <div class="choix-retrait">
+          <h2>📍 {{ $t('boutiqueTexts.choisissezModeRecuperation') }}</h2>
+          <button class="choix-button" @click="choisirRetrait">🚶‍♂️ {{ $t('boutiqueTexts.retraitFestival') }}</button>
+          <button class="choix-button" @click="choisirLivraison">🚚 {{ $t('boutiqueTexts.livraisonDomicile') }}</button>
+        </div>
+
+        <!-- Adresse si livraison -->
+        <div v-if="livraison">
+          <h3>📦 {{ $t('boutiqueTexts.entrezAdresseLivraison') }}</h3>
+          <input v-model="adresse" type="text" placeholder="Rue, Ville, Code Postal" required />
+        </div>
+
+        <!-- Redirection vers PageAcces si retrait -->
+        <div v-if="retrait">
+          <p>ℹ️ {{ $t('boutiqueTexts.retraitInfo') }}</p>
+          <router-link to="/Acces" class="lien-acces">{{ $t('boutiqueTexts.voirAccesFestival') }}</router-link>
+        </div>
+
+        <!-- Paiement -->
+        <div v-if="utilisateur.estConnecte && modeRecuperation">
+          <h2 class="paiement-title">💳 {{ $t('boutiqueTexts.selectionnezMoyenPaiement') }}</h2>
+          <div class="paiement-options">
+            <button v-for="methode in moyensPaiement" :key="methode.nom" class="paiement-button" @click="selectionnerPaiement(methode.nom)">
+              <img :src="require(`@/assets/Boutique/icones_paiement/${methode.image}`)" :alt="methode.nom" />
+            </button>
+          </div>
+
+          <div v-if="paiementSelectionne">
+            <h3>🔐 {{ $t('boutiqueTexts.infosPaiement') }} pour {{ paiementSelectionne }}</h3>
+            <input v-model="infosPaiement.nom" type="text" :placeholder=" $t('boutiqueTexts.nomCarte') " />
+            <input v-model="infosPaiement.numero" type="text" :placeholder=" $t('boutiqueTexts.numeroCarte') " />
+            <input v-model="infosPaiement.expiration" type="text" placeholder="MM/AA" />
+            <input v-model="infosPaiement.cvv" type="text" :placeholder="$t('boutiqueTexts.cvv')" />
+            <p v-if="messageErreur" class="message-erreur">{{ messageErreur }}</p>
+            <button class="panier-valider" @click="validerCommande">✅ {{$t('boutiqueTexts.validerCommande') }}</button>
+          </div>
+        </div>
+
+        <p v-else class="panier-message">
+          🔒 {{ $t('boutiqueTexts.deconnecte') }} <router-link to="/Signup">{{ $t('boutiqueTexts.seConnecter') }}</router-link>
+        </p>
       </div>
-  
-      <!-- Message après validation -->
-      <div v-if="commandeValidee" class="confirmation-container">
-        <h1 class="confirmation-message">🎉 Merci pour votre achat !</h1>
-        <button class="suivi-commande-btn" @click="suivreCommande">📦 Suivre votre commande</button>
-      </div>
+      <p v-else class="panier-vide">{{ $t('boutiqueTexts.panierVide') }}</p>
     </div>
-  </template>
-  
-  <script>
+
+    <!-- Message après validation -->
+    <div v-if="commandeValidee" class="confirmation-container">
+      <h1 class="confirmation-message">🎉 {{ $t('boutiqueTexts.merciAchat') }}</h1>
+      <button class="suivi-commande-btn" @click="suivreCommande">📦 {{ $t('boutiqueTexts.suivreCommande') }}</button>
+    </div>
+  </div>
+</template>
+
+
+<script>
   import { mapState, mapActions } from "vuex";
   
   export default {

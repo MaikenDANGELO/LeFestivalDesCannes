@@ -1,0 +1,45 @@
+export default {
+
+    "boutiqueFermee": "BOUTIQUE FERMÉE",
+    "revenezPlusTard": "Revenez plus tard",
+    "toggleBoutique": "Activer/Désactiver la boutique",
+    "status": "Statut",
+    "activee": "Activée",
+    "desactivee": "Désactivée",
+    "titre": "🎁 Boutique Goodies 🎥",
+    "sousTitre": "Découvrez les articles exclusifs du Festival de Cannes !"
+    ,
+
+    "decouvrezProduit": "✨ Découvrez notre produit exclusif !",
+    "categorie": "Catégorie :",
+    "stockDisponible": "Stock disponible :",
+    "prix": "Prix :",
+    "couleursDisponibles": "Couleurs disponibles :",
+    "taillesDisponibles": "Tailles disponibles :",
+    "ajouterAuPanier": "Ajouter au panier 🛒",
+
+
+    "votrePanier": "🛍️ Votre Panier",
+    "supprimer": "Supprimer",
+    "total": "Total",
+    "choisissezModeRecuperation": "Choisissez votre mode de récupération",
+    "retraitFestival": "Retrait au festival",
+    "livraisonDomicile": "Livraison à domicile",
+    "entrezAdresseLivraison": "Entrez votre adresse de livraison",
+    "retraitInfo": "Vous pouvez récupérer votre commande au festival.",
+    "voirAccesFestival": "Voir l'accès au festival",
+    "selectionnezMoyenPaiement": "Sélectionnez votre moyen de paiement",
+    "infosPaiement": "Infos de paiement",
+    "nomCarte": "Nom sur la carte",
+    "numeroCarte": "Numéro de carte",
+    "cvv": "CVV",
+    "validerCommande": "Valider la commande",
+    "deconnecte": "Vous devez être connecté pour finaliser votre commande.",
+    "seConnecter": "Se connecter",
+    "panierVide": "Votre panier est vide.",
+    "merciAchat": "Merci pour votre achat !",
+    "suivreCommande": "Suivre votre commande",
+
+    "suiviCommande": "📦 Suivi de votre commande",
+    "retourAccueil": "🏠 Retour à l'accueil",
+}

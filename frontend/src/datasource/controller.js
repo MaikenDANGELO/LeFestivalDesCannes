@@ -1,4 +1,4 @@
-import { balades,prestataires, billetterie, utilisateurs, avis, dons, map_data, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS, emplacements, disponibilitesResto, reservations, classement_concours} from "./data";
+import { balades,prestataires, billetterie, utilisateurs, avis, dons, sponsors, map_data, associations, demandePrestataires, notifications, MOTS_DE_PASSE_UTILISATEURS, emplacements, disponibilitesResto, reservations, classement_concours} from "./data";
 import bcrypt from 'bcryptjs';
 
 function getAllRatings(){
@@ -13,6 +13,17 @@ function getAllbalades() {
     return{error : 0,data : balades}
 }
 
+function getAllPrestataires() {
+    return { error: 0, data: prestataires };
+}
+
+function getAllSponsors() {
+    return { error: 0, data: sponsors };
+}
+
+function getAllAssociation() {
+    return {error: 0, data: associations};
+}
 
 function getAllMapData() {
     return { error: 0, data: map_data };
@@ -34,8 +45,34 @@ function updateSingleEmplacement(emplacement_id,new_coordonnees){
         return {error: 1, status: 404, data: "Erreur lors de la mise à jour de l'emplacement"};
     }
 
+function getShopStatusFromId(shop_id){
+    try{
+        if(!shop_id) return {error: 1, status:404, data:"id shop invalide"}
+        let shop = shopInfo.find(s => s.id = shop_id);
+        if(!shop)  return {error: 1, status:404, data:"shop introuvable, id invalide"}
+
+        return {error: 0, status:200, data: shop.shopActive};
+    }catch(err){
+        return {error: 1, status:404, data:"Erreur lors de la récupération du status du shop"}
+    }
 }
 
+function changeShopStatusFromId(shop_id){
+    try{
+        if(!shop_id) return {error: 1, status:404, data:"id shop invalide"}
+        let shop = shopInfo.find(s => s.id = shop_id);
+        if(!shop) return shop;
+
+        shopInfo.splice(shopInfo.indexOf(shop),1);
+        shop.shopActive = !shop.shopActive;
+        shopInfo.push(shop);
+        console.log(shop)
+        console.log(shopInfo)
+        return {error: 0, status: 200, data:"status du shop modifié avec succès"};
+    }catch(err){
+        return {error: 1, status: 404, data: "Erreur lors de la modification du status du shop"}
+    }
+}
 
 function reservebalade(balade_id, user_id){
     try {
@@ -333,7 +370,6 @@ function modifyAvis(data, id){
     };
     try {
         avis[id-1] = insert;
-        console.log(avis + ' ' + id)
         return { error: 0, status:200, data:"Avis mis à jour correctement"};
     }catch (error) {
         return { error: 1, status: 500, data: error.message }
@@ -476,9 +512,45 @@ function createEmplacement(coord, icon){
     console.log(emplacements)
 }
 
+function getNextCanardDefileID(){
+    let maxID = 1;
+    if(canard_defile.length == 0) return {error: 0, status: 200, data: maxID}
+    for(let canard of canard_defile){
+        if(canard.id > maxID) maxID = canard.id
+    }
+    return {error: 0, status: 200, data: maxID+1}
+}
+
+function insertCanardDefile(data){
+    if(!data) return {error: 1, status: 404, data: "aucune donnée à insérer"}
+    let canard = {
+        id: getNextCanardDefileID().data,
+        nom: data.nom,
+        nom_propriétaire: data.proprietaire,
+        espece: data.espece,
+        region: data.region,
+        heure_defile: data.heure
+    }
+    canard_defile.push(canard)
+    return {error: 0, status: 200, data: "insertion avec succès"}
+}
+
+function getAllCommandes(){
+    return {error: 0, status: 200, data: commandes}
+}
+
+function getBoutiqueChiffreDaffaire(){
+    let sum = 0;
+    for(let el of commandes){
+        sum += el.total
+    }
+    return {error: 0, status: 200, data: sum}
+}
 
 export default {
     getAllRatings,
+    getAllPrestataires,
+    getAllSponsors,
     insertCommandeBillet,
     connexion,
     getAvisOfPrestataire,
@@ -493,6 +565,7 @@ export default {
     deleteAvis,
     modifyAvis,
     modifyEmplacementPrestataire,
+    getAllAssociation,
     getAllDemandePrestataire,
     getAllbalades,
     declineDemandePrest,
@@ -512,5 +585,11 @@ export default {
     getAllClassementConcours,
     changeDataPrest,
     updateSingleEmplacement,
-    createEmplacement
-};
+    createEmplacement,
+    getShopStatusFromId,
+    changeShopStatusFromId,
+    getNextCanardDefileID,
+    insertCanardDefile,
+    getAllCommandes,
+    getBoutiqueChiffreDaffaire
+}

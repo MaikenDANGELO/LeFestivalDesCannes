@@ -1,30 +1,30 @@
 <template>
   <div class="hello">
     <BanniereAccueil></BanniereAccueil>
-    <h2>Tous nos prestataires</h2>
+    <h2>{{ $t('pagePrincipaleTexts.titre') }}</h2>
     <div class="listes-container">
       <div class="filtre">
-        <label for="search">Rechercher : </label>
+        <label for="search">{{ $t('pagePrincipaleTexts.recherche') }}</label>
         <input v-model="filtreSearch" type="search" id="search"><br>
         <div class="filtre-check" id="filtre-type">
-          <h3>Type :</h3>
+          <h3>{{ $t('pagePrincipaleTexts.type') }}</h3>
           <input type="radio" id="prestataires" value="prestataires" v-model="filtreType">
-          <label for="prestataires"> Activités</label><br>
+          <label for="prestataires"> {{ $t('pagePrincipaleTexts.activites') }}</label><br>
           <input type="radio" id="sponsors" value="sponsors" v-model="filtreType">
-          <label for="sponsors"> Sponsors</label>
+          <label for="sponsors">{{ $t('pagePrincipaleTexts.sponsors') }}</label>
         </div>
         <div class="filtre-check" id="filtre-cat" v-if="filtreType === 'prestataires'">
-          <h3>Catégorie : </h3>
+          <h3>{{ $t('pagePrincipaleTexts.categorie') }}</h3>
           <div v-for="cat in uniqueCategories" :key="cat">
             <input @click="handleCatFilter(cat)" type="checkbox" :id="cat" :checked="filtreCategory.includes(cat)">
             <label :for="cat">{{ cat }}</label><br>
           </div>
         </div>
-        <br><button @click="resetFilters()">Réinitialiser filtres</button>
+        <br><button @click="resetFilters()">{{ $t('pagePrincipaleTexts.resetFiltres') }}</button>
       </div>
       <div class="listes">
         <div class="liste-prestataires" id="prestataires" v-if="filtreType === 'prestataires'">
-          <h2>Activités</h2>
+          <h2>{{ $t('pagePrincipaleTexts.activitesTitre') }}</h2>
           <div v-for="row in prestaRows" :key="row[0].id" class="prestataires-row">
             <div v-for="prestataire in row" :key="prestataire.id" class="prestataire-card">
                 <CartePrestatairePerso
@@ -37,7 +37,7 @@
           </div>
         </div>
         <div class="liste-prestataires" id="sponsors" v-if="filtreType === 'sponsors'">
-          <h2>Sponsors</h2>
+          <h2>{{ $t('pagePrincipaleTexts.sponsorsTitre') }}</h2>
           <div v-for="row in sponsorRows" :key="row[0].id_sponsor" class="prestataires-row">
             <div v-for="sponsor in row" :key="sponsor.id_sponsor" class="prestataire-card">
               <CartePrestatairePerso
@@ -54,38 +54,42 @@
     <div class="duck-section">
       <img :src="require('@/assets/parade_canards.jpg')" alt="Défilé des Canards" class="duck-image">
       <div class="duck-text">
-        <h3>Participez au Défilé des Canards !</h3>
+        <h3>{{ $t('pagePrincipaleTexts.participerDefile') }}</h3>
         <p>
-          Depuis les débuts du Festival des Canes, le Défilé des Canards a su se faire une place de choix
-          parmi les moments les plus attendus. Chaque année, des passionnés inscrivent leurs canards, fièrement présentés avec leur nom,
-          leur espèce et leur région d’origine. Donnez à votre canard l’occasion de défiler sous les projecteurs
-          et de faire sensation. C’est l’occasion parfaite de mêler originalité, bonne humeur et un peu de compétition amicale.
-          Alors, prêt à faire briller vos plumes ?
-          <router-link to="/inscription-canard" class="duck-link"> -> Inscrire un canard</router-link>
+          {{ $t('pagePrincipaleTexts.texteDefile') }}
+          <router-link to="/inscription-canard" class="duck-link">{{ $t('pagePrincipaleTexts.inscriptionCanardLink') }}</router-link>
         </p>
       </div>
     </div>
     <ReservationTable v-if="utilisateur.estConnecte"></ReservationTable>
     <AchatBillet></AchatBillet>
     <BoutiqueGoodies></BoutiqueGoodies>
+    <page-associations></page-associations>
+    <page-classement-activites></page-classement-activites>
     <TotalDons></TotalDons>
     <br>
   </div>
 </template>
+
+
 
 <script>
 import BanniereAccueil from "@/components/BanniereAccueil.vue";
 import CartePrestatairePerso from "@/components/CartePrestatairePerso.vue";
 import { mapState, mapActions } from "vuex";
 import TotalDons from "@/components/totalDons.vue";
+import { filter } from "core-js/internals/array-iteration";
 import ReservationTable from "@/components/ReservationTable.vue";
 import AchatBillet from "@/components/AchatBillet.vue";
 import BoutiqueGoodies from "@/components/BoutiqueGoodies.vue";
+import AssociationsPresentes from "@/components/AssociationsPresentes.vue";
+import ClassementActivites from "@/components/ClassementActivites.vue";
 
 export default {
   name: "PagePrincipale",
   data() {
     return {
+      prestatairesRows: [],
       filtreSearch: "",
       filtreCategory: [],
       filtreType: "prestataires",
@@ -169,6 +173,8 @@ export default {
     this.resetFilters();
   },
   components: {
+    PageClassementActivites: ClassementActivites,
+    PageAssociations: AssociationsPresentes,
     TotalDons,
     BanniereAccueil,
     CartePrestatairePerso,

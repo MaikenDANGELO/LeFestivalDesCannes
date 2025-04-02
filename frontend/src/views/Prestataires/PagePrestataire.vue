@@ -20,8 +20,8 @@
           <h1>{{ prestataire.nom }}</h1>
           <p>{{ prestataire.description }}</p>
           <ul>
-            <li><strong>Catégorie:</strong> {{ prestataire.relationCategorie.nom }}</li>
-            <li><strong>Emplacement:</strong> {{ prestataire.id_emplacement }}</li>
+            <li><strong>{{$t('pagePrestaTexts.cat')}}</strong> {{ prestataire.relationCategorie.nom }}</li>
+            <li><strong>{{$t('pagePrestaTexts.emplacement')}}</strong> {{ prestataire.id_emplacement }}</li>
           </ul>
 
           <div class="messageToAdmin" v-if="this.utilisateur.role === 'admin'">
@@ -34,58 +34,39 @@
 
 
           <div class="restaurant-menu" v-if="prestataire.id  === 2">
-            <h2>Horaires</h2>
+            <h2>{{$t('pagePrestaTexts.horaires')}}</h2>
             <ul>
-              <li>Lundi : Fermé</li>
-              <li>Mardi à Vendredi : 12h - 14h30 / 19h - 22h</li>
-              <li>Samedi : 12h - 15h / 19h - 23h</li>
-              <li>Dimanche : 12h - 16h</li>
+              <li>{{$t('pagePrestaTexts.lundi')}}</li>
+              <li>{{$t('pagePrestaTexts.mardiVendredi')}}</li>
+              <li>{{$t('pagePrestaTexts.samedi')}}</li>
+              <li>{{$t('pagePrestaTexts.dimanche')}}</li>
             </ul>
             <h2>Menu</h2>
             <ul>
-              <li>
-                <span class="dish">Salade de Canard Fumé</span>
-                <span class="price">12€</span>
-                <p>Délicieux morceaux de canard fumé, servis sur un lit de roquette et de noix.</p>
-              </li>
-              <li>
-                <span class="dish">Confit de Canard</span>
-                <span class="price">18€</span>
-                <p>Un classique savoureux, accompagné de pommes de terre sautées et de légumes de saison.</p>
-              </li>
-              <li>
-                <span class="dish">Magret de Canard Sauce Orange</span>
-                <span class="price">22€</span>
-                <p>Magret de canard tendre, nappé d'une sauce à l'orange maison.</p>
-              </li>
-              <li>
-                <span class="dish">Burger du Canard</span>
-                <span class="price">15€</span>
-                <p>Pain artisanal, effiloché de canard, et une touche de foie gras.</p>
-              </li>
-              <li>
-                <span class="dish">Tarte Tatin aux Pommes et Canard</span>
-                <span class="price">8€</span>
-                <p>Un dessert audacieux combinant pommes caramélisées et effiloché de canard.</p>
+              <li v-for="item in $t('pagePrestaTexts.menuItems')" :key="item.name">
+                <span class="dish">{{ item.name }}</span>
+                <span class="price">{{ item.price }}</span>
+                <p>{{ item.description }}</p>
               </li>
             </ul>
+
           </div>
           <div class="dons">
             <h2>Dons</h2>
             <div>
-              <p class="total-dons-presta">Dons reçus: {{ montantDons }}€</p>
+              <p class="total-dons-presta">{{ $t('pagePrestaTexts.donsRecus')}}{{ montantDons }}€</p>
             </div>
             <div v-if="utilisateur.role === 'utilisateur'">
-              <button @click="makeDonation()" class="make-donation">Faire un don</button>
+              <button @click="makeDonation()" class="make-donation">{{ $t('pagePrestaTexts.donate')}}</button>
             </div>
             <div v-else>
-              <p>Vous devez être connecté(e) pour faire un don.</p>
+              <p>{{ $t('pagePrestaTexts.connectPrDon')}}</p>
             </div>
           </div>
           <div class="avis">
-            <h2>Avis et commentaires</h2>
+            <h2>{{ $t('pagePrestaTexts.avisEtComm')}}</h2>
             <div v-if="utilisateur.role === 'utilisateur'" class="avis-input">
-              <h3>Envoyer un avis:</h3>
+              <h3>{{ $t('pagePrestaTexts.envoiAvis')}}</h3>
               <div class="rating" id="rating">
                 <input type="radio" name="rating" id="rating-5" v-model="user_note" value=5>
                 <label for="rating-5"></label>
@@ -102,12 +83,12 @@
                 <input class="input_comment" id="commentaire_input" type="text" v-model="user_comment">
                 <span class="highlight"></span>
                 <span class="bar"></span>
-                <label for="commentaire_input">Commentaire: </label>
+                <label for="commentaire_input">{{ $t('pagePrestaTexts.comment')}}</label>
               </div>
-              <button @click="sendCommentForm()">Envoyer</button>
+              <button @click="sendCommentForm()">{{ $t('pagePrestaTexts.envoyer')}}</button>
             </div>
-            <div v-else>Soyez connecté(e) pour poster un avis</div><br>
-            <h3>Avis des utilisateurs</h3>
+            <div v-else>{{ $t('pagePrestaTexts.avisBeConnected')}}</div><br>
+            <h3>{{ $t('pagePrestaTexts.avis')}}</h3>
             <div v-if="Array.isArray(avis_prestataire) && avis_prestataire.length > 0">
               <div v-for="(avis) in avis_prestataire" :key="avis['id']" >
                 <h4>{{ getUtilisateur(avis['id_utilisateur'])?.nom_utilisateur || 'Utilisateur inconnu' }} - {{ avis['note'] }}/5</h4>
@@ -122,42 +103,42 @@
               <p>Aucun avis pour le moment</p>
             </div>
           </div>
-          <div v-if="this.prestataire.id === 6 ">
-            <h2>Classement du concours</h2>
+          <div v-if="this.prestataire.id === 6">
+            <h2>{{ $t('pagePrestaTexts.classementConcours')}}</h2>
             <div class="classement">
               <div class="classement-place" v-for="(pl) of classement" :key="pl.id_classement">
                 <p>{{ pl.place }} - {{ getUserFromClassement(pl.id_participant).nom_utilisateur }}</p>
               </div>
             </div>
           </div>
-
-          <div v-if="this.prestataire.id  === 8">
-            <h2>Balades</h2>
-            <p v-if="this.utilisateur.role === ''">Veuillez être enregistré pour réserver une balade</p>
+          <div v-if="this.prestataire.id === 8">
+            <h2>{{ $t('pagePrestaTexts.balade')}}</h2>
+            <p v-if="this.utilisateur.role === ''">{{ $t('pagePrestaTexts.baladeBeConnected')}}</p>
 
            <input type="date" id="date" v-model="day" @change="fetchBalades" min="2025-09-01" max="2025-09-03" >
+
 
 
             <ul>
               <li v-for="balade in balades" :key="balade.id_balade" class="balade-item">
                 <div class="balade-details">
-                  <p>Ballade le {{ balade.date }} à {{ balade.heure }}</p>
+                  <p>{{ $t('pagePrestaTexts.balade')}} {{ $t('pagePrestaTexts.le')}} {{ balade.date }} {{ $t('pagePrestaTexts.a')}} {{ balade.heure }}</p>
                 </div>
                 <div class="balade-actions">
                   <div v-if="utilisateur.role === 'utilisateur'">
-                    <p v-if="balade.reserved_user_id !== utilisateur.id && balade.reserved_user_id !== null" class="indisponible">indisponible</p>
-                    <button v-if="balade.reserved_user_id === null" @click="reserverBalade(balade.id, utilisateur.id)" class="btn reserver">Réserver</button>
+                    <p v-if="balade.reserved_user_id !== utilisateur.id && balade.reserved_user_id !== null" class="indisponible">{{ $t('pagePrestaTexts.indispo')}}</p>
+                    <button v-if="balade.reserved_user_id === null" @click="reserverBalade(balade.id, utilisateur.id)" class="btn reserver">{{ $t('pagePrestaTexts.reserver')}}</button>
                   </div>
-                  <p v-if="utilisateur.role === 'admin' && balade.reserved_user_id !== null">Réservée par {{ getUtilisateur(balade.reserved_user_id).nom_utilisateur || 'Utilisateur inconnu' }}</p>
-                  <button v-if="balade.reserved_user_id === utilisateur.id || (utilisateur.role === 'admin' && balade.reserved_user_id !== null)" @click="cancelBalade(balade.id)" class="btn annuler">Annuler</button>
-                  <p v-if="balade.reserved_user_id === null">Aucune réservation</p>
+                  <p v-if="utilisateur.role === 'admin' && balade.reserved_user_id !== null">{{ $t('pagePrestaTexts.reserveePar')}} {{ getUtilisateur(balade.reserved_user_id).nom_utilisateur || 'Utilisateur inconnu' }}</p>
+                  <button v-if="balade.reserved_user_id === utilisateur.id || (utilisateur.role === 'admin' && balade.reserved_user_id !== null)" @click="cancelBalade(balade.id_balade)" class="btn annuler">Annuler</button>
+                  <p v-if="balade.reserved_user_id === null">{{ $t('pagePrestaTexts.aucuneReservation')}}</p>
                 </div>
               </li>
             </ul>
           </div>
 
           <div class="services" v-if="prestataire.services && prestataire.services.length">
-            <h2>Services proposés</h2>
+            <h2>{{ $t('pagePrestaTexts.servicesProposes')}}</h2>
             <ul>
               <li v-for="service in prestataire.services" :key="service.id_service">
                 <div v-if="service.statut_service">
@@ -171,7 +152,7 @@
         </div>
       </div>
       <div v-else>
-        <p>Chargement des données...</p>
+        <p>{{ $t('pagePrestaTexts.chargementDonnees')}}</p>
       </div>
     </div>
   </div>
@@ -223,8 +204,10 @@ export default {
 
     async updatePrestaEmplacement(lat, lng) {
       if (!this.prestataire || !this.prestataire.id) {
+        //console.error("Erreur: Aucun prestataire sélectionné.");
         return;
       }
+      //console.log("new coords : " + lat + " ; " + lng)
 
       await mapDataService.updateEmplacement(this.prestataire.id, [lat, lng]);
 
@@ -280,6 +263,15 @@ export default {
         this.avisMofication = false;
         this.idAvisModification = null;
       } else {
+        for(let a of this.avis_prestataire){
+          if(parseInt(a["id_utilisateur"]) === parseInt(this.utilisateur.id) && parseInt(a["id_prestataire"]) === parseInt(this.prestataire['id'])){
+            await usersService.modifyAvis(data, a["id_commentaire"]);
+            this.user_comment = '';
+            this.user_note = 0;
+            await this.getPrestataireAvis(this.prestataire['id']);
+            return;
+          }
+        }
         await prestatairesService.sendAvisOfUser(data);
       }
       this.user_comment = '';

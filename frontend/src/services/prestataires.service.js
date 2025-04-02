@@ -161,6 +161,66 @@ async function changeDataPrestService(data){
     return response;
 }
 
+async function getShopStatusFromId(shop_id){
+    let response;
+    try{
+        response = await LocalSource.getShopStatusFromId(shop_id);
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la récupération du status du shop"};
+    }
+    return response;
+}
+
+async function changeShopStatusFromId(shop_id){
+    let response;
+    try{
+        response = await LocalSource.changeShopStatusFromId(shop_id);
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la modification du status du shop"};
+    }
+    return response;
+}
+
+async function getAllBoutiqueCommandes(){
+    let response;
+    try{
+        response = await LocalSource.getAllCommandes();
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la récupération des commandes de la boutique"};
+    }
+    return response;
+}
+
+async function getBoutiqueChiffreDaffaire(){
+    let response;
+    try{
+        response = await LocalSource.getBoutiqueChiffreDaffaire();
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la récupération du chiffre d'affaire de la boutique"};
+    }
+    return response;
+}
+
+async function getNextCanardDefileID(){
+    let response;
+    try{
+        response = await LocalSource.getNextCanardDefileID();
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de la récupération du prochain id du canard de defile"};
+    }
+    return response;
+}
+
+async function insertCanardDefile(data){
+    let response;
+    try{
+        response = await LocalSource.insertCanardDefile(data);
+    }catch(error){
+        response = {error: 1, status: 500, data: "erreur lors de l'insertion du prochain canard de defile"};
+    }
+    return response;
+}
+
 
 async function changeDataPrestFromAPI(data){
     return patchRequest('/api/prestataires/modifyDataPrest', {data:data}, 'changeDataPrest');
@@ -233,5 +293,11 @@ export default {
     sendNotification,
     changeDataPrestService,
     getPrestGastroService,
-    getAllCategorieService
+    getAllCategorieService,
+    getShopStatusFromId,
+    changeShopStatusFromId,
+    getNextCanardDefileID,
+    insertCanardDefile,
+    getAllBoutiqueCommandes,
+    getBoutiqueChiffreDaffaire,
 }
