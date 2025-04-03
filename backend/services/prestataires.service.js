@@ -57,8 +57,11 @@ exports.sendFormPrestataire = async (form, id_utilisateur, callback)=>{
 
         const prestataire = await Prestataire.create({
             nom: form.nom,
+            nom_en : form.nom_en,
             description: form.description,
+            description_en: form.description_en,
             description_accueil: form.description_accueil,
+            description_accueil_en: form.description_accueil_en,
             id_categorie: form.categorie,
             id_emplacement: form.id_emplacement,
             image: form.image,

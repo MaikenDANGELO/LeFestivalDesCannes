@@ -8,8 +8,11 @@
         <div id="navItems" class="nav-items">
           <div class="left-items" @click="this.handlePrestDropdownClick">
             <button class="left-element nav-link-common" @click="this.toggleDropdown2">{{ $t('appTexts.prestataires') }}</button>
-            <div @click="this.handlePrestDropdownClick" class="dropdown-content" v-if="isDropdownVisible2">
-              <router-link  v-for="prestataire in this.prestataires" :key="prestataire['id']" :to="`/prestataire/${prestataire['id']}`">{{prestataire['nom']}}</router-link>
+            <div @click="this.handlePrestDropdownClick" class="dropdown-content" v-if="isDropdownVisible2 && this.currentLanguage==='fr'">
+              <router-link v-for="prestataire in this.prestataires" :key="prestataire['id']" :to="`/prestataire/${prestataire['id']}`">{{prestataire['nom']}}</router-link>
+            </div>
+            <div @click="this.handlePrestDropdownClick" class="dropdown-content" v-if="isDropdownVisible2 && this.currentLanguage==='en'">
+              <router-link v-for="prestataire in this.prestataires" :key="prestataire['id']" :to="`/prestataire/${prestataire['id']}`">{{prestataire['nom_en']}}</router-link>
             </div>
             <router-link class="left-element nav-link-common" to="/billeterie">{{ $t('appTexts.billetterie') }}</router-link>
             <router-link class="left-element nav-link-common" to="/boutique">{{ $t('appTexts.boutique') }}</router-link>

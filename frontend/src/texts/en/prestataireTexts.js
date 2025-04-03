@@ -2,8 +2,11 @@ export default {
 
     title: "Vendor Form",
     nom: "Name:",
+    nom_en : "Name (EN):",
     description: "Description:",
+    description_en: "Description (EN):",
     descriptionAccueil: "Welcome Description:",
+    descriptionAccueil_en: "Welcome Description (EN):",
     categorie: "Category:",
     idEmplacement: "Location ID:",
     image: "Image:",
@@ -17,5 +20,6 @@ export default {
     statutInactif: "Inactive",
     supprimerService: "Remove Service",
     ajouterService: "Add Service",
-    soumettre: "Submit"
+    soumettre: "Submit",
+    dons : "Donations:",
 }

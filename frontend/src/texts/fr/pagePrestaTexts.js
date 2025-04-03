@@ -64,6 +64,7 @@ export default{
     avisBeConnected: "Soyez connecté(e) pour poster un avis",
     avis : "Avis des utilisateurs",
     classementConcours : "Classement du concours",
+    pasDavis : "Aucun avis pour l'instant",
     balade : "Balade",
     baladeBeConnected : "Vous devez être connecté(e) pour réserver une balade.",
     le : "le",

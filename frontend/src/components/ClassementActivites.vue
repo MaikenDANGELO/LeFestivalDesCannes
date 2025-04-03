@@ -1,18 +1,36 @@
 <template>
   <div class="classement">
     <h1>{{$t('appTexts.classementActivites')}}</h1>
-    <div v-for="(presta, index) in presta_avis_average" :key="presta.id" class="rank-item">
-      <div v-if="index === 0" class="first-place">
-        <h2>{{ index + 1 }}. {{ presta.nom }} : {{ presta.note }}/5</h2>
+    <div v-if="currentLanguage === 'fr'">
+      <div v-for="(presta, index) in presta_avis_average" :key="presta.id" class="rank-item">
+        <div v-if="index === 0" class="first-place">
+          <h2>{{ index + 1 }}. {{ presta.nom }} : {{ presta.note }}/5</h2>
+        </div>
+        <div v-else-if="index === 1" class="second-place">
+          <h3>{{ index + 1 }}. {{ presta.nom }} : {{ presta.note }}/5</h3>
+        </div>
+        <div v-else-if="index === 2" class="third-place">
+          <h4>{{ index + 1 }}. {{ presta.nom }} : {{ presta.note }}/5</h4>
+        </div>
+        <div v-else class="other-place">
+          <p>{{ index + 1 }}. {{ presta.nom }} : {{ presta.note }}/5</p>
+        </div>
       </div>
-      <div v-else-if="index === 1" class="second-place">
-        <h3>{{ index + 1 }}. {{ presta.nom }} : {{ presta.note }}/5</h3>
-      </div>
-      <div v-else-if="index === 2" class="third-place">
-        <h4>{{ index + 1 }}. {{ presta.nom }} : {{ presta.note }}/5</h4>
-      </div>
-      <div v-else class="other-place">
-        <p>{{ index + 1 }}. {{ presta.nom }} : {{ presta.note }}/5</p>
+    </div>
+    <div v-else >
+      <div v-for="(presta, index) in presta_avis_average" :key="presta.id" class="rank-item">
+        <div v-if="index === 0" class="first-place">
+          <h2>{{ index + 1 }}. {{ presta.nom_en }} : {{ presta.note }}/5</h2>
+        </div>
+        <div v-else-if="index === 1" class="second-place">
+          <h3>{{ index + 1 }}. {{ presta.nom_en }} : {{ presta.note }}/5</h3>
+        </div>
+        <div v-else-if="index === 2" class="third-place">
+          <h4>{{ index + 1 }}. {{ presta.nom_en }} : {{ presta.note }}/5</h4>
+        </div>
+        <div v-else class="other-place">
+          <p>{{ index + 1 }}. {{ presta.nom_en }} : {{ presta.note }}/5</p>
+        </div>
       </div>
     </div>
   </div>
@@ -29,6 +47,7 @@ export default {
     };
   },
   computed: {
+    ...mapState("langue", ["currentLanguage"]),
     ...mapState("prestataire", ["prestataires", "avis_prestataire_global"]),
   },
   methods: {
@@ -54,19 +73,21 @@ export default {
             i++;
           }
         }
+
         if (i === 0) {
-          this.presta_avis_average.push({ id: prestataire.id, nom: prestataire.nom, note: 0 });
+          this.presta_avis_average.push({id: prestataire.id, nom: prestataire.nom, nom_en: prestataire.nom_en,note: 0});
         } else {
           let noteMoyenne = noteCumul / i;
-          this.presta_avis_average.push({ id: prestataire.id, nom: prestataire.nom, note: noteMoyenne });
+          this.presta_avis_average.push({id: prestataire.id, nom: prestataire.nom,nom_en: prestataire.nom_en, note: noteMoyenne});
         }
+
       }
     },
   },
   async created() {
-    await this.getAllAvis(); // Load reviews
-    await this.getAllPrestataires(); // Load service providers
-    await this.sortPrestaByRating(); // Sort service providers by rating
+    await this.getAllAvis();
+    await this.getAllPrestataires();
+    await this.sortPrestaByRating();
   },
 };
 </script>

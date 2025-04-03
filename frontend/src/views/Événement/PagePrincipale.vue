@@ -29,7 +29,9 @@
             <div v-for="prestataire in row" :key="prestataire.id" class="prestataire-card">
                 <CartePrestatairePerso
                     :nom="prestataire.nom"
+                    :nom_en="prestataire.nom_en"
                     :descriptionAccueil="prestataire.description_accueil"
+                    :descriptionAccueil_en="prestataire.description_accueil_en"
                     :image="prestataire.image"
                     :pers-page-route="`/prestataire/${prestataire.id}`"
                 ></CartePrestatairePerso>

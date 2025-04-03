@@ -17,8 +17,10 @@
           </div>
         </div>
         <div class="info-container animate-slide">
-          <h1>{{ prestataire.nom }}</h1>
-          <p>{{ prestataire.description }}</p>
+          <h1 v-if="this.currentLanguage ==='fr'">{{ prestataire.nom }}</h1>
+          <h1 v-if="this.currentLanguage ==='en'">{{ prestataire.nom_en }}</h1>
+          <p v-if="this.currentLanguage ==='fr'">{{ prestataire.description }}</p>
+          <p v-else>{{ prestataire.description_en }}</p>
           <ul>
             <li><strong>{{$t('pagePrestaTexts.cat')}}</strong> {{ prestataire.relationCategorie.nom }}</li>
             <li><strong>{{$t('pagePrestaTexts.emplacement')}}</strong> {{ prestataire.id_emplacement }}</li>
@@ -52,7 +54,7 @@
 
           </div>
           <div class="dons">
-            <h2>Dons</h2>
+            <h2>{{ $t('prestataireTexts.dons')}}</h2>
             <div>
               <p class="total-dons-presta">{{ $t('pagePrestaTexts.donsRecus')}}{{ montantDons }}€</p>
             </div>
@@ -100,7 +102,7 @@
               </div>
             </div>
             <div v-else>
-              <p>Aucun avis pour le moment</p>
+              <p>{{ $t('pagePrestaTexts.pasDavis')}}</p>
             </div>
           </div>
           <div v-if="this.prestataire.id === 6">
@@ -188,6 +190,7 @@ export default {
     };
   },
   computed: {
+    ...mapState('langue', ['currentLanguage']),
     ...mapState('utilisateurs', ['utilisateur', 'utilisateurs']),
     ...mapState('prestataire', ["avis_prestataire", "prestataires"]),
   },

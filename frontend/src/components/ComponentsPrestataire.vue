@@ -10,16 +10,34 @@
           <input v-model="event.nom" id="nom" type="text" required />
         </div>
 
+        <!-- Champ Nom en Anglais-->
+        <div>
+          <label for="nom_en">{{ $t('prestataireTexts.nom_en') }}</label>
+          <input v-model="event.nom_en" id="nom_en" type="text" required />
+        </div>
+
         <!-- Champ Description -->
         <div>
           <label for="description">{{ $t('prestataireTexts.description') }}</label>
           <textarea v-model="event.description" id="description" required></textarea>
         </div>
 
+        <!-- Champ Description en anglais-->
+        <div>
+          <label for="description_en">{{ $t('prestataireTexts.description_en') }}</label>
+          <textarea v-model="event.description_en" id="description_en" required></textarea>
+        </div>
+
         <!-- Champ Description d'accueil -->
         <div>
           <label for="description_accueil">{{ $t('prestataireTexts.descriptionAccueil') }}</label>
           <textarea v-model="event.description_accueil" id="description_accueil" required></textarea>
+        </div>
+
+        <!-- Champ Description d'accueil en anglais -->
+        <div>
+          <label for="description_accueil_en">{{ $t('prestataireTexts.descriptionAccueil_en') }}</label>
+          <textarea v-model="event.description_accueil_en" id="description_accueil_en" required></textarea>
         </div>
 
           <!-- Champ Catégorie -->
@@ -86,8 +104,11 @@ export default {
       event: {
         id: "",
         nom: "",
+        nom_en: "",
         description: "",
+        description_en : "",
         description_accueil: "",
+        description_accueil_en : "",
         categorie: "",
         id_emplacement: "",
         image: null,

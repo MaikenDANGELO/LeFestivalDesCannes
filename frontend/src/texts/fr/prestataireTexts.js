@@ -2,8 +2,11 @@ export default {
 
     title: "Formulaire Prestataire",
     nom: "Nom :",
+    nom_en : "Nom (EN) :",
     description: "Description :",
+    description_en: "Description (EN) :",
     descriptionAccueil: "Description Accueil :",
+    descriptionAccueil_en: "Description Accueil (EN) :",
     categorie: "Catégorie :",
     idEmplacement: "ID Emplacement :",
     image: "Image :",
@@ -17,5 +20,6 @@ export default {
     statutInactif: "Inactif",
     supprimerService: "Supprimer le Service",
     ajouterService: "Ajouter un Service",
-    soumettre: "Soumettre"
+    soumettre: "Soumettre",
+    dons : "Dons :",
 }

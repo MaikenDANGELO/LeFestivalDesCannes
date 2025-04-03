@@ -63,6 +63,7 @@ export default {
     "avisBeConnected": "You must be logged in to post a review",
     "avis": "User reviews",
     "classementConcours": "Contest ranking",
+    pasDavis: "No reviews yet",
     "balade": "Walk",
     "baladeBeConnected": "You must be logged in to book a walk.",
     "le": "on",

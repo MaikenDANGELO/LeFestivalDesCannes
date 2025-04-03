@@ -3,9 +3,13 @@
       <div class="card-img-container">
         <img class="prestataire-img" alt="prestimg" :src="image" />
       </div>
-      <div class="prestataire-desc">
+      <div v-if="currentLanguage === 'fr'" class="prestataire-desc">
         <h4>{{ nom }}</h4>
         <p>{{ descriptionAccueil }}</p>
+      </div>
+      <div v-else class="prestataire-desc">
+        <h4>{{ nom_en }}</h4>
+        <p>{{ descriptionAccueil_en }}</p>
       </div>
       <router-link :to="persPageRoute">
           <button class="prestataire-btn">{{$t('appTexts.acceder')}}</button>
@@ -14,13 +18,21 @@
   </template>
   
   <script>
+  import {mapState} from "vuex";
+
+
   export default {
     name: "CartePrestatairePerso",
     props: {
       nom: String,
+      nom_en: String,
       descriptionAccueil: String,
+      descriptionAccueil_en: String,
       image: String,
       persPageRoute: String
+    },
+    computed :{
+      ...mapState('langue', ['currentLanguage']),
     }
   };
   </script>
