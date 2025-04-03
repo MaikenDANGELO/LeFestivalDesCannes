@@ -1925,13 +1925,86 @@ let canard_defile = [
 let commandes = [
     {
         id: 1,
-        acheteur: "john smith",
-        adresse: "1 rue de la république, 01000",
+        acheteur: "John Smith",
+        adresse: "1 rue de la République, 01000",
         lignes_commande: [],
         total: 100,
         status: "en attente"
+    },
+    {
+        id: 2,
+        acheteur: "Marie Dupont",
+        adresse: "12 avenue des Champs, 75008",
+        lignes_commande: [],
+        total: 250,
+        status: "terminée"
+    },
+    {
+        id: 3,
+        acheteur: "Pierre Martin",
+        adresse: "5 boulevard Haussmann, 75009",
+        lignes_commande: [],
+        total: 75,
+        status: "annulée"
+    },
+    {
+        id: 4,
+        acheteur: "Sophie Lambert",
+        adresse: "99 rue de Lyon, 69002",
+        lignes_commande: [],
+        total: 180,
+        status: "en attente"
+    },
+    {
+        id: 5,
+        acheteur: "Lucas Moreau",
+        adresse: "23 place Bellecour, 69002",
+        lignes_commande: [],
+        total: 320,
+        status: "terminée"
+    },
+    {
+        id: 6,
+        acheteur: "Emma Lefevre",
+        adresse: "17 rue de la Paix, 75002",
+        lignes_commande: [],
+        total: 150,
+        status: "annulée"
+    },
+    {
+        id: 7,
+        acheteur: "Nicolas Bernard",
+        adresse: "45 avenue Victor Hugo, 75116",
+        lignes_commande: [],
+        total: 90,
+        status: "en attente"
+    },
+    {
+        id: 8,
+        acheteur: "Camille Rousseau",
+        adresse: "30 rue du Faubourg Saint-Antoine, 75012",
+        lignes_commande: [],
+        total: 220,
+        status: "terminée"
+    },
+    {
+        id: 9,
+        acheteur: "Hugo Girard",
+        adresse: "8 rue des Lilas, 34000",
+        lignes_commande: [],
+        total: 60,
+        status: "annulée"
+    },
+    {
+        id: 10,
+        acheteur: "Chloé Durand",
+        adresse: "77 avenue Jean Médecin, 06000",
+        lignes_commande: [],
+        total: 275,
+        status: "en attente"
     }
-]
+];
+
 
 module.exports = {
     disponibilitesResto,
