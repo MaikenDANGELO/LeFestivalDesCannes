@@ -1,6 +1,6 @@
 <template>
     <div class="suivi-container">
-      <h1 class="suivi-title">{{ $t('suiviTexts.suiviCommande') }}</h1>
+      <h1 class="suivi-title">{{ $t('boutiqueTexts.suiviCommande') }}</h1>
 
       <div class="progress-container">
         <div class="progress-bar">
@@ -24,7 +24,7 @@
         <h2>{{ etapes[etapeActuelle].message }}</h2>
       </div>
 
-      <button class="btn-retour" @click="retourAccueil">{{ $t('suiviTexts.retourAccueil') }}</button>
+      <button class="btn-retour" @click="retourAccueil">{{ $t('boutiqueTexts.retourAccueil') }}</button>
     </div>
   </template>
 

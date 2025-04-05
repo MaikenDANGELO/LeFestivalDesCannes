@@ -79,7 +79,7 @@ export default {
   methods: {
     ...mapActions('prestataire', ['getAllPrestataires']),
     getPrestataireOfEmplacement(id) {
-      return this.prestataires.find((p) => p.id_emplacement == id);
+      return this.prestataires.find((p) => p.id_emplacement === id);
     },
     addMarker(lat, lng) {
       console.log(this.utilisateur)
@@ -116,7 +116,7 @@ export default {
       return prestEmpl;
     },
     async initMap() {
-      this.map = L.map('map').setView([47.6866, 6.8233], 15).setMinZoom(14);
+      this.map = L.map('map').setView([47.6856,6.8122], 16).setMinZoom(14);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; OpenStreetMap contributors',
@@ -126,7 +126,7 @@ export default {
 
       if (this.selectedPrestataireId) {
         const selectedPrestataire = prestEmplacement.find(
-            (p) => p.id === this.prestataires.find((p) => p.id == this.selectedPrestataireId).id_emplacement
+            (p) => p.id === this.prestataires.find((p) => p.id === this.selectedPrestataireId).id_emplacement
         );
 
         //console.log("Presta affichés : ")
