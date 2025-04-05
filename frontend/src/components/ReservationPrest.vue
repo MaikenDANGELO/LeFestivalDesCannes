@@ -1,12 +1,10 @@
 <template>
   <div>
-    <!-- Image avec titre et phrase accrocheuse -->
     <div class="header-image-container">
       <div class="header-container">
         <div>
           <h1 class="header-title">{{prestataire.nom}}</h1>
           <p class="header-subtitle">{{ $t('pagePrestaTexts.restaurantSubtitle') }} </p>
-          <!-- Bouton Accédez au menu -->
           <div class="menu-button-container">
             <button class="menu-button" @click="$router.push('/menu')">{{ $t('pagePrestaTexts.menuButton') }}</button>
           </div>
@@ -17,7 +15,7 @@
     <!-- Formulaire -->
     <div class="reservation-container">
       <h1 class="reservation-title">
-        <img src="@/assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
+          <img src="@/assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
         {{ $t('pagePrestaTexts.reserveTableTitle') }}
         <img src="@/assets/canard_ticket.svg" alt="Ticket Icon" class="ticket-icon">
       </h1>
@@ -255,7 +253,7 @@ export default {
 }
 
 .menu-button {
-  background-color: #35414e; /* Couleur bleue moderne */
+  background-color: #35414e;
   color: white;
   padding: 15px 30px;
   font-size: 1.5rem;
@@ -269,12 +267,12 @@ export default {
 }
 
 .menu-button:hover {
-  background-color: #357ab8; /* Couleur légèrement plus foncée au survol */
+  background-color: #357ab8;
   transform: scale(1.05);
 }
 
 .menu-button:active {
-  background-color: #2b6392; /* Couleur encore plus foncée au clic */
+  background-color: #2b6392;
   transform: scale(1);
 }
 

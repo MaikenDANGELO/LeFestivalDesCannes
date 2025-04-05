@@ -3,9 +3,6 @@ export default {
     state: () => ({
         currentLanguage: 'fr' // Langue par défaut
     }),
-    getters: {
-        getCurrentLanguage: (state) => state.currentLanguage
-    },
     mutations: {
         SET_LANGUAGE(state, newLang) {
             state.currentLanguage = newLang;
@@ -14,7 +11,7 @@ export default {
     actions: {
         toggleLanguage({ commit, state }) {
             const newLang = state.currentLanguage === 'fr' ? 'en' : 'fr';
-            console.log('Changement de langue:', newLang); // Vérifie si ça change bien
+            //console.log('Changement de langue:', newLang); // Vérifie si ça change bien
             commit('SET_LANGUAGE', newLang);
         }
     }
