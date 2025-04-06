@@ -789,7 +789,9 @@ let goodies = [
     {
         id: 1,
         nom: "Badge Festival",
+        nom_en : "Festival Badge",
         description: "Badge officiel du festival, idéal pour afficher votre passion.",
+        description_en: "Official festival badge, perfect for showing your passion.",
         prix: 2,
         tailles: ["Unique"],
         couleurs: ["Jaune"],
@@ -799,13 +801,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "France",
         composition: "Plastique recyclé, impression UV",
+        composition_en: "Recycled plastic, UV printing",
         temps_livraison: "3 à 5 jours ouvrés",
         avis: [] 
     },
     {
         id: 2,
         nom: "Badge Duo",
+        nom_en: "Duo Badge",
         description: "Set de 2 badges en édition limitée, parfait pour les collectionneurs.",
+        description_en: "Set of 2 limited edition badges, perfect for collectors.",
         prix: 4,
         tailles: ["Unique"],
         couleurs: ["Multicolore"],
@@ -815,13 +820,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Italie",
         composition: "Métal léger, revêtement anti-rayures",
+        composition_en: "Lightweight metal, scratch-resistant coating",
         temps_livraison: "5 à 7 jours ouvrés",
         avis: [] 
     },
     {
         id: 3,
         nom: "Badge Trio",
+        nom_en: "Trio Badge",
         description: "Set de 3 badges exclusifs, un incontournable pour les fans du festival.",
+        description_en: "Set of 3 exclusive badges, a must-have for festival fans.",
         prix: 6,
         tailles: ["Unique"],
         couleurs: ["Multicolore"],
@@ -831,13 +839,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Espagne",
         composition: "Aluminium, finition brillante",
+        composition_en: "Aluminum, shiny finish",
         temps_livraison: "6 à 8 jours ouvrés",
         avis: [] 
     },
     {
         id: 4,
         nom: "Coque Téléphone",
+        nom_en: "Phone Case",
         description: "Coque design avec motif de canard, robuste et tendance.",
+        description_en: "Stylish case with duck pattern, sturdy and trendy.",
         prix: 12,
         tailles: ["iPhone", "Samsung"],
         couleurs: ["Jaune", "Noir"],
@@ -847,13 +858,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Allemagne",
         composition: "Silicone souple, protection renforcée",
+        composition_en: "Flexible silicone, reinforced protection",
         temps_livraison: "3 à 6 jours ouvrés",
         avis: [] 
     },
     {
         id: 5,
         nom: "Coque Téléphone Fun",
+        nom_en: "Fun Phone Case",
         description: "Coque fantaisie avec design unique et finition brillante.",
+        description_en: "Fancy case with unique design and shiny finish.",
         prix: 14,
         tailles: ["iPhone"],
         couleurs: ["Vert", "Bleu"],
@@ -863,13 +877,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Chine",
         composition: "Plastique rigide, impression HD",
+        composition_en: "Hard plastic, HD printing",
         temps_livraison: "4 à 6 jours ouvrés",
         avis: [] 
     },
     {
         id: 6,
         nom: "Coque Premium",
+        nom_en: "Premium Phone Case",
         description: "Coque premium avec un style épuré et une protection optimale.",
+        description_en: "Premium case with a sleek style and optimal protection.",
         prix: 16,
         tailles: ["Samsung"],
         couleurs: ["Blanc", "Gris"],
@@ -879,13 +896,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Japon",
         composition: "Polymère résistant aux chocs",
+        composition_en: "Shock-resistant polymer",
         temps_livraison: "5 à 7 jours ouvrés",
         avis: [] 
     },
     {
         id: 7,
         nom: "Coque Luxe",
+        nom_en: "Luxury Phone Case",
         description: "Coque de luxe avec détails dorés et finitions haut de gamme.",
+        description_en: "Luxury case with golden details and high-end finishes.",
         prix: 20,
         tailles: ["iPhone", "Samsung"],
         couleurs: ["Or", "Noir"],
@@ -895,13 +915,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Italie",
         composition: "Aluminium brossé, dorure 24 carats",
+        composition_en: "Brushed aluminum, 24-carat gold plating",
         temps_livraison: "Livraison express sous 48h",
         avis: [] 
     },
     {
         id: 8,
         nom: "Coque Édition Limitée",
+        nom_en: "Limited Edition Phone Case",
         description: "Coque rare pour les amateurs de design et d’originalité.",
+        description_en: "Rare case for design and originality lovers.",
         prix: 22,
         tailles: ["iPhone"],
         couleurs: ["Rouge", "Bleu"],
@@ -911,13 +934,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "USA",
         composition: "Plastique renforcé, protection antichoc",
+        composition_en: "Reinforced plastic, shockproof protection",
         temps_livraison: "4 à 7 jours ouvrés",
         avis: [] 
     },
     {
         id: 9,
         nom: "Gourde Canard",
+        nom_en: "Duck Water Bottle",
         description: "Gourde écologique avec motif canard, parfaite pour les déplacements.",
+        description_en: "Eco-friendly water bottle with duck pattern, perfect for on-the-go.",
         prix: 15,
         tailles: ["500ml", "1L"],
         couleurs: ["Jaune"],
@@ -927,13 +953,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Portugal",
         composition: "Acier inoxydable, sans BPA",
+        composition_en: "Stainless steel, BPA-free",
         temps_livraison: "5 jours ouvrés",
         avis: [] 
     },
     {
         id: 10,
         nom: "Lunettes Jaunes",
+        nom_en: "Yellow Glasses",
         description: "Lunettes amusantes en forme de canard, un accessoire fun pour tous.",
+        description_en: "Fun duck-shaped glasses, a fun accessory for everyone.",
         prix: 8,
         tailles: ["Unique"],
         couleurs: ["Jaune"],
@@ -943,13 +972,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Chine",
         composition: "Plastique renforcé, verres UV400",
+        composition_en: "Reinforced plastic, UV400 lenses",
         temps_livraison: "6 à 9 jours ouvrés",
         avis: [] 
     },
     {
         id: 11,
         nom: "Lunettes Festives",
+        nom_en: "Festival Glasses",
         description: "Lunettes fantaisie colorées, parfaites pour les festivaliers.",
+        description_en: "Colorful fancy glasses, perfect for festival-goers.",
         prix: 10,
         tailles: ["Unique"],
         couleurs: ["Multicolore"],
@@ -959,13 +991,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "France",
         composition: "Plastique résistant, verres teintés",
+        composition_en: "Durable plastic, tinted lenses",
         temps_livraison: "4 à 6 jours ouvrés",
         avis: [] 
     },
     {
         id: 12,
         nom: "Lunettes Édition Limitée",
+        nom_en: "Limited Edition Glasses",
         description: "Lunettes stylées, idéales pour les soirées du festival.",
+        description_en: "Stylish glasses, ideal for festival nights.",
         prix: 12,
         tailles: ["Unique"],
         couleurs: ["Bleu", "Vert"],
@@ -975,13 +1010,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Italie",
         composition: "Plastique léger, protection UV400",
+        composition_en: "Lightweight plastic, UV400 protection",
         temps_livraison: "3 à 5 jours ouvrés",
         avis: [] 
     },
     {
         id: 13,
         nom: "Mug Festival",
+        nom_en: "Festival Mug",
         description: "Mug officiel du festival avec un design emblématique.",
+        description_en: "Official festival mug with an iconic design.",
         prix: 10,
         tailles: ["Standard"],
         couleurs: ["Blanc", "Jaune"],
@@ -991,13 +1029,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Portugal",
         composition: "Céramique de qualité, impression résistante",
+        composition_en: "Quality ceramic, durable print",
         temps_livraison: "5 à 7 jours ouvrés",
         avis: [] 
     },
     {
         id: 14,
         nom: "Mug Collector",
+        nom_en: "Collector Mug",
         description: "Mug exclusif pour les collectionneurs et amateurs du festival.",
+        description_en: "Exclusive mug for collectors and festival lovers.",
         prix: 12,
         tailles: ["Standard"],
         couleurs: ["Noir", "Rouge"],
@@ -1029,7 +1070,9 @@ let goodies = [
     {
         id: 16,
         nom: "Parapluie Festival",
+        nom_en: "Festival Umbrella",
         description: "Parapluie avec motif canard, indispensable pour les jours de pluie.",
+        description_en: "Umbrella with duck pattern, essential for rainy days.",
         prix: 18,
         tailles: ["Unique"],
         couleurs: ["Jaune", "Bleu"],
@@ -1039,13 +1082,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Chine",
         composition: "Toile imperméable, manche en bois",
+        composition_en: "Waterproof fabric, wooden handle",
         temps_livraison: "7 à 10 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 17,
         nom: "Parapluie Compact",
+        nom_en: "Compact Umbrella",
         description: "Parapluie compact, léger et facile à transporter.",
+        description_en: "Compact umbrella, lightweight and easy to carry.",
         prix: 20,
         tailles: ["Unique"],
         couleurs: ["Noir", "Rouge"],
@@ -1055,13 +1101,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Japon",
         composition: "Tissu anti-vent, ouverture automatique",
+        composition_en: "Windproof fabric, automatic opening",
         temps_livraison: "5 à 7 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 18,
         nom: "Parapluie Luxe",
+        nom_en: "Luxury Umbrella",
         description: "Parapluie élégant, conçu pour les passionnés du festival.",
+        description_en: "Elegant umbrella designed for festival enthusiasts.",
         prix: 25,
         tailles: ["Unique"],
         couleurs: ["Vert", "Multicolore"],
@@ -1071,13 +1120,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "France",
         composition: "Matériaux premium, poignée ergonomique",
+        composition_en: "Premium materials, ergonomic handle",
         temps_livraison: "Livraison express sous 48h",
-        avis: [] 
+        avis: []
     },
     {
         id: 19,
         nom: "Porte-clé Canard",
+        nom_en: "Duck Keychain",
         description: "Porte-clé mignon en forme de canard, idéal pour personnaliser vos clés.",
+        description_en: "Cute duck-shaped keychain, perfect to personalize your keys.",
         prix: 5,
         tailles: ["Unique"],
         couleurs: ["Jaune"],
@@ -1087,13 +1139,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "France",
         composition: "Plastique résistant, attache en métal",
+        composition_en: "Durable plastic, metal clasp",
         temps_livraison: "3 à 5 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 20,
         nom: "Porte-clé Collector",
+        nom_en: "Collector Keychain",
         description: "Porte-clé spécial festival, un must-have pour les fans.",
+        description_en: "Special festival keychain, a must-have for fans.",
         prix: 6,
         tailles: ["Unique"],
         couleurs: ["Blanc", "Noir"],
@@ -1103,13 +1158,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Italie",
         composition: "Métal chromé, finition brillante",
+        composition_en: "Chrome metal, shiny finish",
         temps_livraison: "4 à 6 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 21,
         nom: "Porte-clé Luxe",
+        nom_en: "Luxury Keychain",
         description: "Porte-clé en édition limitée avec logo du festival gravé.",
+        description_en: "Limited edition keychain with engraved festival logo.",
         prix: 8,
         tailles: ["Unique"],
         couleurs: ["Or", "Argent"],
@@ -1119,15 +1177,16 @@ let goodies = [
         categorie: "accessoire_et_lifestyle",
         pays_fabrication: "Suisse",
         composition: "Acier inoxydable, finition dorée",
+        composition_en: "Stainless steel, gold finish",
         temps_livraison: "5 à 7 jours ouvrés",
-        avis: [] 
+        avis: []
     },
-
-    // Aliments
     {
         id: 22,
         nom: "Biscuits Festival",
+        nom_en: "Festival Biscuits",
         description: "Biscuits décorés aux couleurs du festival, un délice sucré.",
+        description_en: "Biscuits decorated in festival colors, a sweet delight.",
         prix: 5,
         tailles: ["Pack de 10"],
         couleurs: ["Doré"],
@@ -1137,13 +1196,16 @@ let goodies = [
         categorie: "aliments",
         pays_fabrication: "France",
         composition: "Farine bio, sucre, beurre",
+        composition_en: "Organic flour, sugar, butter",
         temps_livraison: "3 à 5 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 23,
         nom: "Chocolats Festival",
+        nom_en: "Festival Chocolates",
         description: "Chocolats artisanaux avec un design inspiré du cinéma.",
+        description_en: "Handcrafted chocolates with a cinema-inspired design.",
         prix: 7,
         tailles: ["Boîte de 6"],
         couleurs: ["Marron"],
@@ -1153,15 +1215,16 @@ let goodies = [
         categorie: "aliments",
         pays_fabrication: "Belgique",
         composition: "Chocolat noir 70%, praliné noisette",
+        composition_en: "70% dark chocolate, hazelnut praline",
         temps_livraison: "4 à 6 jours ouvrés",
-        avis: [] 
+        avis: []
     },
-
-    // Objet Cinéma et Tech
     {
         id: 24,
         nom: "Écouteurs Canard",
+        nom_en: "Duck Earphones",
         description: "Écouteurs stylés avec design inspiré du canard, parfaits pour les amateurs de musique.",
+        description_en: "Stylish earphones with duck-inspired design, perfect for music lovers.",
         prix: 25,
         tailles: ["Standard"],
         couleurs: ["Jaune", "Blanc"],
@@ -1171,13 +1234,16 @@ let goodies = [
         categorie: "objet_cinema_tech",
         pays_fabrication: "Chine",
         composition: "Plastique ABS, embouts en silicone",
+        composition_en: "ABS plastic, silicone tips",
         temps_livraison: "5 à 7 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 25,
         nom: "Écouteurs Premium",
+        nom_en: "Premium Earphones",
         description: "Écouteurs premium pour une qualité sonore exceptionnelle et un confort optimal.",
+        description_en: "Premium earphones for exceptional sound quality and optimal comfort.",
         prix: 35,
         tailles: ["Standard"],
         couleurs: ["Noir", "Rouge"],
@@ -1187,13 +1253,16 @@ let goodies = [
         categorie: "objet_cinema_tech",
         pays_fabrication: "Japon",
         composition: "Aluminium brossé, isolation sonore",
+        composition_en: "Brushed aluminum, sound insulation",
         temps_livraison: "Livraison express sous 48h",
-        avis: [] 
+        avis: []
     },
     {
         id: 26,
         nom: "Clap de Cinéma",
+        nom_en: "Cinema Clapboard",
         description: "Mini clap de cinéma, un accessoire indispensable pour les passionnés de tournage.",
+        description_en: "Mini cinema clapboard, an essential accessory for filming enthusiasts.",
         prix: 10,
         tailles: ["15x15 cm"],
         couleurs: ["Noir", "Blanc"],
@@ -1203,13 +1272,16 @@ let goodies = [
         categorie: "objet_cinema_tech",
         pays_fabrication: "France",
         composition: "Bois verni, peinture résistante",
+        composition_en: "Varnished wood, durable paint",
         temps_livraison: "3 à 5 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 27,
         nom: "Clé USB Festival",
+        nom_en: "Festival USB Drive",
         description: "Clé USB 32GB avec le logo officiel du festival, idéale pour stocker vos souvenirs.",
+        description_en: "32GB USB drive with the official festival logo, perfect for storing your memories.",
         prix: 12,
         tailles: ["32GB"],
         couleurs: ["Noir", "Jaune"],
@@ -1219,13 +1291,16 @@ let goodies = [
         categorie: "objet_cinema_tech",
         pays_fabrication: "Taïwan",
         composition: "Plastique résistant, connecteur USB 3.0",
+        composition_en: "Durable plastic, USB 3.0 connector",
         temps_livraison: "4 à 6 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 28,
         nom: "Clé USB Collector",
+        nom_en: "Collector USB Drive",
         description: "Clé USB édition limitée avec un design inspiré du festival de Cannes.",
+        description_en: "Limited edition USB drive with a design inspired by the Cannes Festival.",
         prix: 15,
         tailles: ["64GB"],
         couleurs: ["Argent", "Or"],
@@ -1235,13 +1310,16 @@ let goodies = [
         categorie: "objet_cinema_tech",
         pays_fabrication: "Allemagne",
         composition: "Métal brossé, gravure laser",
+        composition_en: "Brushed metal, laser engraving",
         temps_livraison: "5 à 7 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 29,
         nom: "Vinyle Festival",
+        nom_en: "Festival Vinyl",
         description: "Vinyle de la bande sonore officielle du festival, un must-have pour les collectionneurs.",
+        description_en: "Official soundtrack vinyl of the festival, a must-have for collectors.",
         prix: 20,
         tailles: ["33 Tours"],
         couleurs: ["Noir"],
@@ -1251,13 +1329,16 @@ let goodies = [
         categorie: "objet_cinema_tech",
         pays_fabrication: "USA",
         composition: "Vinyle pressé, pochette cartonnée",
+        composition_en: "Pressed vinyl, cardboard sleeve",
         temps_livraison: "6 à 9 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 30,
         nom: "Vinyle Collector",
+        nom_en: "Collector Vinyl",
         description: "Vinyle édition collector avec design exclusif et son remasterisé.",
+        description_en: "Collector's edition vinyl with exclusive design and remastered sound.",
         prix: 30,
         tailles: ["33 Tours"],
         couleurs: ["Noir", "Transparent"],
@@ -1267,15 +1348,16 @@ let goodies = [
         categorie: "objet_cinema_tech",
         pays_fabrication: "Angleterre",
         composition: "Vinyle haute qualité, édition numérotée",
+        composition_en: "High-quality vinyl, numbered edition",
         temps_livraison: "Livraison sous 10 jours",
-        avis: [] 
+        avis: []
     },
-
-    // Papeterie et Collection
     {
         id: 31,
         nom: "Carnet Festival",
+        nom_en: "Festival Notebook",
         description: "Carnet de notes avec couverture rigide inspirée du festival.",
+        description_en: "Notebook with a hardcover inspired by the festival.",
         prix: 6,
         tailles: ["A5"],
         couleurs: ["Jaune", "Vert"],
@@ -1285,13 +1367,16 @@ let goodies = [
         categorie: "papeterie_collection",
         pays_fabrication: "France",
         composition: "Papier recyclé, couverture rigide",
+        composition_en: "Recycled paper, hardcover",
         temps_livraison: "4 à 6 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 32,
         nom: "Carnet Collector",
+        nom_en: "Collector Notebook",
         description: "Carnet premium pour les amateurs d'écriture et de cinéma.",
+        description_en: "Premium notebook for writing and cinema lovers.",
         prix: 8,
         tailles: ["A5"],
         couleurs: ["Bleu", "Rouge"],
@@ -1301,13 +1386,16 @@ let goodies = [
         categorie: "papeterie_collection",
         pays_fabrication: "Italie",
         composition: "Papier ivoire, reliure cousue",
+        composition_en: "Ivory paper, sewn binding",
         temps_livraison: "5 à 8 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 33,
         nom: "Carte Postale Festival",
+        nom_en: "Festival Postcard",
         description: "Carte postale officielle du festival, parfaite pour envoyer un souvenir à vos proches.",
+        description_en: "Official festival postcard, perfect for sending a souvenir to your loved ones.",
         prix: 2,
         tailles: ["10x15 cm"],
         couleurs: ["Multicolore"],
@@ -1317,13 +1405,16 @@ let goodies = [
         categorie: "papeterie_collection",
         pays_fabrication: "France",
         composition: "Papier glacé haute qualité",
+        composition_en: "High-quality glossy paper",
         temps_livraison: "3 à 5 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 34,
         nom: "Carte Postale Collector",
+        nom_en: "Collector Postcard",
         description: "Carte postale en édition limitée avec un design exclusif du festival.",
+        description_en: "Limited edition postcard with exclusive festival design.",
         prix: 3,
         tailles: ["10x15 cm"],
         couleurs: ["Blanc", "Noir"],
@@ -1333,13 +1424,16 @@ let goodies = [
         categorie: "papeterie_collection",
         pays_fabrication: "Italie",
         composition: "Papier texturé, finition dorée",
+        composition_en: "Textured paper, gold finish",
         temps_livraison: "4 à 6 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 35,
         nom: "Marque-Page Festival",
+        nom_en: "Festival Bookmark",
         description: "Marque-page élégant avec motif du Festival de Cannes, idéal pour vos lectures.",
+        description_en: "Elegant bookmark with Cannes Festival motif, ideal for your readings.",
         prix: 2,
         tailles: ["Unique"],
         couleurs: ["Jaune", "Bleu"],
@@ -1349,13 +1443,16 @@ let goodies = [
         categorie: "papeterie_collection",
         pays_fabrication: "Espagne",
         composition: "Carton laminé, dorure à chaud",
+        composition_en: "Laminated cardboard, hot stamping",
         temps_livraison: "3 à 5 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 36,
         nom: "Stylo Festival",
+        nom_en: "Festival Pen",
         description: "Stylo à bille officiel, parfait pour prendre des notes lors des événements du festival.",
+        description_en: "Official ballpoint pen, perfect for taking notes during festival events.",
         prix: 3,
         tailles: ["Standard"],
         couleurs: ["Noir", "Jaune"],
@@ -1365,15 +1462,16 @@ let goodies = [
         categorie: "papeterie_collection",
         pays_fabrication: "Allemagne",
         composition: "Plastique recyclé, encre bleue",
+        composition_en: "Recycled plastic, blue ink",
         temps_livraison: "3 à 7 jours ouvrés",
-        avis: [] 
+        avis: []
     },
-
-    // Premium
     {
         id: 37,
         nom: "Catalogue Festival",
+        nom_en: "Festival Catalogue",
         description: "Catalogue officiel en édition limitée, retraçant l'histoire et les coulisses du Festival de Cannes.",
+        description_en: "Limited edition official catalogue, tracing the history and behind-the-scenes of the Cannes Festival.",
         prix: 15,
         tailles: ["A4"],
         couleurs: ["Blanc"],
@@ -1383,13 +1481,16 @@ let goodies = [
         categorie: "premium",
         pays_fabrication: "France",
         composition: "Papier glacé haute qualité, couverture rigide",
+        composition_en: "High-quality glossy paper, hardcover",
         temps_livraison: "Livraison en 3 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 38,
         nom: "Mini Palme d'Or",
+        nom_en: "Mini Palme d'Or",
         description: "Réplique en or du trophée emblématique, une pièce de collection pour les amateurs de cinéma.",
+        description_en: "Gold replica of the iconic trophy, a collector's piece for cinema lovers.",
         prix: 50,
         tailles: ["10 cm"],
         couleurs: ["Or"],
@@ -1399,15 +1500,16 @@ let goodies = [
         categorie: "premium",
         pays_fabrication: "Suisse",
         composition: "Métal doré 24K, socle en marbre noir",
+        composition_en: "24K gold-plated metal, black marble base",
         temps_livraison: "Livraison en 5 jours ouvrés",
-        avis: [] 
+        avis: []
     },
-
-    // Textiles et Modes
     {
         id: 39,
         nom: "T-shirt Festival",
+        nom_en: "Festival T-shirt",
         description: "T-shirt officiel du Festival de Cannes, en coton bio, ultra confortable.",
+        description_en: "Official Cannes Festival T-shirt, made of organic cotton, ultra comfortable.",
         prix: 18,
         tailles: ["S", "M", "L", "XL"],
         couleurs: ["Blanc", "Jaune"],
@@ -1417,13 +1519,17 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "Portugal",
         composition: "100% coton bio, impression écologique",
+        composition_en: "100% organic cotton, eco-friendly print",
         temps_livraison: "4 à 6 jours ouvrés",
-        avis: [] 
-    },
+        avis: []
+    }
+,
     {
         id: 40,
         nom: "T-shirt Édition Limitée",
+        nom_en: "Limited Edition T-shirt",
         description: "T-shirt en édition limitée pour les fans, disponible uniquement durant le festival.",
+        description_en: "Limited edition T-shirt for fans, available only during the festival.",
         prix: 20,
         tailles: ["S", "M", "L", "XL"],
         couleurs: ["Noir", "Gris"],
@@ -1433,13 +1539,16 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "Italie",
         composition: "Coton premium, impression résistante",
+        composition_en: "Premium cotton, durable print",
         temps_livraison: "Livraison en 5 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 41,
         nom: "Sweat-shirt Festival",
+        nom_en: "Festival Sweatshirt",
         description: "Sweat-shirt confortable et chaud avec le logo officiel du festival.",
+        description_en: "Comfortable and warm sweatshirt with the official festival logo.",
         prix: 35,
         tailles: ["M", "L", "XL"],
         couleurs: ["Gris", "Bleu"],
@@ -1449,13 +1558,16 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "Turquie",
         composition: "Coton et polyester, intérieur molletonné",
+        composition_en: "Cotton and polyester, fleece interior",
         temps_livraison: "6 à 8 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 42,
         nom: "Sweat-shirt Classique",
+        nom_en: "Classic Sweatshirt",
         description: "Sweat-shirt simple et élégant, idéal pour un look décontracté.",
+        description_en: "Simple and elegant sweatshirt, perfect for a casual look.",
         prix: 38,
         tailles: ["M", "L", "XL"],
         couleurs: ["Noir", "Blanc"],
@@ -1465,13 +1577,16 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "France",
         composition: "Coton bio, impression écologique",
+        composition_en: "Organic cotton, eco-friendly print",
         temps_livraison: "Livraison en 5 à 7 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 43,
         nom: "Sweat-shirt Édition Limitée",
+        nom_en: "Limited Edition Sweatshirt",
         description: "Sweat-shirt rare pour les collectionneurs, avec broderie dorée exclusive.",
+        description_en: "Rare sweatshirt for collectors, with exclusive gold embroidery.",
         prix: 40,
         tailles: ["M", "L"],
         couleurs: ["Rouge", "Bleu"],
@@ -1481,13 +1596,16 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "Italie",
         composition: "Coton premium, broderie fine",
+        composition_en: "Premium cotton, fine embroidery",
         temps_livraison: "Livraison en 6 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 44,
         nom: "Bob Festival",
+        nom_en: "Festival Bob",
         description: "Bob tendance avec logo du festival, idéal pour se protéger du soleil tout en affichant son style.",
+        description_en: "Trendy bucket hat with the festival logo, perfect for protecting from the sun while showing your style.",
         prix: 15,
         tailles: ["Unique"],
         couleurs: ["Jaune", "Bleu"],
@@ -1497,13 +1615,16 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "France",
         composition: "100% coton bio",
+        composition_en: "100% organic cotton",
         temps_livraison: "3 à 5 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 45,
         nom: "Bob Classique",
+        nom_en: "Classic Bob",
         description: "Bob classique avec design épuré, parfait pour une tenue décontractée et estivale.",
+        description_en: "Classic bucket hat with a sleek design, perfect for a casual and summer outfit.",
         prix: 16,
         tailles: ["Unique"],
         couleurs: ["Noir", "Blanc"],
@@ -1513,13 +1634,16 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "Italie",
         composition: "Coton et polyester",
+        composition_en: "Cotton and polyester",
         temps_livraison: "4 à 6 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 46,
         nom: "Bob Édition Limitée",
+        nom_en: "Limited Edition Bob",
         description: "Bob en édition spéciale avec broderie du festival, pour un look unique.",
+        description_en: "Special edition bucket hat with festival embroidery, for a unique look.",
         prix: 18,
         tailles: ["Unique"],
         couleurs: ["Vert", "Rouge"],
@@ -1529,13 +1653,16 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "Espagne",
         composition: "100% coton avec broderie premium",
+        composition_en: "100% cotton with premium embroidery",
         temps_livraison: "4 à 7 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 47,
         nom: "Bob Fantaisie",
+        nom_en: "Fancy Bob",
         description: "Bob fantaisie pour un style original et coloré, parfait pour les festivals.",
+        description_en: "Fancy bucket hat for an original and colorful style, perfect for festivals.",
         prix: 20,
         tailles: ["Unique"],
         couleurs: ["Jaune", "Multicolore"],
@@ -1545,13 +1672,16 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "Portugal",
         composition: "Coton et lin, impression écologique",
+        composition_en: "Cotton and linen, eco-friendly print",
         temps_livraison: "5 à 7 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 48,
         nom: "Écharpe Festival",
+        nom_en: "Festival Scarf",
         description: "Écharpe chaude et stylée avec logo du festival, idéale pour l'hiver.",
+        description_en: "Warm and stylish scarf with the festival logo, perfect for winter.",
         prix: 25,
         tailles: ["Unique"],
         couleurs: ["Rouge", "Blanc"],
@@ -1561,13 +1691,16 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "France",
         composition: "Laine et cachemire",
+        composition_en: "Wool and cashmere",
         temps_livraison: "4 à 6 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 49,
         nom: "Écharpe Hiver",
+        nom_en: "Winter Scarf",
         description: "Écharpe en laine idéale pour l'hiver, élégante et confortable.",
+        description_en: "Wool scarf ideal for winter, elegant and comfortable.",
         prix: 28,
         tailles: ["Unique"],
         couleurs: ["Gris", "Bleu"],
@@ -1577,13 +1710,16 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "Italie",
         composition: "100% laine mérinos",
+        composition_en: "100% merino wool",
         temps_livraison: "5 à 8 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 50,
         nom: "Tote Bag Festival",
+        nom_en: "Festival Tote Bag",
         description: "Sac écologique avec motif canard, parfait pour transporter vos affaires tout en respectant l’environnement.",
+        description_en: "Eco-friendly bag with duck motif, perfect for carrying your belongings while respecting the environment.",
         prix: 12,
         tailles: ["Standard"],
         couleurs: ["Blanc", "Jaune"],
@@ -1593,13 +1729,16 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "Portugal",
         composition: "100% coton bio",
+        composition_en: "100% organic cotton",
         temps_livraison: "3 à 5 jours ouvrés",
-        avis: [] 
-    },
-    {
+        avis: []
+    }
+,{
         id: 51,
         nom: "Tote Bag Classique",
+        nom_en: "Classic Tote Bag",
         description: "Sac pratique et solide pour vos courses, avec un design simple et moderne.",
+        description_en: "Practical and durable bag for your shopping, with a simple and modern design.",
         prix: 14,
         tailles: ["Standard"],
         couleurs: ["Vert", "Noir"],
@@ -1609,13 +1748,16 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "Espagne",
         composition: "Toile de coton épaisse",
+        composition_en: "Thick cotton canvas",
         temps_livraison: "4 à 6 jours ouvrés",
-        avis: [] 
+        avis: []
     },
     {
         id: 52,
         nom: "Tote Bag Édition Limitée",
+        nom_en: "Limited Edition Tote Bag",
         description: "Sac en édition limitée, idéal pour les collectionneurs et les amateurs de mode.",
+        description_en: "Limited edition bag, perfect for collectors and fashion enthusiasts.",
         prix: 16,
         tailles: ["Standard"],
         couleurs: ["Rouge", "Bleu"],
@@ -1625,9 +1767,11 @@ let goodies = [
         categorie: "textiles_et_modes",
         pays_fabrication: "France",
         composition: "Coton bio avec broderie spéciale",
+        composition_en: "Organic cotton with special embroidery",
         temps_livraison: "4 à 7 jours ouvrés",
-        avis: [] 
+        avis: []
     }
+
 ];
 
 

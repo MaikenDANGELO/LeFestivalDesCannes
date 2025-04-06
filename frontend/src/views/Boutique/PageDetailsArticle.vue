@@ -10,11 +10,19 @@
       />
 
       <div class="details-info">
-        <h2 class="details-name">{{ article.nom }}</h2>
+
+        <div v-if="currentLanguage==='fr'">
+          <h2 class="details-name">{{ article.nom }}</h2>
+        </div>
+        <div v-else-if="currentLanguage==='en'">
+          <h2 class="details-name">{{ article.nom_en }}</h2>
+        </div>
         <p class="details-category">
           <strong>{{ $t('boutiqueTexts.categorie') }}</strong> {{ categoriesLabels[article.categorie] }}
         </p>
-        <p class="details-description">{{ article.description }}</p>
+
+        <p  v-if="currentLanguage==='fr'"  class="details-description">{{ article.description }}</p>
+        <p  v-else-if="currentLanguage==='en'"  class="details-description">{{ article.description_en }}</p>
         <p class="details-stock">
           <strong>{{ $t('boutiqueTexts.stockDisponible') }}</strong> {{ article.stock }}
         </p>
@@ -43,18 +51,25 @@
       </div>
     </div>
 
-    <!-- Détails supplémentaires -->
-    <div id="details" class="details-section">
+
+    <div v-if="currentLanguage==='fr'" id="details" class="details-section">
       <h2>Détails du Produit</h2>
       <p><strong>Pays de fabrication :</strong> {{ article.pays_fabrication }}</p>
       <p><strong>Composition :</strong> {{ article.composition }}</p>
       <p><strong>Temps de livraison :</strong> {{ article.temps_livraison }}</p>
     </div>
+    <div v-else-if="currentLanguage==='en'" id="details" class="details-section">
+      <h2>Product Details</h2>
+      <p><strong>Country of manufacture:</strong> {{ article.pays_fabrication }}</p>
+      <p><strong>Composition:</strong> {{ article.composition_en }}</p>
+      <p><strong>Delivery time:</strong> {{ article.temps_livraison }}</p>
+    </div>
 
 
     <!-- Avis Utilisateurs -->
     <div id="avis" class="details-section">
-      <h2>Avis des Clients</h2>
+      <h2 v-if="currentLanguage==='fr'">Avis des Clients</h2>
+      <h2 v-else-if="currentLanguage==='en'">Customer Reviews</h2>
 
       <!-- Affichage des avis existants -->
       <div v-if="article.avis && article.avis.length">
@@ -68,7 +83,8 @@
       <p v-else>Aucun avis pour cet article.</p>
 
       <!-- Ajouter un avis -->
-      <h3>Ajoutez votre avis :</h3>
+      <h3 v-if="currentLanguage==='fr'">Ajouter un Avis</h3>
+      <h3 v-else-if="currentLanguage==='en'">Add a Review</h3>
       <input type="text" v-model="nouvelAvis.utilisateur" placeholder="Votre nom" required/>
       <select v-model="nouvelAvis.note">
         <option v-for="n in 5" :key="n" :value="n">{{ n }}⭐</option>
@@ -79,11 +95,13 @@
 
     <!-- Articles similaires -->
     <div id="autres" class="details-section">
-      <h2>Articles Similaires</h2>
+      <h2 v-if="currentLanguage==='fr'">Articles Similaires</h2>
+      <h2 v-else-if="currentLanguage==='en'">Similar Items</h2>
       <div class="similar-items">
         <div v-for="produit in articlesSimilaires" :key="produit.id" class="similar-item">
           <img :src="require(`@/assets/Boutique/${produit.categorie}/${produit.image}`)" alt="" />
-          <p>{{ produit.nom }}</p>
+          <p v-if="currentLanguage==='fr'">{{ produit.nom }}</p>
+          <p v-else-if="currentLanguage==='en'">{{ produit.nom_en }}</p>
           <p class="similar-price">{{ produit.prix }}€</p>
           <button @click="goToArticle(produit.id)">Voir</button>
         </div>
@@ -111,6 +129,7 @@ export default {
     };
   },
   computed: {
+    ...mapState("langue", ["currentLanguage"]),
     ...mapState("boutique", ["goodies", "panier"]),
     
     article() {
