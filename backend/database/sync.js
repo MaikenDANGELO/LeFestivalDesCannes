@@ -271,29 +271,190 @@ const syncDatabase = async () => {
 
         await Menu.bulkCreate([
             // Plats
-            { nom: 'Confit de canard', type:"Plats" , description: 'Confit de canard avec pommes de terre sautées.', prix: 18, image: 'confit_canard.jpg', categorie: 'plats', id_prestataire: 2 },
-            { nom: 'Magret de canard', type:"Plats" , description: 'Magret de canard avec sauce au miel.', prix: 22, image: 'magret_canard.jpg', categorie: 'plats', id_prestataire: 2 },
-            { nom: 'Cuisse de canard à l\'orange', type:"Plats" , description: 'Une cuisse de canard tendre servie avec une sauce à l\'orange.', prix: 20, image: 'cuisse_canard_orange.jpg', categorie: 'plats', id_prestataire: 2 },
-            { nom: 'Poulet rôti', type:"Plats" , description: 'Poulet rôti aux herbes de Provence.', prix: 15, image: 'poulet_roti.jpg', categorie: 'plats', id_prestataire: 2 },
-            { nom: 'Steak frites', type:"Plats" , description: 'Steak de bœuf grillé accompagné de frites maison.', prix: 17, image: 'steak_frites.jpg', categorie: 'plats', id_prestataire: 2 },
+            {
+                nom: 'Confit de canard',
+                nom_en: 'Duck Confit',
+                type: "Plats",
+                type_en: "Main Courses",
+                description: 'Confit de canard avec pommes de terre sautées.',
+                description_en: 'Duck confit with sautéed potatoes.',
+                prix: 18,
+                image: 'confit_canard.jpg',
+                id_prestataire: 2
+            },
+            {
+                nom: 'Magret de canard',
+                nom_en: 'Duck Breast',
+                type: "Plats",
+                type_en: "Main Courses",
+                description: 'Magret de canard avec sauce au miel.',
+                description_en: 'Duck breast with honey sauce.',
+                prix: 22,
+                image: 'magret_canard.jpg',
+                id_prestataire: 2
+            },
+            {
+                nom: 'Cuisse de canard à l\'orange',
+                nom_en: 'Duck Leg with Orange Sauce',
+                type: "Plats",
+                type_en: "Main Courses",
+                description: 'Une cuisse de canard tendre servie avec une sauce à l\'orange.',
+                description_en: 'A tender duck leg served with orange sauce.',
+                prix: 20,
+                image: 'cuisse_canard_orange.jpg',
+                id_prestataire: 2
+            },
+            {
+                nom: 'Poulet rôti',
+                nom_en: 'Roast Chicken',
+                type: "Plats",
+                type_en: "Main Courses",
+                description: 'Poulet rôti aux herbes de Provence.',
+                description_en: 'Roast chicken with Provence herbs.',
+                prix: 15,
+                image: 'poulet_roti.jpg',
+                id_prestataire: 2
+            },
+            {
+                nom: 'Steak frites',
+                nom_en: 'Steak and Fries',
+                type: "Plats",
+                type_en: "Main Courses",
+                description: 'Steak de bœuf grillé accompagné de frites maison.',
+                description_en: 'Grilled beef steak served with homemade fries.',
+                prix: 17,
+                image: 'steak_frites.jpg',
+                id_prestataire: 2
+            },
 
             // Boissons
-            { nom: 'Eau plate', type:"Boissons" , description: 'Bouteille de 50 cl.', prix: 2, image: 'eau_plate.jpg', categorie: 'boissons', id_prestataire: 2 },
-            { nom: 'Eau pétillante', type:"Boissons" , description: 'Bouteille de 50 cl.', prix: 2.5, image: 'eau_petillante.jpg', categorie: 'boissons', id_prestataire: 2 },
-            { nom: 'Coca-Cola', type:"Boissons" , description: 'Canette de 33 cl.', prix: 3, image: 'coca_cola.jpg', categorie: 'boissons', id_prestataire: 2 },
+            {
+                nom: 'Eau plate',
+                nom_en: 'Still Water',
+                type: "Boissons",
+                type_en: "Drinks",
+                description: 'Bouteille de 50 cl.',
+                description_en: '50 cl bottle.',
+                prix: 2,
+                image: 'eau_plate.jpg',
+                id_prestataire: 2
+            },
+            {
+                nom: 'Eau pétillante',
+                nom_en: 'Sparkling Water',
+                type: "Boissons",
+                type_en: "Drinks",
+                description: 'Bouteille de 50 cl.',
+                description_en: '50 cl bottle.',
+                prix: 2.5,
+                image: 'eau_petillante.jpg',
+                id_prestataire: 2
+            },
+            {
+                nom: 'Coca-Cola',
+                nom_en: 'Coca-Cola',
+                type: "Boissons",
+                type_en: "Drinks",
+                description: 'Canette de 33 cl.',
+                description_en: '33 cl can.',
+                prix: 3,
+                image: 'coca_cola.jpg',
+                id_prestataire: 2
+            },
 
             // Desserts
-            { nom: 'Tarte aux pommes', type:"Desserts" , description: 'Tarte maison avec des pommes caramélisées.', prix: 6, image: 'tarte_pommes.jpg', categorie: 'desserts', id_prestataire: 2 },
-            { nom: 'Mousse au chocolat', type:"Desserts" , description: 'Délicieuse mousse au chocolat noir.', prix: 5, image: 'mousse_chocolat.jpg', categorie: 'desserts', id_prestataire: 2 },
-            { nom: 'Crème brûlée', type:"Desserts" , description: 'Crème vanille avec une croûte caramélisée.', prix: 6, image: 'creme_brulee.jpg', categorie: 'desserts', id_prestataire: 2 },
-            { nom: 'Fondant au chocolat', type:"Desserts" , description: 'Fondant avec un cœur coulant au chocolat.', prix: 7, image: 'fondant_chocolat.jpg', categorie: 'desserts', id_prestataire: 2 },
-            { nom: 'Coupe glacée', type:"Desserts" , description: 'Deux boules de glace avec des fruits frais.', prix: 5, image: 'coupe_glacee.jpg', categorie: 'desserts', id_prestataire: 2 },
+            {
+                nom: 'Tarte aux pommes',
+                nom_en: 'Apple Tart',
+                type: "Desserts",
+                type_en: "Desserts",
+                description: 'Tarte maison avec des pommes caramélisées.',
+                description_en: 'Homemade tart with caramelized apples.',
+                prix: 6,
+                image: 'tarte_pommes.jpg',
+                id_prestataire: 2
+            },
+            {
+                nom: 'Mousse au chocolat',
+                nom_en: 'Chocolate Mousse',
+                type: "Desserts",
+                type_en: "Desserts",
+                description: 'Délicieuse mousse au chocolat noir.',
+                description_en: 'Delicious dark chocolate mousse.',
+                prix: 5,
+                image: 'mousse_chocolat.jpg',
+                id_prestataire: 2
+            },
+            {
+                nom: 'Crème brûlée',
+                nom_en: 'Crème Brûlée',
+                type: "Desserts",
+                type_en: "Desserts",
+                description: 'Crème vanille avec une croûte caramélisée.',
+                description_en: 'Vanilla cream with a caramelized crust.',
+                prix: 6,
+                image: 'creme_brulee.jpg',
+                id_prestataire: 2
+            },
+            {
+                nom: 'Fondant au chocolat',
+                nom_en: 'Chocolate Fondant',
+                type: "Desserts",
+                type_en: "Desserts",
+                description: 'Fondant avec un cœur coulant au chocolat.',
+                description_en: 'Chocolate fondant with a molten center.',
+                prix: 7,
+                image: 'fondant_chocolat.jpg',
+                id_prestataire: 2
+            },
+            {
+                nom: 'Coupe glacée',
+                nom_en: 'Ice Cream Sundae',
+                type: "Desserts",
+                type_en: "Desserts",
+                description: 'Deux boules de glace avec des fruits frais.',
+                description_en: 'Two scoops of ice cream with fresh fruits.',
+                prix: 5,
+                image: 'coupe_glacee.jpg',
+                id_prestataire: 2
+            },
 
             // Menus Enfants
-            { nom: 'Nuggets de poulet', type:"Menus Enfants" ,description: '5 nuggets avec frites et jus d\'orange.', prix: 8, image: 'nuggets_poulet.jpg', categorie: 'menusEnfants', id_prestataire: 2 },
-            { nom: 'Mini burger', type:"Menus Enfants" , description: 'Petit burger avec steak haché et frites.', prix: 9, image: 'mini_burger.jpg', categorie: 'menusEnfants', id_prestataire: 2 },
-            { nom: 'Pâtes à la bolognaise', type:"Menus Enfants" , description: 'Assiette de pâtes avec sauce tomate et viande hachée.', prix: 7, image: 'pates_bolognaise.jpg', categorie: 'menusEnfants', id_prestataire: 2 }
-          ]);
+            {
+                nom: 'Nuggets de poulet',
+                nom_en: 'Chicken Nuggets',
+                type: "Menus Enfants",
+                type_en: "Kids Menu",
+                description: '5 nuggets avec frites et jus d\'orange.',
+                description_en: '5 nuggets with fries and orange juice.',
+                prix: 8,
+                image: 'nuggets_poulet.jpg',
+                id_prestataire: 2
+            },
+            {
+                nom: 'Mini burger',
+                nom_en: 'Mini Burger',
+                type: "Menus Enfants",
+                type_en: "Kids Menu",
+                description: 'Petit burger avec steak haché et frites.',
+                description_en: 'Small burger with minced beef and fries.',
+                prix: 9,
+                image: 'mini_burger.jpg',
+                id_prestataire: 2
+            },
+            {
+                nom: 'Pâtes à la bolognaise',
+                nom_en: 'Spaghetti Bolognese',
+                type: "Menus Enfants",
+                type_en: "Kids Menu",
+                description: 'Assiette de pâtes avec sauce tomate et viande hachée.',
+                description_en: 'Pasta plate with tomato sauce and minced meat.',
+                prix: 7,
+                image: 'pates_bolognaise.jpg',
+                id_prestataire: 2
+            }
+        ]);
+
 
 
         await Service.bulkCreate([
@@ -308,12 +469,53 @@ const syncDatabase = async () => {
         ]);
 
         await Sponsor.bulkCreate([
-            {nom_sponsor: 'BirdLife International', description_accueil: 'Soutenir la protection des cannes sauvages...', description: 'BirdLife International est un leader mondial...', image:  convertImageToBase64("test/ImagesPrestataires/logo.png") },
-            {nom_sponsor: 'Wild Ducks Conservation', description_accueil: 'Engagés pour un environnement sûr...', description: "Wild Ducks Conservation s'efforce de créer...", image:  convertImageToBase64("test/ImagesPrestataires/logo.png") },
-            {nom_sponsor: 'Natural Habitat Safaris', description_accueil: 'Offrir des expériences écoresponsables...', description: 'Natural Habitat Safaris propose des voyages...', image:  convertImageToBase64("test/ImagesPrestataires/logo.png")},
-            {nom_sponsor: 'Fondation des Marais Sauvages', description_accueil: 'Protège les habitats naturels des ansériformes.', description: 'La Fondation des Marais Sauvages est dédiée...', image:  convertImageToBase64("test/ImagesPrestataires/logo.png") },
-            {nom_sponsor: 'Éco Nature Environnement', description_accueil: 'Un partenaire clé pour la sensibilisation...', description: 'Éco Nature Environnement organise des campagnes...', image:  convertImageToBase64("test/ImagesPrestataires/logo.png")}
+            {
+                nom_sponsor: 'BirdLife International',
+                nom_sponsor_en: 'BirdLife International',
+                description_accueil: 'Soutenir la protection des cannes sauvages...',
+                description_accueil_en: 'Supporting the protection of wild ducks...',
+                description: 'BirdLife International est un leader mondial dans la conservation des oiseaux et de leurs habitats.',
+                description_en: 'BirdLife International is a global leader in the conservation of birds and their habitats.',
+                image: convertImageToBase64("test/ImagesPrestataires/logo.png")
+            },
+            {
+                nom_sponsor: 'Wild Ducks Conservation',
+                nom_sponsor_en: 'Wild Ducks Conservation',
+                description_accueil: 'Engagés pour un environnement sûr pour les canards et autres espèces.',
+                description_accueil_en: 'Committed to a safe environment for ducks and other species.',
+                description: "Wild Ducks Conservation s'efforce de créer des zones protégées pour les espèces aquatiques.",
+                description_en: "Wild Ducks Conservation strives to create protected areas for aquatic species.",
+                image: convertImageToBase64("test/ImagesPrestataires/logo.png")
+            },
+            {
+                nom_sponsor: 'Natural Habitat Safaris',
+                nom_sponsor_en: 'Natural Habitat Safaris',
+                description_accueil: 'Offrir des expériences écoresponsables et respectueuses de la biodiversité.',
+                description_accueil_en: 'Offering eco-friendly and biodiversity-respectful experiences.',
+                description: 'Natural Habitat Safaris propose des voyages immersifs au cœur des écosystèmes naturels.',
+                description_en: 'Natural Habitat Safaris offers immersive travel experiences in the heart of natural ecosystems.',
+                image: convertImageToBase64("test/ImagesPrestataires/logo.png")
+            },
+            {
+                nom_sponsor: 'Fondation des Marais Sauvages',
+                nom_sponsor_en: 'Wild Marshes Foundation',
+                description_accueil: 'Protège les habitats naturels des ansériformes.',
+                description_accueil_en: 'Protects natural habitats of waterfowl.',
+                description: 'La Fondation des Marais Sauvages est dédiée à la restauration des zones humides.',
+                description_en: 'The Wild Marshes Foundation is dedicated to restoring wetland areas.',
+                image: convertImageToBase64("test/ImagesPrestataires/logo.png")
+            },
+            {
+                nom_sponsor: 'Éco Nature Environnement',
+                nom_sponsor_en: 'Eco Nature Environment',
+                description_accueil: 'Un partenaire clé pour la sensibilisation à l’environnement.',
+                description_accueil_en: 'A key partner in environmental awareness.',
+                description: 'Éco Nature Environnement organise des campagnes éducatives pour préserver la faune.',
+                description_en: 'Eco Nature Environment runs educational campaigns to protect wildlife.',
+                image: convertImageToBase64("test/ImagesPrestataires/logo.png")
+            }
         ]);
+
         await Avis.bulkCreate([
             { id_prestataire: 1, id_utilisateur: 1, texte: 'Je me suis trop méga amusée omg omg wouhouuu !!', note: 5 },
             { id_prestataire: 1, id_utilisateur: 2, texte: "C'était trop bien, mais j'ai marché sur un caca de chien. Où sont les nettoyeurs ?", note: 4 }
@@ -406,29 +608,36 @@ const syncDatabase = async () => {
             { id_prestataire: 8, date: '2025-09-03', heure: '16:30', type_service: 'balade' }
         ]);
 
-       await Association.bulkCreate(  [
+        await Association.bulkCreate([
             {
-                id_association: "1",
+                id: 1,
                 nom_association: "Les Canards Ailés",
                 description_accueil: "Bienvenue à notre club passionné par l'aventure et la découverte.",
+                description_accueil_en: "Welcome to our club, passionate about adventure and discovery.",
                 description: "Nous organisons des activités en plein air pour amateurs de nature et d'aventure, telles que des randonnées, des excursions en canoë et bien plus.",
-                image: convertImageToBase64("test/ImagesPrestataires/logo.png"),
+                description_en: "We organize outdoor activities for nature and adventure lovers, such as hikes, canoe trips, and more.",
+                image: convertImageToBase64("test/ImagesPrestataires/logo.png")
             },
             {
-                id_association: "2",
+                id: 2,
                 nom_association: "La Plume Solidaire",
                 description_accueil: "Rejoignez-nous pour écrire un monde meilleur.",
+                description_accueil_en: "Join us in writing a better world.",
                 description: "Association dédiée à l'aide humanitaire à travers des ateliers d'écriture et de sensibilisation dans les écoles et les quartiers.",
-                image:  convertImageToBase64("test/ImagesPrestataires/logo.png"),
+                description_en: "An association dedicated to humanitarian aid through writing workshops and awareness campaigns in schools and communities.",
+                image: convertImageToBase64("test/ImagesPrestataires/logo.png")
             },
             {
-                id_association: "3",
+                id: 3,
                 nom_association: "L'Étang des Canards",
                 description_accueil: "Un havre de paix pour les amoureux des canards.",
+                description_accueil_en: "A peaceful haven for duck lovers.",
                 description: "Cette association se consacre à la préservation des canards et de leurs habitats naturels à travers des actions locales et des ateliers pédagogiques.",
-                image: convertImageToBase64("test/ImagesPrestataires/logo.png"),
-            },
+                description_en: "This association is dedicated to preserving ducks and their natural habitats through local actions and educational workshops.",
+                image: convertImageToBase64("test/ImagesPrestataires/logo.png")
+            }
         ]);
+
 
         const categories = await CategorieProduit.bulkCreate([
             { nom: 'accessoire_et_lifestyle' },

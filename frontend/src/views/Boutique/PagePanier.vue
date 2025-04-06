@@ -8,12 +8,14 @@
           <div v-for="article in panier" :key="article.id" class="panier-item">
             <img class="panier-image" :src="require(`@/assets/Boutique/${article.categorie}/${article.image}`)" :alt="article.nom" />
             <div class="panier-details">
-              <h2 class="panier-name">{{ article.nom }}</h2>
+              <h2 v-if="currentLanguage==='fr'"  class="panier-name">{{ article.nom }}</h2>
+              <h2 v-else-if="currentLanguage==='en'" class="panier-name">{{ article.nom_en }}</h2>
               <p class="panier-price">{{ article.prix }}€</p>
               <p v-if="article.tailleSelectionnee" class="panier-taille">
                 <strong>Taille :</strong> {{ article.tailleSelectionnee }}
                </p>
-              <p class="panier-details">{{ article.description }}</p>
+              <p v-if="currentLanguage==='fr'" class="panier-details">{{ article.description }}</p>
+              <p v-else-if="currentLanguage==='en'" class="panier-details">{{ article.description_en }}</p>
               <div class="panier-quantity">
                 <button @click="modifierQuantite(article, -1)">➖</button>
                 <span>{{ article.quantite }}</span>
@@ -114,6 +116,7 @@
     },
     computed: {
       ...mapState("boutique", ["panier"]),
+      ...mapState("langue", ["currentLanguage"]),
       ...mapState("utilisateurs", ["utilisateur"]),
   
       totalPanier() {

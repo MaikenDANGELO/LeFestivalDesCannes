@@ -22,7 +22,12 @@
             <router-link :to="'/boutique/article/' + goodie.id">
               <img class="goodie-image" :src="require(`@/assets/Boutique/${goodie.categorie}/${goodie.image}`)" :alt="goodie.nom" />
             </router-link>
+            <div v-if="currentLanguage==='fr'">
             <h3 class="goodie-name">{{ goodie.nom }}</h3>
+            </div>
+            <div v-else-if="currentLanguage==='en'">
+              <h3 class="goodie-name">{{ goodie.nom_en }}</h3>
+            </div>
             <p class="goodie-price">{{ goodie.prix }}€</p>
           </div>
         </div>
@@ -44,6 +49,7 @@
     }),
     computed: {
       ...mapState("boutique", ["goodies", "panier"]),
+      ...mapState("langue",["currentLanguage"]),
       ...mapState("utilisateurs", ["utilisateur"]),
   
       groupedGoodies() {

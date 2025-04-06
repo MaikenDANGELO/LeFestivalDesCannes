@@ -9,8 +9,14 @@
           <div v-for="plat in menuData.plats" :key="plat.id" class="menu-item">
             <img :src="require(`@/assets/menu/${plat.image}`)" :alt="plat.nom" class="menu-item-image" />
             <div class="menu-item-details">
-              <h3 class="menu-item-title">{{ plat.nom }}</h3>
-              <p class="menu-item-description">{{ plat.description }}</p>
+              <div v-if="currentLanguage === 'fr'">
+                <h3 class="menu-item-title">{{ plat.nom }}</h3>
+                <p class="menu-item-description">{{ plat.description }}</p>
+              </div>
+              <div v-else>
+                <h3 class="menu-item-title">{{ plat.nom_en }}</h3>
+                <p class="menu-item-description">{{ plat.description_en }}</p>
+              </div>
               <p class="menu-item-price">{{ plat.prix }} €</p>
               <button class="menu-item-button" @click="ajouterAuPanier(plat)">{{ $t('pagePrestaTexts.ajouterPanier') }}</button>
             </div>
@@ -25,8 +31,14 @@
           <div v-for="boisson in menuData.boissons" :key="boisson.id" class="menu-item">
             <img :src="require(`@/assets/menu/${boisson.image}`)" :alt="boisson.nom" class="menu-item-image" />
             <div class="menu-item-details">
-              <h3 class="menu-item-title">{{ boisson.nom }}</h3>
-              <p class="menu-item-description">{{ boisson.description }}</p>
+              <div v-if="currentLanguage === 'fr'">
+                <h3 class="menu-item-title">{{ boisson.nom }}</h3>
+                <p class="menu-item-description">{{ boisson.description }}</p>
+              </div>
+              <div v-else>
+                <h3 class="menu-item-title">{{ boisson.nom_en }}</h3>
+                <p class="menu-item-description">{{ boisson.description_en }}</p>
+              </div>
               <p class="menu-item-price">{{ boisson.prix }} €</p>
               <button class="menu-item-button" @click="ajouterAuPanier(boisson)">{{ $t('pagePrestaTexts.ajouterPanier') }}</button>
             </div>
@@ -41,8 +53,14 @@
           <div v-for="dessert in menuData.desserts" :key="dessert.id" class="menu-item">
             <img :src="require(`@/assets/menu/${dessert.image}`)" :alt="dessert.nom" class="menu-item-image" />
             <div class="menu-item-details">
-              <h3 class="menu-item-title">{{ dessert.nom }}</h3>
-              <p class="menu-item-description">{{ dessert.description }}</p>
+              <div v-if="currentLanguage === 'fr'">
+                <h3 class="menu-item-title">{{ dessert.nom }}</h3>
+                <p class="menu-item-description">{{ dessert.description }}</p>
+              </div>
+              <div v-else>
+                <h3 class="menu-item-title">{{ dessert.nom_en }}</h3>
+                <p class="menu-item-description">{{ dessert.description_en }}</p>
+              </div>
               <p class="menu-item-price">{{ dessert.prix }} €</p>
               <button class="menu-item-button" @click="ajouterAuPanier(dessert)">{{ $t('pagePrestaTexts.ajouterPanier') }}</button>
             </div>
@@ -50,21 +68,6 @@
         </div>
       </section>
 
-      <!-- Section Menus Enfants -->
-      <section class="menu-section">
-        <h2 class="menu-section-title">{{ $t('pagePrestaTexts.menuEnfants') }}</h2>
-        <div class="menu-items">
-          <div v-for="menuEnfant in menuData.menusEnfants" :key="menuEnfant.id" class="menu-item">
-            <img :src="require(`@/assets/menu/${menuEnfant.image}`)" :alt="menuEnfant.nom" class="menu-item-image" />
-            <div class="menu-item-details">
-              <h3 class="menu-item-title">{{ menuEnfant.nom }}</h3>
-              <p class="menu-item-description">{{ menuEnfant.description }}</p>
-              <p class="menu-item-price">{{ menuEnfant.prix }} €</p>
-              <button class="menu-item-button" @click="ajouterAuPanier(menuEnfant)">{{ $t('pagePrestaTexts.ajouterPanier') }}</button>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <!-- Panier -->
       <aside class="panier-container">
@@ -88,6 +91,7 @@
 
 <script>
 import { menu } from "@/datasource/data";
+import {mapState} from "vuex";
 
 export default {
   name: "PageMenu",
@@ -99,6 +103,7 @@ export default {
     };
   },
   computed: {
+    ...mapState('langue',["currentLanguage"]),
     totalPanier() {
       return this.panier.reduce((total, item) => total + item.prix * item.quantite, 0);
     },
@@ -142,7 +147,6 @@ export default {
 </script>
 
 <style scoped>
-/* Conteneur principal */
 .menu-container {
   max-width: 1200px;
   margin: 20px auto;

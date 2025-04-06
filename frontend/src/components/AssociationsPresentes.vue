@@ -3,22 +3,29 @@
 
     <div class="list-prestataires">
       <h2>{{ $t('appTexts.associations') }} : </h2>
-      <div class="prestataire" v-for="association in associations" :key="association.id_association">
-        <div class="presta-top"><h3>{{ association.nom_association }}</h3></div>
-        <div class="presta-sbody">
-          <div class="presta-body">
-            <div class="presta-icon">
-              <img class="prestataire-img" alt="prestimg" :src="association.image" />
-            </div>
-            <div class="presta-text">{{ association.description_accueil }}</div>
-            <div class="presta-actions">
-              <button @click="handleSponsorGoToPage(association.id_association)">{{ $t('appTexts.accederPage') }}</button>
+
+        <div class="prestataire" v-for="association in associations" :key="association.id_association">
+          <div class="presta-top"><h3>{{ association.nom_association }}</h3></div>
+          <div class="presta-sbody">
+            <div class="presta-body">
+              <div class="presta-icon">
+                <img class="prestataire-img" alt="prestimg" :src="association.image" />
+              </div>
+              <div v-if="currentLanguage ==='fr'">
+                <div class="presta-text">{{ association.description_accueil }}</div>
+              </div>
+              <div v-else>
+                <div class="presta-text">{{ association.description_accueil_en }}</div>
+              </div>
+              <div class="presta-actions">
+                <button @click="handleSponsorGoToPage(association.id_association)">{{ $t('appTexts.accederPage') }}</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+
 </template>
 
 <script>
@@ -30,6 +37,7 @@ export default {
   },
   computed: {
     ...mapState('associations', ['associations']),
+    ...mapState('langue', ['currentLanguage']),
   },
   methods: {
     ...mapActions('associations', ['getAllAssociations']),

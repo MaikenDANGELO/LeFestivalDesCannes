@@ -44,7 +44,9 @@
             <div v-for="sponsor in row" :key="sponsor.id_sponsor" class="prestataire-card">
               <CartePrestatairePerso
                   :nom="sponsor.nom_sponsor"
+                  :nom_en="sponsor.nom_sponsor_en"
                   :description-accueil="sponsor.description_accueil"
+                  :description-accueil_en="sponsor.description_accueil_en"
                   :image="sponsor.image"
                   :pers-page-route="`/sponsor/${sponsor.id}`">
               </CartePrestatairePerso>

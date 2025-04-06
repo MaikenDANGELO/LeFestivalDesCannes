@@ -10,8 +10,11 @@ const Menu = sequelize.define('Menu', {
         allowNull: false
     },
     type: { type: DataTypes.STRING, allowNull: false },
+    type_en: { type: DataTypes.STRING, allowNull: false },
     nom: { type: DataTypes.STRING, allowNull: false },
+    nom_en: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT },
+    description_en: { type: DataTypes.TEXT },
     prix: { type: DataTypes.FLOAT, allowNull: false },
     image: { type: DataTypes.STRING , allowNull: true}
 }, {
