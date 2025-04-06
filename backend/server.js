@@ -37,7 +37,7 @@ app.use(cors({
     credentials: true
 }));
 
-sync()
+//sync()
 /** Swagger Initialization - START */
 const swaggerOption = {
     swaggerDefinition: (swaggerJsdoc.Options = {
